@@ -1,5 +1,5 @@
-import ManagerClass from "../Table/ManagerClass";
 
+import ManagerClassLecturer from "../Table/ManagerClassLecturer";
 import Button from "../Button"
 import SelectForm from "../SelectForm";
 import classNames from "classnames/bind";
@@ -12,10 +12,9 @@ function WorkVolume() {
 
   const [mclass, setMClass] = useState(false);
 
- const handleclick =()=>{
-      setMClass((prev)=> !prev)
- }
-      
+      const handleclick = () => {
+        setMClass((prev) => !prev);
+      };
  
    const options = [
      { value: "2021-2022", label: "2021-2022" },
@@ -44,7 +43,7 @@ function WorkVolume() {
           Tiếp tục
         </Button>
       </div>
-      {mclass && <ManagerClass></ManagerClass>}
+      {mclass && <ManagerClassLecturer></ManagerClassLecturer>}
     </div>
   );
 }

@@ -1,6 +1,6 @@
 
 import { AiFillCaretRight } from "react-icons/ai";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import classNames from "classnames/bind";
 import styles from "./nav.module.scss";
 
@@ -85,10 +85,6 @@ function NavLeft() {
               </li>
               <li className="flex">
                 <AiFillCaretRight className="mr-1"></AiFillCaretRight>
-                <p> Update Year</p>
-              </li>
-              <li className="flex">
-                <AiFillCaretRight className="mr-1"></AiFillCaretRight>
                 <p>Manager Year</p>
               </li>
             </ul>
@@ -108,10 +104,6 @@ function NavLeft() {
               <li className="flex">
                 <AiFillCaretRight className="mr-1"></AiFillCaretRight>
                 <p>Add new User</p>
-              </li>
-              <li className="flex">
-                <AiFillCaretRight className="mr-1"></AiFillCaretRight>
-                <p>Update User</p>
               </li>
               <li className="flex">
                 <AiFillCaretRight className="mr-1"></AiFillCaretRight>
@@ -137,7 +129,7 @@ function NavLeft() {
               </li>
               <li className="flex">
                 <AiFillCaretRight className="mr-1"></AiFillCaretRight>
-                <p> Manager Subject</p>
+                <p>Manager Subject</p>
               </li>
             </ul>
           </li>

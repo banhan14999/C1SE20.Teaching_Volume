@@ -7,22 +7,23 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { AiFillCloseCircle } from "react-icons/ai";
 import { GrUpdate } from "react-icons/gr";
-import AddYear from "../../Form/AddYear"
 import StyledTableCell from "../../StyledTableCell";
-function ManagerYear() {
-  const [update,setUpdate] = React.useState(true)
-  function createData(Id, Start, Finish, CreatedAdd,UpdatedAdd) {
-    return { Id, Start, Finish, CreatedAdd, UpdatedAdd };
+import AddUser from "../../Form/AddUser";
+function ManagerUser() {
+  const [update, setUpdate] = React.useState(true);
+
+  function createData(Id, FullName, School, Derpartment, Role) {
+    return { Id, FullName, School, Derpartment, Role };
   }
 
-  const handleUpdate = ()=>{
-      setUpdate(false)
-  }
+  const handleUpdate = () => {
+    setUpdate(false);
+  };
   const rows = [
-    createData(1111, 2020, 2021, "24/05/2021", "24/05/2022"),
-    createData(1112, 2020, 2021, "24/05/2021", "24/05/2022"),
-    createData(1113, 2020, 2021, "24/05/2021", "24/05/2022"),
-    createData(1114, 2020, 2021, "24/05/2021", "24/05/2022"),
+    createData(1111, "LAK", "CMU", "Software Engineer", "Head"),
+    createData(1112, "LAK", "CMU", "Software Engineer", "Head"),
+    createData(1113, "LAK", "CMU", "Software Engineer", "Head"),
+    createData(1114, "LAK", "CMU", "Software Engineer", "Head"),
   ];
   return (
     <div className="w-[720px]">
@@ -35,11 +36,11 @@ function ManagerYear() {
           >
             <TableHead>
               <TableRow style={{}}>
-                <StyledTableCell align="center">ID</StyledTableCell>
-                <StyledTableCell align="center">Start</StyledTableCell>
-                <StyledTableCell align="center">Finish</StyledTableCell>
-                <StyledTableCell align="center">Created Add</StyledTableCell>
-                <StyledTableCell align="center">Updated Add</StyledTableCell>
+                <StyledTableCell align="center">DTU-ID</StyledTableCell>
+                <StyledTableCell align="center">Full Name</StyledTableCell>
+                <StyledTableCell align="center">School</StyledTableCell>
+                <StyledTableCell align="center">Department</StyledTableCell>
+                <StyledTableCell align="center">Role</StyledTableCell>
                 <StyledTableCell align="center" colSpan={2}>
                   Action
                 </StyledTableCell>
@@ -54,10 +55,10 @@ function ManagerYear() {
                   <StyledTableCell align="center" component="th" scope="row">
                     {row.Id}
                   </StyledTableCell>
-                  <StyledTableCell>{row.Start}</StyledTableCell>
-                  <StyledTableCell>{row.Finish}</StyledTableCell>
-                  <StyledTableCell>{row.CreatedAdd}</StyledTableCell>
-                  <StyledTableCell>{row.UpdatedAdd}</StyledTableCell>
+                  <StyledTableCell>{row.FullName}</StyledTableCell>
+                  <StyledTableCell>{row.School}</StyledTableCell>
+                  <StyledTableCell>{row.Derpartment}</StyledTableCell>
+                  <StyledTableCell>{row.Role}</StyledTableCell>
                   <StyledTableCell align="center">
                     <div
                       className="flex justify-center  cursor-pointer "
@@ -80,10 +81,10 @@ function ManagerYear() {
           </Table>
         </TableContainer>
       ) : (
-        <AddYear hide="hidden" btn="Update"></AddYear>
+        <AddUser hide="hidden" btn="Update"></AddUser>
       )}
     </div>
   );
 }
 
-export default ManagerYear;
+export default ManagerUser;

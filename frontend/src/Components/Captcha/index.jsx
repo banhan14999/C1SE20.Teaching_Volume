@@ -6,11 +6,11 @@ import styles from "./captcha.module.scss";
 const cx = classNames.bind(styles)
 
 const captchaImage = new Captcha(
-  "24px Arial",
+  "25px Arial",
   "center",
   "middle",
   100,
-  30,
+  32,
   "white",
   "green",
   4
