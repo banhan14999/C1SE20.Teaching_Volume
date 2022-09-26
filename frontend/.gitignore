@@ -7,7 +7,6 @@
 
 # testing
 /coverage
-Components/
 # production
 /build
 

@@ -1,0 +1,41 @@
+.nav_left {
+  min-height: 420px;
+}
+.nav_left_item {
+  overflow: hidden;
+  height: 0px;
+  background-color: #afafaf;
+  transition: all 0.2s  ease-in;
+}
+
+.nav_left_item li {
+  cursor: pointer;
+  align-items: center;
+  padding-left: 10px;
+  font-weight: 400;
+  height: 41px;
+  min-height: 41px;
+  border-bottom: 1px solid #fff;
+  &:hover {
+    color: #950b0b;
+  }
+  p{
+    user-select: none;
+  }
+}
+
+.item {
+  cursor: pointer;
+  background-image: url("../../../Assets/img/all-images-on-signin-page.png");
+  background-position: -1px -252px;
+  background-repeat: no-repeat;
+  height: 39px;
+  line-height: 39px;
+  padding-left: 41px;
+  color: #333;
+  &:hover {
+    background-position: -1px -297px;
+    color: #fff;
+    }
+
+}
