@@ -1,0 +1,42 @@
+.subheader {
+    background-image: url("../../../Assets/img/banner-header.png");
+    height: 180px;
+    max-width: 984px;
+    align-items: center;
+    background-repeat: no-repeat;
+    background-position: center;
+    position: relative;
+    left: 50%;
+    top: 0px;
+    transform: translateX(-50%);
+}
+.date {
+    position: absolute;
+    color: #fff;
+    top: 55%;
+    left: 52%;
+    transform: translateX(-51%);
+}
+.datetime{
+    width: 247px;
+    height: 30px;
+    display: flex;
+    justify-content: space-around;
+
+}
+.datetime span{
+    font-size: 24px;
+    font-weight: bold;
+    padding:0 13px;
+}
+.time {
+    position: absolute;
+    color: red;
+    bottom: 50%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 20px;
+    margin-left: 15px;
+   
+    
+}

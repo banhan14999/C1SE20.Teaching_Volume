@@ -1,0 +1,17 @@
+{
+    "login":[
+      {
+        "user": "admin",
+        "password": "123"
+      },
+      {
+        "user": "lecturer",
+        "password": "123"
+      },
+
+      {
+        "user": "dean",
+        "password": "123"
+      }
+    ]
+}
