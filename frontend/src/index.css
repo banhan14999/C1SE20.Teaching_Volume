@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@layer components {
+  .input_authen {
+    @apply border-solid border-1 border-red-500 outline-none text-black rounded-1 w-52 pl-1 text-base;
+    
+  }
+}
