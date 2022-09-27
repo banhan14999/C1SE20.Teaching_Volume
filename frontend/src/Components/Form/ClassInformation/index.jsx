@@ -5,7 +5,7 @@ import { default as Button} from "../../Button";
 
 const cx = classNames.bind(styles)
 
-function ClassInformation() {
+function ClassInformation(props) {
 
 const options = [
   { value: "2021-2022", label: "2021-2022" },
@@ -59,6 +59,7 @@ const options = [
                   placeholder="Subject"
                   class="w-1/2"
                   options={options}
+                  isDisabled={props.disabled}
                 ></SelectForm>
               </div>
               <div className="w-full flex justify-between mt-2">
@@ -88,7 +89,7 @@ const options = [
               </div>
               <div className="flex justify-around mt-[20px]">
                 <Button bgcolor="#950b0b" width="30%" size="large">
-                  Add
+                  {props.btn || "Add"}
                 </Button>
                 <Button bgcolor="#950b0b" width="30%" size="large">
                   Update

@@ -1,23 +1,26 @@
+import { useSelector } from "react-redux";
 import { FcBusinessman } from "react-icons/fc";
 import { BsCalendarDate } from "react-icons/bs";
 import { AiOutlineLogout} from "react-icons/ai";
+import Tippy from "@tippyjs/react";
 import {  useNavigate } from "react-router-dom";
+
 import WorkVolume from "../WorkVolume";
 import ClassInformation from "../Form/ClassInformation";
 import AddSubject from "../Form/AddSubject";
 import classNames from "classnames/bind";
 import styles from "./nav.module.scss";
-import {  useState } from "react";
-import ManagerSubject from "../Table/ManagerSubject";
+// import ManagerClassLecturer from "../Table/ManagerClassLecturer";
+import ManagerClass from "../Table/ManagerClass";
 import InfoWebpart from "../InfoWebpart";
 import ManagerWorkload from "../Table/ManagerWorkload";
 import Permission from "../Table/Permission";
 import AddUser from "../Form/AddUser"
 import ManagerYear from "../Table/ManagerYear";
 import AddYear from "../Form/AddYear";
-import Tippy from "@tippyjs/react";
 import NavLeft from "./Nav";
-import { useSelector } from "react-redux";
+import ManagerUser from "../Table/ManagerUser"
+import ManagerSubject from "../Table/ManagerSubject";
 
 const cx = classNames.bind(styles);
 
@@ -25,6 +28,9 @@ function Nav() {
   const forms = useSelector((data)=>data.form);
   const {form}=forms;
   const navigate = useNavigate();
+  const admin = localStorage.getItem("admin")
+  const lecturer = localStorage.getItem("lecturer")
+
   const handlelogout = () => {
     localStorage.clear("lecturer");
     navigate("/authentication");
@@ -67,23 +73,29 @@ function Nav() {
             <AiOutlineLogout
               className={`${cx("logout")} text-slate-600 text-2xl mr-1`}
             ></AiOutlineLogout>
-            <p className="font-light">Thoát</p> 
+            <p className="font-light">Thoát</p>
           </div>
         </Tippy>
       </div>
       <div className="flex border-r-[1px] border-[#D5D5D5] border-solid">
         <NavLeft></NavLeft>
         <div className="w-[726px] mb-3">
+          {form === "Info webpart" && <InfoWebpart />}
+
           {form === "Add new Subject" && <AddSubject />}
           {form === "Manager Subject" && <ManagerSubject />}
+
           {form === "Add New Class" && <ClassInformation />}
-          {form === "Info webpart" && <InfoWebpart />}
-          {form === "Manager Workload" && <ManagerWorkload />}
-          {form === "Manager Class" && <WorkVolume />}
-          {form === "Permission" && <Permission />}
-          {form === "Add new User" && <AddUser />}
-          {form === "Manager Year" && <ManagerYear />}
+          {lecturer && form === "Manager Class" && <WorkVolume />}
+          {admin && form === "Manager Class" && <ManagerClass />}
           {form === "Add New Year" && <AddYear />}
+          {form === "Manager Year" && <ManagerYear />}
+
+          {form === "Add new User" && <AddUser />}
+          {form === "Manager User" && <ManagerUser />}
+
+          {form === "Manager Workload" && <ManagerWorkload />}
+          {form === "Permission" && <Permission />}
         </div>
       </div>
     </div>
