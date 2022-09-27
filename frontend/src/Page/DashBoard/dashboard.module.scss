@@ -1,0 +1,23 @@
+.sidebar_list {
+  color: #fff;
+  padding: 10px 0;
+  font-weight: bold;
+  font-size: 20px;
+}
+.sidebar_list--item {
+    font-weight: bold;
+  font-size: 18px;
+}
+.sidebar_list  {
+    &:active  .sidebar_list--item li a {
+        display: block;
+    }
+    &:hover {
+       margin-left: 7px;
+      }
+    }
+.sidebar_list--item li a  {
+  color: red;
+  padding: 5px 0;
+  display: none;
+}
