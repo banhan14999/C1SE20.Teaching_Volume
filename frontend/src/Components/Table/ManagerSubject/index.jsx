@@ -43,13 +43,13 @@ function ManagerSubject() {
                 key={row.Code}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
-                <StyledTableCell align="center" component="th" scope="row">
+                <StyledTableCell align="center" component="th" scope="row" >
                   {row.Code}
                 </StyledTableCell>
                 <StyledTableCell>{row.Subject}</StyledTableCell>
                 <StyledTableCell>{row.Credit}</StyledTableCell>
                 <StyledTableCell>{row.Type}</StyledTableCell>
-                <StyledTableCell align="center" colSpan={1}>
+                <StyledTableCell align="center">
                   <div
                     className="flex justify-center items-center cursor-pointer p-1"
                     onClick={handleUpdate}
@@ -61,7 +61,7 @@ function ManagerSubject() {
                     ></GrUpdate>
                     <span>Update</span>
                   </div>
-                  <div className="flex justify-center cursor-pointer p-1 border-t-1 ">
+                  <div className="flex justify-center cursor-pointer p-1 border-t-1 border-black ">
                     <AiFillCloseCircle
                       color="#eb4f04"
                       className="mr-2"
