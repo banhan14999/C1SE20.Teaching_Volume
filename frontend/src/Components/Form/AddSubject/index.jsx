@@ -4,7 +4,7 @@ import { default as Button } from "../../Button";
 import classNames from "classnames/bind";
 import styles from "./addsubject.module.scss";
 const cx = classNames.bind(styles);
-function AddSubject() {
+function AddSubject(props) {
   const options = [
     { value: "2021-2022", label: "2021-2022" },
     { value: "2022-2023", label: "2022-2023" },
@@ -30,7 +30,7 @@ function AddSubject() {
                 Number
               </label>
               <span className="text-lg font-bold">:</span>
-              <input  placeholder="Number" className="w-1/2 input "></input>
+              <input placeholder="Number" className="w-1/2 input "></input>
             </div>
             <div className="w-full flex justify-between mt-2">
               <label htmlFor="" className="w-[30%]">
@@ -59,7 +59,7 @@ function AddSubject() {
             </div>
             <div className="flex justify-around mt-[20px]">
               <Button bgcolor="#950b0b" width="30%" size="large">
-                Add
+                {props.btn || "Add"}
               </Button>
               <Button bgcolor="#950b0b" width="30%" size="large">
                 Update

@@ -12,7 +12,7 @@ function Authentication() {
   const [checkLogin,setCheckLogin] = useState(true)
   const [imgcaptcha,setImgcaptcha] = useState()
   const [data,setData] = useState([])
-
+  const [Renderctc,setRenderctc] = useState(true)
   const refcaptcha = useRef();
   const inputPassValue = useRef();
   const inputUserValue = useRef()
@@ -33,9 +33,11 @@ function Authentication() {
           localStorage.setItem(obj.user , JSON.stringify( item.user));
           setCheckLogin(true);
           navigate("/");
+          setRenderctc(false);
         } else {
           setCheckLogin(false);
           inputPassValue.current.value = "";
+          setRenderctc(true);
         }
     } 
     })
@@ -118,8 +120,8 @@ function Authentication() {
                     handlLogin(e);
                   }}
                 ></input>
-                <MyCaptcha ref={refcaptcha}/>
-             </div>
+                <MyCaptcha Renderctc={Renderctc} ref={refcaptcha} />
+              </div>
             </div>
             {checkLogin === true ? (
               <div className="text-right h-[32px] mt-2"></div>
