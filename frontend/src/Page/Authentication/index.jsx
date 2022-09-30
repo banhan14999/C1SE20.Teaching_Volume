@@ -9,15 +9,16 @@ import FechApi from "../../fectch"
 
 function Authentication() {
   const navigate = useNavigate();
-  const [checkCaptcha,setCheckCaptcha] = useState(true)
+  const [checkLogin,setCheckLogin] = useState(true)
   const [imgcaptcha,setImgcaptcha] = useState()
   const [data,setData] = useState([])
-
+  const [Renderctc,setRenderctc] = useState(true)
   const refcaptcha = useRef();
   const inputPassValue = useRef();
   const inputUserValue = useRef()
   const inputCaptchaValue = useRef()
 
+  
   // Login 
   function handlLogin(event) {
     const obj = {
@@ -30,19 +31,20 @@ function Authentication() {
       // kiem tra dang nhap
         if (obj.user === item.user && obj.password === item.password && imgcaptcha === obj.captcha) {
           localStorage.setItem(obj.user , JSON.stringify( item.user));
-          setCheckCaptcha(true);
+          setCheckLogin(true);
           navigate("/");
+          setRenderctc(false);
         } else {
-          setCheckCaptcha(false);
+          setCheckLogin(false);
           inputPassValue.current.value = "";
+          setRenderctc(true);
         }
     } 
     })
   }
 
   let useimgcallback = useCallback(
-    () => refcaptcha.current.children[0].dataset.key,
-    []
+    () => refcaptcha.current.children[0].dataset.key,[]
   );
 
    useEffect(() => {
@@ -118,10 +120,10 @@ function Authentication() {
                     handlLogin(e);
                   }}
                 ></input>
-                <MyCaptcha ref={refcaptcha} reload="load" />
+                <MyCaptcha Renderctc={Renderctc} ref={refcaptcha} />
               </div>
             </div>
-            {checkCaptcha === true ? (
+            {checkLogin === true ? (
               <div className="text-right h-[32px] mt-2"></div>
             ) : (
               <div className="text-right text-sm  h-[32px] mt-2">

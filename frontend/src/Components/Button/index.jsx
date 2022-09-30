@@ -3,6 +3,7 @@ import { Button } from "@mui/material";
 function Buttons(props) {
   return (
     <Button
+      ref={props.refs}
       size={props.size}
       variant="contained"
       className={props.class}

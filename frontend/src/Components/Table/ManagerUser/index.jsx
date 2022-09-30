@@ -8,21 +8,22 @@ import Paper from "@mui/material/Paper";
 import { AiFillCloseCircle } from "react-icons/ai";
 import { GrUpdate } from "react-icons/gr";
 import StyledTableCell from "../../StyledTableCell";
-import AddSubject from "../../Form/AddSubject";
-function ManagerSubject() {
+import AddUser from "../../Form/AddUser";
+function ManagerUser() {
   const [update, setUpdate] = React.useState(true);
-  function createData(Code, Subject, Credit, Type) {
-    return { Code, Subject, Credit, Type };
+
+  function createData(Id, FullName, School, Derpartment, Role) {
+    return { Id, FullName, School, Derpartment, Role };
   }
 
   const handleUpdate = () => {
     setUpdate(false);
   };
   const rows = [
-    createData(1111, 2020, 2021, "24/05/2021"),
-    createData(1112, 2020, 2021, "24/05/2021"),
-    createData(1113, 2020, 2021, "24/05/2021"),
-    createData(1114, 2020, 2021, "24/05/2021"),
+    createData(1111, "LAK", "CMU", "Software Engineer", "Head"),
+    createData(1112, "LAK", "CMU", "Software Engineer", "Head"),
+    createData(1113, "LAK", "CMU", "Software Engineer", "Head"),
+    createData(1114, "LAK", "CMU", "Software Engineer", "Head"),
   ];
   return (
     <div className="w-[720px]">
@@ -35,44 +36,43 @@ function ManagerSubject() {
           >
             <TableHead>
               <TableRow style={{}}>
-                <StyledTableCell align="center">Code</StyledTableCell>
-                <StyledTableCell align="center">Subject</StyledTableCell>
-                <StyledTableCell align="center">Credit</StyledTableCell>
-                <StyledTableCell align="center">Type</StyledTableCell>
-                <StyledTableCell align="center">Action</StyledTableCell>
+                <StyledTableCell align="center">DTU-ID</StyledTableCell>
+                <StyledTableCell align="center">Full Name</StyledTableCell>
+                <StyledTableCell align="center">School</StyledTableCell>
+                <StyledTableCell align="center">Department</StyledTableCell>
+                <StyledTableCell align="center">Role</StyledTableCell>
+                <StyledTableCell align="center" colSpan={2}>
+                  Action
+                </StyledTableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {rows.map((row) => (
                 <TableRow
-                  key={row.Code}
+                  key={row.Id}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <StyledTableCell align="center" component="th" scope="row">
-                    {row.Code}
+                    {row.Id}
                   </StyledTableCell>
-                  <StyledTableCell>{row.Subject}</StyledTableCell>
-                  <StyledTableCell>{row.Credit}</StyledTableCell>
-                  <StyledTableCell>{row.Type}</StyledTableCell>
+                  <StyledTableCell>{row.FullName}</StyledTableCell>
+                  <StyledTableCell>{row.School}</StyledTableCell>
+                  <StyledTableCell>{row.Derpartment}</StyledTableCell>
+                  <StyledTableCell>{row.Role}</StyledTableCell>
                   <StyledTableCell align="center">
                     <div
-                      className="flex justify-center items-center cursor-pointer p-1"
+                      className="flex justify-center  cursor-pointer "
                       onClick={handleUpdate}
                     >
-                      <GrUpdate
-                        color="#0a7a0a"
-                        className="mr-2"
-                        fontSize={14}
-                      ></GrUpdate>
-                      <span>Update</span>
+                      <GrUpdate color="#0a7a0a" fontSize={14}></GrUpdate>
                     </div>
-                    <div className="flex justify-center cursor-pointer p-1 border-t-1 border-black ">
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
+                    <div className="flex justify-center cursor-pointer">
                       <AiFillCloseCircle
                         color="#eb4f04"
-                        className="mr-2"
                         fontSize={16}
                       ></AiFillCloseCircle>
-                      <span>Detail</span>
                     </div>
                   </StyledTableCell>
                 </TableRow>
@@ -81,10 +81,10 @@ function ManagerSubject() {
           </Table>
         </TableContainer>
       ) : (
-        <AddSubject btn ="Update"></AddSubject>
+        <AddUser hide="hidden" btn="Update"></AddUser>
       )}
     </div>
   );
 }
 
-export default ManagerSubject;
+export default ManagerUser;

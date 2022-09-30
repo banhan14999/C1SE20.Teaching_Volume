@@ -36,8 +36,8 @@ function SelectForm(props) {
       options={props.options}
       placeholder={props.placeholder}
       styles={customStyles}
+      isDisabled={props.isDisabled}
       // onChange={setSelectedOption}
-      
     />
   );
 }

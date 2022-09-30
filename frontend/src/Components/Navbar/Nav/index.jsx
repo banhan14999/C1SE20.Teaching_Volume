@@ -1,6 +1,6 @@
 
 import { AiFillCaretRight } from "react-icons/ai";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import classNames from "classnames/bind";
 import styles from "./nav.module.scss";
 
@@ -21,7 +21,6 @@ function NavLeft() {
       navs.forEach((value) => {
         value.onclick = () => {
            let back = value.querySelector(`.${styles.item}`);
-
             // dem the li trong ul cua value
            let val = value.querySelectorAll("ul li");
            dem = val.length * 41;
@@ -36,10 +35,12 @@ function NavLeft() {
             navLeftItem.forEach((item) => {
               item.style.height = "0px";
               item.onclick = (e) => {
-                e.cancelBubble = true;
-                if (e.stopPropagation) e.stopPropagation();
+                // e.cancelBubble = true;
+                // if (e.stopPropagation) e.stopPropagation();
 
                 const li = item.querySelectorAll("li");
+                
+                console.log(li);
                 li.forEach((text) => {
                   text.onclick = (e) => {
                     dispatch(ShowForm(e.target.textContent));
@@ -72,9 +73,7 @@ function NavLeft() {
         {admin && (
           <li>
             <p
-              className={`${cx(
-                "item"
-              )} flex pl-4 items-center font-medium text-[14px] select-none `}
+              className={`${cx("item")} flex pl-4 items-center font-medium text-[14px] select-none `}
             >
               Year
             </p>
@@ -82,10 +81,6 @@ function NavLeft() {
               <li className="flex">
                 <AiFillCaretRight className="mr-1"></AiFillCaretRight>
                 <p>Add New Year</p>
-              </li>
-              <li className="flex">
-                <AiFillCaretRight className="mr-1"></AiFillCaretRight>
-                <p> Update Year</p>
               </li>
               <li className="flex">
                 <AiFillCaretRight className="mr-1"></AiFillCaretRight>
@@ -111,10 +106,6 @@ function NavLeft() {
               </li>
               <li className="flex">
                 <AiFillCaretRight className="mr-1"></AiFillCaretRight>
-                <p>Update User</p>
-              </li>
-              <li className="flex">
-                <AiFillCaretRight className="mr-1"></AiFillCaretRight>
                 <p>Manager User</p>
               </li>
             </ul>
@@ -137,7 +128,7 @@ function NavLeft() {
               </li>
               <li className="flex">
                 <AiFillCaretRight className="mr-1"></AiFillCaretRight>
-                <p> Manager Subject</p>
+                <p>Manager Subject</p>
               </li>
             </ul>
           </li>
