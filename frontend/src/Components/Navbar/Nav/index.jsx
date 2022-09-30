@@ -30,7 +30,7 @@ function NavLeft() {
             back.style.backgroundPosition = "-1px -252px";
             item.style.height ="0px"
           } else {
-            let navLeftItem = document.getElementsByClassName(`.${styles.nav_left_item}`);
+            let navLeftItem = document.getElementsByClassName(`${styles.nav_left_item}`);
             navLeftItem.forEach((item) => {
               item.style.height = "0px";
               item.onclick = (e) => {
