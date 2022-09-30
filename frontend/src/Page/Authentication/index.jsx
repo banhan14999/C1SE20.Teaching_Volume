@@ -12,7 +12,7 @@ function Authentication() {
   const [checkLogin,setCheckLogin] = useState(true)
   const [imgcaptcha,setImgcaptcha] = useState()
   const [data,setData] = useState([])
-  const [Renderctc,setRenderctc] = useState(true)
+  // const [Renderctc,setRenderctc] = useState(true)
   const refcaptcha = useRef();
   const inputPassValue = useRef();
   const inputUserValue = useRef()
@@ -33,24 +33,29 @@ function Authentication() {
           localStorage.setItem(obj.user , JSON.stringify( item.user));
           setCheckLogin(true);
           navigate("/");
-          setRenderctc(false);
+          // setRenderctc(false);
         } else {
           setCheckLogin(false);
           inputPassValue.current.value = "";
-          setRenderctc(prev=>!prev);
+          // setRenderctc(prev=>!prev);
         }
     } 
     })
-
   }
+ useEffect(() => {
+   const apiLogin = "http://localhost:3001/login";
+   FechApi(apiLogin).then((data) => {
+     setData([...data]);
+   });
+ }, []);
 
   let useimgcallback = useCallback(
     () => refcaptcha.current.children[0].dataset.key,
-    [Renderctc]
+    []
   );
   
    useEffect(() => {
-     setImgcaptcha(refcaptcha.current.children[0].dataset.key);
+     setImgcaptcha(useimgcallback);
    }, [useimgcallback]);
 
 
@@ -58,14 +63,6 @@ function Authentication() {
     console.log(imgcaptcha);
     console.log(refcaptcha.current.children[0].dataset.key);
    });
-
-
-   useEffect(() => {
-     const apiLogin = "http://localhost:3001/login";
-    FechApi(apiLogin).then((data)=>{
-      setData([...data]);
-    })
-   }, []);
 
   return (
     <div
@@ -129,7 +126,7 @@ function Authentication() {
                     handlLogin(e);
                   }}
                 ></input>
-                <MyCaptcha Renderctc={Renderctc} ref={refcaptcha} />
+                <MyCaptcha  ref={refcaptcha} />
               </div>
             </div>
             {checkLogin === true ? (

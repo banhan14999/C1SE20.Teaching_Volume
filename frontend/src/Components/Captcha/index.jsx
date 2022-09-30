@@ -5,23 +5,21 @@ import { forwardRef, Fragment } from "react";
 import styles from "./captcha.module.scss";
 const cx = classNames.bind(styles)
  
-
+  let captchaImage = new Captcha(
+    "25px Arial",
+    "center",
+    "middle",
+    100,
+    32,
+    "white",
+    "green",
+    4
+  ).createImage();
+  console.log(captchaImage);
 function createMarkup(source) {
   return { __html: source };
 }
- function MyCaptcha({ Renderctc, ...props }, ref) {
-     let captchaImage = new Captcha(
-       "25px Arial",
-       "center",
-       "middle",
-       100,
-       32,
-       "white",
-       "green",
-       4
-     ).createImage();
-       console.log(captchaImage);
-
+ function MyCaptcha({ ...props }, ref) {
    return (
      <Fragment>
          <div
