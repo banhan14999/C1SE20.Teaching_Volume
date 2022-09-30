@@ -27,6 +27,7 @@ const cx = classNames.bind(styles);
 function Nav() {
   const forms = useSelector((data)=>data.form);
   const {form}=forms;
+  console.log(form);
   const navigate = useNavigate();
   const admin = localStorage.getItem("admin")
   const lecturer = localStorage.getItem("lecturer")
