@@ -32,7 +32,7 @@ function SelectForm(props) {
 
   return (
     <Select
-      className={`${props.class}`}
+      className={`${props.class} placeholder:text-[5px]`}
       options={props.options}
       placeholder={props.placeholder}
       styles={customStyles}

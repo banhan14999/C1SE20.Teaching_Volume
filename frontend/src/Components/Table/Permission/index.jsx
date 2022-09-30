@@ -42,47 +42,64 @@ const rows = [
 ];
 
   return (
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 720 }} aria-label="customized table">
-        <TableHead>
-          <TableRow>
-            <StyledTableCell>#</StyledTableCell>
-            <StyledTableCell align="center">User</StyledTableCell>
-            <StyledTableCell align="center">Name</StyledTableCell>
-            <StyledTableCell align="center">Role</StyledTableCell>
-            <StyledTableCell align="center">Permission</StyledTableCell>
-            <StyledTableCell align="center">Manager</StyledTableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map((row) => (
-            <StyledTableRow key={row.Stt}>
-              <StyledTableCell component="th" scope="row">
-                {row.Stt}
-              </StyledTableCell>
-              <StyledTableCell align="center">{row.User}</StyledTableCell>
-              <StyledTableCell align="center">{row.Name}</StyledTableCell>
-              <StyledTableCell align="center">{row.Role}</StyledTableCell>
-              <StyledTableCell align="center">{row.Permission}</StyledTableCell>
-              <StyledTableCell align="center">
-                <div className="flex items-center justify-center">
-                  <div className="mr-2">
-                    <Button bgcolor="#0a7a0a" width="100px" size="small" >
-                      Phân vai trò
-                    </Button>
+    <div className="container">
+      <div className="text-center text-[20px] font-[600] line mb-[20px] text-red-700">
+        Permission
+      </div>
+      <TableContainer component={Paper}>
+        <Table aria-label="customized table">
+          <TableHead>
+            <TableRow>
+              <StyledTableCell>#</StyledTableCell>
+              <StyledTableCell align="center">User</StyledTableCell>
+              <StyledTableCell align="center">Name</StyledTableCell>
+              <StyledTableCell align="center">Role</StyledTableCell>
+              <StyledTableCell align="center">Permission</StyledTableCell>
+              <StyledTableCell align="center">Manager</StyledTableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {rows.map((row) => (
+              <StyledTableRow key={row.Stt}>
+                <StyledTableCell component="th" scope="row">
+                  {row.Stt}
+                </StyledTableCell>
+                <StyledTableCell align="center">{row.User}</StyledTableCell>
+                <StyledTableCell align="center">{row.Name}</StyledTableCell>
+                <StyledTableCell align="center">{row.Role}</StyledTableCell>
+                <StyledTableCell align="center">
+                  {row.Permission}
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  <div className="flex items-center justify-center">
+                    <div className="mr-2 ">
+                      <Button
+                        bgcolor="#0a7a0a"
+                        width="100px"
+                        size="small"
+                        weight="400"
+                      >
+                        Phân vai trò
+                      </Button>
+                    </div>
+                    <div className="">
+                      <Button
+                        bgcolor="#eb4f04"
+                        size="small"
+                        width="100px"
+                        weight="400"
+                      >
+                        Phân quyền
+                      </Button>
+                    </div>
                   </div>
-                  <div className="">
-                    <Button bgcolor="#eb4f04" size="small" width="100px">
-                      Phân quyền
-                    </Button>
-                  </div>
-                </div>
-              </StyledTableCell>
-            </StyledTableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+                </StyledTableCell>
+              </StyledTableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </div>
   );
 
 }

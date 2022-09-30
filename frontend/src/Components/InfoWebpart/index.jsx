@@ -137,21 +137,21 @@ function InfoWebpart() {
           </p>
           <p>
             <b>12.</b> Kích thước của các tập tin tải lên các hệ thống của
-            myDuyTan nên từ 10 MB trở xuống.
+            myDuyTan nên <b>từ 10 MB trở xuống.</b>
           </p>
           <p>
-            <b>13.</b> Sinh viên có trách nhiệm thường xuyên theo dõi Lịch học
+            <b>13.</b> Sinh viên có trách nhiệm thường xuyên theo dõi <b className="text-red-600">Lịch học</b>
             (hay thời khóa biểu) của bản thân để đến lớp và ra về đúng giờ và
             không đến lớp khi Lịch học đã bị thay đổi.
           </p>
           <p>
-            <b>14.</b> Sinh viên có trách nhiệm thường xuyên theo dõi Bảng điểm
-            (Tổng kết các Học phần) và Bảng điểm Cụ thể (từng Học phần) của bản
+            <b>14.</b> Sinh viên có trách nhiệm thường xuyên theo dõi <b className="text-red-600">Bảng điểm</b>
+            (Tổng kết các Học phần) và <b className="text-red-600">Bảng điểm Cụ thể</b> (từng Học phần) của bản
             thân để quản lý tiến độ và nỗ lực học tập của mình.
           </p>
           <p>
-            <b>15.</b> Sinh viên có trách nhiệm thường xuyên theo dõi Tin tức (&
-            Sự kiện) và Thông báo trên myDuyTan để nắm tình hình hoạt động và
+            <b>15.</b> Sinh viên có trách nhiệm thường xuyên theo dõi <b>Tin tức (&
+            Sự kiện)</b> và <b>Thông báo</b> trên myDuyTan để nắm tình hình hoạt động và
             các sự kiện đang diễn ra ở khoa chủ quản cũng như tại các đơn vị
             khác trong toàn trường.
           </p>
@@ -180,25 +180,25 @@ function InfoWebpart() {
             viên) và các giấy tờ có liên quan.
           </p>
           <p>
-            <strong>XỬ PHẠT VI PHẠM:</strong>
+            <strong><u>XỬ PHẠT VI PHẠM:</u></strong>
           </p>
           <p>
             <b>1.</b> Khi phát hiện ra bất kỳ biểu hiện nào vi phạm một trong
             những quy định kể trên, Quản lý hệ thống myDuyTan và/hoặc các Cán bộ
-            có chức năng sẽ có thẩm quyền đình chỉ ngay quyền sử dụng tài khoản
+            có chức năng sẽ có thẩm quyền <b className="text-red-600">đình chỉ ngay quyền sử dụng</b> tài khoản
             đăng nhập của các cá nhân có liên quan.
           </p>
           <p>
             <b>2.</b> Khi đã xác lập được nguyên nhân sự cố hay nguyên nhân sai
             lệch về thông tin, Quản lý hệ thống myDuyTan và/hoặc các Cán bộ có
             chức năng sẽ có thẩm quyền chuyển những đối tượng vi phạm sang cho
-            khoa chủ quản hay Hội đồng Kỷ luật xử lý.
+            <b>khoa chủ quản</b> hay <b>Hội đồng Kỷ luật</b> xử lý.
           </p>
           <p>
             <b>3.</b> Tùy theo mức độ vi phạm mà khoa chủ quản hay Hội Đồng Kỷ
-            Luật sẽ quyết định hình phạt. Nhẹ thì cảnh cáo và/hoặc trừ Điểm Rèn
-            luyện, nặng thì hạ bậc Hạnh kiểm Rèn luyện, nếu nghiêm trọng thì có
-            thể bị buộc tạm thôi học hoặc cho THÔI HỌC LUÔN.
+            Luật sẽ quyết định hình phạt. Nhẹ thì cảnh cáo và/hoặc <b>trừ Điểm Rèn
+            luyện</b>, nặng thì <b>hạ bậc Hạnh kiểm Rèn luyện</b>, nếu nghiêm trọng thì có
+            thể bị buộc <b>tạm thôi học</b> hoặc cho <b className="text-red-600">THÔI HỌC LUÔN.</b>
           </p>
         </div>
       </div>

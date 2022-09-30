@@ -21,9 +21,12 @@ function ManagerClassLecturer() {
       createData("CMU-ENG 230 EIS3", "AVCN cho SV CMU2", 40, "Update"),
     ];
   return (
-    <div className="w-[720px]">
+    <div className="container">
+      <div className="text-center text-[20px] font-[600] line mb-[20px] text-red-700">
+        Manager Class Lecturer
+      </div>
       <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 720 }} size="medium" aria-label="a dense table">
+        <Table size="medium" aria-label="a dense table">
           <TableHead>
             <TableRow style={{}}>
               <StyledTableCell align="center">Class Name</StyledTableCell>
@@ -44,7 +47,10 @@ function ManagerClassLecturer() {
                 <StyledTableCell align="center">{row.Subject}</StyledTableCell>
                 <StyledTableCell align="center">{row.Student}</StyledTableCell>
                 <StyledTableCell align="center">
-                  <Link to="/" className="flex items-center text-center justify-center">
+                  <Link
+                    to="/"
+                    className="flex items-center text-center justify-center"
+                  >
                     <GrUpdate className="mr-2"></GrUpdate>
                     <p>{row.Action}</p>
                   </Link>

@@ -15,7 +15,6 @@ const cx = classNames.bind(styles)
     "green",
     4
   ).createImage();
-  console.log(captchaImage);
 function createMarkup(source) {
   return { __html: source };
 }

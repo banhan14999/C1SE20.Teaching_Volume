@@ -35,16 +35,12 @@ function NavLeft() {
               item.style.height = "0px";
               item.onclick = (e) => {
                 if (e.stopPropagation) e.stopPropagation();
-
                 const li = item.querySelectorAll("li");
-                
-                console.log(li);
                 li.forEach((text) => {
                   text.onclick = (e) => {
                     dispatch(ShowForm(e.target.textContent));
                   };
                 });
-                
               };
             });
             navs.forEach((backgroundback)=>{

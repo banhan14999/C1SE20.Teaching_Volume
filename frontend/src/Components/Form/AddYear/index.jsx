@@ -9,7 +9,7 @@ function AddYear(props) {
     <div>
       <div className={cx("form")}>
         <div className={cx("line")}>
-          <h2 className="text-xl font-semibold">Year Infomation</h2>
+          <h2 className="text-xl font-semibold">{props.title||"Year Infomation"}</h2>
         </div>
         <div className="p-5">
           <form action="">

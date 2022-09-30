@@ -10,7 +10,7 @@ function Buttons(props) {
       style={{
         width: props.width,
         backgroundColor: props.bgcolor,
-        fontWeight: "bold",
+        fontWeight: props.weight || "bold",
       }}
       onClick={props.onClick}
     >

@@ -25,62 +25,63 @@ function ManagerYear() {
     createData(1114, 2020, 2021, "24/05/2021", "24/05/2022"),
   ];
   return (
-    <div className="w-[720px]">
+    <div>
       {update ? (
-        <TableContainer component={Paper}>
-          <Table
-            sx={{ minWidth: 720 }}
-            size="medium"
-            aria-label="a dense table"
-          >
-            <TableHead>
-              <TableRow style={{}}>
-                <StyledTableCell align="center">ID</StyledTableCell>
-                <StyledTableCell align="center">Start</StyledTableCell>
-                <StyledTableCell align="center">Finish</StyledTableCell>
-                <StyledTableCell align="center">Created Add</StyledTableCell>
-                <StyledTableCell align="center">Updated Add</StyledTableCell>
-                <StyledTableCell align="center" colSpan={2}>
-                  Action
-                </StyledTableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {rows.map((row) => (
-                <TableRow
-                  key={row.Id}
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                >
-                  <StyledTableCell align="center" component="th" scope="row">
-                    {row.Id}
-                  </StyledTableCell>
-                  <StyledTableCell>{row.Start}</StyledTableCell>
-                  <StyledTableCell>{row.Finish}</StyledTableCell>
-                  <StyledTableCell>{row.CreatedAdd}</StyledTableCell>
-                  <StyledTableCell>{row.UpdatedAdd}</StyledTableCell>
-                  <StyledTableCell align="center">
-                    <div
-                      className="flex justify-center  cursor-pointer "
-                      onClick={handleUpdate}
-                    >
-                      <GrUpdate color="#0a7a0a" fontSize={14}></GrUpdate>
-                    </div>
-                  </StyledTableCell>
-                  <StyledTableCell align="center">
-                    <div className="flex justify-center cursor-pointer">
-                      <AiFillCloseCircle
-                        color="#eb4f04"
-                        fontSize={16}
-                      ></AiFillCloseCircle>
-                    </div>
+        <div className="container">
+          <div className="text-center text-[20px] font-[600] line mb-[20px] text-red-700">
+            Manager Year
+          </div>
+          <TableContainer component={Paper}>
+            <Table size="medium" aria-label="a dense table">
+              <TableHead>
+                <TableRow style={{}}>
+                  <StyledTableCell align="center">ID</StyledTableCell>
+                  <StyledTableCell align="center">Start</StyledTableCell>
+                  <StyledTableCell align="center">Finish</StyledTableCell>
+                  <StyledTableCell align="center">Created Add</StyledTableCell>
+                  <StyledTableCell align="center">Updated Add</StyledTableCell>
+                  <StyledTableCell align="center" colSpan={2}>
+                    Action
                   </StyledTableCell>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+              </TableHead>
+              <TableBody>
+                {rows.map((row) => (
+                  <TableRow
+                    key={row.Id}
+                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                  >
+                    <StyledTableCell align="center" component="th" scope="row">
+                      {row.Id}
+                    </StyledTableCell>
+                    <StyledTableCell>{row.Start}</StyledTableCell>
+                    <StyledTableCell>{row.Finish}</StyledTableCell>
+                    <StyledTableCell>{row.CreatedAdd}</StyledTableCell>
+                    <StyledTableCell>{row.UpdatedAdd}</StyledTableCell>
+                    <StyledTableCell align="center">
+                      <div
+                        className="flex justify-center  cursor-pointer "
+                        onClick={handleUpdate}
+                      >
+                        <GrUpdate color="#0a7a0a" fontSize={14}></GrUpdate>
+                      </div>
+                    </StyledTableCell>
+                    <StyledTableCell align="center">
+                      <div className="flex justify-center cursor-pointer">
+                        <AiFillCloseCircle
+                          color="#eb4f04"
+                          fontSize={16}
+                        ></AiFillCloseCircle>
+                      </div>
+                    </StyledTableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </div>
       ) : (
-        <AddYear hide="hidden" btn="Update"></AddYear>
+        <AddYear hide="hidden" btn="Update" title="Updata Year"></AddYear>
       )}
     </div>
   );

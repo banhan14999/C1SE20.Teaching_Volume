@@ -34,6 +34,7 @@ function Nav() {
 
   const handlelogout = () => {
     localStorage.clear("lecturer");
+    localStorage.clear("admin");
     navigate("/authentication");
   };
   return (
@@ -80,7 +81,7 @@ function Nav() {
       </div>
       <div className="flex border-r-[1px] border-[#D5D5D5] border-solid">
         <NavLeft></NavLeft>
-        <div className="w-[726px] mb-3">
+        <div className="w-[726px] mb-3 ">
           {form === "Info webpart" && <InfoWebpart />}
 
           {form === "Add new Subject" && <AddSubject />}

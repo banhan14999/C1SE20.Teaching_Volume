@@ -23,9 +23,12 @@ function ManagerWorkload() {
     createData(6, "HD khoa hoc", "Đã Duyệt"),
   ];
   return (
-    <div className="w-[720px]">
+    <div className="container">
+      <div className="text-center text-[20px] font-[600] line mb-[20px] text-red-700">
+        Manager Workload
+      </div>
       <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 720 }} size="medium" aria-label="a dense table">
+        <Table size="medium" aria-label="a dense table">
           <TableHead>
             <TableRow style={{}}>
               <StyledTableCell align="center">STT</StyledTableCell>
