@@ -10,7 +10,7 @@ import {ShowForm} from "../../../Redux/Actions/index"
 const cx = classNames.bind(styles);
 
 function NavLeft() {
-    const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   const lecturer = localStorage.getItem("lecturer");
   const admin = localStorage.getItem("admin");
@@ -25,7 +25,6 @@ function NavLeft() {
             // dem the li trong ul cua value
            let val = value.querySelectorAll("ul li");
            dem = val.length * 41;
-
           let item = value.querySelector("ul");
 
           if (back.style.backgroundPosition === "-1px -297px" && item) {
@@ -37,8 +36,7 @@ function NavLeft() {
               item.style.height = "0px";
               item.onclick = (e) => {
                 e.cancelBubble = true;
-                if (e.stopPropagation) e.stopPropagation();
-
+                // if (e.stopPropagation) e.stopPropagation();
                 const li = item.querySelectorAll("li");
                 li.forEach((text) => {
                   text.onclick = (e) => {
