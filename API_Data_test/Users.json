@@ -1,0 +1,92 @@
+{
+    "Users":[
+        {
+            "Username"       : "trantthuytrinh",
+            "Password"       : "123",
+            "Lecturer_id"    : "25211202999",
+            "Firstname"      : "Tran Thi Thuy",
+            "Lastname"       : "Trinh",
+            "Deparment_id"   : "",
+            "Faculty_id"     : "",
+            "Role_id"        : 1,
+            "Remenber_token" : ""
+        },
+        {
+            "Username"       : "huynhbanhan",
+            "Password"       : "123",
+            "Lecturer_id"    : "25211203000",
+            "Firstname"      : "Huynh Ba",
+            "Lastname"       : "Nhan",
+            "Deparment_id"   : "SE",
+            "Faculty_id"     : "IS",
+            "Role_id"        : 2,
+            "Remenber_token" : ""
+        },
+        {
+            "Username"       : "leanhkhanh",
+            "Password"       : "123",
+            "Lecturer_id"    : "25211203001",
+            "Firstname"      : "Le Anh",
+            "Lastname"       : "Khanh",
+            "Deparment_id"   : "SE",
+            "Faculty_id"     : "IS",
+            "Role_id"        : 4,
+            "Remenber_token" : ""
+        },
+        {
+            "Username"       : "ngoquochieu",
+            "Password"       : "123",
+            "Lecturer_id"    : "25211203002",
+            "Firstname"      : "Ngo Quoc",
+            "Lastname"       : "Hieu",
+            "Deparment_id"   : "SE",
+            "Faculty_id"     : "IS",
+            "Role_id"        : 3,
+            "Remenber_token" : ""
+        },
+        {
+            "Username"       : "totngochuyen",
+            "Password"       : "123",
+            "Lecturer_id"    : "25211203003",
+            "Firstname"      : "To Thi Ngoc",
+            "Lastname"       : "Huyen",
+            "Deparment_id"   : "MIS",
+            "Faculty_id"     : "IS",
+            "Role_id"        : 3,
+            "Remenber_token" : ""
+        },
+        {
+            "Username"       : "nguyenhdinhtin",
+            "Password"       : "123",
+            "Lecturer_id"    : "25211203006",
+            "Firstname"      : "Nguyen Dinh",
+            "Lastname"       : "Tin",
+            "Deparment_id"   : "MIS",
+            "Faculty_id"     : "IS",
+            "Role_id"        : 4,
+            "Remenber_token" : ""
+        },
+        {
+            "Username"       : "nguyenvanmy",
+            "Password"       : "123",
+            "Lecturer_id"    : "25211203004",
+            "Firstname"      : "Nguyen Van",
+            "Lastname"       : "My",
+            "Deparment_id"   : "NS",
+            "Faculty_id"     : "IS",
+            "Role_id"        : 4,
+            "Remenber_token" : ""
+        },
+        {
+            "Username"       : "dangvantruc",
+            "Password"       : "123",
+            "Lecturer_id"    : "25211203005",
+            "Firstname"      : "Dang Van",
+            "Lastname"       : "Truc",
+            "Deparment_id"   : "NS",
+            "Faculty_id"     : "IS",
+            "Role_id"        : 3,
+            "Remenber_token" : ""
+        }
+    ]
+}

@@ -1,0 +1,164 @@
+{
+    "Subjects":[
+        {
+            "Subject_id"  : 1,
+            "Letter"      : "CMU-CS",
+            "Number"      : "252",
+            "Subject_name": "Introduction to Network & Telecommunications Technology",
+            "Credit"      : 3,
+            "Type_id"     : 1
+        },
+        {
+            "Subject_id"  : 2,
+            "Letter"      : "CMU-CS",
+            "Number"      : "303",
+            "Subject_name": "Fundamentals of Computing 1",
+            "Credit"      : 3,
+            "Type_id"     : 4
+        },
+        {
+            "Subject_id"  : 3,
+            "Letter"      : "CMU-SE",
+            "Number"      : "214",
+            "Subject_name": "Requirements Engineering",
+            "Credit"      : 3,
+            "Type_id"     : 1
+        },
+        {
+            "Subject_id"  : 4,
+            "Letter"      : "CMU-CS",
+            "Number"      : "311",
+            "Subject_name": "Object-Oriented Programming C++ (Advanced Concepts in Computing)",
+            "Credit"      : 4,
+            "Type_id"     : 4
+        },
+        {
+            "Subject_id"  : 5,
+            "Letter"      : "CMU-CS",
+            "Number"      : "316",
+            "Subject_name": "Fundamentals of Computing 2",
+            "Credit"      : 3,
+            "Type_id"     : 1
+        },
+        {
+            "Subject_id"  : 6,
+            "Letter"      : "CMU-CS",
+            "Number"      : "246",
+            "Subject_name": "Application Development Practices",
+            "Credit"      : 3,
+            "Type_id"     : 1
+        },
+        {
+            "Subject_id"  : 7,
+            "Letter"      : "CMU-CS",
+            "Number"      : "297",
+            "Subject_name": "Đồ Án CDIO",
+            "Credit"      : 1,
+            "Type_id"     : 3
+        },
+        {
+            "Subject_id"  : 8,
+            "Letter"      : "CMU-SE",
+            "Number"      : "252",
+            "Subject_name": "Computer Science for Practicing Engineers (Software Construction)",
+            "Credit"      : 3,
+            "Type_id"     : 1
+        },
+        {
+            "Subject_id"  : 9,
+            "Letter"      : "CMU-IS",
+            "Number"      : "432",
+            "Subject_name": "Software Project Management",
+            "Credit"      : 3,
+            "Type_id"     : 1
+        },
+        {
+            "Subject_id"  : 10,
+            "Letter"      : "CMU-SE",
+            "Number"      : "303",
+            "Subject_name": "Software Testing (Verification & Validation)",
+            "Credit"      : 3,
+            "Type_id"     : 1
+        },
+        {
+            "Subject_id"  : 11,
+            "Letter"      : "CMU-CS",
+            "Number"      : "445",
+            "Subject_name": "System Integration Practices",
+            "Credit"      : 3,
+            "Type_id"     : 1
+        },
+        {
+            "Subject_id"  : 12,
+            "Letter"      : "CMU-CS",
+            "Number"      : "447",
+            "Subject_name": "Đồ Án CDIO",
+            "Credit"      : 1,
+            "Type_id"     : 3
+        },
+        {
+            "Subject_id"  : 13,
+            "Letter"      : "CMU-CS",
+            "Number"      : "462",
+            "Subject_name": "Software Measurements & Analysis",
+            "Credit"      : 3,
+            "Type_id"     : 1
+        },
+        {
+            "Subject_id"  : 14,
+            "Letter"      : "CMU-IS",
+            "Number"      : "401",
+            "Subject_name": "Information System Application",
+            "Credit"      : 3,
+            "Type_id"     : 1
+        },
+        {
+            "Subject_id"  : 15,
+            "Letter"      : "CMU-SE",
+            "Number"      : "433",
+            "Subject_name": "Software Process & Quality Management",
+            "Credit"      : 3,
+            "Type_id"     : 1
+        },
+        {
+            "Subject_id"  : 16,
+            "Letter"      : "CMU-ENG",
+            "Number"      : "130",
+            "Subject_name": "Anh Văn Chuyên Ngành cho Sinh Viên CMU 1",
+            "Credit"      : 2,
+            "Type_id"     : 1
+        },
+        {
+            "Subject_id"  : 17,
+            "Letter"      : "CMU-ENG",
+            "Number"      : "230",
+            "Subject_name": "Anh Văn Chuyên Ngành cho Sinh Viên CMU 2",
+            "Credit"      : 2,
+            "Type_id"     : 1
+        },
+        {
+            "Subject_id"  : 18,
+            "Letter"      : "CMU-SE",
+            "Number"      : "403",
+            "Subject_name": "Software Architecture & Design",
+            "Credit"      : 4,
+            "Type_id"     : 3
+        },
+        {
+            "Subject_id"  : 19,
+            "Letter"      : "CMU-SE",
+            "Number"      : "450",
+            "Subject_name": "Capstone Project for Software Engineering 1",
+            "Credit"      : 3,
+            "Type_id"     : 5
+        },
+        {
+            "Subject_id"  : 20,
+            "Letter"      : "CMU-SE",
+            "Number"      : "451",
+            "Subject_name": "Capstone Project for Software Engineering 2",
+            "Credit"      : 3,
+            "Type_id"     : 5
+        }
+    ]
+}

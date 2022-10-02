@@ -1,0 +1,19 @@
+{
+    "Departments":[
+        {
+            "Deparment_id"   : "SE",
+            "Deparment_name" : "Software Engineer",
+            "Description"    : ""
+        },
+        {
+            "Deparment_id"   : "NS",
+            "Deparment_name" : "Network Security",
+            "Description"    : ""
+        },
+        {
+            "Deparment_id"   : "MIS",
+            "Deparment_name" : "Management Information Systems",
+            "Description"    : ""
+        }
+    ]
+}
