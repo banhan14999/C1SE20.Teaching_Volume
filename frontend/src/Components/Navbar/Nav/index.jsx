@@ -20,6 +20,7 @@ function NavLeft() {
       const navs = document.querySelectorAll(`.${styles.nav_left}>li`);
       navs.forEach((value) => {
         value.onclick = () => {
+
            let back = value.querySelector(`.${styles.item}`);
             // dem the li trong ul cua value
            let val = value.querySelectorAll("ul li");
@@ -31,12 +32,12 @@ function NavLeft() {
             back.style.backgroundPosition = "-1px -252px";
             item.style.height ="0px"
           } else {
-            let navLeftItem = document.querySelectorAll(`.${styles.nav_left_item}`);
+          let navLeftItem = [...document.getElementsByClassName(`${styles.nav_left_item}`)];
             navLeftItem.forEach((item) => {
               item.style.height = "0px";
               item.onclick = (e) => {
                 // e.cancelBubble = true;
-                // if (e.stopPropagation) e.stopPropagation();
+                if (e.stopPropagation) e.stopPropagation();
 
                 const li = item.querySelectorAll("li");
                 
