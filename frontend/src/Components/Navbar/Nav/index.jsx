@@ -6,6 +6,7 @@ import styles from "./nav.module.scss";
 
 import { useDispatch } from "react-redux";
 import {ShowForm} from "../../../Redux/Actions/index"
+import { SetUpdate } from "../../../Redux/Actions/index";
 
 const cx = classNames.bind(styles);
 
@@ -30,7 +31,7 @@ function NavLeft() {
             back.style.backgroundPosition = "-1px -252px";
             item.style.height ="0px"
           } else {
-            let navLeftItem = document.getElementsByClassName(`${styles.nav_left_item}`);
+            let navLeftItem = document.querySelectorAll(`.${styles.nav_left_item}`);
             navLeftItem.forEach((item) => {
               item.style.height = "0px";
               item.onclick = (e) => {
@@ -39,6 +40,7 @@ function NavLeft() {
                 li.forEach((text) => {
                   text.onclick = (e) => {
                     dispatch(ShowForm(e.target.textContent));
+                    dispatch(SetUpdate());
                   };
                 });
               };

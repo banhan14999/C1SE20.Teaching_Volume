@@ -1,8 +1,6 @@
 import { SET_FORM } from "../Constant/index";
-
 const initState = { form: "Info webpart" };
-export default function SetForm(state = initState, action) {  
-  // console.log(action);
+export default function SetForm(state = initState, action) {
   switch (action.type) {
     case SET_FORM:
       return {

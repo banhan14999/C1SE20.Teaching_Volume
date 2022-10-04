@@ -1,137 +1,115 @@
-import  classNames  from "classnames/bind";
-import { Link } from "react-router-dom";
-// import { FiChevronDown } from "react-icons/fi";
+import * as React from "react";
+import FormGroup from "@mui/material/FormGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
+import {
+  FiArrowRightCircle,
+  FiArrowLeftCircle,
+  FiChevronsRight,
+  FiChevronsLeft,
+} from "react-icons/fi";
 
-import styles from "./dashboard.module.scss"
-import imgLogo from "../../Assets/img/logo-jewel.png";
-const cx = classNames.bind(styles)
+import classNames from "classnames/bind";
+import styles from "./dashboard.module.scss";
+import { useEffect } from "react";
+import { useState } from "react";
+import FechApi from "../../fectch";
+const cx = classNames.bind(styles);
+
 function DaskBoard() {
+  const [options,setOptions] = useState([])
+  const [a, setA] = useState([]);
+  const [b, setB] = useState([]);
+  const [c, setC] = useState([]);
+
+
+
+  useEffect(()=>{
+      const arr = "http://localhost:3001/arr";
+      FechApi(arr).then((data) => {
+        setOptions([...data]);
+      });
+  },[])
+
+  useEffect(()=>{
+    const option = document.getElementsByClassName(`${styles.option}`);
+    setA([...option])
+  },[])
+
+  function handleclick(){
+    const item=[]
+   const arr = a.filter((value)=>{
+    if(value.checked === true)
+      return value
+    else 
+      item.push(value)
+  })
+    setC([...arr])
+    setB([...item])
+  }
   return (
-    <div className=" bg-black/70 ">
-      <div className="flex justify-around">
-        <div className="w-[20%] text-center border-r-[2px] border-black h-screen">
-          <div className="w-full">
-            <img className="w-[90%] p-5" src={imgLogo}  alt="logo" />
-          </div>
-          <ul className={`${cx("sidebar")} `}>
-            <li className={cx("sidebar_list")}>
-              <Link to="./">DaskBoard1</Link>
-              <ul className={cx("sidebar_list--item")}>
-                <li>
-                  <Link to="./">DaskBoard1</Link>
-                </li>
-                <li>
-                  <Link to="./">DaskBoard1</Link>
-                </li>
-                <li>
-                  <Link to="./">DaskBoard1</Link>
-                </li>
-              </ul>
-            </li>
-            <li className={cx("sidebar_list")}>
-              <Link to="./">DaskBoard2</Link>
-              <ul className={cx("sidebar_list--item")}>
-                <li>
-                  <Link to="./">DaskBoard2</Link>
-                </li>
-                <li>
-                  <Link to="./">DaskBoard2</Link>
-                </li>
-                <li>
-                  <Link to="./">DaskBoard2</Link>
-                </li>
-              </ul>
-            </li>
-            <li className={cx("sidebar_list")}>
-              <Link to="./">DaskBoard3</Link>
-              <ul className={cx("sidebar_list--item")}>
-                <li>
-                  <Link to="./">DaskBoard3</Link>
-                </li>
-                <li>
-                  <Link to="./">DaskBoard3</Link>
-                </li>
-                <li>
-                  <Link to="./">DaskBoard3</Link>
-                </li>
-              </ul>
-            </li>
-            <li className={cx("sidebar_list")}>
-              <Link to="./">DaskBoard4</Link>
-              <ul className={cx("sidebar_list--item")}>
-                <li>
-                  <Link to="./">DaskBoard4</Link>
-                </li>
-                <li>
-                  <Link to="./">DaskBoard4</Link>
-                </li>
-                <li>
-                  <Link to="./">DaskBoard4</Link>
-                </li>
-              </ul>
-            </li>
-          </ul>
-        </div>
-        <div className="w-full text-end">
-          <ul className={`${cx("sidebar")} `}>
-            <li className={cx("sidebar_list")}>
-              <Link to="./">DaskBoard1</Link>
-              <ul className={cx("sidebar_list--item")}>
-                <li>
-                  <Link to="./">DaskBoard1</Link>
-                </li>
-                <li>
-                  <Link to="./">DaskBoard1</Link>
-                </li>
-                <li>
-                  <Link to="./">DaskBoard1</Link>
-                </li>
-              </ul>
-            </li>
-            <li className={cx("sidebar_list")}>
-              <Link to="./">DaskBoard2</Link>
-              <ul className={cx("sidebar_list--item")}>
-                <li>
-                  <Link to="./">DaskBoard2</Link>
-                </li>
-                <li>
-                  <Link to="./">DaskBoard2</Link>
-                </li>
-                <li>
-                  <Link to="./">DaskBoard2</Link>
-                </li>
-              </ul>
-            </li>
-            <li className={cx("sidebar_list")}>
-              <Link to="./">DaskBoard3</Link>
-              <ul className={cx("sidebar_list--item")}>
-                <li>
-                  <Link to="./">DaskBoard3</Link>
-                </li>
-                <li>
-                  <Link to="./">DaskBoard3</Link>
-                </li>
-                <li>
-                  <Link to="./">DaskBoard3</Link>
-                </li>
-              </ul>
-            </li>
-            <li className={cx("sidebar_list")}>
-              <Link to="./">DaskBoard4</Link>
-              <ul className={cx("sidebar_list--item")}>
-                <li>
-                  <Link to="./">DaskBoard4</Link>
-                </li>
-                <li>
-                  <Link to="./">DaskBoard4</Link>
-                </li>
-                <li>
-                  <Link to="./">DaskBoard4</Link>
-                </li>
-              </ul>
-            </li>
-          </ul>
-        </div>
+    <div className={`${cx("left")}`}>
+      <div className={`${cx("trai")}`}>
+        {(b.length>0 &&
+          b.map((value, index) => {
+            return (
+              <div key={index}>
+                <input
+                  className={`${cx("option")}`}
+                  type="checkbox"
+                  name=""
+                  id=""
+                  value={value.value}
+                /> 
+                <label>{value.value}</label>
+                <br></br>
+              </div>
+            );
+          })) ||
+          options.map((value, index) => {
+            return (
+              <div key={index}>
+                <input
+                  className={`${cx("option")}`}
+                  type="checkbox"
+                  name=""
+                  id=""
+                  value={value.value}
+                />
+                <label>{value.label}</label>
+                <br></br>
+              </div>
+            );
+          })}
+      </div>
+      <div className="text-[30px]">
+        <p>
+          <FiArrowRightCircle onClick={handleclick} />
+        </p>
+        <p>
+          <FiArrowLeftCircle />
+        </p>
+        <p>
+          <FiChevronsRight />
+        </p>
+        <p>
+          <FiChevronsLeft />
+        </p>
+      </div>
+      <div className={`${cx("phai")}`}>
+        {c.map((value, index) => {
+          return (
+            <div key={index}>
+              <input
+                className={`${cx("option1")}`}
+                type="checkbox"
+                value={value.value}
+              />
+              <label>{value.value}</label>
+              <br></br>
+            </div>
+          );
+        })}
       </div>
     </div>
   );

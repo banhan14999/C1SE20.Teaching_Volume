@@ -9,7 +9,7 @@ import {Link} from "react-router-dom"
 import StyledTableCell from "../../StyledTableCell"
 import { GrUpdate } from "react-icons/gr";
 
-function ManagerClassLecturer() {
+function ManagerClassLecturer(props) {
     function createData(ClassName, Subject, Student, Action) {
       return { ClassName, Subject, Student, Action};
     }
