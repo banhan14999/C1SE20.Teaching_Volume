@@ -1,20 +1,19 @@
-import Captcha from "captcha-image";
+import Captcha from  "captcha-image";
 import classNames from "classnames/bind";
 import { forwardRef, Fragment } from "react";
 
 import styles from "./captcha.module.scss";
 const cx = classNames.bind(styles)
- 
-  let captchaImage = new Captcha(
-    "25px Arial",
-    "center",
-    "middle",
-    100,
-    32,
-    "white",
-    "green",
-    4
-  ).createImage();
+let captchaImage = new Captcha(
+  "25px Arial",
+  "center",
+  "middle",
+  100,
+  32,
+  "white",
+  "green",
+  4
+).createImage();
 function createMarkup(source) {
   return { __html: source };
 }

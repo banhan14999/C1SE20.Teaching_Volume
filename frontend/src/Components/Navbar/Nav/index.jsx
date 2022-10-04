@@ -6,6 +6,7 @@ import styles from "./nav.module.scss";
 
 import { useDispatch } from "react-redux";
 import {ShowForm} from "../../../Redux/Actions/index"
+import { SetUpdate } from "../../../Redux/Actions/index";
 
 const cx = classNames.bind(styles);
 
@@ -39,6 +40,7 @@ function NavLeft() {
                 li.forEach((text) => {
                   text.onclick = (e) => {
                     dispatch(ShowForm(e.target.textContent));
+                    dispatch(SetUpdate());
                   };
                 });
               };

@@ -26,8 +26,10 @@ const cx = classNames.bind(styles);
 
 function Nav() {
   const forms = useSelector((data)=>data.form);
+  const updates = useSelector((data) => data.update);
+  const {update}= updates
   const {form}=forms;
-  console.log(form);
+
   const navigate = useNavigate();
   const admin = localStorage.getItem("admin")
   const lecturer = localStorage.getItem("lecturer")
@@ -53,7 +55,7 @@ function Nav() {
             <span>
               <BsCalendarDate className="mr-2"></BsCalendarDate>
             </span>
-            <span className="leading-[54px]">{form}</span>
+            <span className="leading-[54px]">{update || form}</span>
           </div>
         </div>
         <Tippy
@@ -85,16 +87,17 @@ function Nav() {
           {form === "Info webpart" && <InfoWebpart />}
 
           {form === "Add new Subject" && <AddSubject />}
-          {form === "Manager Subject" && <ManagerSubject />}
+          {form === "Manager Subject" && <ManagerSubject hide={update} />}
 
           {form === "Add New Class" && <ClassInformation />}
           {lecturer && form === "Manager Class" && <WorkVolume />}
-          {admin && form === "Manager Class" && <ManagerClass />}
+          {admin && form === "Manager Class" && <ManagerClass hide={update} />}
+
           {form === "Add New Year" && <AddYear />}
-          {form === "Manager Year" && <ManagerYear />}
+          {form === "Manager Year" && <ManagerYear hide={update} />}
 
           {form === "Add new User" && <AddUser />}
-          {form === "Manager User" && <ManagerUser />}
+          {form === "Manager User" && <ManagerUser hide={update} />}
 
           {form === "Manager Workload" && <ManagerWorkload />}
           {form === "Permission" && <Permission />}

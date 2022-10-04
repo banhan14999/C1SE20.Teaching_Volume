@@ -1,6 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { useCallback, useRef, useState, useEffect, useLayoutEffect } from "react";
-
+import { useCallback, useRef, useState, useEffect } from "react";
 import { default as Button } from "../../Components/Button";
 import MyCaptcha from "../../Components/Captcha";
 import bg from "../../Assets/img/bg.jpg";
@@ -12,7 +11,6 @@ function Authentication() {
   const [checkLogin,setCheckLogin] = useState(true)
   const [imgcaptcha,setImgcaptcha] = useState()
   const [data,setData] = useState([])
-  // const [Renderctc,setRenderctc] = useState(true)
   const refcaptcha = useRef();
   const inputPassValue = useRef();
   const inputUserValue = useRef()
@@ -33,11 +31,9 @@ function Authentication() {
           localStorage.setItem(obj.user , JSON.stringify( item.user));
           setCheckLogin(true);
           navigate("/");
-          // setRenderctc(false);
         } else {
           setCheckLogin(false);
           inputPassValue.current.value = "";
-          // setRenderctc(prev=>!prev);
         }
     } 
     })
@@ -57,12 +53,6 @@ function Authentication() {
    useEffect(() => {
      setImgcaptcha(useimgcallback);
    }, [useimgcallback]);
-
-
-   useEffect(() => {
-    console.log(imgcaptcha);
-    console.log(refcaptcha.current.children[0].dataset.key);
-   });
 
   return (
     <div
