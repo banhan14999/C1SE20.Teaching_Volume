@@ -4,23 +4,45 @@ import { BsCalendarDate } from "react-icons/bs";
 import { AiOutlineLogout} from "react-icons/ai";
 import Tippy from "@tippyjs/react";
 import {  useNavigate } from "react-router-dom";
-
 import WorkVolume from "../WorkVolume";
 import ClassInformation from "../Form/ClassInformation";
 import AddSubject from "../Form/AddSubject";
 import classNames from "classnames/bind";
 import styles from "./nav.module.scss";
 // import ManagerClassLecturer from "../Table/ManagerClassLecturer";
-import ManagerClass from "../Table/ManagerClass";
 import InfoWebpart from "../InfoWebpart";
 import ManagerWorkload from "../Table/ManagerWorkload";
 import Permission from "../Table/Permission";
 import AddUser from "../Form/AddUser"
-import ManagerYear from "../Table/ManagerYear";
 import AddYear from "../Form/AddYear";
 import NavLeft from "./Nav";
-import ManagerUser from "../Table/ManagerUser"
-import ManagerSubject from "../Table/ManagerSubject";
+import { lazy, Suspense } from "react";
+import Loading from "../Loading";
+const ManagerSubject = lazy(() => {
+  return new Promise((resolve) => {
+    setTimeout(() => resolve(import("../Table/ManagerSubject")), 1000);
+  });
+});
+
+const ManagerClass = lazy(() => {
+  return new Promise((resolve) => {
+    setTimeout(() => resolve(import("../Table/ManagerClass")), 1000);
+  });
+});
+
+const ManagerUser = lazy(() => {
+  return new Promise((resolve) => {
+    setTimeout(() => resolve(import("../Table/ManagerUser")), 1000);
+  });
+});
+
+const ManagerYear = lazy(() => {
+  return new Promise((resolve) => {
+    setTimeout(() => resolve(import("../Table/ManagerYear")), 1000);
+  });
+});
+
+
 
 const cx = classNames.bind(styles);
 
@@ -37,7 +59,7 @@ function Nav() {
   const handlelogout = () => {
     localStorage.clear("lecturer");
     localStorage.clear("admin");
-    navigate("/authentication");
+    // navigate("/authentication");
     
   };
   return (
@@ -69,17 +91,19 @@ function Nav() {
           tabIndex="-1"
           placement="bottom"
         >
-          <div
-            className={`flex items-center cursor-pointer pr-[15px] ${cx(
-              "out"
-            )}`}
-            onClick={handlelogout}
-          >
-            <AiOutlineLogout
-              className={`${cx("logout")} text-slate-600 text-2xl mr-1`}
-            ></AiOutlineLogout>
-            <p className="font-light">Thoát</p>
-          </div>
+          <a href="/authentication" className="flex items-center">
+            <div
+              className={`flex items-center cursor-pointer pr-[15px] ${cx(
+                "out"
+              )}`}
+              onClick={handlelogout}
+            >
+              <AiOutlineLogout
+                className={`${cx("logout")} text-slate-600 text-2xl mr-1`}
+              ></AiOutlineLogout>
+              <p className="font-light">Thoát</p>
+            </div>
+          </a>
         </Tippy>
       </div>
       <div className="flex border-r-[1px] border-[#D5D5D5] border-solid">
@@ -88,18 +112,25 @@ function Nav() {
           {form === "Info webpart" && <InfoWebpart />}
 
           {form === "Add new Subject" && <AddSubject />}
-          {form === "Manager Subject" && <ManagerSubject hide={update} />}
-
+          <Suspense fallback={<Loading />}>
+            {form === "Manager Subject" && <ManagerSubject hide={update} />}
+          </Suspense>
           {form === "Add New Class" && <ClassInformation />}
           {lecturer && form === "Manager Class" && <WorkVolume />}
-          {admin && form === "Manager Class" && <ManagerClass hide={update} />}
-
+          <Suspense fallback={<Loading />}>
+            {admin && form === "Manager Class" && (
+              <ManagerClass hide={update} />
+            )}
+          </Suspense>
           {form === "Add New Year" && <AddYear />}
-          {form === "Manager Year" && <ManagerYear hide={update} />}
+          <Suspense fallback={<Loading />}>
+            {form === "Manager Year" && <ManagerYear hide={update} />}
+          </Suspense>
 
           {form === "Add new User" && <AddUser />}
-          {form === "Manager User" && <ManagerUser hide={update} />}
-
+          <Suspense fallback={<Loading />}>
+            {form === "Manager User" && <ManagerUser hide={update} />}
+          </Suspense>
           {form === "Manager Workload" && <ManagerWorkload />}
           {form === "Permission" && <Permission />}
         </div>

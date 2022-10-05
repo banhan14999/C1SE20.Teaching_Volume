@@ -62,7 +62,7 @@ function AddSubject(props) {
                 {props.btn || "Add"}
               </Button>
               <Button bgcolor="#950b0b" width="30%" size="large">
-                Update
+                Cancle
               </Button>
             </div>
           </form>

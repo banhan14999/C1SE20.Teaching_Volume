@@ -1,4 +1,4 @@
-import * as React from "react";
+import { useEffect, useState } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableContainer from "@mui/material/TableContainer";
@@ -11,9 +11,12 @@ import StyledTableCell from "../../StyledTableCell";
 import AddSubject from "../../Form/AddSubject";
 import { useDispatch } from "react-redux";
 import { SetUpdate } from "../../../Redux/Actions/index";
+import FechApi from "../../../fectch";
+
 function ManagerSubject(props) {
   const dispath = useDispatch();
-  const [update, setUpdate] = React.useState(true);
+  const [update, setUpdate] = useState(true);
+  const [sub,setSub] = useState([])
   function createData(Code, Subject, Credit, Type) {
     return { Code, Subject, Credit, Type };
   }
@@ -22,12 +25,21 @@ function ManagerSubject(props) {
      dispath(SetUpdate("Update subject"));
     setUpdate(false);
   };
-  const rows = [
-    createData(1111, 2020, 2021, "24/05/2021"),
-    createData(1112, 2020, 2021, "24/05/2021"),
-    createData(1113, 2020, 2021, "24/05/2021"),
-    createData(1114, 2020, 2021, "24/05/2021"),
-  ];
+   useEffect(()=>{
+    const api = "http://127.0.0.1:8000/api/subjects";
+    FechApi(api).then((data) => {
+      let subjects = data.subjects.map((value) => {
+        return createData(
+          value.Letter + " " + value.Number,
+          value.Subject_name,
+          value.Credit,
+          value.Type
+        );
+      });
+      console.log(data.subjects);
+      setSub([...subjects]);
+    });
+   },[])
   return (
     <div>
       {update ? (
@@ -47,7 +59,7 @@ function ManagerSubject(props) {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {rows.map((row) => (
+                {sub.map((row) => (
                   <TableRow
                     key={row.Code}
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -56,27 +68,31 @@ function ManagerSubject(props) {
                       {row.Code}
                     </StyledTableCell>
                     <StyledTableCell>{row.Subject}</StyledTableCell>
-                    <StyledTableCell>{row.Credit}</StyledTableCell>
-                    <StyledTableCell>{row.Type}</StyledTableCell>
                     <StyledTableCell align="center">
-                      <div
-                        className="flex justify-center items-center cursor-pointer p-1"
-                        onClick={handleUpdate}
-                      >
-                        <GrUpdate
-                          color="#0a7a0a"
-                          className="mr-2"
-                          fontSize={14}
-                        ></GrUpdate>
-                        <span>Update</span>
-                      </div>
-                      <div className="flex justify-center cursor-pointer p-1 border-t-1 border-black ">
-                        <AiFillCloseCircle
-                          color="#eb4f04"
-                          className="mr-2"
-                          fontSize={16}
-                        ></AiFillCloseCircle>
-                        <span>Detail</span>
+                      {row.Credit}
+                    </StyledTableCell>
+                    <StyledTableCell align="center">{row.Type}</StyledTableCell>
+                    <StyledTableCell align="center">
+                      <div className="flex justify-between items-center">
+                        <div
+                          className="flex justify-center items-center cursor-pointer mr-1"
+                          onClick={handleUpdate}
+                        >
+                          <GrUpdate
+                            color="#0a7a0a"
+                            className="mr-[2px]"
+                            fontSize={12}
+                          ></GrUpdate>
+                          <span>Update</span>
+                        </div>
+                        <div className="flex justify-center items-center cursor-pointer ml-1">
+                          <AiFillCloseCircle
+                            color="#eb4f04"
+                            className="mr-[2px]"
+                            fontSize={12}
+                          ></AiFillCloseCircle>
+                          <span>Detail</span>
+                        </div>
                       </div>
                     </StyledTableCell>
                   </TableRow>
@@ -93,9 +109,9 @@ function ManagerSubject(props) {
             Manager Subject
           </div>
           <TableContainer component={Paper}>
-            <Table size="medium" aria-label="a dense table">
+            <Table size="medium" aria-label="Manager Subject table">
               <TableHead>
-                <TableRow style={{}}>
+                <TableRow>
                   <StyledTableCell align="center">Code</StyledTableCell>
                   <StyledTableCell align="center">Subject</StyledTableCell>
                   <StyledTableCell align="center">Credit</StyledTableCell>
@@ -104,7 +120,7 @@ function ManagerSubject(props) {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {rows.map((row) => (
+                {sub.map((row) => (
                   <TableRow
                     key={row.Code}
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -113,27 +129,32 @@ function ManagerSubject(props) {
                       {row.Code}
                     </StyledTableCell>
                     <StyledTableCell>{row.Subject}</StyledTableCell>
-                    <StyledTableCell>{row.Credit}</StyledTableCell>
-                    <StyledTableCell>{row.Type}</StyledTableCell>
                     <StyledTableCell align="center">
-                      <div
-                        className="flex justify-center items-center cursor-pointer p-1"
-                        onClick={handleUpdate}
-                      >
-                        <GrUpdate
-                          color="#0a7a0a"
-                          className="mr-2"
-                          fontSize={14}
-                        ></GrUpdate>
-                        <span>Update</span>
-                      </div>
-                      <div className="flex justify-center cursor-pointer p-1 border-t-1 border-black ">
-                        <AiFillCloseCircle
-                          color="#eb4f04"
-                          className="mr-2"
-                          fontSize={16}
-                        ></AiFillCloseCircle>
-                        <span>Detail</span>
+                      {row.Credit}
+                    </StyledTableCell>
+                    <StyledTableCell align="center">{row.Type}</StyledTableCell>
+                    <StyledTableCell align="center">
+                      <div>
+                        <div
+                          className="flex justify-center items-center cursor-pointer p-1"
+                          onClick={handleUpdate}
+                        >
+                          <GrUpdate
+                            color="#0a7a0a"
+                            className="mr-2"
+                            fontSize={14}
+                          ></GrUpdate>
+                          <span>Update</span>
+                        </div>
+
+                        <div className="flex justify-center cursor-pointer p-1 border-t-1 border-black ">
+                          <AiFillCloseCircle
+                            color="#eb4f03"
+                            className="mr-2"
+                            fontSize={16}
+                          ></AiFillCloseCircle>
+                          <span>Detail</span>
+                        </div>
                       </div>
                     </StyledTableCell>
                   </TableRow>

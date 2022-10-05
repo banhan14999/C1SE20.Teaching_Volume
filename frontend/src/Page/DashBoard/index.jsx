@@ -1,35 +1,39 @@
+import { useEffect, useState } from "react";
+import Button from "../../Components/Button"
 import classNames from "classnames/bind";
 import styles from "./dashboard.module.scss";
-import { useEffect } from "react";
-import { useState } from "react";
+import SelectForm from "../../Components/SelectForm"
+
 import FechApi from "../../fectch";
-import { useRef } from "react";
 const cx = classNames.bind(styles);
 
 function DaskBoard() {
   const [options, setOptions] = useState([]);
-  const [set, setLeft] = useState([]);
-  
+  const [set, setLeft] = useState(false);
+  //  { dropleft: [], dropright :[]}
   useEffect(() => {
     const arr = "http://localhost:3001/arr";
-    FechApi(arr).then((data) => {
+    FechApi(arr).then((data) => { 
       setOptions([...data]);
     });
+   
   }, []);
-  let left = useRef([])
+
   useEffect(() => {
-    const options = document.getElementsByClassName(`${styles.option}`);
-    const dropleft = document.querySelector(`.${styles.trai}`);
-     const arr =[...options]
+    const options = document.querySelectorAll(`.${styles.options}`);
+    const dropleft = document.querySelector(`.${styles.left}`);
+    const dropright = document.querySelector(`.${styles.classroom}`);
+
+    console.log(dropleft);
     let currentTarget = null;
       [...options].forEach((box) => {
-        box.addEventListener("dragstart", function (e) {
+        box.addEventListener("dragstart", function (e) { 
           this.classList.add("dragging");
-          currentTarget = this; 
-           
+          currentTarget = this;
         });
         box.addEventListener("dragend", function (e) {
           this.classList.remove("dragging");
+           
         });
         dropleft.addEventListener("dragover", function (e) {
           e.preventDefault();
@@ -37,36 +41,71 @@ function DaskBoard() {
         });  
         dropleft.addEventListener("drop", function (e) {
           this.appendChild(currentTarget);
-          left.current.push(currentTarget); 
-        }); 
+        });
+         dropright.addEventListener("dragover", function (e) {
+           e.preventDefault();
+           dropright.appendChild(currentTarget);
+         }); 
+          dropright.addEventListener("drop", function (e) {
+            dropright.appendChild(currentTarget);
+          }); 
       });  
-    
   }); 
 const handle=()=>{
-  setLeft([...left.current])
+  setLeft((p)=>!p)
 }
 useEffect(() => {
-console.log("set",set);
-  console.log(left.current);
-
-}, [left.current.length]);
-
+  const trai = document.querySelector(`.${styles.left}`);
+  const left = trai.getElementsByClassName(`${styles.options}`);
+  console.log(set,left);
+});
+  const opt = [
+    { value: "2021-2022", label: "2021-2022" },
+    { value: "2022-2023", label: "2022-2023" },
+    { value: "2023-2024", label: "2024-2025" },
+  ];
   return (
-    <div className={`${cx("left")}`}>
-      <button onClick={handle}>onclicc</button>
-      <div className={`${cx("trai")}`}> </div>
-
-      <div className={`${cx("phai")}`}>
-        {options.map((value, index) => {
-          return (
-            <div className={`${cx("option")}`} key={index} draggable>
-              <label>{value.label}</label>
-              <br></br>
-            </div>
-          );
-        })}
+    <>
+      <div className={`${cx("container")}`}>
+        <div className={`${cx("containerleft")} p-2`}>
+          <div className="py-2 border-b-1 border-red-600">
+            <p className="text-center font-semibold text-[20px]">
+              <SelectForm options={opt}></SelectForm>
+            </p>
+          </div>
+          <div className={`${cx("left")} h-[330px]`}></div>
+        </div>
+        <div className={`${cx("containerright")} p-2`}>
+          <div className="py-2 border-b-1 border-red-600">
+            <p className="text-center font-semibold text-[20px]">
+              <SelectForm options={opt}></SelectForm>
+            </p>
+          </div>
+          <div className={`${cx("classroom")} h-[330px]`}>
+            {options.map((value, index) => {
+              return (
+                <div className={`${cx("options")}`} key={index} draggable>
+                  <label>{value.label}</label>
+                  <br></br>
+                </div>
+              );
+            })}
+          </div>
+        </div>
       </div>
-    </div>
+      <div className="flex justify-around mt-4 text-center">
+        <p className="w-[50%]">
+          <Button className="bg-slate-900" width="40%" onClick={handle}>
+            Lưu
+          </Button>
+        </p>
+        <p className="w-[50%]">
+          <Button className=" bg-slate-200" width="40%" onClick={handle}>
+            can
+          </Button>
+        </p>
+      </div>
+    </>
   );
 }
 
