@@ -38,6 +38,7 @@ function Nav() {
     localStorage.clear("lecturer");
     localStorage.clear("admin");
     navigate("/authentication");
+    
   };
   return (
     <div className={cx("container")}>
