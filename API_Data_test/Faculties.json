@@ -1,0 +1,9 @@
+{
+    "Faculty":[
+        {
+            "Faculty_id"   : "IS" ,
+            "Faculty_name" : "International School",
+            "Description"  : ""
+        }
+    ]
+}

@@ -1,0 +1,20 @@
+{
+    "Role":[
+        {
+            "Role_id"   : 1,
+            "Role_name" : "Admin"
+        },
+        {
+            "Role_id"   : 2,
+            "Role_name" : "Dean"
+        },
+        {
+            "Role_id"   : 3,
+            "Role_name" : "Head"
+        },
+        {
+            "Role_id"   : 4,
+            "Role_name" : "Lecturer"
+        }
+    ]
+}
