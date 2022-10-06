@@ -93,15 +93,15 @@ useEffect(() => {
           </div>
         </div>
       </div>
-      <div className="flex justify-around mt-4 text-center">
+      <div className="flex mt-4 text-center">
         <p className="w-[50%]">
-          <Button className="bg-slate-900" width="40%" onClick={handle}>
+          <Button className="bg-slate-900" width="30%" onClick={handle}>
             Lưu
           </Button>
         </p>
         <p className="w-[50%]">
-          <Button className=" bg-slate-200" width="40%" onClick={handle}>
-            can
+          <Button className=" bg-slate-200" width="30%" onClick={handle}>
+            Thoat
           </Button>
         </p>
       </div>

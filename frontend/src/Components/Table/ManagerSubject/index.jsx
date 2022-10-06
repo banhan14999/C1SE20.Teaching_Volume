@@ -16,16 +16,17 @@ import FechApi from "../../../fectch";
 function ManagerSubject(props) {
   const dispath = useDispatch();
   const [update, setUpdate] = useState(true);
-  const [sub,setSub] = useState([])
+  const [sub, setSub] = useState([]);
+
   function createData(Code, Subject, Credit, Type) {
     return { Code, Subject, Credit, Type };
   }
 
   const handleUpdate = () => {
-     dispath(SetUpdate("Update subject"));
+    dispath(SetUpdate("Update subject"));
     setUpdate(false);
   };
-   useEffect(()=>{
+  useEffect(() => {
     const api = "http://127.0.0.1:8000/api/subjects";
     FechApi(api).then((data) => {
       let subjects = data.subjects.map((value) => {
@@ -33,13 +34,13 @@ function ManagerSubject(props) {
           value.Letter + " " + value.Number,
           value.Subject_name,
           value.Credit,
-          value.Type
+          value.Type,
         );
       });
       console.log(data.subjects);
       setSub([...subjects]);
     });
-   },[])
+  }, []);
   return (
     <div>
       {update ? (
@@ -48,11 +49,11 @@ function ManagerSubject(props) {
             Manager Subject
           </div>
           <TableContainer component={Paper}>
-            <Table size="medium" aria-label="a dense table">
+            <Table size="small" aria-label="Manager Subject Table">
               <TableHead>
                 <TableRow style={{}}>
                   <StyledTableCell align="center">Code</StyledTableCell>
-                  <StyledTableCell align="center">Subject</StyledTableCell>
+                  <StyledTableCell align="center" >Subject</StyledTableCell>
                   <StyledTableCell align="center">Credit</StyledTableCell>
                   <StyledTableCell align="center">Type</StyledTableCell>
                   <StyledTableCell align="center">Action</StyledTableCell>
@@ -67,7 +68,9 @@ function ManagerSubject(props) {
                     <StyledTableCell align="center" component="th" scope="row">
                       {row.Code}
                     </StyledTableCell>
-                    <StyledTableCell>{row.Subject}</StyledTableCell>
+                    <StyledTableCell size="small">
+                      {row.Subject}
+                    </StyledTableCell>
                     <StyledTableCell align="center">
                       {row.Credit}
                     </StyledTableCell>
@@ -134,9 +137,9 @@ function ManagerSubject(props) {
                     </StyledTableCell>
                     <StyledTableCell align="center">{row.Type}</StyledTableCell>
                     <StyledTableCell align="center">
-                      <div>
+                      <div className="flex justify-between items-center">
                         <div
-                          className="flex justify-center items-center cursor-pointer p-1"
+                          className="flex justify-center items-center cursor-pointer mr-1"
                           onClick={handleUpdate}
                         >
                           <GrUpdate
@@ -147,7 +150,7 @@ function ManagerSubject(props) {
                           <span>Update</span>
                         </div>
 
-                        <div className="flex justify-center cursor-pointer p-1 border-t-1 border-black ">
+                        <div className="flex justify-center items-center cursor-pointer ml-1">
                           <AiFillCloseCircle
                             color="#eb4f03"
                             className="mr-2"

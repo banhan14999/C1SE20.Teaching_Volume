@@ -20,7 +20,7 @@ import { lazy, Suspense } from "react";
 import Loading from "../Loading";
 const ManagerSubject = lazy(() => {
   return new Promise((resolve) => {
-    setTimeout(() => resolve(import("../Table/ManagerSubject")), 1000);
+    setTimeout(() => resolve(import("../Table/ManagerSubject")), 2000);
   });
 });
 
