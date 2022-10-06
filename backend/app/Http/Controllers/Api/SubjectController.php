@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Subject;
 use Illuminate\Http\Request;
 
+use function PHPSTORM_META\map;
+
 class SubjectController extends Controller
 {
     /**
@@ -40,7 +42,19 @@ class SubjectController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $subject = new Subject;
+        $subject->Letter         = $request->input('letter');
+        $subject->Number         = $request->input('number');
+        $subject->Subject_name   = $request->input('subject_name');
+        $subject->Credit         = $request->input('credit');
+        $subject->Type           = $request->input('type');
+        $subject->created_at     = date('Y-m-d H:i:s');
+        $subject->save();
+
+        return response()->json([
+            'status'    => 200,
+            'message'   => 'Subject Added Successfully!',
+        ]);
     }
 
     /**
@@ -51,7 +65,11 @@ class SubjectController extends Controller
      */
     public function show($id)
     {
-        //
+        $subject = Subject::find($id);
+        return response()->json([
+            'status'    => 200,
+            'subject'   => $subject,
+        ]);
     }
 
     /**
@@ -62,7 +80,11 @@ class SubjectController extends Controller
      */
     public function edit($id)
     {
-        //
+        $subject = Subject::find($id);
+        return response()->json([
+            'status'    => 200,
+            'subject'   => $subject,
+        ]);
     }
 
     /**
@@ -74,7 +96,19 @@ class SubjectController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $subject                 = Subject::find($id);
+        $subject->Letter         = $request->input('letter');
+        $subject->Number         = $request->input('number');
+        $subject->Subject_name   = $request->input('subject_name');
+        $subject->Credit         = $request->input('credit');
+        $subject->Type           = $request->input('type');
+        $subject->updated_at     = date('Y-m-d H:i:s');
+        $subject->update();
+
+        return response()->json([
+            'status'    => 200,
+            'message'   => 'Subject Updated Successfully!',
+        ]);
     }
 
     /**
@@ -85,6 +119,11 @@ class SubjectController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $subject = Subject::find($id);
+        $subject->delete();
+        return response()->json([
+            'status'    => 200,
+            'message'   => 'Subject Deleted Successfully!',
+        ]);
     }
 }

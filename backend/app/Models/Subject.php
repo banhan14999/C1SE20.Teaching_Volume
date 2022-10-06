@@ -9,6 +9,7 @@ class Subject extends Model
 {
     use HasFactory;
     protected $table = 'subjects';
+    protected $primaryKey = 'Subject_id';
     protected $fillable =[
         'Subject_id',
         'Letter',
