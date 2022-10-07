@@ -6,9 +6,10 @@ import styles from "./addsubject.module.scss";
 const cx = classNames.bind(styles);
 function AddSubject(props) {
   const options = [
-    { value: "2021-2022", label: "2021-2022" },
-    { value: "2022-2023", label: "2022-2023" },
-    { value: "2023-2024", label: "2024-2025" },
+    { value: "LEC", label: "LEC" },
+    { value: "LAB", label: "LAB" },
+    { value: "DIS", label: "DIS" },
+    { value: "LEC+LAB", label: "LEC+LAB" },
   ];
   return (
     <div>
