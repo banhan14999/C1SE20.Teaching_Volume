@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Lecturer;
+use App\Models\Role;
 
 class LecturerController extends Controller
 {
@@ -15,7 +16,11 @@ class LecturerController extends Controller
      */
     public function index()
     {
+        //$role = Role::all();
         $lecturers = Lecturer::all();
+        foreach($lecturers as $key => $value) {
+            $value['Role'] = Role::find($value['Role'])['Role_name'];
+        }
         return response()->json([
             'status'    => 200,
             'lecturers' => $lecturers,

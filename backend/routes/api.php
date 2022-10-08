@@ -19,19 +19,19 @@ use Illuminate\Support\Facades\Route;
 
 
 //Subjects
-Route::get('subjects',[SubjectController::class,'index']);
-Route::post('/add-subject',[SubjectController::class,'store']);
-Route::get('/subject/{id}',[SubjectController::class,'show']);
-Route::get('/edit-subject/{id}',[SubjectController::class,'edit']);
-Route::put('/update-subject/{id}',[SubjectController::class,'update']);
-Route::delete('/delete-subject/{id}',[SubjectController::class,'destroy']);
+Route::get('subject/all',[SubjectController::class,'index']);
+Route::post('subject/add',[SubjectController::class,'store']);
+Route::get('subject/{id}',[SubjectController::class,'show']);
+Route::get('subject/edit/{id}',[SubjectController::class,'edit']);
+Route::put('subject/update/{id}',[SubjectController::class,'update']);
+Route::delete('subject/delete/{id}',[SubjectController::class,'destroy']);
 
 //Lecturers
-Route::get('users',[LecturerController::class,'index']);
+Route::get('user/all',[LecturerController::class,'index']);
 
 
 //Role
-Route::get('role',[RoleController::class,'index']);
+//Route::get('role',[RoleController::class,'index']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();

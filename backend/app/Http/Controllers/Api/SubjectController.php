@@ -52,7 +52,7 @@ class SubjectController extends Controller
         $subject->save();
 
         return response()->json([
-            'status'    => 200,
+            'status'    => 201,
             'message'   => 'Subject Added Successfully!',
         ]);
     }
@@ -122,7 +122,7 @@ class SubjectController extends Controller
         $subject = Subject::find($id);
         $subject->delete();
         return response()->json([
-            'status'    => 200,
+            'status'    => 204,
             'message'   => 'Subject Deleted Successfully!',
         ]);
     }
