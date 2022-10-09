@@ -10,7 +10,7 @@ class Role extends Model
     use HasFactory;
 
     protected $table = "role";
-    protected $primaryKey = 'Role_id';
+    protected $primaryKey = 'IdRole';
    // public $incrementing = false; //cho key string k bị
 
     protected $fillable = [
