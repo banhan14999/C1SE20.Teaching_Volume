@@ -8,13 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Subject extends Model
 {
     use HasFactory;
-    protected $table = 'subjects';
-    protected $primaryKey = 'Subject_id';
+    protected $table = 'subject';
+    protected $primaryKey = 'IdSubject';
     protected $fillable =[
-        'Subject_id',
+        'IdSubject',
         'Letter',
         'Number',
-        'Subject_name',
+        'SubjectName',
         'Credit',
         'Type',
         'created_at',
