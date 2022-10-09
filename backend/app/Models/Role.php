@@ -14,8 +14,8 @@ class Role extends Model
    // public $incrementing = false; //cho key string k bị
 
     protected $fillable = [
-        'Role_id',
-        'Role_name',
+        'IdRole',
+        'RoleName',
         'Description',
         'created_at',
         'updated_at'
