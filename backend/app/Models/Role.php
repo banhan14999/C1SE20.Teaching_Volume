@@ -11,7 +11,7 @@ class Role extends Model
 
     protected $table = "role";
     protected $primaryKey = 'IdRole';
-   // public $incrementing = false; //cho key string k bị
+   // public $incrementing = false; //cho key string k bị mất
 
     protected $fillable = [
         'IdRole',
