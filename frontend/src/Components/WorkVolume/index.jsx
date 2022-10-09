@@ -11,9 +11,10 @@ const cx = classNames.bind(styles);
 function WorkVolume() {
 
   const [mclass, setMClass] = useState(false);
-
-      const handleclick = () => {
-        setMClass((prev) => !prev);
+  
+      const handleclick = (e) => {
+        setMClass(true);
+        e.target.style.display = "none"
       };
  
    const options = [
@@ -43,6 +44,7 @@ function WorkVolume() {
           Tiếp tục
         </Button>
       </div>
+      
       {mclass && <ManagerClassLecturer></ManagerClassLecturer>}
     </div>
   );

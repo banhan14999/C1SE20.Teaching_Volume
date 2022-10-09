@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableContainer from "@mui/material/TableContainer";
@@ -11,36 +11,48 @@ import StyledTableCell from "../../StyledTableCell";
 import AddSubject from "../../Form/AddSubject";
 import { useDispatch } from "react-redux";
 import { SetUpdate } from "../../../Redux/Actions/index";
-import FechApi from "../../../fectch";
+import { Get, Delete } from "../../../axios";
+import { useLayoutEffect } from "react";
+import { useEffect } from "react";
 
 function ManagerSubject(props) {
   const dispath = useDispatch();
   const [update, setUpdate] = useState(true);
   const [sub, setSub] = useState([]);
+  const [mount, setMount] = useState(true);
 
-  function createData(Code, Subject, Credit, Type) {
-    return { Code, Subject, Credit, Type };
+  function click(e) {
+    const Subject_id = e.target.parentElement.attributes[1].nodeValue;
+    Delete("http://127.0.0.1:8000/api/delete-subject/", Subject_id);
+    setMount((prev) => !prev);
+  }
+
+  function createData(Code, Subject, Credit, Type, Subject_id) {
+    return { Code, Subject, Credit, Type, Subject_id };
   }
 
   const handleUpdate = () => {
     dispath(SetUpdate("Update subject"));
     setUpdate(false);
   };
-  useEffect(() => {
-    const api = "http://127.0.0.1:8000/api/subjects";
-    FechApi(api).then((data) => {
-      let subjects = data.subjects.map((value) => {
+
+  useLayoutEffect(() => {
+    const subjectData = Get("http://127.0.0.1:8000/api/subjects");
+    subjectData.then((data) => {
+      const subjects = data.subjects.map((value) => {
         return createData(
           value.Letter + " " + value.Number,
           value.Subject_name,
           value.Credit,
           value.Type,
+          value.Subject_id
         );
       });
-      console.log(data.subjects);
       setSub([...subjects]);
     });
-  }, []);
+  }, [mount]);
+
+  console.log(mount, sub);
   return (
     <div>
       {update ? (
@@ -53,7 +65,7 @@ function ManagerSubject(props) {
               <TableHead>
                 <TableRow style={{}}>
                   <StyledTableCell align="center">Code</StyledTableCell>
-                  <StyledTableCell align="center" >Subject</StyledTableCell>
+                  <StyledTableCell align="center">Subject</StyledTableCell>
                   <StyledTableCell align="center">Credit</StyledTableCell>
                   <StyledTableCell align="center">Type</StyledTableCell>
                   <StyledTableCell align="center">Action</StyledTableCell>
@@ -76,7 +88,7 @@ function ManagerSubject(props) {
                     </StyledTableCell>
                     <StyledTableCell align="center">{row.Type}</StyledTableCell>
                     <StyledTableCell align="center">
-                      <div className="flex justify-between items-center">
+                      <div className="flex justify-around items-center">
                         <div
                           className="flex justify-center items-center cursor-pointer mr-1"
                           onClick={handleUpdate}
@@ -88,12 +100,17 @@ function ManagerSubject(props) {
                           ></GrUpdate>
                           <span>Update</span>
                         </div>
-                        <div className="flex justify-center items-center cursor-pointer ml-1">
+                        <div
+                          className="flex justify-center items-center cursor-pointer ml-1"
+                          onClick={click}
+                          sub_id={row.Subject_id}
+                        >
                           <AiFillCloseCircle
                             color="#eb4f04"
                             className="mr-[2px]"
                             fontSize={12}
                           ></AiFillCloseCircle>
+
                           <span>Detail</span>
                         </div>
                       </div>
@@ -150,7 +167,11 @@ function ManagerSubject(props) {
                           <span>Update</span>
                         </div>
 
-                        <div className="flex justify-center items-center cursor-pointer ml-1">
+                        <div
+                          className="flex justify-center items-center cursor-pointer ml-1"
+                          onClick={click}
+                          sub_id={row.Subject_id}
+                        >
                           <AiFillCloseCircle
                             color="#eb4f03"
                             className="mr-2"

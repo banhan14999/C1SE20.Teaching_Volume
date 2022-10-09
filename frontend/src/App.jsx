@@ -1,5 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { publicRouters } from "./Router";
+
 function App() {
   return (
     <BrowserRouter>
@@ -7,7 +8,6 @@ function App() {
         {publicRouters.map((e) => (
           <Route key={e.path} path={e.path} element={<e.component/>}></Route>
         ))}
-        
       </Routes>
     </BrowserRouter>
   );

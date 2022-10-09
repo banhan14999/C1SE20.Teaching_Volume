@@ -3,8 +3,8 @@ import Button from "../../Components/Button"
 import classNames from "classnames/bind";
 import styles from "./dashboard.module.scss";
 import SelectForm from "../../Components/SelectForm"
+import { Get } from "../../axios";
 
-import FechApi from "../../fectch";
 const cx = classNames.bind(styles);
 
 function DaskBoard() {
@@ -13,18 +13,16 @@ function DaskBoard() {
   //  { dropleft: [], dropright :[]}
   useEffect(() => {
     const arr = "http://localhost:3001/arr";
-    FechApi(arr).then((data) => { 
+    const api = Get(arr)
+    api.then((data) => { 
       setOptions([...data]);
-    });
-   
+    })
   }, []);
 
   useEffect(() => {
     const options = document.querySelectorAll(`.${styles.options}`);
     const dropleft = document.querySelector(`.${styles.left}`);
     const dropright = document.querySelector(`.${styles.classroom}`);
-
-    console.log(dropleft);
     let currentTarget = null;
       [...options].forEach((box) => {
         box.addEventListener("dragstart", function (e) { 
@@ -51,6 +49,7 @@ function DaskBoard() {
           }); 
       });  
   }); 
+  
 const handle=()=>{
   setLeft((p)=>!p)
 }
@@ -69,17 +68,17 @@ useEffect(() => {
       <div className={`${cx("container")}`}>
         <div className={`${cx("containerleft")} p-2`}>
           <div className="py-2 border-b-1 border-red-600">
-            <p className="text-center font-semibold text-[20px]">
+            <div className="text-center font-semibold text-[20px]">
               <SelectForm options={opt}></SelectForm>
-            </p>
+            </div>
           </div>
           <div className={`${cx("left")} h-[330px]`}></div>
         </div>
         <div className={`${cx("containerright")} p-2`}>
           <div className="py-2 border-b-1 border-red-600">
-            <p className="text-center font-semibold text-[20px]">
+            <div className="text-center font-semibold text-[20px]">
               <SelectForm options={opt}></SelectForm>
-            </p>
+            </div>
           </div>
           <div className={`${cx("classroom")} h-[330px]`}>
             {options.map((value, index) => {

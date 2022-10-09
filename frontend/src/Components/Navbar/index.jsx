@@ -3,7 +3,6 @@ import { FcBusinessman } from "react-icons/fc";
 import { BsCalendarDate } from "react-icons/bs";
 import { AiOutlineLogout} from "react-icons/ai";
 import Tippy from "@tippyjs/react";
-import {  useNavigate } from "react-router-dom";
 import WorkVolume from "../WorkVolume";
 import ClassInformation from "../Form/ClassInformation";
 import AddSubject from "../Form/AddSubject";
@@ -52,7 +51,6 @@ function Nav() {
   const {update}= updates
   const {form}=forms;
 
-  const navigate = useNavigate();
   const admin = localStorage.getItem("admin")
   const lecturer = localStorage.getItem("lecturer")
 
