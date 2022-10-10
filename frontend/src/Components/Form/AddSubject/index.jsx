@@ -15,13 +15,8 @@ function AddSubject(props) {
   const options = [
     { value: "LEC", label: "LEC" },
     { value: "LAB", label: "LAB" },
-<<<<<<< HEAD
     { value: "PRJ", label: "PRJ" },
     { value: "DEM", label: "DEM" },
-=======
-    { value: "DIS", label: "DIS" },
-    { value: "LEC+LAB", label: "LEC+LAB" },
->>>>>>> 14f916d3f388cc2c732a733ed7edfbcda43445a0
   ];
 
 function handleClickAdd(){
