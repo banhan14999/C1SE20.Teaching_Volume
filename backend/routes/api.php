@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\LecturerController;
 use App\Http\Controllers\Api\SubjectController;
 use App\Http\Controllers\Api\RoleController;
+use App\Models\Lecturer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -38,6 +39,10 @@ Route::group(['prefix' => 'subject'], function() {
 //Route::get('user/all',[LecturerController::class,'index']);
 Route::group(['prefix' => 'user'], function() {
     Route::get('all',[LecturerController::class,'index']);
+    Route::post('add',[LecturerController::class,'store']);
+    Route::get('edit/{id}',[LecturerController::class,'edit']);
+    Route::put('update/{id}',[LecturerController::class,'update']);
+    Route::delete('delete/{id}',[LecturerController::class,'destroy']);
 });
 
 //Role
