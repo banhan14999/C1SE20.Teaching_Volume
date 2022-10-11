@@ -18,8 +18,8 @@ class LecturerController extends Controller
     {
         //$role = Role::all();
         $lecturers = Lecturer::all();
-        foreach($lecturers as $key => $value) {
-            $value['IdRole'] = Role::find($value['IdRole'])['RoleName'];
+        foreach($lecturers as $lecturer) {
+            $lecturer['IdRole'] = Role::find($lecturer['IdRole'])['RoleName'];
         }
         return response()->json([
             'status'    => 200,
