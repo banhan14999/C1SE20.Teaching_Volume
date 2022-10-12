@@ -17,8 +17,11 @@ function AddSubject(props) {
     { value: "LAB", label: "LAB" },
     { value: "PRJ", label: "PRJ" },
     { value: "DEM", label: "DEM" },
+<<<<<<< HEAD
     { value: "DIS", label: "DIS" },
     { value: "LEC+LAB", label: "LEC+LAB" },
+=======
+>>>>>>> 164fe4b9cd526e608dbeccadd35c6bd14b3f323f
   ];
 
 function handleClickAdd(){

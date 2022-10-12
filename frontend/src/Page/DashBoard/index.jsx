@@ -10,7 +10,6 @@ const cx = classNames.bind(styles);
 function DaskBoard() {
   const [options, setOptions] = useState([]);
   const [set, setLeft] = useState(false);
-  //  { dropleft: [], dropright :[]}
   useEffect(() => {
     const arr = "http://localhost:3001/arr";
     const api = Get(arr)
@@ -92,17 +91,13 @@ useEffect(() => {
           </div>
         </div>
       </div>
-      <div className="flex mt-4 text-center">
-        <p className="w-[50%]">
-          <Button className="bg-slate-900" width="30%" onClick={handle}>
+      <div className="flex mt-4 item-end">
+          <Button className="bg-slate-900 ml-4" width="10%" onClick={handle}>
             Lưu
           </Button>
-        </p>
-        <p className="w-[50%]">
-          <Button className=" bg-slate-200" width="30%" onClick={handle}>
+          <Button className=" bg-slate-200 mr-4" width="10%" onClick={handle}>
             Thoat
           </Button>
-        </p>
       </div>
     </>
   );
