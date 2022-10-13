@@ -5,15 +5,14 @@ import SelectForm from "../SelectForm";
 import classNames from "classnames/bind";
 import styles from "./workvolume.module.scss";
 import { useState } from "react";
-
 const cx = classNames.bind(styles);
 
 function WorkVolume() {
 
   const [mclass, setMClass] = useState(false);
-  
+  const Head = JSON.parse(localStorage.getItem("Head"))
       const handleclick = (e) => {
-        setMClass(true);
+        setMClass(Head);
         e.target.style.display = "none"
       };
  
@@ -29,6 +28,7 @@ function WorkVolume() {
    ];
   return (
     <div>
+
       <div className={cx("option")}>
         <div className="flex pt-[107px] justify-around">
           <span className="w-[30%] ml-[50px]">
@@ -44,7 +44,7 @@ function WorkVolume() {
           Tiếp tục
         </Button>
       </div>
-      
+
       {mclass && <ManagerClassLecturer></ManagerClassLecturer>}
     </div>
   );

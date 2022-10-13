@@ -15,7 +15,12 @@
   box-shadow: 1px 1px 1px 1px gray inset;
   &::placeholder {
     font-size: 14px;
+    font-weight: 500;
   }
+}
+.css-14el2xx-placeholder {
+  font-size: 14px;
+  font-weight: 500;
 }
 .container{
   width: 726px;

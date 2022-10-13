@@ -1,9 +1,5 @@
 import Select from "react-select";
-// import {  useState } from "react";
-
-
 function SelectForm(props) {
-  // const [selectedOption, setSelectedOption] = useState(null);
   const customStyles = {
     option: (provided, state) => ({
       ...provided,
@@ -13,7 +9,10 @@ function SelectForm(props) {
     control: (base) => ({
       ...base,
       border: "1px solid gray !important",
-      boxShadow: `1px 1px 1px 1px ${(props.type && props.type.length===0 ? "rgb(149, 11, 11)":"gray")||"gray"} inset!important`,
+      boxShadow: `1px 1px 1px 1px ${
+        (props.type && props.type.length === 0 ? "rgb(149, 11, 11)" : "gray") ||
+        "gray"
+      } inset!important`,
       fontSize: "16px",
       fontWeight: "500",
       minHeight: `${props.height} !important`,
@@ -22,6 +21,7 @@ function SelectForm(props) {
       "&:hover": {
         border: "1px solid gray !important",
       },
+     
     }),
     singleValue: (provided, state) => {
       const opacity = state.isDisabled ? 0.5 : 1;
@@ -32,13 +32,14 @@ function SelectForm(props) {
 
   return (
     <Select
-      className={`${props.class} placeholder:text-[2px]`}
+      className={`${props.class}`}
       options={props.options}
       placeholder={props.placeholder}
       styles={customStyles}
       isDisabled={props.isDisabled}
       onChange={props.setSelectedOption}
-     isMulti= {props.isMulti}
+      isMulti={props.isMulti}
+      defaultInputValue={props.selectedValue}
     />
   );
 }

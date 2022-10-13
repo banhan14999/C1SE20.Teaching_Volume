@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { useCallback, useRef, useState, useEffect } from "react";
+import { useCallback, useRef, useState, useEffect, useMemo } from "react";
 import { default as Button } from "../../Components/Button";
 import MyCaptcha from "../../Components/Captcha";
 import bg from "../../Assets/img/bg.jpg";
@@ -27,8 +27,14 @@ function Authentication() {
     data.forEach((item)=>{
     if (event.code==="Enter" || event.type ==="click" ){
       // kiem tra dang nhap
-        if (obj.user === item.user && obj.password === item.password && imgcaptcha === obj.captcha) {
-          localStorage.setItem(obj.user , JSON.stringify( item.user));
+        if (
+          obj.user === item.Username &&
+          obj.password === item.Password &&
+          imgcaptcha === obj.captcha
+        ) {
+          localStorage.setItem(
+            item.IdRole,JSON.stringify(item.FirstName + " " + item.LastName)
+          );
           setCheckLogin(true);
           navigate("/");
         } else {
@@ -39,10 +45,10 @@ function Authentication() {
     })
   }
  useEffect(() => {
-   const apiLogin = "http://localhost:3002/login";
+   const apiLogin = "/user/all";
   const login = Get(apiLogin);
    login.then((data) => {
-     setData([...data]);
+      setData([...data.lecturers]);
    });
  }, []);
 

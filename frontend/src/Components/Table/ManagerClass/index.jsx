@@ -107,7 +107,7 @@ function ManagerClass(props) {
       ) : (
         <div className="container">
           <div className="text-center text-[20px] font-[600] line mb-[20px] text-red-700">
-            Manager Classs
+            Manager Class
           </div>
           <TableContainer component={Paper}>
             <Table size="medium" aria-label="a dense table">

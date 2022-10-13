@@ -1,16 +1,22 @@
 import SelectForm from "../../SelectForm";
 import { default as Button } from "../../Button";
-
+import { IoIosWarning } from "react-icons/io";
 import classNames from "classnames/bind";
 import styles from "./addsubject.module.scss";
 import { useState } from "react";
-import { Post } from "../../../axios";
-import { IoIosWarning } from "react-icons/io";
-const cx = classNames.bind(styles);
-function AddSubject(props) {
+import { Post, Update } from "../../../axios";
+import { useSelector } from "react-redux";
+import { useEffect } from "react";
 
-  const [type,setType] = useState([])
-  const [req,setReq] = useState([])
+const cx = classNames.bind(styles);
+
+function AddSubject(props) {
+  const updateData = useSelector((data) => data.dtupdate);
+  const { data } = updateData;
+
+  const [type, setType] = useState([]);
+  const [req, setReq] = useState([]);
+  const [selectedValue, setselectedValue] = useState();
 
   const options = [
     { value: "LEC", label: "LEC" },
@@ -18,38 +24,77 @@ function AddSubject(props) {
     { value: "PRJ", label: "PRJ" },
     { value: "DEM", label: "DEM" },
   ];
+  
+  function handleClickAdd() {
+     const input = document.querySelectorAll(`.${styles.input}`);
+     const arr = [...input];
+     const types = type.reduce((str, value) => {
+       return str + value.value + " ";
+     }, "");
 
-function handleClickAdd(){
-  const input = document.querySelectorAll(`.${styles.input}`);
-  const arr = [...input];
-  setReq([...arr])
-  const every = arr.every((value)=>value.value)
-  arr.forEach(value=>{
-    if(!value.value){
-       value.style.boxShadow = "1px 1px 1px 1px rgb(149, 11, 11) inset";
+   if(props.btn){
+      const id = data[0].Subject_id;
+      const obj = {
+        letter: arr[0].value,
+        number: parseInt(arr[1].value),
+        subject_name: arr[2].value,
+        credit: parseInt(arr[3].value),
+        type: types||selectedValue,
+      };
+     const check =  Update("/subject/update/", id, obj);
+     check
+       .then(function (response) {
+          alert("Update Done");
+       })
+       .catch(function (error) {
+          alert("Update That bai")
+       });
+      
+   }else{
+     setReq([...arr]);
+     const checkValInput = arr.every((value) => value.value);
+     if (!checkValInput || type.length === 0) {
+       alert("Vui lòng nhập đầy đủ các trường!");
+     } else if (checkValInput && type.length > 0) {
+       const types = type.reduce((str, value) => {
+         return str + value.value + " ";
+       }, "");
+
+       const obj = {
+         letter: arr[0].value,
+         number: parseInt(arr[1].value),
+         subject_name: arr[2].value,
+         credit: parseInt(arr[3].value),
+         type: types,
+       };
+      const add =  Post("/subject/add", obj);
+      add 
+      .then((res)=>{
+           alert("Add Done");
+           arr.forEach((value) => {
+             value.value = "";
+           });
+           setReq([]);
+      })
+      .catch(()=>{
+         alert("Add That bai");
+      })
+     }
+   }
+    
+  }
+  useEffect(() => {
+    if (props.btn) {
+      const input = document.querySelectorAll(`.${styles.input}`);
+      const arr = [...input];
+      arr[0].value = data[0].Code.slice(0, data[0].Code.indexOf(" "));
+      arr[1].value = data[0].Code.slice(data[0].Code.indexOf(" ")+1,);
+      arr[2].value = data[0].Subject;
+      arr[3].value = data[0].Credit;
+      setselectedValue(data[0].Type);
     }
-    else {
-      value.style.boxShadow = "1px 1px 1px 1px gray inset";
-    }
-  })
-  if(every){
-    const types = type.reduce((str, value) => {
-      return str + value.value + " ";
-    }, "");
-    const obj = {
-    letter: arr[0].value,
-    number: parseInt(arr[1].value),
-    subject_name: arr[2].value,
-    credit: parseInt(arr[3].value),
-    type: types,
-  };
-  Post("http://127.0.0.1:8000/api/add-subject",obj)
-  arr.forEach(value=>{
-    value.value = ""
-  })
-}
-}
-console.log(type);
+  },[])
+
   return (
     <div>
       <div className={cx("form")}>
@@ -72,7 +117,7 @@ console.log(type);
                   required
                 ></input>
                 {req.length !== 0 && req[0].value === "" && (
-                  <p className="absolute right-3 text-red-700">
+                  <p className="absolute right-3 text-yellow-300">
                     <IoIosWarning className="text-[24px]"></IoIosWarning>
                   </p>
                 )}
@@ -90,7 +135,7 @@ console.log(type);
                   required
                 ></input>
                 {req.length !== 0 && req[1].value === "" && (
-                  <p className="absolute right-3 text-red-700">
+                  <p className="absolute right-3  text-yellow-300">
                     <IoIosWarning className="text-[24px]"></IoIosWarning>
                   </p>
                 )}
@@ -108,7 +153,7 @@ console.log(type);
                   required
                 ></input>
                 {req.length !== 0 && req[2].value === "" && (
-                  <p className="absolute right-3 text-red-700">
+                  <p className="absolute right-3  text-yellow-300">
                     <IoIosWarning className="text-[24px]"></IoIosWarning>
                   </p>
                 )}
@@ -126,7 +171,7 @@ console.log(type);
                   required
                 ></input>
                 {req.length !== 0 && req[3].value === "" && (
-                  <p className="absolute right-3 text-red-700">
+                  <p className="absolute right-3  text-yellow-300">
                     <IoIosWarning className="text-[24px]"></IoIosWarning>
                   </p>
                 )}
@@ -137,14 +182,16 @@ console.log(type);
                 Type
               </label>
               <span className="text-lg font-bold">:</span>
-              <SelectForm
-                placeholder="Type"
-                class="w-[55%]"
-                options={options}
-                setSelectedOption={setType}
-                isMulti="isMulti"
-                type ={type}
-              ></SelectForm>
+              <div className="flex w-[55%] relative items-center">
+                <SelectForm
+                  placeholder="Type"
+                  class=" w-full"
+                  options={options}
+                  setSelectedOption={setType}
+                  isMulti="isMulti"
+                  selectedValue={selectedValue}
+                ></SelectForm>
+              </div>
             </div>
             <div className="flex justify-around mt-[20px]">
               <Button

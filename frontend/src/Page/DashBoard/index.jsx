@@ -3,7 +3,6 @@ import Button from "../../Components/Button"
 import classNames from "classnames/bind";
 import styles from "./dashboard.module.scss";
 import SelectForm from "../../Components/SelectForm"
-import { Get } from "../../axios";
 
 const cx = classNames.bind(styles);
 
@@ -12,10 +11,11 @@ function DaskBoard() {
   const [set, setLeft] = useState(false);
   useEffect(() => {
     const arr = "http://localhost:3001/arr";
-    const api = Get(arr)
-    api.then((data) => { 
-      setOptions([...data]);
-    })
+    fetch(arr)
+      .then((response) => response.json())
+      .then((data) => {
+        setOptions([...data]);
+      });
   }, []);
 
   useEffect(() => {

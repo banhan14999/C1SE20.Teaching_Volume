@@ -34,6 +34,7 @@ Route::group(['prefix' => 'subject'], function() {
     Route::put('update/{id}',[SubjectController::class,'update']);
     Route::delete('delete/{id}',[SubjectController::class,'destroy']);
 });
+
 //Lecturers
 //Route::get('user/all',[LecturerController::class,'index']);
 Route::group(['prefix' => 'user'], function() {

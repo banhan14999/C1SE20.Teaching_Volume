@@ -17,9 +17,10 @@ import AddYear from "../Form/AddYear";
 import NavLeft from "./Nav";
 import { lazy, Suspense } from "react";
 import Loading from "../Loading";
+import Division from "../Form/Division";
 const ManagerSubject = lazy(() => {
   return new Promise((resolve) => {
-    setTimeout(() => resolve(import("../Table/ManagerSubject")), 2000);
+    setTimeout(() => resolve(import("../Table/ManagerSubject")), 1000);
   });
 });
 
@@ -51,15 +52,19 @@ function Nav() {
   const {update}= updates
   const {form}=forms;
 
-  const admin = localStorage.getItem("admin")
-  const lecturer = localStorage.getItem("lecturer")
+  const Head = JSON.parse(localStorage.getItem("Head"));
+  const Admin = JSON.parse(localStorage.getItem("Admin"));
+  const Dean = JSON.parse(localStorage.getItem("Dean"));
+  const Lecturer = JSON.parse(localStorage.getItem("Lecturer"));
 
   const handlelogout = () => {
-    localStorage.clear("lecturer");
-    localStorage.clear("admin");
-    // navigate("/authentication");
+    localStorage.clear("Head");
+    localStorage.clear("Admin");
+    localStorage.clear("Dean");
+    localStorage.clear("Lecturer");
     
   };
+
   return (
     <div className={cx("container")}>
       <div className="flex justify-between">
@@ -70,7 +75,7 @@ function Nav() {
             )} flex justify-start items-center`}
           >
             <FcBusinessman fontSize={40} className="mr-1 "></FcBusinessman>
-            <span>Lê Anh Khánh</span>
+            <span>{Head || Admin || Dean || Lecturer}</span>
           </div>
           <div className={`${cx("sitemap")}`}>
             <span>
@@ -110,16 +115,24 @@ function Nav() {
           {form === "Info webpart" && <InfoWebpart />}
 
           {form === "Add new Subject" && <AddSubject />}
+
           <Suspense fallback={<Loading />}>
             {form === "Manager Subject" && <ManagerSubject hide={update} />}
           </Suspense>
+
           {form === "Add New Class" && <ClassInformation />}
-          {lecturer && form === "Manager Class" && <WorkVolume />}
+          {Lecturer || Head ? (
+            form === "Manager Class" && <WorkVolume />
+          ) : (
+            <></>
+          )}
+
           <Suspense fallback={<Loading />}>
-            {admin && form === "Manager Class" && (
+            {Admin && form === "Manager Class" && (
               <ManagerClass hide={update} />
             )}
           </Suspense>
+
           {form === "Add New Year" && <AddYear />}
           <Suspense fallback={<Loading />}>
             {form === "Manager Year" && <ManagerYear hide={update} />}
@@ -131,6 +144,7 @@ function Nav() {
           </Suspense>
           {form === "Manager Workload" && <ManagerWorkload />}
           {form === "Permission" && <Permission />}
+          {form === "Division" && <Division />}
         </div>
       </div>
     </div>

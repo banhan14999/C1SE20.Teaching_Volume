@@ -28,7 +28,7 @@ class Lecturer extends Model
     ];
 
     protected $hidden = [
-        'Password',
+        // 'Password',
         'Remember_token',
     ];
 }
