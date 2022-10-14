@@ -1,4 +1,3 @@
-import * as React from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableContainer from "@mui/material/TableContainer";
@@ -11,11 +10,13 @@ import StyledTableCell from "../../StyledTableCell";
 import AddUser from "../../Form/AddUser";
 import { useDispatch } from "react-redux";
 import { SetUpdate } from "../../../Redux/Actions/index";
-
+import { useEffect, useState } from "react";
+import {Get} from "../../../axios"
+import axios from "axios";
 function ManagerUser(props) {
   const dispath = useDispatch();
-  const [update, setUpdate] = React.useState(true);
-
+  const [update, setUpdate] = useState(true);
+  const [user,setUser] = useState([])
   function createData(Id, FullName, School, Derpartment, Role) {
     return { Id, FullName, School, Derpartment, Role };
   }
@@ -24,12 +25,22 @@ function ManagerUser(props) {
      dispath(SetUpdate("Update user"));
     setUpdate(false);
   };
-  const rows = [
-    createData(1111, "LAK", "CMU", "Software Engineer", "Head"),
-    createData(1112, "LAK", "CMU", "Software Engineer", "Head"),
-    createData(1113, "LAK", "CMU", "Software Engineer", "Head"),
-    createData(1114, "LAK", "CMU", "Software Engineer", "Head"),
-  ];
+  useEffect(()=>{
+    Get("/user/all").then((res)=>{
+      const arr = res.lecturers.map((value)=>{
+        return createData(
+          value.IdLecturer,
+          value.FirstName + " " + value.LastName,
+          value.IdDepartment,
+          value.Department,
+          // "Software Engineer",
+          value.IdRole
+        );
+      })
+      setUser([...arr])
+    })
+  },[])
+  
   return (
     <div>
       {update ? (
@@ -52,7 +63,7 @@ function ManagerUser(props) {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {rows.map((row) => (
+                {user.map((row) => (
                   <TableRow
                     key={row.Id}
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -108,7 +119,7 @@ function ManagerUser(props) {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {rows.map((row) => (
+                {user.map((row) => (
                   <TableRow
                     key={row.Id}
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}

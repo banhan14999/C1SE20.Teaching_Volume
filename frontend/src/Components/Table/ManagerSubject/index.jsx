@@ -5,7 +5,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { AiFillCloseCircle } from "react-icons/ai";
+import { MdAutoDelete } from "react-icons/md";
 import { GrUpdate } from "react-icons/gr";
 import StyledTableCell from "../../StyledTableCell";
 import AddSubject from "../../Form/AddSubject";
@@ -111,11 +111,11 @@ function ManagerSubject(props) {
                           onClick={click}
                           sub_id={row.Subject_id}
                         >
-                          <AiFillCloseCircle
+                          <MdAutoDelete
                             color="#eb4f04"
                             className="mr-[2px] pointer-events-none"
                             fontSize={12}
-                          ></AiFillCloseCircle>
+                          ></MdAutoDelete>
                           <span className="pointer-events-none">Delete</span>
                         </div>
                       </div>
@@ -179,13 +179,13 @@ function ManagerSubject(props) {
                           onClick={click}
                           sub_id={row.Subject_id}
                         >
-                          <AiFillCloseCircle
+                          <MdAutoDelete
                             color="#eb4f04"
                             className="mr-[2px]"
                             fontSize={12}
-                          ></AiFillCloseCircle>
+                          ></MdAutoDelete>
 
-                          <span>Detail</span>
+                          <span>Delete</span>
                         </div>
                       </div>
                     </StyledTableCell>

@@ -18,8 +18,8 @@ class LecturerController extends Controller
     {
         //$role = Role::all();
         $lecturers = Lecturer::all();
-        foreach($lecturers as $key => $value) {
-            $value['IdRole'] = Role::find($value['IdRole'])['RoleName'];
+        foreach($lecturers as $lecturer) {
+            $lecturer['IdRole'] = Role::find($lecturer['IdRole'])['RoleName'];
         }
         return response()->json([
             'status'    => 200,
@@ -34,7 +34,7 @@ class LecturerController extends Controller
      */
     public function create()
     {
-        //
+        
     }
 
     /**
@@ -45,7 +45,22 @@ class LecturerController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $lecturer = new Lecturer;
+        $lecturer->Username     = $request->input('username');
+        $lecturer->Password     = $request->input('password');
+        $lecturer->IdLecturer   = $request->input('idlecturer');
+        $lecturer->FirstName    = $request->input('firstname');
+        $lecturer->LastName     = $request->input('lastname');
+        $lecturer->IdFaculty    = $request->input('faculty');
+        $lecturer->IdDepartment = $request->input('department');
+        $lecturer->IdRole       = $request->input('role');
+        $lecturer->created_at   = date('Y-m-d H:i:s');
+        $lecturer->save();
+
+        return response()->json([
+            'status'    => 201,
+            'message'   => 'User Added Successfully!',
+        ]);
     }
 
     /**
@@ -67,7 +82,11 @@ class LecturerController extends Controller
      */
     public function edit($id)
     {
-        //
+        $lecturer  = Lecturer::find($id);
+        return response()->json([
+            'status'    => 200,
+            'lecturer'   => $lecturer,
+        ]);
     }
 
     /**
@@ -79,7 +98,22 @@ class LecturerController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $lecturer               = Lecturer::find($id);
+        //$lecturer->Username     = $request->input('username');
+        $lecturer->Password     = $request->input('password');
+        $lecturer->IdLecturer   = $request->input('idlecturer');
+        $lecturer->FirstName    = $request->input('firstname');
+        $lecturer->LastName     = $request->input('lastname');
+        $lecturer->IdFaculty    = $request->input('faculty');
+        $lecturer->IdDepartment = $request->input('department');
+        $lecturer->IdRole       = $request->input('role');
+        $lecturer->updated_at   = date('Y-m-d H:i:s');
+        $lecturer->save();
+
+        return response()->json([
+            'status'    => 200,
+            'message'   => 'User Updated Successfully!',
+        ]);
     }
 
     /**
@@ -90,6 +124,11 @@ class LecturerController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $lecturer  = Lecturer::find($id);
+        $lecturer->delete();
+        return response()->json([
+            'status'    => 204,
+            'message'   => 'User Deleted Successfully!',
+        ]);
     }
 }

@@ -4,7 +4,7 @@ import footer from "../../Assets/img/bg-footer.png";
 const cx= classNames.bind(styles)
 function Footer() {
     return (
-      <div className="ml-[13px]">
+      <div className={`ml-[13px] max-w-[962px] ${cx("footer")}`}>
         <div className={cx("footer_wrapper")}>
           <img src={footer} alt="Footer" />
         </div>

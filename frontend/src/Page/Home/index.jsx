@@ -10,13 +10,13 @@ const cx = classNames.bind(styles);
 function Home() {
   return (
     <div>
-      <header>
+      <header >
         <div className={cx("header")}>
           <HeaderTop />
           <SubHeader />
         </div>
       </header>
-      <div className="w-[984px] m-auto">
+      <div className="max-w-[984px] m-auto">
         <NavLeft></NavLeft>
       </div>
       <Footer></Footer>

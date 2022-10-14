@@ -48,7 +48,7 @@ function Division() {
         dropright.appendChild(currentTarget);
       });
     });
-  },[]);
+  });
 
 
   // useEffect(() => {
@@ -60,68 +60,78 @@ function Division() {
     { value: "2022-2023", label: "2022-2023" },
     { value: "2023-2024", label: "2024-2025" },
   ];
-
+ const hocki = [
+   { value: "Học Kỳ I", label: "Học Kỳ I" },
+   { value: "Học Kỳ II", label: "Học Kỳ II" },
+   { value: "Học Hè", label: "Học Hè" },
+ ];
   function handleContinue(){
     setContinues(true);
   }
 
   return (
     <div className="w-[726px]">
-      <div className="mb-3">
-        <div className="flex w-full justify-around mb-3">
-          <div className="w-[30%]">
-            <SelectForm options={opt}></SelectForm>
-          </div>
-          <div className="w-[30%]">
-            <SelectForm options={opt}></SelectForm>
-          </div>
-        </div>
-        <div className="text-center">
-          <Button
-            className="bg-slate-900 ml-4"
-            width="20%"
-            onClick={handleContinue}
-          >
-            Tiếp tục
-          </Button>
+      <div className={cx("option")}>
+        <div className="flex pt-[107px] justify-around">
+          <span className="w-[30%] ml-[50px]">
+            <SelectForm
+              options={opt}
+              placeholder="Chọn năm học"
+              height="30px"
+            ></SelectForm>
+          </span>
+          <span className="w-[30%] ml-[-30px]">
+            <SelectForm options={hocki} placeholder="Chọn học kì" height="30px"></SelectForm>
+          </span>
         </div>
       </div>
-      {continues && 
-      <div>
-        <div className={`${cx("container")}`}>
-          <div className={`${cx("containerleft")} p-1`}>
-            <div className="py-2">
-              <div className="text-center font-semibold text-[20px]">
-                <SelectForm options={opt}></SelectForm>
-              </div>
-            </div>
-            <div className={`${cx("lefts")} h-[330px]`}></div>
-          </div>
-          <div className={`${cx("containerright")} p-1`}>
-            <div className="py-2">
-              <div className="text-center font-semibold text-[20px]">
-                <SelectForm options={opt}></SelectForm>
-              </div>
-            </div>
-            <div className={`${cx("classroom")} h-[330px]`}>
-              {options.map((value, index) => {
-                return (
-                  <div className={`${cx("options")}`} key={index} draggable>
-                    <label>{value.label}</label>
-                    <br></br>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        </div>
-        <div className=" mt-4 w-full text-right">
-          <Button className="bg-slate-900 ml-4" width="20%">
-            Lưu
-          </Button>
-        </div>
+      <div className="text-center mb-3">
+        <Button width="200px" bgcolor="#950B0B" onClick={handleContinue}>
+          Tiếp tục
+        </Button>
       </div>
-      }
+      {continues && (
+        <div>
+          <div className={`${cx("container")}`}>
+            <div className={`${cx("containerleft")} p-1`}>
+              <div className="pb-5">
+                <div className="text-center font-semibold text-[20px]">
+                  <SelectForm
+                    options={opt}
+                    placeholder="Tên giảng viên"
+                  ></SelectForm>
+                </div>
+              </div>
+              <div className={`${cx("lefts")} h-[250px]`}></div>
+            </div>
+            <div className={`${cx("containerright")} p-1`}>
+              <div className="pb-5">
+                <div className="text-center font-semibold text-[20px]">
+                  <SelectForm
+                    options={opt}
+                    placeholder="Tên Lớp học"
+                  ></SelectForm>
+                </div>
+              </div>
+              <div className={`${cx("classroom")} h-[250px]`}>
+                {options.map((value, index) => {
+                  return (
+                    <div className={`${cx("options")}`} key={index} draggable>
+                      <label>{value.label}</label>
+                      <br></br>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+          <div className=" mt-4 w-full text-right ml-[-35px]">
+            <Button className="ml-4" bgcolor="rgb(149, 11, 11)" width="20%">
+              Lưu
+            </Button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

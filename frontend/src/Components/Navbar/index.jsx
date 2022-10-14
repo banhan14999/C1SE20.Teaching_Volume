@@ -1,14 +1,17 @@
 import { useSelector } from "react-redux";
 import { FcBusinessman } from "react-icons/fc";
 import { BsCalendarDate } from "react-icons/bs";
-import { AiOutlineLogout} from "react-icons/ai";
+import { AiOutlineLogout, AiOutlineUserAdd } from "react-icons/ai";
+import { SiWebpack, SiGoogleclassroom, SiManageiq } from "react-icons/si";
+import { RiVoiceRecognitionFill } from "react-icons/ri";
+import { GiManacles } from "react-icons/gi";
+import { MdSubject, MdManageAccounts } from "react-icons/md";
 import Tippy from "@tippyjs/react";
 import WorkVolume from "../WorkVolume";
 import ClassInformation from "../Form/ClassInformation";
 import AddSubject from "../Form/AddSubject";
 import classNames from "classnames/bind";
 import styles from "./nav.module.scss";
-// import ManagerClassLecturer from "../Table/ManagerClassLecturer";
 import InfoWebpart from "../InfoWebpart";
 import ManagerWorkload from "../Table/ManagerWorkload";
 import Permission from "../Table/Permission";
@@ -18,6 +21,9 @@ import NavLeft from "./Nav";
 import { lazy, Suspense } from "react";
 import Loading from "../Loading";
 import Division from "../Form/Division";
+
+
+
 const ManagerSubject = lazy(() => {
   return new Promise((resolve) => {
     setTimeout(() => resolve(import("../Table/ManagerSubject")), 1000);
@@ -62,7 +68,6 @@ function Nav() {
     localStorage.clear("Admin");
     localStorage.clear("Dean");
     localStorage.clear("Lecturer");
-    
   };
 
   return (
@@ -79,7 +84,18 @@ function Nav() {
           </div>
           <div className={`${cx("sitemap")}`}>
             <span>
-              <BsCalendarDate className="mr-2"></BsCalendarDate>
+              {form === "Add new User" && <AiOutlineUserAdd className="mr-2" />}
+              {form === "Add new Subject" && <MdSubject className="mr-2" />}
+              {form === "Info webpart" && <SiWebpack className="mr-2" />}
+              {form === "Add New Year" && <BsCalendarDate className="mr-2" />}
+              {form === "Division" && <AiOutlineUserAdd className="mr-2" />}
+              {form === "Permission" && <RiVoiceRecognitionFill className="mr-2" />}
+              {form === "Add New Class" && <SiGoogleclassroom className="mr-2" />}
+              {form === "Manager User" && <MdManageAccounts className="mr-2" />}
+              {form === "Manager Subject" && <SiManageiq className="mr-2" />}
+              {form === "Manager Class" && <GiManacles className="mr-2" />}
+
+
             </span>
             <span className="leading-[54px]">{update || form}</span>
           </div>
