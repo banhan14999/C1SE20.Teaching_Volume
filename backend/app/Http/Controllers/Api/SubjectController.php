@@ -45,11 +45,7 @@ class SubjectController extends Controller
         $subject = new Subject;
         $subject->Letter         = $request->input('letter');
         $subject->Number         = $request->input('number');
-<<<<<<< HEAD
         $subject->SubjectName   = $request->input('subject_name');
-=======
-        $subject->SubjectName    = $request->input('subject_name');
->>>>>>> f260222c85194c6784d77c34a1ac3e65f28c914d
         $subject->Credit         = $request->input('credit');
         $subject->Type           = $request->input('type');
         $subject->created_at     = date('Y-m-d H:i:s');

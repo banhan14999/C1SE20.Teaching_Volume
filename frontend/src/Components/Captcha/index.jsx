@@ -4,27 +4,27 @@ import { forwardRef, Fragment } from "react";
 
 import styles from "./captcha.module.scss";
 const cx = classNames.bind(styles)
-let captchaImage = new Captcha(
-  "25px Arial",
-  "center",
-  "middle",
-  100,
-  32,
-  "white",
-  "green",
-  4
-).createImage();
+ let captchaImage = new Captcha(
+   "25px Arial",
+   "center",
+   "middle",
+   100,
+   30,
+   "white",
+   "green",
+   4
+ ).createImage();
 function createMarkup(source) {
   return { __html: source };
 }
  function MyCaptcha({ ...props }, ref) {
    return (
      <Fragment>
-         <div
-           ref={ref}
-           className={`${cx("captcha")} captchavalue`}
-           dangerouslySetInnerHTML={createMarkup(captchaImage)}
-         />
+       <div
+         ref={ref}
+         className={`${cx("captcha")} captchavalue`}
+         dangerouslySetInnerHTML={createMarkup(captchaImage)}
+       />
      </Fragment>
    );
  }

@@ -11,11 +11,10 @@ import StyledTableCell from "../../StyledTableCell";
 import AddSubject from "../../Form/AddSubject";
 import { useDispatch } from "react-redux";
 import { SetUpdate, DataUpdate } from "../../../Redux/Actions/index";
-import { Get,Delete } from "../../../axios";
+import { Get, Delete } from "../../../utils/axios";
 import { useLayoutEffect } from "react";
 
 function ManagerSubject(props) {
-  console.log(props.hide);
   const dispath = useDispatch();
   const [update, setUpdate] = useState(true);
   const [sub, setSub] = useState([]);

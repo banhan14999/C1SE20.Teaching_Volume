@@ -21,6 +21,7 @@ import NavLeft from "./Nav";
 import { lazy, Suspense } from "react";
 import Loading from "../Loading";
 import Division from "../Form/Division";
+import { Link } from "react-router-dom";
 
 
 
@@ -63,13 +64,6 @@ function Nav() {
   const Dean = JSON.parse(localStorage.getItem("Dean"));
   const Lecturer = JSON.parse(localStorage.getItem("Lecturer"));
 
-  const handlelogout = () => {
-    localStorage.clear("Head");
-    localStorage.clear("Admin");
-    localStorage.clear("Dean");
-    localStorage.clear("Lecturer");
-  };
-
   return (
     <div className={cx("container")}>
       <div className="flex justify-between">
@@ -94,8 +88,6 @@ function Nav() {
               {form === "Manager User" && <MdManageAccounts className="mr-2" />}
               {form === "Manager Subject" && <SiManageiq className="mr-2" />}
               {form === "Manager Class" && <GiManacles className="mr-2" />}
-
-
             </span>
             <span className="leading-[54px]">{update || form}</span>
           </div>
@@ -110,19 +102,18 @@ function Nav() {
           tabIndex="-1"
           placement="bottom"
         >
-          <a href="/authentication" className="flex items-center">
+          <Link to="/authentication" className="flex items-center">
             <div
               className={`flex items-center cursor-pointer pr-[15px] ${cx(
                 "out"
               )}`}
-              onClick={handlelogout}
             >
               <AiOutlineLogout
                 className={`${cx("logout")} text-slate-600 text-2xl mr-1`}
               ></AiOutlineLogout>
               <p className="font-light">Thoát</p>
             </div>
-          </a>
+          </Link>
         </Tippy>
       </div>
       <div className="flex border-r-[1px] border-[#D5D5D5] border-solid">

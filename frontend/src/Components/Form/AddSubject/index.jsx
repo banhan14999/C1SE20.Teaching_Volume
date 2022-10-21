@@ -4,7 +4,7 @@ import { IoIosWarning } from "react-icons/io";
 import classNames from "classnames/bind";
 import styles from "./addsubject.module.scss";
 import { useState } from "react";
-import { Post, Update } from "../../../axios";
+import { Post, Update } from "../../../utils/axios";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
 
@@ -23,11 +23,8 @@ function AddSubject(props) {
     { value: "LAB", label: "LAB" },
     { value: "PRJ", label: "PRJ" },
     { value: "DEM", label: "DEM" },
-<<<<<<< HEAD
     { value: "DIS", label: "DIS" },
     { value: "LEC+LAB", label: "LEC+LAB" },
-=======
->>>>>>> 164fe4b9cd526e608dbeccadd35c6bd14b3f323f
   ];
   
   function handleClickAdd() {
@@ -86,45 +83,20 @@ function AddSubject(props) {
       })
      }
    }
-    
   }
+  
   useEffect(() => {
     if (props.btn) {
       const input = document.querySelectorAll(`.${styles.input}`);
       const arr = [...input];
       arr[0].value = data[0].Code.slice(0, data[0].Code.indexOf(" "));
-      arr[1].value = data[0].Code.slice(data[0].Code.indexOf(" ")+1,);
+      arr[1].value = data[0].Code.slice(data[0].Code.indexOf(" ") + 1);
       arr[2].value = data[0].Subject;
       arr[3].value = data[0].Credit;
       setselectedValue(data[0].Type);
     }
-<<<<<<< HEAD
-  },[])
+  }, [props.btn,data]);
 
-=======
-    else {
-      value.style.boxShadow = "1px 1px 1px 1px gray inset";
-    }
-  })
-  if(every){
-    const types = type.reduce((str, value) => {
-      return str + value.value + " ";
-    }, "");
-    const obj = {
-    letter: arr[0].value,
-    number: parseInt(arr[1].value),
-    subject_name: arr[2].value,
-    credit: parseInt(arr[3].value),
-    type: types,
-  };
-  Post("http://127.0.0.1:8000/api/subject/add",obj)
-  arr.forEach(value=>{
-    value.value = ""
-  })
-}
-}
-console.log(type);
->>>>>>> f260222c85194c6784d77c34a1ac3e65f28c914d
   return (
     <div>
       <div className={cx("form")}>

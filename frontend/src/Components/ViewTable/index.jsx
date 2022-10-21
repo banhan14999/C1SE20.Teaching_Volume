@@ -379,8 +379,14 @@ function ViewTable() {
 
   return (
     <div className={cx("tableview")}>
-      <TableContainer component={Paper} style={{ overflowX: "visible" }}>
-        <Table size="small" style={{ width: "auto", tableLayout: "auto" }}>
+      <h1 className="text-center font-bold text-[30px] text-red-800">
+        Manager Workload
+      </h1>
+      <TableContainer
+        component={Paper}
+        style={{ overflowX: "visible", boxShadow: "none" }}
+      >
+        <Table size="small" style={{ width: "100%", tableLayout: "auto" }}>
           <TableHead>
             <TableRow>
               <StyledTableCell align="center" rowSpan={2}>
@@ -492,10 +498,7 @@ function ViewTable() {
                 >
                   {row.firtName}
                 </StyledTableCell>
-                <StyledTableCell
-                  align="center"
-                  style={{ borderLeft: "none" }}
-                >
+                <StyledTableCell align="center" style={{ borderLeft: "none" }}>
                   {row.lastName}
                 </StyledTableCell>
 

@@ -11,35 +11,53 @@ import AddUser from "../../Form/AddUser";
 import { useDispatch } from "react-redux";
 import { SetUpdate } from "../../../Redux/Actions/index";
 import { useEffect, useState } from "react";
-import {Get} from "../../../axios"
-import axios from "axios";
+import { Get, Delete } from "../../../utils/axios";
+import { DataUpdate } from "../../../Redux/Actions/index";
 function ManagerUser(props) {
   const dispath = useDispatch();
   const [update, setUpdate] = useState(true);
   const [user,setUser] = useState([])
-  function createData(Id, FullName, School, Derpartment, Role) {
-    return { Id, FullName, School, Derpartment, Role };
+  function createData(Id, FullName, School, Derpartment, Role, Username) {
+    return { Id, FullName, School, Derpartment, Role, Username };
   }
-
-  const handleUpdate = () => {
-     dispath(SetUpdate("Update user"));
+function clickDelete(e) {
+  const user_id = e.target.attributes[1].nodeValue
+  Delete("/user/delete/", user_id);
+  const arr = user.filter((value) => {
+    return value.Username !== user_id;
+  });
+  setUser(arr);
+}
+  const handleUpdate = (e) => {
+    dispath(SetUpdate("Update user"));
     setUpdate(false);
+    const user_id = e.target.attributes[1].nodeValue;
+    let arr = user.filter((value) => value.Username === user_id);
+    dispath(DataUpdate(arr));
   };
-  useEffect(()=>{
-    Get("/user/all").then((res)=>{
-      const arr = res.lecturers.map((value)=>{
-        return createData(
-          value.IdLecturer,
-          value.FirstName + " " + value.LastName,
-          value.IdDepartment,
-          value.Department,
-          // "Software Engineer",
-          value.IdRole
-        );
-      })
-      setUser([...arr])
-    })
-  },[])
+  useEffect(() => {
+    Get("/user/all").then((res) => {
+      const arr = res.lecturers
+        .map((value) => {
+          if (value.IdRole !== "Admin") {
+            return createData(
+              value.IdLecturer,
+              value.FirstName + " " + value.LastName,
+              value.IdDepartment,
+              value.Department,
+              value.IdRole,
+              value.Username
+            );
+          }else{
+            return false
+          }
+        })
+        .filter((value) => {
+          return value;
+        });
+      setUser([...arr]);
+    });
+  }, [props.hide]);
   
   return (
     <div>
@@ -77,16 +95,26 @@ function ManagerUser(props) {
                     <StyledTableCell>{row.Role}</StyledTableCell>
                     <StyledTableCell align="center">
                       <div
-                        className="flex justify-center  cursor-pointer "
+                        className="flex justify-center cursor-pointer "
                         onClick={handleUpdate}
+                        username={row.Username}
                       >
-                        <GrUpdate color="#0a7a0a" fontSize={14}></GrUpdate>
+                        <GrUpdate
+                          color="#0a7a0a"
+                          className="pointer-events-none"
+                          fontSize={16}
+                        ></GrUpdate>
                       </div>
                     </StyledTableCell>
                     <StyledTableCell align="center">
-                      <div className="flex justify-center cursor-pointer">
+                      <div
+                        className="flex justify-center cursor-pointer"
+                        onClick={clickDelete}
+                        username={row.Username}
+                      >
                         <AiFillCloseCircle
                           color="#eb4f04"
+                          className="pointer-events-none"
                           fontSize={16}
                         ></AiFillCloseCircle>
                       </div>
@@ -135,14 +163,24 @@ function ManagerUser(props) {
                       <div
                         className="flex justify-center  cursor-pointer "
                         onClick={handleUpdate}
+                        username={row.Username}
                       >
-                        <GrUpdate color="#0a7a0a" fontSize={14}></GrUpdate>
+                        <GrUpdate
+                          color="#0a7a0a"
+                          className="pointer-events-none"
+                          fontSize={14}
+                        ></GrUpdate>
                       </div>
                     </StyledTableCell>
                     <StyledTableCell align="center">
-                      <div className="flex justify-center cursor-pointer">
+                      <div
+                        className="cursor-pointer"
+                        onClick={clickDelete}
+                        username={row.Username}
+                      >
                         <AiFillCloseCircle
                           color="#eb4f04"
+                          className="pointer-events-none"
                           fontSize={16}
                         ></AiFillCloseCircle>
                       </div>

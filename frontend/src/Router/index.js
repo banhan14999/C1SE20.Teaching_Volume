@@ -12,5 +12,4 @@ export const publicRouters = [
   { path: "*", component: NotFound },
 ];
 export const privateRouters = [  
-  
 ];
