@@ -69,6 +69,7 @@ class AuthController extends Controller
                 'status' => 200,
                 'username' => $user->FirstName . ' ' . $user->LastName,
                 'token' => $token,
+                'user' => $user,
                 'message' => 'Logged In Successfully',
             ]);
         }
