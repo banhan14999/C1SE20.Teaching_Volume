@@ -1,17 +1,8 @@
 .tableview {
     display: block;
     width: 100%;
-    overflow-x: scroll;
-    margin-top: 50px;
-    overflow: scroll;
 }
-.iconrow {
-    cursor: pointer;
-    border-radius: 50%;
-    position: fixed;
-    right: 50px;
-    bottom: 50px;
-}
+
 @media print and (width: 21cm) and (height: 29.7cm) {
      @page {
         margin: 3cm;

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableContainer from "@mui/material/TableContainer";
@@ -7,21 +7,23 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { MdAutoDelete } from "react-icons/md";
 import { GrUpdate } from "react-icons/gr";
+import { useDispatch } from "react-redux";
+
 import StyledTableCell from "../../StyledTableCell";
 import AddSubject from "../../Form/AddSubject";
-import { useDispatch } from "react-redux";
 import { SetUpdate, DataUpdate } from "../../../Redux/Actions/index";
-import { Get, Delete } from "../../../utils/axios";
-import { useLayoutEffect } from "react";
+import { ApiTeachingVolume } from "../../../apis/axios";
+import { useNavigate,useParams } from "react-router-dom";
 
-function ManagerSubject(props) {
+function ManagerSubject() {
+  const param = useParams()
+  const navigate = useNavigate()
   const dispath = useDispatch();
-  const [update, setUpdate] = useState(true);
   const [sub, setSub] = useState([]);
 
   function click(e) {
     const Subject_id = e.target.attributes[1].nodeValue 
-    Delete("/subject/delete/", Subject_id);
+    ApiTeachingVolume.Delete("/subject/delete/", Subject_id);
     const arr = sub.filter((value) => {
       return value.Subject_id !== parseInt(Subject_id);
     });
@@ -34,15 +36,15 @@ function ManagerSubject(props) {
 
   const handleUpdate = (e) => {
     dispath(SetUpdate("Update subject"));
-    setUpdate(false);
     const Subject_id = e.target.parentElement.attributes[1].nodeValue;
     let arr = sub.filter((value) => value.Subject_id === parseInt(Subject_id));
     arr[0]["Subject_id"] = Subject_id;
     dispath(DataUpdate(arr));
+    navigate(Subject_id)
   };
 
-  useLayoutEffect(() => {
-    const subjectData = Get("/subject/all");
+  useEffect(() => {
+    const subjectData = ApiTeachingVolume.Get("/subject/all");
     subjectData.then((data) => {
       const subjects = data.subjects.map((value) => {
         return createData(
@@ -55,12 +57,13 @@ function ManagerSubject(props) {
       });
       setSub([...subjects]);
     });
-  }, [props.hide]);
-
+  }, [param.id]);
+  
   return (
     <div>
-      {update ? (
-        <div className={`container`}>
+       {param.id ?
+        <AddSubject btn="Update" title="Updata Subject"></AddSubject>:
+        ( <div className={`container`}>
           <div className="text-center text-[20px] font-[600] line mb-[20px] text-red-700">
             Manager Subject
           </div>
@@ -108,7 +111,7 @@ function ManagerSubject(props) {
                         <div
                           className="flex justify-center items-center cursor-pointer ml-1"
                           onClick={click}
-                          sub_id={row.Subject_id}
+                          data-subid={row.Subject_id}
                         >
                           <MdAutoDelete
                             color="#eb4f04"
@@ -124,79 +127,10 @@ function ManagerSubject(props) {
               </TableBody>
             </Table>
           </TableContainer>
-        </div>
-      ) : props.hide ? (
-        <AddSubject btn="Update" title="Updata Subject"></AddSubject>
-      ) : (
-        <div className="container">
-          <div className="text-center text-[20px] font-[600] line mb-[20px] text-red-700">
-            Manager Subject
-          </div>
-          <TableContainer component={Paper}>
-            <Table size="small" aria-label="Manager Subject Table">
-              <TableHead>
-                <TableRow style={{}}>
-                  <StyledTableCell align="center">Code</StyledTableCell>
-                  <StyledTableCell align="center">Subject</StyledTableCell>
-                  <StyledTableCell align="center">Credit</StyledTableCell>
-                  <StyledTableCell align="center">Type</StyledTableCell>
-                  <StyledTableCell align="center">Action</StyledTableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {sub.map((row) => (
-                  <TableRow
-                    key={row.Code}
-                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                  >
-                    <StyledTableCell align="center" component="th" scope="row">
-                      {row.Code}
-                    </StyledTableCell>
-                    <StyledTableCell size="small">
-                      {row.Subject}
-                    </StyledTableCell>
-                    <StyledTableCell align="center">
-                      {row.Credit}
-                    </StyledTableCell>
-                    <StyledTableCell align="center">{row.Type}</StyledTableCell>
-                    <StyledTableCell align="center">
-                      <div className="flex justify-around items-center">
-                        <div
-                          className="flex justify-center items-center cursor-pointer mr-1"
-                          sub_id={row.Subject_id}
-                          onClick={handleUpdate}
-                        >
-                          <GrUpdate
-                            color="#0a7a0a"
-                            className="mr-[2px]"
-                            fontSize={12}
-                          ></GrUpdate>
-                          <span>Update</span>
-                        </div>
-                        <div
-                          className="flex justify-center items-center cursor-pointer ml-1"
-                          onClick={click}
-                          sub_id={row.Subject_id}
-                        >
-                          <MdAutoDelete
-                            color="#eb4f04"
-                            className="mr-[2px]"
-                            fontSize={12}
-                          ></MdAutoDelete>
-
-                          <span>Delete</span>
-                        </div>
-                      </div>
-                    </StyledTableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </div>
-      )}
+        </div>)
+      }
     </div>
-  );
+  )
 }
 
 export default ManagerSubject;

@@ -99,8 +99,8 @@ class LecturerController extends Controller
     public function update(Request $request, $id)
     {
         $lecturer               = Lecturer::find($id);
-        //$lecturer->Username     = $request->input('username');
-        $lecturer->Password     = $request->input('password');
+        // $lecturer->Username     = $request->input('username');
+        // $lecturer->Password     = $request->input('password');
         $lecturer->IdLecturer   = $request->input('idlecturer');
         $lecturer->FirstName    = $request->input('firstname');
         $lecturer->LastName     = $request->input('lastname');

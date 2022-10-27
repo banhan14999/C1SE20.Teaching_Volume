@@ -1,7 +1,10 @@
 import classNames from "classnames/bind";
+
 import styles from "./headertop.module.scss";
 import logo from "../../../Assets/img/logo_dtu_while.png";
+
 const cx= classNames.bind(styles)
+
 function HeaderTop() {
   return (
     <div className={cx("header")}>

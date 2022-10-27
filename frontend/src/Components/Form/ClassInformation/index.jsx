@@ -1,4 +1,5 @@
 import classNames from "classnames/bind";
+
 import styles from "./classInformationform.module.scss";
 import SelectForm from "../../SelectForm";
 import { default as Button} from "../../Button";

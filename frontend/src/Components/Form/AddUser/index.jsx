@@ -1,22 +1,29 @@
-import SelectForm from "../../SelectForm";
-import { default as Button } from "../../Button";
-import classNames from "classnames/bind";
-import styles from "./adduser.module.scss";
-import md5 from "md5"
-import { Post, Update } from "../../../utils/axios";
 import { IoIosWarning } from "react-icons/io";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import classNames from "classnames/bind";
+import md5 from "md5"
+
+import SelectForm from "../../SelectForm";
+import { default as Button } from "../../Button";
+import styles from "./adduser.module.scss";
+import { ApiTeachingVolume } from "../../../apis/axios";
 
 const cx = classNames.bind(styles);
+
 function AddUser(props) {
   const [roles, setRole] = useState();
   const [faculty, setFaculty] = useState();
   const [department, setDepartment] = useState();
-  const [users, setUsers] = useState([]);
+  const [valuesForm, setValuesForm] = useState({
+    username: "",
+    password: "",
+    idlecturer: "",
+    firstname: "",
+    lastname: ""
+  });
   const updateData = useSelector((data) => data.dtupdate);
   const { data } = updateData;
-
   const Faculty = [{ value: "CMU-SE", label: "CMU-SE" }];
   const Role = [
     { value: "3", label: "Head" },
@@ -24,20 +31,24 @@ function AddUser(props) {
     { value: "2", label: "Dean" },
   ];
 
+  function roleValue(role){
+    return Role.filter(value=>{
+        return value.label === role
+    })
+  }
+
   function clickAddUser(){
-    const arr = document.querySelectorAll(`.${styles.input}`);
-    const inputUser = [...arr];
      if (props.btn) {
-      const id = data[0].Username ;
-       const obj = {
-         idlecturer: parseInt(inputUser[2].value),
-         firstname: inputUser[3].value,
-         lastname: inputUser[4].value,
-         faculty: faculty.value || "CMU-SE",
-         department: department.value,
-         role: roles.value,
-       };
-       const check = Update("/user/update/", id, obj);
+       const id = data[0].Username;
+        const obj = {
+          idlecturer: parseInt(valuesForm.idlecturer),
+          firstname: valuesForm.firstname,
+          lastname: valuesForm.lastname,
+          faculty: (faculty && faculty.value) || data[0].School,
+          department: (department && department.value) || data[0].Department,
+          role: (roles && roles.value) || roleValue(data[0].Role)[0].value,
+        };
+       const check = ApiTeachingVolume.Update("/user/update/", id, obj);
        check
          .then(function (response) {
            alert("Update Done");
@@ -46,45 +57,55 @@ function AddUser(props) {
            alert("Update That bai");
          });
      }else{
-      setUsers([...inputUser]);
-       const checkValInput = inputUser.every((value) => value.value);
+       let checkValInput = true
+       for (let key in valuesForm) {
+         if (valuesForm.hasOwnProperty(key)) {
+           console.log(valuesForm[key].length);
+           if (valuesForm[key] === "") {
+             checkValInput = false;
+           }
+         }
+       }
        if (!checkValInput) {
        alert("Vui lòng nhập đầy đủ các trường!");
      } else{
-       const obj = {
-         username: inputUser[0].value,
-         password: md5(inputUser[1].value),
-         idlecturer: inputUser[2].value,
-         firstname: inputUser[3].value,
-         lastname: inputUser[4].value,
-         faculty: faculty.value,
-         department: department.value,
-         role: roles.value,
-       };
-       const addUser =Post("/user/add",obj);
-      addUser
-        .then((res) => {
-          alert("Add Done");
-          inputUser.forEach((value) => {
-            value.value = "";
-          });
-          setUsers([]);
-        })
-        .catch(() => {
-          alert("Add That bai");
-        });
+        const obj = {
+          username: valuesForm.username,
+          password: md5(valuesForm.password),
+          idlecturer: valuesForm.idlecturer,
+          firstname: valuesForm.firstname,
+          lastname: valuesForm.lastname,
+          faculty: faculty.value,
+          department: department.value,
+          role: roles.value,
+        };
+       const addUser = ApiTeachingVolume.Post("/user/add", obj);
+       addUser
+         .then((res) => {
+           alert("Add Done");
+           setValuesForm({
+             username: "",
+             password: "",
+             idlecturer: "",
+             firstname: "",
+             lastname: ""
+           });
+         })
+         .catch(() => {
+           alert("Add That bai");
+         });
      }
      }
   }
  useEffect(() => {
    if (props.btn) {
-     const input = document.querySelectorAll(`.${styles.input}`);
-     const arr = [...input];
-     arr[2].value = data[0].Id;
-     arr[3].value = data[0].FullName.slice(0, data[0].FullName.indexOf(" "));
-     arr[4].value = data[0].FullName.slice(data[0].FullName.indexOf(" ") + 1);
+      const id = data[0].Id;
+      const firstname = data[0].FullName.slice(0, data[0].FullName.indexOf(" "));
+      const lastname = data[0].FullName.slice(data[0].FullName.indexOf(" ") + 1);
+    setValuesForm((prev)=>{return {...prev,idlecturer: id, firstname: firstname,lastname: lastname}});
    }
  }, [props.btn,data]);
+
   return (
     <div>
       <div className={cx("form")}>
@@ -104,8 +125,12 @@ function AddUser(props) {
                 <input
                   placeholder="User name"
                   className={`w-full input ${cx("input")}`}
+                  value={valuesForm.username}
+                  onChange={(e) => {
+                    setValuesForm({ ...valuesForm, username: e.target.value });
+                  }}
                 ></input>
-                {users.length !== 0 && users[0].value === "" && (
+                {valuesForm.username === "" && (
                   <p className="absolute right-3 text-yellow-300">
                     <IoIosWarning className="text-[24px]"></IoIosWarning>
                   </p>
@@ -121,8 +146,12 @@ function AddUser(props) {
                 <input
                   placeholder="Password"
                   className={`w-full input ${cx("input")}`}
+                  value={valuesForm.password}
+                  onChange={(e) => {
+                    setValuesForm({ ...valuesForm, password: e.target.value });
+                  }}
                 ></input>
-                {users.length !== 0 && users[1].value === "" && (
+                {valuesForm.password === "" && (
                   <p className="absolute right-3 text-yellow-300">
                     <IoIosWarning className="text-[24px]"></IoIosWarning>
                   </p>
@@ -138,8 +167,15 @@ function AddUser(props) {
                 <input
                   placeholder="DTU-ID"
                   className={`w-full input ${cx("input")}`}
+                  value={valuesForm.idlecturer}
+                  onChange={(e) => {
+                    setValuesForm({
+                      ...valuesForm,
+                      idlecturer: e.target.value,
+                    });
+                  }}
                 ></input>
-                {users.length !== 0 && users[2].value === "" && (
+                {valuesForm.idlecturer === "" && (
                   <p className="absolute right-3 text-yellow-300">
                     <IoIosWarning className="text-[24px]"></IoIosWarning>
                   </p>
@@ -155,8 +191,12 @@ function AddUser(props) {
                 <input
                   placeholder="First name "
                   className={`w-full input ${cx("input")}`}
+                  value={valuesForm.firstname}
+                  onChange={(e) => {
+                    setValuesForm({ ...valuesForm, firstname: e.target.value });
+                  }}
                 ></input>
-                {users.length !== 0 && users[3].value === "" && (
+                {valuesForm.firstname === "" && (
                   <p className="absolute right-3 text-yellow-300">
                     <IoIosWarning className="text-[24px]"></IoIosWarning>
                   </p>
@@ -172,8 +212,12 @@ function AddUser(props) {
                 <input
                   placeholder="Last name"
                   className={`w-full input ${cx("input")}`}
+                  value={valuesForm.lastname}
+                  onChange={(e) => {
+                    setValuesForm({ ...valuesForm, lastname: e.target.value });
+                  }}
                 ></input>
-                {users.length !== 0 && users[4].value === "" && (
+                {valuesForm.lastname === "" && (
                   <p className="absolute right-3 text-yellow-300">
                     <IoIosWarning className="text-[24px]"></IoIosWarning>
                   </p>
@@ -191,6 +235,13 @@ function AddUser(props) {
                   class="w-full"
                   options={Faculty}
                   setSelectedOption={setFaculty}
+                  defaultValue={
+                    props.btn &&
+                    data[0].School && {
+                      label: data[0].School,
+                      value: data[0].School,
+                    }
+                  }
                 ></SelectForm>
               </div>
             </div>
@@ -205,6 +256,13 @@ function AddUser(props) {
                   class="w-full"
                   options={Faculty}
                   setSelectedOption={setDepartment}
+                  defaultValue={
+                    props.btn &&
+                    data[0].Department && {
+                      label: data[0].Department,
+                      value: data[0].Department,
+                    }
+                  }
                 ></SelectForm>
               </div>
             </div>
@@ -219,6 +277,9 @@ function AddUser(props) {
                   class="w-full"
                   options={Role}
                   setSelectedOption={setRole}
+                  defaultValue={
+                    props.btn && data[0].Role && roleValue(data[0].Role)[0]
+                  }
                 ></SelectForm>
               </div>
             </div>

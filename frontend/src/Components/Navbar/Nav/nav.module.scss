@@ -5,7 +5,7 @@
   overflow: hidden;
   height: 0px;
   background-color: #afafaf;
-  transition: all 0.2s  ease-in;
+  transition: all 0.2s ease-in;
 }
 
 .nav_left_item li {
@@ -19,9 +19,15 @@
   &:hover {
     color: #950b0b;
   }
-  p{
+  p {
     user-select: none;
   }
+}
+.nav_left_item li a{
+  display: flex;
+  height: 41px;
+  align-items: center;
+  width: 100%;
 }
 
 .item {
@@ -36,6 +42,5 @@
   &:hover {
     background-position: -1px -297px;
     color: #fff;
-    }
-
+  }
 }

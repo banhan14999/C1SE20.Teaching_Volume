@@ -6,9 +6,11 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Link } from "react-router-dom";
-import StyledTableCell from "../../StyledTableCell";
 import { GrUpdate } from "react-icons/gr";
 import {TbListDetails} from "react-icons/tb"
+
+import StyledTableCell from "../../StyledTableCell";
+
 function ManagerWorkload() {
   function createData(stt, typeWorkload, status) {
     return { stt, typeWorkload, status };

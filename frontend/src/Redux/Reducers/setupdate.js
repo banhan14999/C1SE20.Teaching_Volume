@@ -1,5 +1,5 @@
 import { SET_UPDATE } from "../Constant/index";
-const initState = { update: "Info webpart" };
+const initState = { update: "Info webpart",check :false };
 export default function Setupdate(state = initState, action) {
   switch (action.type) {
     case SET_UPDATE:

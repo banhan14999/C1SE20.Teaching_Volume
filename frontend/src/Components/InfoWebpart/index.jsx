@@ -1,5 +1,7 @@
 import classNames from "classnames/bind";
+
 import styles from "./infowebpart.module.scss";
+
 const cx = classNames.bind(styles);
 
 function InfoWebpart() {

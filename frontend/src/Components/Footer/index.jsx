@@ -1,7 +1,10 @@
 import classNames from "classnames/bind";
+
 import styles from "./footer.module.scss";
 import footer from "../../Assets/img/bg-footer.png";
+
 const cx= classNames.bind(styles)
+
 function Footer() {
     return (
       <div className={`ml-[13px] max-w-[962px] ${cx("footer")}`}>

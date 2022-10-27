@@ -1,22 +1,25 @@
-import SelectForm from "../../SelectForm";
-import { default as Button } from "../../Button";
+import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
 import { IoIosWarning } from "react-icons/io";
 import classNames from "classnames/bind";
+import {useParams} from "react-router-dom"
+import SelectForm from "../../SelectForm";
 import styles from "./addsubject.module.scss";
-import { useState } from "react";
-import { Post, Update } from "../../../utils/axios";
-import { useSelector } from "react-redux";
-import { useEffect } from "react";
-
+import { default as Button } from "../../Button";
+import { ApiTeachingVolume } from "../../../apis/axios";
 const cx = classNames.bind(styles);
 
 function AddSubject(props) {
+  const param = useParams()
+  const [valuesForm, setValuesForm] = useState({
+    letter: "",
+    number: "",
+    subject_name: "",
+    credit:""
+  });
   const updateData = useSelector((data) => data.dtupdate);
   const { data } = updateData;
-
   const [type, setType] = useState([]);
-  const [req, setReq] = useState([]);
-  const [selectedValue, setselectedValue] = useState();
 
   const options = [
     { value: "LEC", label: "LEC" },
@@ -28,33 +31,38 @@ function AddSubject(props) {
   ];
   
   function handleClickAdd() {
-     const input = document.querySelectorAll(`.${styles.input}`);
-     const arr = [...input];
      const types = type.reduce((str, value) => {
        return str + value.value + " ";
      }, "");
 
-   if(props.btn){
+   if(param.id){
       const id = data[0].Subject_id;
-      const obj = {
-        letter: arr[0].value,
-        number: parseInt(arr[1].value),
-        subject_name: arr[2].value,
-        credit: parseInt(arr[3].value),
-        type: types||selectedValue,
-      };
-     const check =  Update("/subject/update/", id, obj);
+       const obj = {
+         letter: valuesForm.letter,
+         number: parseInt(valuesForm.number),
+         subject_name: valuesForm.subject_name,
+         credit: parseInt(valuesForm.credit),
+         type: types || data[0].Type,
+       };
+     const check = ApiTeachingVolume.Update("/subject/update/", id, obj);
      check
        .then(function (response) {
           alert("Update Done");
+          
        })
        .catch(function (error) {
-          alert("Update That bai")
+          alert("Update That bai", error);
        });
       
    }else{
-     setReq([...arr]);
-     const checkValInput = arr.every((value) => value.value);
+     let checkValInput = true
+     for (let key in valuesForm) {
+       if (valuesForm.hasOwnProperty(key)) {
+         if(valuesForm[key]===""){
+            checkValInput=false
+         }
+       }
+     }
      if (!checkValInput || type.length === 0) {
        alert("Vui lòng nhập đầy đủ các trường!");
      } else if (checkValInput && type.length > 0) {
@@ -63,20 +71,22 @@ function AddSubject(props) {
        }, "");
 
        const obj = {
-         letter: arr[0].value,
-         number: parseInt(arr[1].value),
-         subject_name: arr[2].value,
-         credit: parseInt(arr[3].value),
+         letter: valuesForm.letter,
+         number: parseInt(valuesForm.number),
+         subject_name: valuesForm.subject_name,
+         credit: parseInt(valuesForm.credit),
          type: types,
        };
-      const add =  Post("/subject/add", obj);
+      const add = ApiTeachingVolume.Post("/subject/add", obj);
       add 
       .then((res)=>{
            alert("Add Done");
-           arr.forEach((value) => {
-             value.value = "";
-           });
-           setReq([]);
+          setValuesForm({
+            letter: "",
+            number: "",
+            subject_name: "",
+            credit: "",
+          });
       })
       .catch(()=>{
          alert("Add That bai");
@@ -84,18 +94,21 @@ function AddSubject(props) {
      }
    }
   }
-  
   useEffect(() => {
-    if (props.btn) {
-      const input = document.querySelectorAll(`.${styles.input}`);
-      const arr = [...input];
-      arr[0].value = data[0].Code.slice(0, data[0].Code.indexOf(" "));
-      arr[1].value = data[0].Code.slice(data[0].Code.indexOf(" ") + 1);
-      arr[2].value = data[0].Subject;
-      arr[3].value = data[0].Credit;
-      setselectedValue(data[0].Type);
+    if (param.id) {
+      const letter = data[0].Code.slice(0, data[0].Code.indexOf(" "));
+      const number = data[0].Code.slice(data[0].Code.indexOf(" ") + 1);
+      const subject_name = data[0].Subject;
+      const credit = data[0].Credit;
+      setValuesForm({
+        letter: letter,
+        number: number,
+        subject_name: subject_name,
+        credit: credit,
+      });
     }
-  }, [props.btn,data]);
+  }, [param.id, data]);
+
 
   return (
     <div>
@@ -117,8 +130,12 @@ function AddSubject(props) {
                   placeholder="Letter"
                   className={`w-full input ${cx("input")} `}
                   required
+                  value={valuesForm.letter}
+                  onChange={(e) => {
+                    setValuesForm({ ...valuesForm, letter: e.target.value });
+                  }}
                 ></input>
-                {req.length !== 0 && req[0].value === "" && (
+                {valuesForm.letter === "" && (
                   <p className="absolute right-3 text-yellow-300">
                     <IoIosWarning className="text-[24px]"></IoIosWarning>
                   </p>
@@ -135,8 +152,12 @@ function AddSubject(props) {
                   placeholder="Number"
                   className={`w-full input ${cx("input")} `}
                   required
+                  value={valuesForm.number}
+                  onChange={(e) => {
+                    setValuesForm({ ...valuesForm, number: e.target.value });
+                  }}
                 ></input>
-                {req.length !== 0 && req[1].value === "" && (
+                {valuesForm.number === "" && (
                   <p className="absolute right-3  text-yellow-300">
                     <IoIosWarning className="text-[24px]"></IoIosWarning>
                   </p>
@@ -153,8 +174,15 @@ function AddSubject(props) {
                   placeholder="Subject"
                   className={`w-full input ${cx("input")} `}
                   required
+                  value={valuesForm.subject_name}
+                  onChange={(e) => {
+                    setValuesForm({
+                      ...valuesForm,
+                      subject_name: e.target.value,
+                    });
+                  }}
                 ></input>
-                {req.length !== 0 && req[2].value === "" && (
+                {valuesForm.subject_name === "" && (
                   <p className="absolute right-3  text-yellow-300">
                     <IoIosWarning className="text-[24px]"></IoIosWarning>
                   </p>
@@ -171,8 +199,12 @@ function AddSubject(props) {
                   placeholder="Credit"
                   className={`w-full input ${cx("input")} `}
                   required
+                  value={valuesForm.credit}
+                  onChange={(e) => {
+                    setValuesForm({ ...valuesForm, credit: e.target.value });
+                  }}
                 ></input>
-                {req.length !== 0 && req[3].value === "" && (
+                {valuesForm.credit === "" && (
                   <p className="absolute right-3  text-yellow-300">
                     <IoIosWarning className="text-[24px]"></IoIosWarning>
                   </p>
@@ -191,7 +223,9 @@ function AddSubject(props) {
                   options={options}
                   setSelectedOption={setType}
                   isMulti="isMulti"
-                  selectedValue={selectedValue}
+                  // defaultValue={
+                  //   param.id && { value: data[0].Type, label: data[0].Type }
+                  // }
                 ></SelectForm>
               </div>
             </div>

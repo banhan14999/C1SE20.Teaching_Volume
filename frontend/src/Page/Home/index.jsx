@@ -5,6 +5,7 @@ import SubHeader from "../../Components/Header/SubHeader";
 import Footer from "../../Components/Footer"
 import NavLeft from "../../Components/Navbar";
 const cx = classNames.bind(styles);
+
 function Home() {
   return (
     <div>

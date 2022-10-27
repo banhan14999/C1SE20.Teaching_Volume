@@ -2,6 +2,7 @@ import classNames from "classnames/bind";
 import { useEffect, useState } from "react";
 
 import styles from "./subheader.module.scss";
+
 const cx = classNames.bind(styles);
 
 function SubHeader() {

@@ -3,8 +3,9 @@ import {  useRef, useState, useEffect } from "react";
 import { default as Button } from "../../Components/Button";
 import MyCaptcha from "../../Components/Captcha";
 import bg from "../../Assets/img/bg.jpg";
+
 import logoform from "../../Assets/img/logo_dtu_while.png";
-import { Get } from "../../utils/axios";
+import { ApiTeachingVolume } from "../../apis/axios";
 // import md5 from "md5"
 function Authentication() {
   const navigate = useNavigate();
@@ -15,7 +16,6 @@ function Authentication() {
   const inputPassValue = useRef();
   const inputUserValue = useRef()
   const inputCaptchaValue = useRef()
-
   // Login 
   function handlLogin(event) {
     const obj = {
@@ -27,8 +27,7 @@ function Authentication() {
     if (event.code==="Enter" || event.type ==="click" ){
       // kiem tra dang nhap
       // console.log(md5(obj.password));
-        if (
-          obj.user === item.Username &&
+        if ( obj.user === item.Username &&
           // md5(obj.password) === item.Password &&
           obj.password === item.Password &&
           imgcaptcha === obj.captcha
@@ -38,16 +37,17 @@ function Authentication() {
             JSON.stringify(item.FirstName + " " + item.LastName)
           );
           setCheckLogin(true);
-          navigate("/home");
+          navigate("/home/infowebpart");
         } else {
           setCheckLogin(false);
           inputPassValue.current.value = "";
+          inputCaptchaValue.current.value = ""
         }
     } 
     })
   }
  useEffect(() => {
-  const login = Get("/user/all");
+  const login = ApiTeachingVolume.Get("/user/all");
    login.then((data) => {
       setData([...data.lecturers]);
    });
@@ -60,7 +60,6 @@ function Authentication() {
      localStorage.clear("Lecturer");
     setImgcaptcha(refcaptcha.current.children[0].dataset.key);
   }, []);
-
   return (
     <div
       className="w-screen h-screen items-center flex justify-center "
@@ -123,7 +122,7 @@ function Authentication() {
                     handlLogin(e);
                   }}
                 ></input>
-                <MyCaptcha ref={refcaptcha} />
+                <MyCaptcha ref={refcaptcha}/>
               </div>
             </div>
             {checkLogin === true ? (

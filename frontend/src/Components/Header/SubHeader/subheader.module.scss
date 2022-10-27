@@ -9,6 +9,7 @@
     left: 50%;
     top: 0px;
     transform: translateX(-50%);
+    user-select: none;
 }
 .date {
     position: absolute;

@@ -3,70 +3,33 @@ import { FcBusinessman } from "react-icons/fc";
 import { BsCalendarDate } from "react-icons/bs";
 import { AiOutlineLogout, AiOutlineUserAdd } from "react-icons/ai";
 import { SiWebpack, SiGoogleclassroom, SiManageiq } from "react-icons/si";
+import { MdSubject, MdManageAccounts, MdAssignmentInd } from "react-icons/md";
 import { RiVoiceRecognitionFill } from "react-icons/ri";
 import { GiManacles } from "react-icons/gi";
-import { MdSubject, MdManageAccounts } from "react-icons/md";
+import { Link, Outlet } from "react-router-dom";
 import Tippy from "@tippyjs/react";
-import WorkVolume from "../WorkVolume";
-import ClassInformation from "../Form/ClassInformation";
-import AddSubject from "../Form/AddSubject";
 import classNames from "classnames/bind";
+
 import styles from "./nav.module.scss";
-import InfoWebpart from "../InfoWebpart";
-import ManagerWorkload from "../Table/ManagerWorkload";
-import Permission from "../Table/Permission";
-import AddUser from "../Form/AddUser"
-import AddYear from "../Form/AddYear";
 import NavLeft from "./Nav";
-import { lazy, Suspense } from "react";
-import Loading from "../Loading";
-import Division from "../Form/Division";
-import { Link } from "react-router-dom";
-
-
-
-const ManagerSubject = lazy(() => {
-  return new Promise((resolve) => {
-    setTimeout(() => resolve(import("../Table/ManagerSubject")), 1000);
-  });
-});
-
-const ManagerClass = lazy(() => {
-  return new Promise((resolve) => {
-    setTimeout(() => resolve(import("../Table/ManagerClass")), 1000);
-  });
-});
-
-const ManagerUser = lazy(() => {
-  return new Promise((resolve) => {
-    setTimeout(() => resolve(import("../Table/ManagerUser")), 1000);
-  });
-});
-
-const ManagerYear = lazy(() => {
-  return new Promise((resolve) => {
-    setTimeout(() => resolve(import("../Table/ManagerYear")), 1000);
-  });
-});
 
 
 
 const cx = classNames.bind(styles);
 
 function Nav() {
-  const forms = useSelector((data)=>data.form);
+   const Head = JSON.parse(localStorage.getItem("Head"));
+   const Admin = JSON.parse(localStorage.getItem("Admin"));
+   const Dean = JSON.parse(localStorage.getItem("Dean"));
+   const Lecturer = JSON.parse(localStorage.getItem("Lecturer"));
+  const forms = useSelector((data) => data.form);
   const updates = useSelector((data) => data.update);
-  const {update}= updates
-  const {form}=forms;
-
-  const Head = JSON.parse(localStorage.getItem("Head"));
-  const Admin = JSON.parse(localStorage.getItem("Admin"));
-  const Dean = JSON.parse(localStorage.getItem("Dean"));
-  const Lecturer = JSON.parse(localStorage.getItem("Lecturer"));
+  const { update } = updates;
+  const { form } = forms;
 
   return (
     <div className={cx("container")}>
-      <div className="flex justify-between">
+      <div className="flex justify-between select-none">
         <div className="flex items-center">
           <div
             className={`${cx(
@@ -82,14 +45,18 @@ function Nav() {
               {form === "Add new Subject" && <MdSubject className="mr-2" />}
               {form === "Info webpart" && <SiWebpack className="mr-2" />}
               {form === "Add New Year" && <BsCalendarDate className="mr-2" />}
-              {form === "Division" && <AiOutlineUserAdd className="mr-2" />}
-              {form === "Permission" && <RiVoiceRecognitionFill className="mr-2" />}
-              {form === "Add New Class" && <SiGoogleclassroom className="mr-2" />}
+              {form === "Division" && <MdAssignmentInd className="mr-2" />}
+              {form === "Permission" && (
+                <RiVoiceRecognitionFill className="mr-2" />
+              )}
+              {form === "Add New Class" && (
+                <SiGoogleclassroom className="mr-2" />
+              )}
               {form === "Manager User" && <MdManageAccounts className="mr-2" />}
               {form === "Manager Subject" && <SiManageiq className="mr-2" />}
               {form === "Manager Class" && <GiManacles className="mr-2" />}
             </span>
-            <span className="leading-[54px]">{update || form}</span>
+            <span className="leading-[54px]">{ update || form}</span>
           </div>
         </div>
         <Tippy
@@ -99,7 +66,6 @@ function Nav() {
             </span>
           }
           delay={300}
-          tabIndex="-1"
           placement="bottom"
         >
           <Link to="/authentication" className="flex items-center">
@@ -119,39 +85,31 @@ function Nav() {
       <div className="flex border-r-[1px] border-[#D5D5D5] border-solid">
         <NavLeft></NavLeft>
         <div className="w-[726px] mb-3 ">
-          {form === "Info webpart" && <InfoWebpart />}
+          {/* {param.includes("manager") ? (
+            <>
+              <Suspense fallback={<Loading />}>
+                {form === "Manager Subject" && <ManagerSubject hide={update} />}
+              </Suspense>
 
-          {form === "Add new Subject" && <AddSubject />}
+              <Suspense fallback={<Loading />}>
+                {Admin && form === "Manager Class" && (
+                  <ManagerClass hide={update} />
+                )}
+              </Suspense>
+              <Suspense fallback={<Loading />}>
+                {form === "Manager Class" && <WorkVolume />}
+              </Suspense>
 
-          <Suspense fallback={<Loading />}>
-            {form === "Manager Subject" && <ManagerSubject hide={update} />}
-          </Suspense>
+              <Suspense fallback={<Loading />}>
+                {form === "Manager Year" && <ManagerYear hide={update} />}
+              </Suspense>
 
-          {form === "Add New Class" && <ClassInformation />}
-          {Lecturer || Head ? (
-            form === "Manager Class" && <WorkVolume />
-          ) : (
-            <></>
-          )}
-
-          <Suspense fallback={<Loading />}>
-            {Admin && form === "Manager Class" && (
-              <ManagerClass hide={update} />
-            )}
-          </Suspense>
-
-          {form === "Add New Year" && <AddYear />}
-          <Suspense fallback={<Loading />}>
-            {form === "Manager Year" && <ManagerYear hide={update} />}
-          </Suspense>
-
-          {form === "Add new User" && <AddUser />}
-          <Suspense fallback={<Loading />}>
-            {form === "Manager User" && <ManagerUser hide={update} />}
-          </Suspense>
-          {form === "Manager Workload" && <ManagerWorkload />}
-          {form === "Permission" && <Permission />}
-          {form === "Division" && <Division />}
+              <Suspense fallback={<Loading />}>
+                {form === "Manager User" && <ManagerUser hide={update} />}
+              </Suspense>
+            </>
+          ) : ( */}
+          <Outlet></Outlet>
         </div>
       </div>
     </div>

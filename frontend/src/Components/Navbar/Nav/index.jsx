@@ -1,75 +1,74 @@
-
-import { AiFillCaretRight } from "react-icons/ai";
 import { useEffect } from "react";
-import classNames from "classnames/bind";
-import styles from "./nav.module.scss";
-
 import { useDispatch } from "react-redux";
-import {ShowForm} from "../../../Redux/Actions/index"
+import { AiFillCaretRight } from "react-icons/ai";
+import classNames from "classnames/bind";
+import { useNavigate } from "react-router-dom";
+
+import styles from "./nav.module.scss";
+import { ShowForm } from "../../../Redux/Actions/index";
 import { SetUpdate } from "../../../Redux/Actions/index";
 
 const cx = classNames.bind(styles);
 
 function NavLeft() {
   const dispatch = useDispatch();
+  const Head = localStorage.getItem("Head");
+  const Admin = localStorage.getItem("Admin");
+  const Dean = localStorage.getItem("Dean");
+  const Lecturer = localStorage.getItem("Lecturer");
+  const navigate = useNavigate();
 
-   const Head = localStorage.getItem("Head");
-   const Admin = localStorage.getItem("Admin");
-   const Dean = localStorage.getItem("Dean");
-   const Lecturer = localStorage.getItem("Lecturer");
-
-    useEffect(() => {
-      let dem=0;
-      const navs = document.querySelectorAll(`.${styles.nav_left}>li`);
-      navs.forEach((value) => {
-        value.onclick = () => {
-
-           let back = value.querySelector(`.${styles.item}`);
-            // dem the li trong ul cua value
-           let val = value.querySelectorAll("ul li");
-           dem = val.length * 41;
-          let item = value.querySelector("ul");
-
-          if (back.style.backgroundPosition === "-1px -297px" && item) {
+  useEffect(() => {
+    const navs = document.querySelectorAll(`.${styles.nav_left}>li`);
+    navs.forEach((value) => {
+      value.onclick = (e) => {
+        let back = value.querySelector(`.${styles.item}`);
+        let val = value.querySelectorAll("ul li");
+        let dem = val.length * 41;
+        let item = value.querySelector("ul");
+        if (back.style.backgroundPosition === "-1px -297px" && item) {
+          back.style.backgroundPosition = "-1px -252px";
+          item.style.height = "0px";
+        } else {
+          let navLeftItem = [
+            ...document.getElementsByClassName(`${styles.nav_left_item}`),
+          ];
+          navLeftItem.forEach((item) => {
+            item.style.height = "0px";
+            item.onclick = (e) => {
+              dispatch(ShowForm(e.target.textContent));
+              dispatch(SetUpdate());
+              if (e.stopPropagation) e.stopPropagation();
+              const text = e.target.textContent
+                .toLowerCase()
+                .split("")
+                .filter((value) => value !== " ")
+                .join("");
+              navigate(text);
+            };
+          });
+          navs.forEach((backgroundback) => {
+            let back = backgroundback.querySelector(`.${styles.item}`);
             back.style.backgroundPosition = "-1px -252px";
-            item.style.height ="0px"
-          } else {
-          let navLeftItem = [...document.getElementsByClassName(`${styles.nav_left_item}`)];
-            navLeftItem.forEach((item) => {
-              item.style.height = "0px";
-              item.onclick = (e) => {
-                if (e.stopPropagation) e.stopPropagation();
-                const li = item.querySelectorAll("li");
-                li.forEach((text) => {
-                  text.onclick = (e) => {
-                    dispatch(ShowForm(e.target.textContent));
-                    dispatch(SetUpdate());
-                  };
-                });
-              };
-            });
-            navs.forEach((backgroundback)=>{
-                let back = backgroundback.querySelector(`.${styles.item}`);
-                back.style.backgroundPosition = "-1px -252px";
-            })  
-
-            back.style.backgroundPosition = "-1px -297px";
-            value.style.color = "#fff";
-            item.style.height = `${dem}px`;
-            if (item) {
-              if (item.style.height === "0px") {
-                item.style.height = "unset";
-              }
+          });
+          back.style.backgroundPosition = "-1px -297px";
+          value.style.color = "#fff";
+          item.style.height = `${dem}px`;
+          if (item) {
+            if (item.style.height === "0px") {
+              item.style.height = "unset";
             }
           }
-        };
-      });
+        }
+      };
     });
+  }, [navigate,dispatch]);
 
   return (
-    <div className="w-[223px] mr-[12px] min-h-[420px] bg-[#E5E5E5] ">
+    // width : 223px
+    <div className="w-[23.21%] mr-[12px] min-h-[420px] bg-[#E5E5E5] ">
       <ul className={`${cx("nav_left")}`}>
-        {/* {Lecturer && (
+        {Lecturer && (
           <li>
             <p
               className={`${cx(
@@ -89,8 +88,24 @@ function NavLeft() {
               </li>
             </ul>
           </li>
-        )} */}
-
+        )}
+        {Head && (
+          <li>
+            <p
+              className={`${cx(
+                "item"
+              )} flex pl-4 items-center font-medium text-[14px] select-none `}
+            >
+              Dash
+            </p>
+            <ul className={`${cx("nav_left_item")} text-[14px] `}>
+              <li className="flex">
+                <AiFillCaretRight className="mr-1"></AiFillCaretRight>
+                <p>View Table</p>
+              </li>
+            </ul>
+          </li>
+        )}
         {Admin && (
           <li>
             <p
@@ -199,6 +214,10 @@ function NavLeft() {
               Workload
             </p>
             <ul className={`${cx("nav_left_item")} text-[14px] `}>
+              <li className="flex">
+                <AiFillCaretRight className="mr-1"></AiFillCaretRight>
+                <p>Approval</p>
+              </li>
               <li className="flex">
                 <AiFillCaretRight className="mr-1"></AiFillCaretRight>
                 <p>Manager Workload</p>

@@ -1,0 +1,14 @@
+.container {
+  display: flex;
+  justify-content: space-around;
+}
+.options {
+  color: green;
+}
+.option {
+  width: 100%;
+  min-height: 175px;
+  background: url("../../../Assets/img/bg-dangkymonhoc.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+}
