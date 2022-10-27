@@ -58,8 +58,8 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, $id)
     {
-        $user = USer::find($id);
-        $user->IdLecturer   = $request->input('idlecturer');
+        $user = User::find($id);
+        //$user->IdLecturer   = $request->input('idlecturer');
         $user->FirstName    = $request->input('firstname');
         $user->LastName     = $request->input('lastname');
         $user->IdFaculty    = $request->input('idfaculty');
@@ -68,7 +68,7 @@ class UserController extends Controller
         $user->save();
         return response()->json([
             'status' => 200,
-            'message' => ''
+            'message' => 'Updated successfully',
         ]);
     }
 

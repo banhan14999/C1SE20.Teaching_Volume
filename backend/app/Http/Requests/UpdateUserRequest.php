@@ -25,8 +25,8 @@ class UpdateUserRequest extends FormRequest
     {
         return [
             'idlecturer'=>'unique:users,IdLecturer | max:10',
-            'firstname'=>'required',
-            'lastname'=>'required',
+            //'firstname'=>'required',
+            //'lastname'=>'required',
         ];
     }
 }
