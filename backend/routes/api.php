@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\LecturerController;
 use App\Http\Controllers\Api\SubjectController;
 use App\Http\Controllers\Api\RoleController;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\YearController;
 use App\Models\Lecturer;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -102,6 +103,15 @@ Route::controller(SubjectController::class)->group(function() {
         Route::get('{id}','show');
         Route::post('add','store');
         Route::put('update/{id}','update');
+        Route::delete('delete/{id}','destroy');
+    });
+});
+
+//Year COntroller
+Route::controller(YearController::class)->group(function() {
+    Route::prefix('year')->group(function() {
+        Route::get('all','index');
+        Route::post('add','store');
         Route::delete('delete/{id}','destroy');
     });
 });

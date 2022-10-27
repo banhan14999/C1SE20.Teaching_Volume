@@ -24,7 +24,11 @@ class UpdateSubjectRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'letter' => 'required | max:20 ',
+            'number' => 'required | numeric',
+            'subject_name' => 'required | max:200',
+            'credit' => 'required | numeric | min:1',
+            'type' => 'required | max:20',
         ];
     }
 }
