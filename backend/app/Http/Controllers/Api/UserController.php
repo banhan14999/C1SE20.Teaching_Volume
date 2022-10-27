@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -55,9 +56,20 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateUserRequest $request, $id)
     {
-        //
+        $user = USer::find($id);
+        $user->IdLecturer   = $request->input('idlecturer');
+        $user->FirstName    = $request->input('firstname');
+        $user->LastName     = $request->input('lastname');
+        $user->IdFaculty    = $request->input('idfaculty');
+        $user->IdDepartment = $request->input('iddepartment');
+        $user->IdRole       = $request->input('idrole');
+        $user->save();
+        return response()->json([
+            'status' => 200,
+            'message' => ''
+        ]);
     }
 
     /**

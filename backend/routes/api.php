@@ -83,6 +83,7 @@ Route::controller(UserController::class)->group(function () {
     Route::prefix('user')->group(function(){
         Route::get('all','index');
         Route::get('{id}','show');
+        Route::put('update/{id}','update');
     });
 });
 

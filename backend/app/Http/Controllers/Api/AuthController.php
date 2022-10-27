@@ -87,6 +87,7 @@ class AuthController extends Controller
             }
             return response([
                 'status' => 200,
+                'id' => $user->id,
                 'username' => $user->FirstName . ' ' . $user->LastName,
                 'token' => $token,
                 'role' => $role,
