@@ -65,7 +65,7 @@ class UserController extends Controller
         $user->IdFaculty    = $request->input('idfaculty');
         $user->IdDepartment = $request->input('iddepartment');
         $user->IdRole       = $request->input('idrole');
-        $user->save();
+        $user->update();
         return response()->json([
             'status' => 200,
             'message' => 'Updated successfully',

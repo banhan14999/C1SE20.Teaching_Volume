@@ -99,7 +99,7 @@ class SubjectController extends Controller
         $subject                 = Subject::find($id);
         $subject->Letter         = $request->input('letter');
         $subject->Number         = $request->input('number');
-        $subject->SubjectName   = $request->input('subject_name');
+        $subject->SubjectName    = $request->input('subject_name');
         $subject->Credit         = $request->input('credit');
         $subject->Type           = $request->input('type');
         $subject->updated_at     = date('Y-m-d H:i:s');
