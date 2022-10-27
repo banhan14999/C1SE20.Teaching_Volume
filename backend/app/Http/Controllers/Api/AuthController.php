@@ -42,12 +42,12 @@ class AuthController extends Controller
                 'IdRole' => $request->idrole
             ]);
 
-            $token = $user->createToken($user->Username.'_Token')->plainTextToken;
+            //$token = $user->createToken($user->Username.'_Token')->plainTextToken;
 
             return response([
                 'status' => 200,
                 'username' => $user->FirstName . ' ' . $user->LastName,
-                'token' => $token,
+                //'token' => $token,
                 'message' => 'Created User Successfully',
             ]);
        //}
@@ -63,13 +63,33 @@ class AuthController extends Controller
             ]);
         }
         else {
-            $token = $user->createToken($user->Username.'_Token')->plainTextToken;
+            if($user->IdRole == 1) // 1: Admin
+            {
+                $role = 'Admin';
+                $token = $user->createToken($user->Username.'_AdminToken')->plainTextToken;
+            }
+            elseif($user->IdRole == 2) //2: Dean
+            {
+                $role = 'Dean';
+                $token = $user->createToken($user->Username.'_DeanToken')->plainTextToken;
+            }
+            elseif($user->IdRole == 3) //3: Head
+            {
+                $role = 'Head';
+                $token = $user->createToken($user->Username.'_HeadToken')->plainTextToken;
 
+            }
+            else // 4: Lecturer
+            {
+                $role = 'Lecturer';
+                $token = $user->createToken($user->Username.'_Token')->plainTextToken;
+
+            }
             return response([
                 'status' => 200,
                 'username' => $user->FirstName . ' ' . $user->LastName,
                 'token' => $token,
-                'user' => $user,
+                'role' => $role,
                 'message' => 'Logged In Successfully',
             ]);
         }
