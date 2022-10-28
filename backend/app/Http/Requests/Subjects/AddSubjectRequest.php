@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Subjects;
 
+use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class AddSubjectRequest extends FormRequest
@@ -13,7 +14,7 @@ class AddSubjectRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +25,11 @@ class AddSubjectRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'letter' => 'required | max:20 ',
+            'number' => 'required | numeric',
+            'subject_name' => 'required | max:200',
+            'credit' => 'required | numeric | min:1',
+            'type' => 'required | max:20',
         ];
     }
 }

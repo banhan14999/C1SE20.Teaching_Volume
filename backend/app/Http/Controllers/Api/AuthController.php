@@ -46,7 +46,7 @@ class AuthController extends Controller
 
             return response([
                 'status' => 200,
-                'username' => $user->FirstName . ' ' . $user->LastName,
+                //'username' => $user->FirstName . ' ' . $user->LastName,
                 //'token' => $token,
                 'message' => 'Created User Successfully',
             ]);
@@ -87,8 +87,9 @@ class AuthController extends Controller
             }
             return response([
                 'status' => 200,
-                'id' => $user->id,
-                'username' => $user->FirstName . ' ' . $user->LastName,
+                //'id' => $user->id,
+                //'username' => $user->FirstName . ' ' . $user->LastName,
+                'user' => $user,
                 'token' => $token,
                 'role' => $role,
                 'message' => 'Logged In Successfully',

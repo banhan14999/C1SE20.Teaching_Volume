@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Subjects\AddSubjectRequest;
 use App\Models\Subject;
 use Illuminate\Http\Request;
 
@@ -40,8 +41,9 @@ class SubjectController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(AddSubjectRequest $request)
     {
+<<<<<<< HEAD
         $subject = new Subject;
         $subject->Letter         = $request->input('letter');
         $subject->Number         = $request->input('number');
@@ -50,6 +52,22 @@ class SubjectController extends Controller
         $subject->Type           = $request->input('type');
         $subject->created_at     = date('Y-m-d H:i:s');
         $subject->save();
+=======
+        // $subject = new Subject;
+        // $subject->Letter         = $request->input('letter');
+        // $subject->Number         = $request->input('number');
+        // $subject->SubjectName    = $request->input('subject_name');
+        // $subject->Credit         = $request->input('credit');
+        // $subject->Type           = $request->input('type');
+        // $subject->save();
+        Subject::create([
+            'Letter' => $request->letter ,
+            'Number' => $request->number,
+            'SubjectName' => $request->subject_name ,
+            'Credit' => $request->credit,
+            'Type' => $request->type,
+        ]);
+>>>>>>> 5f26b12b802098a07dd938e9b933cfd828b4ba32
 
         return response()->json([
             'status'    => 201,
@@ -99,10 +117,10 @@ class SubjectController extends Controller
         $subject                 = Subject::find($id);
         $subject->Letter         = $request->input('letter');
         $subject->Number         = $request->input('number');
-        $subject->SubjectName   = $request->input('subject_name');
+        $subject->SubjectName    = $request->input('subject_name');
         $subject->Credit         = $request->input('credit');
         $subject->Type           = $request->input('type');
-        $subject->updated_at     = date('Y-m-d H:i:s');
+        //$subject->updated_at     = date('Y-m-d H:i:s');
         $subject->update();
 
         return response()->json([

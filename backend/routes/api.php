@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\LecturerController;
 use App\Http\Controllers\Api\SubjectController;
 use App\Http\Controllers\Api\RoleController;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\YearController;
 use App\Models\Lecturer;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -30,19 +31,6 @@ use Illuminate\Support\Facades\Route;
 // Route::put('subject/update/{id}',[SubjectController::class,'update']);
 // Route::delete('subject/delete/{id}',[SubjectController::class,'destroy']);
 
-<<<<<<< HEAD
-Route::group(['prefix' => 'subject'], function() {
-    Route::get('all',[SubjectController::class,'index']);
-    Route::post('add',[SubjectController::class,'store']);
-    Route::get('{id}',[SubjectController::class,'show']);
-    Route::get('edit/{id}',[SubjectController::class,'edit']);
-    Route::put('update/{id}',[SubjectController::class,'update']);
-    Route::delete('delete/{id}',[SubjectController::class,'destroy']);
-});
-
-=======
-
-
 // Route::group([
 //         'prefix' => 'subject', 
 //         'controller'=>'SubjectController::class'
@@ -56,7 +44,6 @@ Route::group(['prefix' => 'subject'], function() {
 //         Route::delete('delete/{id}','destroy');
 //     });
 // });
->>>>>>> 9e60b24c52c54a8ac69274714283cc33e0a51393
 //Lecturers
 //Route::get('user/all',[LecturerController::class,'index']);
 // Route::group(['prefix' => 'user'], function() {
@@ -114,6 +101,15 @@ Route::controller(SubjectController::class)->group(function() {
         Route::get('{id}','show');
         Route::post('add','store');
         Route::put('update/{id}','update');
+        Route::delete('delete/{id}','destroy');
+    });
+});
+
+//Year COntroller
+Route::controller(YearController::class)->group(function() {
+    Route::prefix('year')->group(function() {
+        Route::get('all','index');
+        Route::post('add','store');
         Route::delete('delete/{id}','destroy');
     });
 });
