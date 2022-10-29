@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\Api\ClassController;
 use App\Http\Controllers\Api\LecturerController;
 use App\Http\Controllers\Api\SubjectController;
 use App\Http\Controllers\Api\RoleController;
@@ -91,6 +92,16 @@ Route::middleware(['auth:sanctum'])->group(function(){
         Route::prefix('year')->group(function() {
             Route::get('all','index');
             Route::post('add','store');
+            Route::delete('delete/{id}','destroy');
+        });
+    });
+
+    Route::controller(ClassController::class)->group(function() {
+        Route::prefix('class')->group(function() {
+            Route::get('all','index');
+            Route::post('add','store');
+            Route::get('{id}','show');
+            Route::put('update/{id}','update');
             Route::delete('delete/{id}','destroy');
         });
     });

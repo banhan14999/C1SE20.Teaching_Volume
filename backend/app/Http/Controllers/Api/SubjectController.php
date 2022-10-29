@@ -43,16 +43,14 @@ class SubjectController extends Controller
      */
     public function store(AddSubjectRequest $request)
     {
-<<<<<<< HEAD
-        $subject = new Subject;
-        $subject->Letter         = $request->input('letter');
-        $subject->Number         = $request->input('number');
-        $subject->SubjectName   = $request->input('subject_name');
-        $subject->Credit         = $request->input('credit');
-        $subject->Type           = $request->input('type');
-        $subject->created_at     = date('Y-m-d H:i:s');
-        $subject->save();
-=======
+        // $subject = new Subject;
+        // $subject->Letter         = $request->input('letter');
+        // $subject->Number         = $request->input('number');
+        // $subject->SubjectName   = $request->input('subject_name');
+        // $subject->Credit         = $request->input('credit');
+        // $subject->Type           = $request->input('type');
+        // $subject->created_at     = date('Y-m-d H:i:s');
+        // $subject->save();
         // $subject = new Subject;
         // $subject->Letter         = $request->input('letter');
         // $subject->Number         = $request->input('number');
@@ -67,7 +65,6 @@ class SubjectController extends Controller
             'Credit' => $request->credit,
             'Type' => $request->type,
         ]);
->>>>>>> 5f26b12b802098a07dd938e9b933cfd828b4ba32
 
         return response()->json([
             'status'    => 201,

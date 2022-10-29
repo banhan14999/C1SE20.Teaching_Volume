@@ -50,7 +50,7 @@ class YearController extends Controller
      */
     public function show($id)
     {
-        //
+
     }
 
     /**
@@ -73,6 +73,11 @@ class YearController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $year = Year::find($id);
+        $year->delete();
+        return response()->json([
+            'status'    => 204,
+            'message'   => 'Year Deleted Successfully!',
+        ]);
     }
 }
