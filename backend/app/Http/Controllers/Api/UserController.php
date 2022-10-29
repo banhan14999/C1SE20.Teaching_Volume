@@ -18,28 +18,28 @@ class UserController extends Controller
     public function index(Request $request)
     {
         //$headers = apache_request_headers();
-        $token = $request->header('token');
-        $checkTokenIsValid = TokenUser::where('token', $token)->first();
-        //dd($token);
-        if(empty($token)) {
-            return response()->json([
-                'code' => 401,
-                'message' => "Login before do this action",
-            ],401);
-        }
-        elseif(empty($checkTokenIsValid)){
-            return response()->json([
-                'code' => 401,
-                'message' => 'invalid token',
-            ],401);
-        }
-        else{
+        // $token = $request->header('token');
+        // $checkTokenIsValid = TokenUser::where('token', $token)->first();
+        // //dd($token);
+        // if(empty($token)) {
+        //     return response()->json([
+        //         'code' => 401,
+        //         'message' => "Login before do this action",
+        //     ],401);
+        // }
+        // elseif(empty($checkTokenIsValid)){
+        //     return response()->json([
+        //         'code' => 401,
+        //         'message' => 'invalid token',
+        //     ],401);
+        // }
+        // else{
             $users = User::all();
             return response()->json([
                 'status' => 200,
                 'users'  => $users,
             ],200);
-        }
+        //}
     }
 
     /**
@@ -61,29 +61,29 @@ class UserController extends Controller
      */
     public function show(Request $request, $id)
     {
-        //$headers = apache_request_headers();
-        $token = $request->header('token');
-        $checkTokenIsValid = TokenUser::where('token', $token)->first();
-        //dd($token);
-        if(empty($token)) {
-            return response()->json([
-                'code' => 401,
-                'message' => "Login before do this action",
-            ],401);
-        }
-        elseif(empty($checkTokenIsValid)){
-            return response()->json([
-                'code' => 401,
-                'message' => 'invalid token',
-            ],401);
-        }
-        else{
+        // //$headers = apache_request_headers();
+        // $token = $request->header('token');
+        // $checkTokenIsValid = TokenUser::where('token', $token)->first();
+        // //dd($token);
+        // if(empty($token)) {
+        //     return response()->json([
+        //         'code' => 401,
+        //         'message' => "Login before do this action",
+        //     ],401);
+        // }
+        // elseif(empty($checkTokenIsValid)){
+        //     return response()->json([
+        //         'code' => 401,
+        //         'message' => 'invalid token',
+        //     ],401);
+        // }
+        // else{
             $user = User::find($id);
             return response()->json([
                 'status' => 200,
                 'user'   => $user,
             ]);
-        }
+        //}
     }
 
     /**

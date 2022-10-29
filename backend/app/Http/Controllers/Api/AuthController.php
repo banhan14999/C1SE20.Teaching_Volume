@@ -65,32 +65,26 @@ class AuthController extends Controller
         else {
             if($user->IdRole == 1) // 1: Admin
             {
-                $role = 'Admin';
-                $token = $user->createToken($user->Username.'_AdminToken')->plainTextToken;
+                $role = 'Admin';              
             }
             elseif($user->IdRole == 2) //2: Dean
             {
                 $role = 'Dean';
-                $token = $user->createToken($user->Username.'_DeanToken')->plainTextToken;
             }
             elseif($user->IdRole == 3) //3: Head
             {
                 $role = 'Head';
-                $token = $user->createToken($user->Username.'_HeadToken')->plainTextToken;
-
             }
             else // 4: Lecturer
             {
                 $role = 'Lecturer';
-                $token = $user->createToken($user->Username.'_Token')->plainTextToken;
-
             }
+            $token = $user->createToken($user->Username.'Token')->plainTextToken;
             return response([
                 'status' => 200,
-                //'id' => $user->id,
-                //'username' => $user->FirstName . ' ' . $user->LastName,
-                'user' => $user,
+                'username' => $user->FirstName . ' ' . $user->LastName,
                 'token' => $token,
+                'type_token' => 'Bearer',
                 'role' => $role,
                 'message' => 'Logged In Successfully',
             ]);
@@ -104,5 +98,10 @@ class AuthController extends Controller
             'status' => 200,
             'message' => 'Logged Out Successfully', 
         ]);
+    }
+
+    public function getUser(Request $request)
+    {
+        return $request->user();
     }
 }
