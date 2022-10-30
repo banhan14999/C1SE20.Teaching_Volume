@@ -105,11 +105,11 @@ Route::middleware(['auth:sanctum'])->group(function(){
         Route::prefix('class')->group(function() {
 
             Route::get('all','index');
-            Route::get('lecturer/{id}','getAllClassByIdLecturer');
-            Route::get('lecturerLab/{id}','getLabClassByLecturer'); // get all class Lab By Lecturer
-            Route::get('lecturerNotLab/{id}','getNotLabClassByLecturer');// get all class not lab by lecturer
-            Route::get('subjectNullLec/letter/{letter}/number/{number}','getAllClassBySubjectLetterNullLec'); //get all class by subject but not have lecturer         
             Route::get('{id}','show');
+            Route::get('lecturer/{id}/semester/{semester}/year/{year}','getAllClassByIdLecturer');
+            Route::get('subjectNullLec/letter/{letter}/number/{number}/semester/{semester}/year/{year}','getAllClassBySubjectLetterNullLec'); //get all class by subject but not have lecturer 
+            Route::get('realityClass/{idLecturer}/semester/{semester}/year/{year}','getRealityClassByLecturer'); // get all class Lab By Lecturer
+            Route::get('theoryClass/{idLecturer}/semester/{semester}/year/{year}','getTheoryClassByLecturer');// get all class not lab by lecturer
             
             Route::post('add','store');
             
