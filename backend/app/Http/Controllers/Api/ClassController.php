@@ -7,6 +7,7 @@ use App\Http\Requests\Classes\AddClassRequest;
 use App\Http\Requests\Classes\UpdateClassRequest;
 use App\Models\Classes;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ClassController extends Controller
 {
@@ -171,9 +172,90 @@ class ClassController extends Controller
         ]);
     }
 
-    //Update all classes in column IdLecturer
-    public function updateLecturerForClass(Request $request)
+    public function getLabClassByLecturer($id)
     {
+        $classes = DB::table('classes')
+                    ->join('subjects', 'classes.IdSubject', '=', 'subjects.IdSubject')
+                    ->where([
+                        ['IdLecturer','=',$id],
+                        ['TypeClass','=','LAB'],    
+                    ])
+                    ->get();
+        return response()->json([
+            'status' => 200,
+            'classes' => $classes,
+        ]);
+    }
 
+    public function getNotLabClassByLecturer($id)
+    {
+        $classes = DB::table('classes')
+                    ->join('subjects', 'classes.IdSubject', '=', 'subjects.IdSubject')
+                    ->where([
+                        ['IdLecturer','=',$id],
+                        ['TypeClass','<>','LAB'],    
+                    ])
+                    ->get();
+        return response()->json([
+            'status' => 200,
+            'classes' => $classes,
+        ]);
+    }
+
+    public function getAllClassByIdLecturer($id)
+    {
+        $classes = DB::table('classes')
+                   ->join('subjects', 'classes.IdSubject', '=', 'subjects.IdSubject')
+                   ->where('IdLecturer','=',$id)
+                   ->get();
+        return response()->json([
+            'status' => 200,
+            'classes' => $classes,
+        ]);
+    }
+
+    public function getAllClassBySubjectLetterNullLec($letter, $number)
+    {
+        $classes = DB::table('classes')
+                   ->join('subjects', 'classes.IdSubject', '=', 'subjects.IdSubject')
+                   ->where([
+                        ['Letter','=',$letter],
+                        ['Number','=',$number],
+                        ['IdLecturer','=',null],
+                    ])
+                   ->get();
+        return response()->json([
+            'status' => 200,
+            'classes' => $classes,
+        ]);
+    }
+
+    public function removeLecOutOfClass(Request $request)
+    {
+        $idClasses = $request->data['IdClasses'];
+        foreach($idClasses as $idClass) {
+           DB::table('classes')
+               ->where('IdClass', '=', $idClass)
+               ->update(['IdLecturer' => null]);
+        }
+        return response()->json([
+            'status' => 200,
+            'message' => "Removed Lecturer Out Of Class Succesfully",
+        ]);
+    }
+
+    public function addLecIntoClass(Request $request)
+    {
+        $idLecturer = $request->data['IdLecturer'];
+        $idClasses = $request->data['IdClasses'];
+        foreach($idClasses as $idClass) {
+            DB::table('classes')
+                ->where('IdClass', '=', $idClass)
+                ->update(['IdLecturer' => $idLecturer]);
+        }
+        return response()->json([
+            'status' => 200,
+            'message' => "Add Lecturer Into Class Successfully"
+        ]);
     }
 }
