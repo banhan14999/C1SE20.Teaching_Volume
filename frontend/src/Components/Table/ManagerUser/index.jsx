@@ -14,6 +14,7 @@ import AddUser from "../../Form/AddUser";
 import { SetUpdate } from "../../../Redux/Actions/index";
 import { ApiTeachingVolume } from "../../../apis/axios";
 import { DataUpdate } from "../../../Redux/Actions/index";
+import axios from "axios";
 
 function ManagerUser(props) {
   const param = useParams();
@@ -39,27 +40,34 @@ function clickDelete(e) {
     navigate(user_id);
   };
   useEffect(() => {
-    ApiTeachingVolume.Get("/user/all").then((res) => {
-      const arr = res.lecturers
-        .map((value) => {
-          if (value.IdRole !== "Admin") {
-            return createData(
-              value.IdLecturer,
-              value.FirstName + " " + value.LastName,
-              value.IdFaculty,
-              value.IdDepartment,
-              value.IdRole,
-              value.Username
-            );
-          } else {
-            return false;
-          }
-        })
-        .filter((value) => {
-          return value;
-        });
-      setUser([...arr]);
-    });
+     const token = JSON.parse(localStorage.getItem("Token"))
+    axios
+      .get("http://127.0.0.1:8000/api/user/all", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        const arr = res.data.users
+          .map((value) => {
+            if (value.IdRole !== "Admin") {
+              return createData(
+                value.IdLecturer,
+                value.FirstName + " " + value.LastName,
+                value.IdFaculty,
+                value.IdDepartment,
+                value.IdRole,
+                value.Username
+              );
+            } else {
+              return false;
+            }
+          })
+          .filter((value) => {
+            return value;
+          });
+        setUser([...arr]);
+      });
   }, [param.id]);
   return (
     <div>

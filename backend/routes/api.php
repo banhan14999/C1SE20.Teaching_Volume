@@ -49,9 +49,10 @@ Route::group(['prefix' => 'role'], function() {
 
 //Authentication
 Route::controller(AuthController::class)->group(function(){
-    Route::post('user/add','store');
+    // Route::post('user/add','store');
     Route::post('login','login');
     Route::middleware(['auth:sanctum'])->group(function () {
+        Route::post('user/add','store');
         Route::get('user','getUser');
         Route::post('logout','logout');
     });
