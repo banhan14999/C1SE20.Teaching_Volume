@@ -89,7 +89,7 @@ function NavLeft() {
             </ul>
           </li>
         )}
-        {Head && (
+        {Dean && (
           <li>
             <p
               className={`${cx(

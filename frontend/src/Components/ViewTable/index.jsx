@@ -723,7 +723,7 @@ function ViewTable() {
             </TableFooter>
           </Table>
         </TableContainer>
-        <div className="w-full flex justify-around text-center">
+        {/* <div className="w-full flex justify-around text-center">
           <div>
             <h2>TP. PHÒNG ĐÀO TẠO ĐẠI HỌC & SAU ĐẠI HỌC</h2>
           </div>
@@ -736,7 +736,7 @@ function ViewTable() {
             <h2>HIỆU TRƯỞNG/ VIỆN TRƯỞNG</h2>
             <p>(kí và ghi rõ họ và tên)</p>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );

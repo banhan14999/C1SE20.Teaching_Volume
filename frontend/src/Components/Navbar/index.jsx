@@ -6,27 +6,59 @@ import { SiWebpack, SiGoogleclassroom, SiManageiq } from "react-icons/si";
 import { MdSubject, MdManageAccounts, MdAssignmentInd } from "react-icons/md";
 import { RiVoiceRecognitionFill } from "react-icons/ri";
 import { GiManacles } from "react-icons/gi";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import Tippy from "@tippyjs/react";
 import classNames from "classnames/bind";
 
 import styles from "./nav.module.scss";
 import NavLeft from "./Nav";
-
-
+import { ApiTeachingVolume } from "../../apis/axios";
+import axios from "axios";
+import { useEffect } from "react";
 
 const cx = classNames.bind(styles);
 
 function Nav() {
-   const Head = JSON.parse(localStorage.getItem("Head"));
-   const Admin = JSON.parse(localStorage.getItem("Admin"));
-   const Dean = JSON.parse(localStorage.getItem("Dean"));
-   const Lecturer = JSON.parse(localStorage.getItem("Lecturer"));
+  const navigate = useNavigate();
+
+  const IconForm = {
+    "Add new User": <AiOutlineUserAdd />,
+    "Add new Subject": <MdSubject />,
+    "Info webpart": <SiWebpack />,
+    "Add New Year": <BsCalendarDate />,
+    Division: <MdAssignmentInd />,
+    Permission: <RiVoiceRecognitionFill />,
+    "Add New Class": <SiGoogleclassroom />,
+    "Manager User": <MdManageAccounts />,
+    "Manager Subject": <SiManageiq />,
+    "Manager Class": <GiManacles />,
+  };
+  const Head = JSON.parse(localStorage.getItem("Head"));
+  const Admin = JSON.parse(localStorage.getItem("Admin"));
+  const Dean = JSON.parse(localStorage.getItem("Dean"));
+  const Lecturer = JSON.parse(localStorage.getItem("Lecturer"));
   const forms = useSelector((data) => data.form);
   const updates = useSelector((data) => data.update);
   const { update } = updates;
   const { form } = forms;
-
+  
+function HandleLogout(){
+  const token = JSON.parse(localStorage.getItem("Token"))
+   axios.post(
+     "http://127.0.0.1:8000/api/logout",
+     {},
+     {
+       headers: {
+         Authorization: `Bearer ${token}`,
+       },
+     }
+   ).then(res=>{
+     if(res.data.status === 200){
+       localStorage.clear("Token")
+       navigate("/authentication")
+     }
+   })
+}
   return (
     <div className={cx("container")}>
       <div className="flex justify-between select-none">
@@ -40,23 +72,8 @@ function Nav() {
             <span>{Head || Admin || Dean || Lecturer}</span>
           </div>
           <div className={`${cx("sitemap")}`}>
-            <span>
-              {form === "Add new User" && <AiOutlineUserAdd className="mr-2" />}
-              {form === "Add new Subject" && <MdSubject className="mr-2" />}
-              {form === "Info webpart" && <SiWebpack className="mr-2" />}
-              {form === "Add New Year" && <BsCalendarDate className="mr-2" />}
-              {form === "Division" && <MdAssignmentInd className="mr-2" />}
-              {form === "Permission" && (
-                <RiVoiceRecognitionFill className="mr-2" />
-              )}
-              {form === "Add New Class" && (
-                <SiGoogleclassroom className="mr-2" />
-              )}
-              {form === "Manager User" && <MdManageAccounts className="mr-2" />}
-              {form === "Manager Subject" && <SiManageiq className="mr-2" />}
-              {form === "Manager Class" && <GiManacles className="mr-2" />}
-            </span>
-            <span className="leading-[54px]">{ update || form}</span>
+            <span className="mr-2">{IconForm[form]}</span>
+            <span className="leading-[54px]">{update || form}</span>
           </div>
         </div>
         <Tippy
@@ -68,47 +85,24 @@ function Nav() {
           delay={300}
           placement="bottom"
         >
-          <Link to="/authentication" className="flex items-center">
+          {/* <Link to="/authentication" className="flex items-center"> */}
             <div
-              className={`flex items-center cursor-pointer pr-[15px] ${cx(
+              className={`flex items-center cursor-pointer pr-[15px]  ${cx(
                 "out"
               )}`}
+              onClick={HandleLogout}
             >
               <AiOutlineLogout
                 className={`${cx("logout")} text-slate-600 text-2xl mr-1`}
               ></AiOutlineLogout>
               <p className="font-light">Thoát</p>
             </div>
-          </Link>
+          {/* </Link> */}
         </Tippy>
       </div>
       <div className="flex border-r-[1px] border-[#D5D5D5] border-solid">
         <NavLeft></NavLeft>
         <div className="w-[726px] mb-3 ">
-          {/* {param.includes("manager") ? (
-            <>
-              <Suspense fallback={<Loading />}>
-                {form === "Manager Subject" && <ManagerSubject hide={update} />}
-              </Suspense>
-
-              <Suspense fallback={<Loading />}>
-                {Admin && form === "Manager Class" && (
-                  <ManagerClass hide={update} />
-                )}
-              </Suspense>
-              <Suspense fallback={<Loading />}>
-                {form === "Manager Class" && <WorkVolume />}
-              </Suspense>
-
-              <Suspense fallback={<Loading />}>
-                {form === "Manager Year" && <ManagerYear hide={update} />}
-              </Suspense>
-
-              <Suspense fallback={<Loading />}>
-                {form === "Manager User" && <ManagerUser hide={update} />}
-              </Suspense>
-            </>
-          ) : ( */}
           <Outlet></Outlet>
         </div>
       </div>

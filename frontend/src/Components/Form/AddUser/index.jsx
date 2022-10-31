@@ -14,6 +14,7 @@ const cx = classNames.bind(styles);
 function AddUser(props) {
   const [roles, setRole] = useState();
   const [faculty, setFaculty] = useState();
+  const [disabled,setDisabled] = useState(false)
   const [department, setDepartment] = useState();
   const [valuesForm, setValuesForm] = useState({
     username: "",
@@ -103,6 +104,7 @@ function AddUser(props) {
       const firstname = data[0].FullName.slice(0, data[0].FullName.indexOf(" "));
       const lastname = data[0].FullName.slice(data[0].FullName.indexOf(" ") + 1);
     setValuesForm((prev)=>{return {...prev,idlecturer: id, firstname: firstname,lastname: lastname}});
+    setDisabled(true)
    }
  }, [props.btn,data]);
 
@@ -174,6 +176,7 @@ function AddUser(props) {
                       idlecturer: e.target.value,
                     });
                   }}
+                  disabled={disabled}               
                 ></input>
                 {valuesForm.idlecturer === "" && (
                   <p className="absolute right-3 text-yellow-300">

@@ -1,63 +1,70 @@
-import {useNavigate } from "react-router-dom";
-import {  useRef, useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useRef, useState, useEffect } from "react";
 import { default as Button } from "../../Components/Button";
 import MyCaptcha from "../../Components/Captcha";
 import bg from "../../Assets/img/bg.jpg";
 
 import logoform from "../../Assets/img/logo_dtu_while.png";
 import { ApiTeachingVolume } from "../../apis/axios";
-// import md5 from "md5"
+import axios from "axios";
+
 function Authentication() {
   const navigate = useNavigate();
-  const [checkLogin,setCheckLogin] = useState(true)
-  const [imgcaptcha,setImgcaptcha] = useState()
-  const [data,setData] = useState([])
+  const [checkLogin, setCheckLogin] = useState(true);
+  const [imgcaptcha, setImgcaptcha] = useState();
+  const [data, setData] = useState([]);
   const refcaptcha = useRef();
   const inputPassValue = useRef();
-  const inputUserValue = useRef()
-  const inputCaptchaValue = useRef()
-  // Login 
+  const inputUserValue = useRef();
+  const inputCaptchaValue = useRef();
+
+  // Login
   function handlLogin(event) {
     const obj = {
       user: inputUserValue.current.value,
       password: inputPassValue.current.value,
       captcha: inputCaptchaValue.current.value,
     };
-    data.forEach((item)=>{
-    if (event.code==="Enter" || event.type ==="click" ){
-      // kiem tra dang nhap
-      // console.log(md5(obj.password));
-        if ( obj.user === item.Username &&
-          // md5(obj.password) === item.Password &&
-          obj.password === item.Password &&
-          imgcaptcha === obj.captcha
-        ) {
-          localStorage.setItem(
-            item.IdRole,
-            JSON.stringify(item.FirstName + " " + item.LastName)
-          );
-          setCheckLogin(true);
-          navigate("/home/infowebpart");
-        } else {
-          setCheckLogin(false);
-          inputPassValue.current.value = "";
-          inputCaptchaValue.current.value = ""
-        }
-    } 
-    })
+    if (event.code === "Enter" || event.type === "click") {
+      if (obj.user && obj.password) {
+        axios
+          .get("http://127.0.0.1:8000/sanctum/csrf-cookie")
+          .then((response) => {
+            ApiTeachingVolume.Post("/login", {
+              username: obj.user,
+              password: obj.password,
+            }).then(function (res) {
+              if (res.data.status === 200 && obj.captcha === imgcaptcha) {
+                localStorage.setItem(
+                  res.data.role,
+                  JSON.stringify(res.data.username)
+                );
+                localStorage.setItem(
+                  "Token",
+                  JSON.stringify(res.data.token)
+                );
+                setCheckLogin(true);
+                navigate("/home/infowebpart");
+              } else {
+                setCheckLogin(false);
+                inputPassValue.current.value = "";
+                inputCaptchaValue.current.value = "";
+              }
+            });
+          });
+      } else {
+        setCheckLogin(false);
+        inputPassValue.current.value = "";
+        inputCaptchaValue.current.value = "";
+      }
+    }
   }
- useEffect(() => {
-  const login = ApiTeachingVolume.Get("/user/all");
-   login.then((data) => {
-      setData([...data.lecturers]);
-   });
- }, []);
 
   useEffect(() => {
-     localStorage.clear("Head");
-     localStorage.clear("Admin");
-     localStorage.clear("Dean");
-     localStorage.clear("Lecturer");
+    localStorage.clear("Head");
+    localStorage.clear("Admin");
+    localStorage.clear("Dean");
+    localStorage.clear("Lecturer");
     setImgcaptcha(refcaptcha.current.children[0].dataset.key);
   }, []);
   return (
@@ -122,7 +129,7 @@ function Authentication() {
                     handlLogin(e);
                   }}
                 ></input>
-                <MyCaptcha ref={refcaptcha}/>
+                <MyCaptcha ref={refcaptcha} />
               </div>
             </div>
             {checkLogin === true ? (
