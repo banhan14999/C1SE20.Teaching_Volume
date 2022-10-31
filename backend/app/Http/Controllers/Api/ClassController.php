@@ -321,7 +321,7 @@ class ClassController extends Controller
         $idDepartment = auth()->user()['IdDepartment'];
         $lecturers = UserController::getLecturerByDepartmentAndFaculty($idFaculty, $idDepartment);
         return response()->json([
-            //'status' => 200,
+            'status' => 200,
             'subjects' => $subjects,
             'lecturers' => $lecturers,
         ]);
