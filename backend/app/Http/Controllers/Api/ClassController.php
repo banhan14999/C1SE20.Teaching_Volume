@@ -7,6 +7,7 @@ use App\Http\Requests\Classes\AddClassRequest;
 use App\Http\Requests\Classes\UpdateClassRequest;
 use App\Models\Classes;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ClassController extends Controller
 {
@@ -56,7 +57,7 @@ class ClassController extends Controller
         }
 
         //Time_teaching
-        if($request->Type === 'LAB'){
+        if($request->Type === 'LAB' || $request->Type === 'PRJ' || $request->Type === 'INT'){
             $timeTeaching = 30 * $request->Credit;
         }else{
             $timeTeaching = 15 * $request->Credit;
@@ -68,8 +69,8 @@ class ClassController extends Controller
             'Semester'           => $request->Semester,
             'Grade'              => $request->Grade,
             'IdSubject'          => $request->IdSubject,
-            'Type'               => $request->Type,
-            'Credit'             => $request->Credit,
+            'TypeClass'          => $request->Type,
+            'CreditClass'        => $request->Credit,
             'NumberOfStudent'    => $request->NumberOfStudent,
             'Coefficient'        => $classCoefficient,
             'SubjectCoefficient' => $request->SubjectCoefficient,
@@ -131,17 +132,17 @@ class ClassController extends Controller
         }
 
         //Time_teaching
-        if($request->Type === 'LAB'){
+        if($request->Type === 'LAB' || $request->Type === 'PRJ' || $request->Type === 'INT'){
             $timeTeaching = 30 * $request->Credit;
         }else{
             $timeTeaching = 15 * $request->Credit;
         }
 
-        $class->Year              = $request->Year;
+        $class->Year               = $request->Year;
         $class->Semester           = $request->input("Semester");
         $class->Grade              = $request->input("Grade");
-        $class->Type               = $request->input("Type");
-        $class->Credit             = $request->input("Credit");
+        $class->TypeClass          = $request->input("Type");
+        $class->CreditClass        = $request->input("Credit");
         $class->NumberOfStudent    = $request->input("NumberOfStudent");
         $class->Coefficient        = $classCoefficient;
         $class->SubjectCoefficient = $request->input("SubjectCoefficient");
@@ -171,9 +172,131 @@ class ClassController extends Controller
         ]);
     }
 
-    //Update all classes in column IdLecturer
-    public function updateLecturerForClass(Request $request)
+    /**
+     * Get all class have type such as: PRJ, INT ... by year and semester of lecturer
+     * @param $idLecturer
+     * @param $semester
+     * @param $year
+     * @return array[] classes
+     */
+    public function getRealityClassByLecturer($idLecturer, $semester, $year)
     {
+        $classes = DB::table('classes')
+                    ->join('subjects', 'classes.IdSubject', '=', 'subjects.IdSubject')
+                    ->where([
+                        ['IdLecturer','=', $idLecturer],                       
+                        ['Semester','=', $semester],
+                        ['Year', '=', $year]    
+                    ])
+                    ->whereIn('TypeClass', ['PRJ', 'INT'])
+                    ->get();
+        return response()->json([
+            'status' => 200,
+            'classes' => $classes,
+        ]);
+    }
 
+    /**
+     * Get all class have type such as: LEC, DIS,  ... by year and semester of lecturer
+     * @param $idLecturer
+     * @param $semester
+     * @param $year
+     * @return array[] classes
+     */
+    public function getTheoryClassByLecturer($idLecturer, $semester, $year)
+    {
+        $classes = DB::table('classes')
+                    ->join('subjects', 'classes.IdSubject', '=', 'subjects.IdSubject')
+                    ->where([
+                        ['IdLecturer','=',$idLecturer],
+                        ['Semester','=', $semester],
+                        ['Year', '=', $year],   
+                    ])
+                    ->whereIn('TypeClass', ['LAB', 'DIS', 'LEC'])
+                    ->get();
+        return response()->json([
+            'status' => 200,
+            'classes' => $classes,
+        ]);
+    }
+
+    /**
+     * Get classes are teached by Lecturer in semeter year
+     * Use for Division class in manage class
+     * @param $idLecturer
+     * @param $semester
+     * @param $year
+     * @return array[] classes
+     */
+    public function getAllClassByIdLecturer($idLecturer, $semester, $year)
+    {
+        $classes = DB::table('classes')
+                   ->join('subjects', 'classes.IdSubject', '=', 'subjects.IdSubject')
+                   ->where([
+                        ['IdLecturer', '=', $idLecturer],
+                        ['Semester', '=', $semester],
+                        ['Year', '=', $year]
+                    ])
+                   ->get();
+        return response()->json([
+            'status' => 200,
+            'classes' => $classes,
+        ]);
+    }
+
+    /**
+     * Get classes are undivisioned in semeter year
+     * Use for Division class in manage class
+     * @param $letter : Letter in subject code
+     * @param $number : number in subject code
+     * @param $semester 
+     * @param $year
+     * @return array[] classes
+     */
+    public function getAllClassBySubjectLetterNullLec($letter, $number, $semester, $year)
+    {
+        $classes = DB::table('classes')
+                   ->join('subjects', 'classes.IdSubject', '=', 'subjects.IdSubject')
+                   ->where([
+                        ['Letter', '=', $letter],
+                        ['Number', '=', $number],
+                        ['IdLecturer', '=', null],
+                        ['Semester', '=', $semester],
+                        ['Year', '=', $year],
+                    ])
+                   ->get();
+        return response()->json([
+            'status' => 200,
+            'classes' => $classes,
+        ]);
+    }
+
+    public function removeLecOutOfClass(Request $request)
+    {
+        $idClasses = $request->data['IdClasses'];
+        foreach($idClasses as $idClass) {
+           DB::table('classes')
+               ->where('IdClass', '=', $idClass)
+               ->update(['IdLecturer' => null]);
+        }
+        return response()->json([
+            'status' => 200,
+            'message' => "Removed Lecturer Out Of Class Succesfully",
+        ]);
+    }
+
+    public function addLecIntoClass(Request $request)
+    {
+        $idLecturer = $request->data['IdLecturer'];
+        $idClasses = $request->data['IdClasses'];
+        foreach($idClasses as $idClass) {
+            DB::table('classes')
+                ->where('IdClass', '=', $idClass)
+                ->update(['IdLecturer' => $idLecturer]);
+        }
+        return response()->json([
+            'status' => 200,
+            'message' => "Add Lecturer Into Class Successfully"
+        ]);
     }
 }

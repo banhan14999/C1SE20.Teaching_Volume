@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Subjects\AddSubjectRequest;
 use App\Models\Subject;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 use function PHPSTORM_META\map;
 
@@ -139,6 +140,17 @@ class SubjectController extends Controller
         return response()->json([
             'status'    => 204,
             'message'   => 'Subject Deleted Successfully!',
+        ]);
+    }
+
+    public function getAllSubjectByLetter($letter)
+    {
+        $subjects = DB::table('subjects')
+                    ->where('Letter','=',$letter)
+                    ->get();
+        return response()->json([
+            'status' => 200,
+            'subjects' => $subjects,
         ]);
     }
 }

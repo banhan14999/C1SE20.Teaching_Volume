@@ -73,6 +73,7 @@ Route::middleware(['auth:sanctum'])->group(function(){
         Route::prefix('user')->group(function(){
             Route::get('all','index');
             Route::get('{id}','show');
+
             Route::put('update/{id}','update');
         });
     });
@@ -82,8 +83,12 @@ Route::middleware(['auth:sanctum'])->group(function(){
         Route::prefix('subject')->group(function(){
             Route::get('all','index');
             Route::get('{id}','show');
+            Route::get('letter/{letter}','getAllSubjectByLetter');
+
             Route::post('add','store');
+
             Route::put('update/{id}','update');
+
             Route::delete('delete/{id}','destroy');
         });
     });
@@ -99,11 +104,23 @@ Route::middleware(['auth:sanctum'])->group(function(){
 
     Route::controller(ClassController::class)->group(function() {
         Route::prefix('class')->group(function() {
+
             Route::get('all','index');
-            Route::post('add','store');
             Route::get('{id}','show');
+            Route::get('lecturer/{id}/semester/{semester}/year/{year}','getAllClassByIdLecturer');
+            Route::get('subjectNullLec/letter/{letter}/number/{number}/semester/{semester}/year/{year}','getAllClassBySubjectLetterNullLec'); //get all class by subject but not have lecturer 
+            Route::get('realityClass/{idLecturer}/semester/{semester}/year/{year}','getRealityClassByLecturer'); // get all class Lab By Lecturer
+            Route::get('theoryClass/{idLecturer}/semester/{semester}/year/{year}','getTheoryClassByLecturer');// get all class not lab by lecturer
+            
+            Route::post('add','store');
+            
             Route::put('update/{id}','update');
-            Route::delete('delete/{id}','destroy');
+            Route::put('removeLecOutClass','removeLecOutOfClass');
+            Route::put('addLecInClass','addLecIntoClass');
+
+            Route::delete('delete/{id}','destroy');    
         });
     });
 });
+
+
