@@ -50,6 +50,7 @@ Route::group(['prefix' => 'role'], function() {
 //Authentication
 Route::controller(AuthController::class)->group(function(){
     // Route::post('user/add','store');
+    
     Route::post('login','login');
     Route::middleware(['auth:sanctum'])->group(function () {
         Route::post('user/add','store');
@@ -73,6 +74,7 @@ Route::middleware(['auth:sanctum'])->group(function(){
         Route::prefix('user')->group(function(){
             Route::get('all','index');
             Route::get('{id}','show');
+            Route::get('faculty/{idFaculty}/department/{idDepartment}','getLecturerByDepartmentAndFaculty');
 
             Route::put('update/{id}','update');
         });
@@ -84,6 +86,7 @@ Route::middleware(['auth:sanctum'])->group(function(){
             Route::get('all','index');
             Route::get('{id}','show');
             Route::get('letter/{letter}','getAllSubjectByLetter');
+            Route::get('getSubjectByYearAndSemester/semester/{sem}/year/{year}','getSubjectBySemesterAndYear');
 
             Route::post('add','store');
 
@@ -111,12 +114,14 @@ Route::middleware(['auth:sanctum'])->group(function(){
             Route::get('subjectNullLec/letter/{letter}/number/{number}/semester/{semester}/year/{year}','getAllClassBySubjectLetterNullLec'); //get all class by subject but not have lecturer 
             Route::get('realityClass/{idLecturer}/semester/{semester}/year/{year}','getRealityClassByLecturer'); // get all class Lab By Lecturer
             Route::get('theoryClass/{idLecturer}/semester/{semester}/year/{year}','getTheoryClassByLecturer');// get all class not lab by lecturer
-            
+            Route::get('load/Before','loadBeforeDivisionClasses');
+
             Route::post('add','store');
             
             Route::put('update/{id}','update');
-            Route::put('removeLecOutClass','removeLecOutOfClass');
-            Route::put('addLecInClass','addLecIntoClass');
+            //Route::put('removeLecOutClass','removeLecOutOfClass');
+            //Route::put('addLecInClass','addLecIntoClass');
+            Route::put('doDivisionClasses',"doDivisionClasses");
 
             Route::delete('delete/{id}','destroy');    
         });

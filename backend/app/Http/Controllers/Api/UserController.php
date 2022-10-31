@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateUserRequest;
 use App\Models\TokenUser;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -95,14 +96,25 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, $id)
     {
-        $user = User::find($id);
-        //$user->IdLecturer   = $request->input('idlecturer');
-        $user->FirstName    = $request->input('firstname');
-        $user->LastName     = $request->input('lastname');
-        $user->IdFaculty    = $request->input('idfaculty');
-        $user->IdDepartment = $request->input('iddepartment');
-        $user->IdRole       = $request->input('idrole');
-        $user->update();
+        // $user = User::find($id);
+        // //$user->IdLecturer   = $request->input('idlecturer');
+        // $user->FirstName    = $request->input('firstname');
+        // $user->LastName     = $request->input('lastname');
+        // $user->IdFaculty    = $request->input('idfaculty');
+        // $user->IdDepartment = $request->input('iddepartment');
+        // $user->IdRole       = $request->input('idrole');
+        // $user->update();
+       
+        DB::table("users")
+            ->where('id', '=', $id)
+            ->update([
+                'IdLecturer'   => $request->input('idlecturer'),
+                'FirstName'    => $request->input('firstname'),
+                'LastName'     => $request->input('lastname'),
+                'IdFaculty'    => $request->input('idfaculty'),
+                'IdDepartment' => $request->input('iddepartment'),
+                'IdRole'       => $request->input('idrole'),
+            ]);
         return response()->json([
             'status' => 200,
             'message' => 'Updated successfully',
@@ -118,5 +130,17 @@ class UserController extends Controller
     public function destroy($id)
     {
         
+    }
+
+    public static function getLecturerByDepartmentAndFaculty($idFaculty, $idDepartment)
+    {
+        $lecturers = DB::table('users')
+                        ->where([
+                            ['IdFaculty', '=', $idFaculty],
+                            ['IdDepartment', '=', $idDepartment]
+                        ])
+                        ->get();
+        //$user = auth()->user();
+        return $lecturers;
     }
 }

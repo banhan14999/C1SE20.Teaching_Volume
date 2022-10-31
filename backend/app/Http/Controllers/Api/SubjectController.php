@@ -153,4 +153,5 @@ class SubjectController extends Controller
             'subjects' => $subjects,
         ]);
     }
+
 }
