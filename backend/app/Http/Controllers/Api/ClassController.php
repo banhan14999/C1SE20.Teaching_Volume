@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Classes\AddClassRequest;
 use App\Http\Requests\Classes\UpdateClassRequest;
 use App\Models\Classes;
+use App\Models\Subject;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -253,13 +255,12 @@ class ClassController extends Controller
      * @param $year
      * @return array[] classes
      */
-    public function getAllClassBySubjectLetterNullLec($letter, $number, $semester, $year)
+    public function getAllClassBySubjectNullLec($subject, $semester, $year)
     {
         $classes = DB::table('classes')
                    ->join('subjects', 'classes.IdSubject', '=', 'subjects.IdSubject')
                    ->where([
-                        ['Letter', '=', $letter],
-                        ['Number', '=', $number],
+                        ['SubjectName', '=', $subject],
                         ['IdLecturer', '=', null],
                         ['Semester', '=', $semester],
                         ['Year', '=', $year],
@@ -271,32 +272,58 @@ class ClassController extends Controller
         ]);
     }
 
-    public function removeLecOutOfClass(Request $request)
+    public static function removeLecOutOfClass($idClassesRemove)
     {
-        $idClasses = $request->data['IdClasses'];
-        foreach($idClasses as $idClass) {
+        //$idClasses = $request->data['IdClasses'];
+        foreach($idClassesRemove as $idClass) {
            DB::table('classes')
                ->where('IdClass', '=', $idClass)
                ->update(['IdLecturer' => null]);
         }
-        return response()->json([
-            'status' => 200,
-            'message' => "Removed Lecturer Out Of Class Succesfully",
-        ]);
+        // return response()->json([
+        //     'status' => 200,
+        //     'message' => "Removed Lecturer Out Of Class Succesfully",
+        // ]);
     }
 
-    public function addLecIntoClass(Request $request)
+    public static function addLecIntoClass($idLecturer, $idClassesAdd)
     {
-        $idLecturer = $request->data['IdLecturer'];
-        $idClasses = $request->data['IdClasses'];
-        foreach($idClasses as $idClass) {
+        // $idLecturer = $request->data['IdLecturer'];
+        // $idClasses = $request->data['IdClasses'];
+        foreach($idClassesAdd as $idClass) {
             DB::table('classes')
                 ->where('IdClass', '=', $idClass)
                 ->update(['IdLecturer' => $idLecturer]);
         }
+        // return response()->json([
+        //     'status' => 200,
+        //     'message' => "Add Lecturer Into Class Successfully"
+        // ]);
+    }
+
+    public function doDivisionClasses(Request $request)
+    {
+        $idLecturer = $request->data['idLecturer'];
+        $idClassesAdd = $request->data['idClassAdd'];
+        $idClassesRemove = $request->data['idClassRemove'];
+        self::removeLecOutOfClass($idClassesRemove);
+        self::addLecIntoClass($idLecturer, $idClassesAdd);
         return response()->json([
             'status' => 200,
-            'message' => "Add Lecturer Into Class Successfully"
+            'message' => "Updated Successfully",
+        ]);
+    }
+
+    public function loadBeforeDivisionClasses()
+    {        
+        $subjects = Subject::all();
+        $idFaculty = auth()->user()['IdFaculty'];
+        $idDepartment = auth()->user()['IdDepartment'];
+        $lecturers = UserController::getLecturerByDepartmentAndFaculty($idFaculty, $idDepartment);
+        return response()->json([
+            'status' => 200,
+            'subjects' => $subjects,
+            'lecturers' => $lecturers,
         ]);
     }
 }

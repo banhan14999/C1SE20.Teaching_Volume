@@ -24,9 +24,9 @@ class UpdateUserRequest extends FormRequest
     public function rules()
     {
         return [
-            'idlecturer'=>'unique:users,IdLecturer | max:10',
-            //'firstname'=>'required',
-            //'lastname'=>'required',
+            'firstname'=>'required',
+            'lastname'=>'required',
+            'idlecturer'=>'unique:users,IdLecturer|max:10',
         ];
     }
 }
