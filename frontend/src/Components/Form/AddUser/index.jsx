@@ -2,7 +2,7 @@ import { IoIosWarning } from "react-icons/io";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import classNames from "classnames/bind";
-import md5 from "md5"
+//import md5 from "md5"
 
 import SelectForm from "../../SelectForm";
 import { default as Button } from "../../Button";
@@ -72,7 +72,7 @@ function AddUser(props) {
      } else{
         const obj = {
           username: valuesForm.username,
-          password: md5(valuesForm.password),
+          password: valuesForm.password,
           idlecturer: valuesForm.idlecturer,
           firstname: valuesForm.firstname,
           lastname: valuesForm.lastname,

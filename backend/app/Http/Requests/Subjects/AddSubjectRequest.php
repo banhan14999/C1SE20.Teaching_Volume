@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests\Subjects;
 
-use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class AddSubjectRequest extends FormRequest
 {
@@ -25,7 +25,14 @@ class AddSubjectRequest extends FormRequest
     public function rules()
     {
         return [
-            'letter' => 'required | max:20 ',
+            'letter' => [
+                'required', 
+                'max:20 ',
+                Rule::unique('subjects')->where(function($query) {
+                    return $query->where('Letter', 'letter')
+                                -> where('Number', 'number');
+                }),
+            ],
             'number' => 'required | numeric',
             'subject_name' => 'required | max:200',
             'credit' => 'required | numeric | min:1',

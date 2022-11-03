@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\LecturerController;
 use App\Http\Controllers\Api\SubjectController;
 use App\Http\Controllers\Api\RoleController;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\VolumeController;
 use App\Http\Controllers\Api\YearController;
 use App\Models\Lecturer;
 use App\Models\User;
@@ -105,13 +106,14 @@ Route::middleware(['auth:sanctum'])->group(function(){
         });
     });
 
+    //Class Controller
     Route::controller(ClassController::class)->group(function() {
         Route::prefix('class')->group(function() {
 
             Route::get('all','index');
             Route::get('{id}','show');
             Route::get('lecturer/{id}/semester/{semester}/year/{year}','getAllClassByIdLecturer');
-            Route::get('subjectNullLec/letter/{letter}/number/{number}/semester/{semester}/year/{year}','getAllClassBySubjectLetterNullLec'); //get all class by subject but not have lecturer 
+            Route::get('classesNullLec/idSubject/{id}/semester/{semester}/year/{year}','getClassesBySubjectNullLec'); //get all class by subject but not have lecturer 
             Route::get('realityClass/{idLecturer}/semester/{semester}/year/{year}','getRealityClassByLecturer'); // get all class Lab By Lecturer
             Route::get('theoryClass/{idLecturer}/semester/{semester}/year/{year}','getTheoryClassByLecturer');// get all class not lab by lecturer
             Route::get('load/Before','loadBeforeDivisionClasses');
@@ -124,6 +126,14 @@ Route::middleware(['auth:sanctum'])->group(function(){
             Route::put('doDivisionClasses',"doDivisionClasses");
 
             Route::delete('delete/{id}','destroy');    
+        });
+    });
+
+    //Volume Controller
+    Route::controller(VolumeController::class)->group(function() {
+        Route::prefix('volume')->group(function() {
+            Route::get('checkExist/idLecturer/{idLecturer}/semester/{sem}/year/{year}','checkExist');
+            
         });
     });
 });

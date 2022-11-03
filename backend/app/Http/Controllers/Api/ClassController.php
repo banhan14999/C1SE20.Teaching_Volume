@@ -255,12 +255,12 @@ class ClassController extends Controller
      * @param $year
      * @return array[] classes
      */
-    public function getAllClassBySubjectNullLec($subject, $semester, $year)
+    public function getClassesBySubjectNullLec($idSubject, $semester, $year)
     {
         $classes = DB::table('classes')
                    ->join('subjects', 'classes.IdSubject', '=', 'subjects.IdSubject')
                    ->where([
-                        ['SubjectName', '=', $subject],
+                        ['classes.IdSubject', '=', $idSubject],
                         ['IdLecturer', '=', null],
                         ['Semester', '=', $semester],
                         ['Year', '=', $year],
