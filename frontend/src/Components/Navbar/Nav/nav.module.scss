@@ -40,7 +40,7 @@
   padding-left: 41px;
   color: #333;
   &:hover {
-    background-position: -1px -297px;
-    color: #fff;
+    background-position: -1px -297px !important;
+    color: #fff !important;
   }
 }

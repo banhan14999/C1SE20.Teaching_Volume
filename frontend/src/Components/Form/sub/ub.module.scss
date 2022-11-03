@@ -1,0 +1,26 @@
+.form{
+     padding: 30px;
+  background: #ededed;
+//   box-shadow: 1px 1px 1px 1px gray inset;
+  border-radius: 10px;
+    border: #c81e1e solid 2px;
+
+}
+.nav_form {
+    margin-bottom: 50px;
+}
+.nav_form ul{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.nav_form ul li{
+    background: #000;
+    cursor: pointer;
+    color: white;
+    padding: 5px 0px;
+    width: 25%;
+    text-align: center;
+    border-right: 1px solid #fff;
+}
+

@@ -12,7 +12,6 @@ function Authentication() {
   const navigate = useNavigate();
   const [checkLogin, setCheckLogin] = useState(true);
   const [imgcaptcha, setImgcaptcha] = useState();
-  const [data, setData] = useState([]);
   const refcaptcha = useRef();
   const inputPassValue = useRef();
   const inputUserValue = useRef();
@@ -61,10 +60,7 @@ function Authentication() {
   }
 
   useEffect(() => {
-    localStorage.clear("Head");
-    localStorage.clear("Admin");
-    localStorage.clear("Dean");
-    localStorage.clear("Lecturer");
+    localStorage.clear();
     setImgcaptcha(refcaptcha.current.children[0].dataset.key);
   }, []);
   return (

@@ -16,7 +16,7 @@ import { ApiTeachingVolume } from "../../../apis/axios";
 import { DataUpdate } from "../../../Redux/Actions/index";
 import axios from "axios";
 
-function ManagerUser(props) {
+function ManagerUser() {
   const param = useParams();
   const navigate = useNavigate();
   const dispath = useDispatch();
@@ -69,6 +69,7 @@ function clickDelete(e) {
         setUser([...arr]);
       });
   }, [param.id]);
+  
   return (
     <div>
       { param.id ? (

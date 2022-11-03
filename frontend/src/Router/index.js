@@ -17,7 +17,7 @@ import Permission from "../Components/Table/Permission";
 import Division from "../Components/Form/Division";
 import ManagerYear from "../Components/Table/ManagerYear";
 import ViewTable from "../Components/ViewTable";
-
+import FormSubject from "../Components/Form/sub";
 export const publicRouters = [
   { path: "/authentication", component: Authentication },
   // { path: "home/:id", component: Home },
@@ -42,9 +42,11 @@ export const publicRouters = [
       { path: "permission", component: Permission },
       { path: "division", component: Division },
       { path: "manageryear", component: ManagerYear },
+      { path: "manageryear/:id", component: ManagerYear },
       { path: "addnewyear", component: AddYear },
       { path: "manageryear/:id", component: ManagerYear },
       { path: "viewtable", component: ViewTable },
+      { path: "subject", component: FormSubject },
     ],
   },
   { path: "/report", component: ViewReport },

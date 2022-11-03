@@ -29,6 +29,7 @@ function NavLeft() {
         if (back.style.backgroundPosition === "-1px -297px" && item) {
           back.style.backgroundPosition = "-1px -252px";
           item.style.height = "0px";
+          back.style.color = "#000";
         } else {
           let navLeftItem = [
             ...document.getElementsByClassName(`${styles.nav_left_item}`),
@@ -50,13 +51,17 @@ function NavLeft() {
           navs.forEach((backgroundback) => {
             let back = backgroundback.querySelector(`.${styles.item}`);
             back.style.backgroundPosition = "-1px -252px";
+            back.style.color = "#000";
+
           });
           back.style.backgroundPosition = "-1px -297px";
+          back.style.color = "#fff"
           value.style.color = "#fff";
           item.style.height = `${dem}px`;
           if (item) {
             if (item.style.height === "0px") {
               item.style.height = "unset";
+             back.style.color = "#000";
             }
           }
         }

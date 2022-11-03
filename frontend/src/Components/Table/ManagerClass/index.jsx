@@ -20,7 +20,7 @@ function ManagerClass(props) {
   const handleUpdate = (e) => {
      const classid = e.target.parentElement.dataset.update;
      const id = classid.split("")
-       const text = id.filter((value) => value != " ").join("").toLowerCase()
+       const text = id.filter((value) => value !== " ").join("").toLowerCase()
     dispath(SetUpdate("Update class"));
     navigate(text);
   };
