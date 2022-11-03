@@ -15,12 +15,10 @@ function TeachingVolume(props) {
               <StyledTableCell align="center">STT</StyledTableCell>
               <StyledTableCell align="center" rowSpan={2} colSpan={2}>
                 Subject Code
-                <StyledTableCell hiden="1" align="left" className="border-none">
-                  Letter
-                </StyledTableCell>
-                <StyledTableCell hiden="1" align="left">
-                  Number
-                </StyledTableCell>
+                <div className="flex justify-between border-t">
+                  <p className="mr-[6px]">Letter</p>
+                  <p className="ml-[6px]">Number</p>
+                </div>
               </StyledTableCell>
               <StyledTableCell align="center">Subject</StyledTableCell>
               <StyledTableCell align="center">Grade</StyledTableCell>

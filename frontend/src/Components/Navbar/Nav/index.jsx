@@ -155,7 +155,7 @@ function NavLeft() {
           </li>
         )}
 
-        {Lecturer || Admin || Head || Dean ? (
+        { Admin || Head  ? (
           <li>
             <p
               className={`${cx(
@@ -176,7 +176,7 @@ function NavLeft() {
                 </li>
               </ul>
             )}
-            {Head && (
+            {Head &&(
               <ul className={`${cx("nav_left_item")} text-[14px] `}>
                 <li className="flex">
                   <AiFillCaretRight className="mr-1"></AiFillCaretRight>

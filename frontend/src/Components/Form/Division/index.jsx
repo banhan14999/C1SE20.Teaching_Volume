@@ -1,24 +1,25 @@
 import { useEffect, useState } from "react";
 import classNames from "classnames/bind";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
-import { ApiTeachingVolume } from "../../../apis/axios";
+// import { ApiTeachingVolume } from "../../../apis/axios";
 import Button from "../../Button";
 import styles from "./division.module.scss";
 import SelectForm from "../../SelectForm";
 import TaskCard from "./card";
 import { v4 as uuidv4 } from "uuid";
-
+import axios from "axios";
 const cx = classNames.bind(styles);
 function Division() {
   const [continues, setContinues] = useState(false);
   const [year, setYear] = useState(null);
   const [semester, setSemester] = useState(null);
   const [subject,setSubject ]= useState([])
-  const [classSubject,setClassSubject]=useState()
+  const [classSubject,setClassSubject]=useState() 
   const [classroom,setClassroom]=useState([])
   const [lec, setLec] = useState([]);
   const [lecturer, setLecturer] = useState();
   const [classlecturer, setclasslecturer] = useState([]);
+  const token = JSON.parse(localStorage.getItem("Token"));
 
 let columnsFromBackend = {
   [uuidv4()]: {
@@ -62,45 +63,73 @@ useEffect(() => {
       alert("vui long chon nam hoc")
     }
   }
-  useEffect(()=>{
-      ApiTeachingVolume.Get("/subject/all")
-      .then(res=>{
-       const arr = res.subjects.map((value)=>{
-          return { value: value.IdSubject, label: value.SubjectName };
-        })
-        setSubject([...arr])
+
+  useEffect(() => {
+    // ApiTeachingVolume.Get("/subject/all")
+    axios
+      .get("http://127.0.0.1:8000/api/subject/all", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       })
-  },[])
-  useEffect(()=>{
-    ApiTeachingVolume.Get("/user/faculty/CMU SE/department/SE").then((res) => {
-      const arr = res.map((value) => {
-        return {
-          value: value.IdLecturer,
-          label: value.LastName +" "+value.FirstName,
-        };
+      .then((res) => {
+        const arr = res.data.subjects.map((value) => {
+          return { value: value.IdSubject, label: value.SubjectName };
+        });
+        setSubject([...arr]);
       });
-      setLec([...arr]);
-    });
-  },[])
+  }, [token]);
+  useEffect(() => {
+    // ApiTeachingVolume.Get("/user/faculty/CMU SE/department/SE")
+    axios
+      .get("http://127.0.0.1:8000/api/user/faculty/CMU SE/department/SE", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        const arr = res.data.map((value) => {
+          return {
+            value: value.IdLecturer,
+            label: value.LastName + " " + value.FirstName,
+          };
+        });
+        setLec([...arr]);
+      });
+  }, [token]);
   useEffect(()=>{
-    if (lecturer && lecturer.value && semester && semester.value && year && year.value) {
-      ApiTeachingVolume.Get(
-        `class/lecturer/${lecturer.value}/semester/${semester.value}/year/${year.value}`
-      ).then((res) => {
-         setclasslecturer([...res.classes]);
+    if (lecturer && lecturer.value && semester && semester.value && year && year.value && token) {
+       axios.get(
+         `http://127.0.0.1:8000/api/class/lecturer/${lecturer.value}/semester/${semester.value}/year/${year.value}`,
+         {
+           headers: {
+             Authorization: `Bearer ${token}`,
+           },
+         }
+       )
+      // ApiTeachingVolume.Get(`class/lecturer/${lecturer.value}/semester/${semester.value}/year/${year.value}`)
+      .then((res) => {
+         setclasslecturer([...res.data.classes]);
       });
     }
-  },[lecturer,semester,year])
+  },[lecturer,semester,year,token])
 
   useEffect(() => {
    if (classSubject  && classSubject.value && semester && semester.value && year && year.value) {
-     ApiTeachingVolume.Get(
-       `/class/classesNullLec/idSubject/${classSubject.value}/semester/${semester.value}/year/${year.value}`
-     ).then((res) => {
-       setClassroom([...res.classes]);
+    //  ApiTeachingVolume.Get(`/class/classesNullLec/idSubject/${classSubject.value}/semester/${semester.value}/year/${year.value}`)
+      axios.get(
+         `http://127.0.0.1:8000/api/class/classesNullLec/idSubject/${classSubject.value}/semester/${semester.value}/year/${year.value}`,
+         {
+           headers: {
+             Authorization: `Bearer ${token}`,
+           },
+         }
+       )
+     .then((res) => {
+       setClassroom([...res.data.classes]);
      });
    }
-  }, [classSubject ,semester,year]);
+  }, [classSubject ,semester,year,token]);
 
   const [columns, setColumns] = useState(columnsFromBackend);
   

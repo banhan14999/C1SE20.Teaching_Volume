@@ -5,6 +5,8 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import StyledTableCell from "../../../StyledTableCell";
+import { CgPlayListRemove } from "react-icons/cg";
+
 function ExamVolume(props) {
   return (
     <div>
@@ -15,26 +17,20 @@ function ExamVolume(props) {
               <StyledTableCell align="center">STT</StyledTableCell>
               <StyledTableCell align="center" rowSpan={2} colSpan={2}>
                 Subject Code
-                <StyledTableCell hiden="1" align="left" className="border-none">
-                  Letter
-                </StyledTableCell>
-                <StyledTableCell hiden="1" align="left">
-                  Number
-                </StyledTableCell>
+                <div className="flex justify-between border-t">
+                  <p className="mr-[6px]">Letter</p>
+                  <p className="ml-[6px]">Number</p>
+                </div>
               </StyledTableCell>
               <StyledTableCell align="center">Subject</StyledTableCell>
               <StyledTableCell align="center">Grade</StyledTableCell>
+              <StyledTableCell align="center">Type</StyledTableCell>
               <StyledTableCell align="center">Semester</StyledTableCell>
-              <StyledTableCell align="center">
-                Number of Student
-              </StyledTableCell>
-              <StyledTableCell align="center">
-                Class Coefficient
-              </StyledTableCell>
-              <StyledTableCell align="center">
-                Subject Coefficient
-              </StyledTableCell>
-              <StyledTableCell align="center">Time Teaching</StyledTableCell>
+              <StyledTableCell align="center">Credit</StyledTableCell>
+              <StyledTableCell align="center">Unit</StyledTableCell>
+              <StyledTableCell align="center">Number</StyledTableCell>
+              <StyledTableCell align="center">Coefficient</StyledTableCell>
+              <StyledTableCell align="center">Action</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -52,18 +48,16 @@ function ExamVolume(props) {
                 </StyledTableCell>
                 <StyledTableCell align="center">{row.subject}</StyledTableCell>
                 <StyledTableCell align="center">{row.grade}</StyledTableCell>
+                <StyledTableCell align="center">{row.type}</StyledTableCell>
                 <StyledTableCell align="center">{row.semester}</StyledTableCell>
+                <StyledTableCell align="center">{row.credit}</StyledTableCell>
+                <StyledTableCell align="center">{row.unit}</StyledTableCell>
+                <StyledTableCell align="center">{row.number}</StyledTableCell>
                 <StyledTableCell align="center">
-                  {row.numberofsubject}
+                  {row.coefficient}
                 </StyledTableCell>
                 <StyledTableCell align="center">
-                  {row.classcoefficient}
-                </StyledTableCell>
-                <StyledTableCell align="center">
-                  {row.subjectcoefficient}
-                </StyledTableCell>
-                <StyledTableCell align="center">
-                  {row.timecoefficient}
+                  <CgPlayListRemove className="text-[20px] text-[blue] text-center" />
                 </StyledTableCell>
               </TableRow>
             ))}
