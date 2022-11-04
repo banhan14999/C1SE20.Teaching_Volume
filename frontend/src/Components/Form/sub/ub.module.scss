@@ -4,7 +4,8 @@
 //   box-shadow: 1px 1px 1px 1px gray inset;
   border-radius: 10px;
     border: #c81e1e solid 2px;
-
+    z-index: 1;
+    position: relative;
 }
 .nav_form {
     margin-bottom: 50px;
@@ -15,7 +16,7 @@
     justify-content: space-between;
 }
 .nav_form ul li{
-    background: #000;
+    background: gray;
     cursor: pointer;
     color: white;
     padding: 5px 0px;

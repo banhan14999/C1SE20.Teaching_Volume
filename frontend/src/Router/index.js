@@ -21,7 +21,6 @@ import FormSubject from "../Components/Form/sub";
 export const publicRouters = [
   { path: "/authentication", component: Authentication },
   // { path: "home/:id", component: Home },
-
   {
     path: "home",
     component: Home,

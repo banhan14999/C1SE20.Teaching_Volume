@@ -58,11 +58,11 @@ function Authentication() {
       }
     }
   }
-
   useEffect(() => {
     localStorage.clear();
     setImgcaptcha(refcaptcha.current.children[0].dataset.key);
   }, []);
+  
   return (
     <div
       className="w-screen h-screen items-center flex justify-center "
