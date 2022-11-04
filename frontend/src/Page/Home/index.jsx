@@ -4,11 +4,15 @@ import HeaderTop from "../../Components/Header/HeaderTop";
 import SubHeader from "../../Components/Header/SubHeader";
 import Footer from "../../Components/Footer"
 import NavLeft from "../../Components/Navbar";
+import { Navigate } from "react-router-dom";
 const cx = classNames.bind(styles);
 
 function Home() {
-  return (
-    <div>
+  const token = localStorage.getItem("Token")
+    if (!token) {
+      return <Navigate to="/authentication" replace />;
+    }
+    return <div>
       <header >
         <div className={cx("header")}>
           <HeaderTop />
@@ -20,6 +24,6 @@ function Home() {
       </div>
       <Footer></Footer>
     </div>
-  );
+  // );
 }
 export default Home;

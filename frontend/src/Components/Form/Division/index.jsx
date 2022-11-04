@@ -66,6 +66,12 @@ useEffect(() => {
 
   useEffect(() => {
     // ApiTeachingVolume.Get("/subject/all")
+    // .then((res) => {
+    //     const arr = res.data.subjects.map((value) => {
+    //       return { value: value.IdSubject, label: value.SubjectName };
+    //     });
+    //     setSubject([...arr]);
+    //   });
     axios
       .get("http://127.0.0.1:8000/api/subject/all", {
         headers: {

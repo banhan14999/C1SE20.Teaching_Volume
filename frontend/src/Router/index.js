@@ -22,8 +22,7 @@ export const publicRouters = [
   { path: "/authentication", component: Authentication },
   // { path: "home/:id", component: Home },
   {
-    path: "home",
-    component: Home,
+    path: "home", component: Home,
     chidren: [
       { path: "InfoWebpart", component: InfoWebpart },
       { path: "addnewuser", component: AddUser },

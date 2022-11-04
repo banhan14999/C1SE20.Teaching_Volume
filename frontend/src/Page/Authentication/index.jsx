@@ -16,7 +16,6 @@ function Authentication() {
   const inputPassValue = useRef();
   const inputUserValue = useRef();
   const inputCaptchaValue = useRef();
-
   // Login
   function handlLogin(event) {
     const obj = {
