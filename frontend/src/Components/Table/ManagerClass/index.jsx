@@ -12,34 +12,49 @@ import { useParams,useNavigate } from "react-router-dom";
 import StyledTableCell from "../../StyledTableCell";
 import ClassInformation from "../../Form/ClassInformation";
 import { SetUpdate } from "../../../Redux/Actions/index";
-
+import { useEffect, useState } from "react";
+import { ApiTeachingVolume } from "../../../apis/axios";
+import { DataUpdate } from "../../../Redux/Actions/index";
 function ManagerClass(props) {
   const param = useParams();
   const navigate = useNavigate();
   const dispath = useDispatch();
+  const [classad,setClassAd] = useState([])
+  const [data,setData] = useState([])
   const handleUpdate = (e) => {
      const classid = e.target.parentElement.dataset.update;
-     const id = classid.split("")
-       const text = id.filter((value) => value !== " ").join("").toLowerCase()
+     let arr = data.filter(
+       (value) => value.IdClass  === classid
+     );
     dispath(SetUpdate("Update class"));
-    navigate(text);
+    dispath(DataUpdate(arr))
+    navigate(classid);
   };
 
-  function createData(
-    ClassID,
-    ClassName,
-    SchoolYear,
-    Semester,
-    Student,
-    Lecturer
-  ) {
+  function createData(ClassID, ClassName, SchoolYear, Semester, Student, Lecturer ) {
     return { ClassID, ClassName, SchoolYear, Semester, Student, Lecturer };
   }
+useEffect(() => {
+  ApiTeachingVolume.Get("/class/all").then((data) => {
+    setData([...data.classes]);
+    const arr = data.classes
+      .map((value) => {
+        return createData(
+          value.IdClass,
+          value.Grade,
+          value.Year,
+          value.Semester,
+          value.NumberOfStudent,
+          value.Unit
+        );
+      })
+      .filter((value) => {
+        return value;
+      });
+    setClassAd([...arr]);
+  });
+}, [param.id]);
 
-  const rows = [
-    createData("2223CMU SE 403-1", "CMU-SE 403 AIS", 2022, 1, 40, "NĐM"),
-    createData("2223CMU SE 403-2", "CMU-SE 403 AIS", 2022, 1, 40, "NĐM"),
-  ];
   return (
     <div>
       {param.id ? (
@@ -67,7 +82,7 @@ function ManagerClass(props) {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {rows.map((row) => (
+                {classad.map((row) => (
                   <TableRow
                     key={row.ClassID}
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -97,13 +112,13 @@ function ManagerClass(props) {
                         onClick={handleUpdate}
                       >
                         <GrUpdate className="mr-2"></GrUpdate>
-                        <div>Update</div>
+                        <div >Update</div>
                       </div>
                       <div
                         className="flex items-center cursor-pointer"
                         data-delete={row.ClassID}
                       >
-                        <TbListDetails className="mr-2"></TbListDetails>
+                        <TbListDetails className="mr-2 pointer-events-none"></TbListDetails>
                         <div>Detail</div>
                       </div>
                     </StyledTableCell>

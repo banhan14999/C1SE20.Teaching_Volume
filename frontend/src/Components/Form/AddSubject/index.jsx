@@ -1,6 +1,5 @@
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { IoIosWarning } from "react-icons/io";
 import classNames from "classnames/bind";
 import {useParams} from "react-router-dom"
 import SelectForm from "../../SelectForm";
@@ -35,7 +34,7 @@ function AddSubject(props) {
        return str + value.value + " ";
      }, "");
 
-   if(param.id){
+   if(props.btn){
       const id = data[0].Subject_id;
        const obj = {
          letter: valuesForm.letter,
@@ -135,11 +134,6 @@ function AddSubject(props) {
                     setValuesForm({ ...valuesForm, letter: e.target.value });
                   }}
                 ></input>
-                {valuesForm.letter === "" && (
-                  <p className="absolute right-3 text-yellow-300">
-                    <IoIosWarning className="text-[24px]"></IoIosWarning>
-                  </p>
-                )}
               </div>
             </div>
             <div className="w-full flex justify-between mt-2">
@@ -157,11 +151,6 @@ function AddSubject(props) {
                     setValuesForm({ ...valuesForm, number: e.target.value });
                   }}
                 ></input>
-                {valuesForm.number === "" && (
-                  <p className="absolute right-3  text-yellow-300">
-                    <IoIosWarning className="text-[24px]"></IoIosWarning>
-                  </p>
-                )}
               </div>
             </div>
             <div className="w-full flex justify-between mt-2">
@@ -182,11 +171,6 @@ function AddSubject(props) {
                     });
                   }}
                 ></input>
-                {valuesForm.subject_name === "" && (
-                  <p className="absolute right-3  text-yellow-300">
-                    <IoIosWarning className="text-[24px]"></IoIosWarning>
-                  </p>
-                )}
               </div>
             </div>
             <div className="w-full flex justify-between mt-2">
@@ -204,11 +188,6 @@ function AddSubject(props) {
                     setValuesForm({ ...valuesForm, credit: e.target.value });
                   }}
                 ></input>
-                {valuesForm.credit === "" && (
-                  <p className="absolute right-3  text-yellow-300">
-                    <IoIosWarning className="text-[24px]"></IoIosWarning>
-                  </p>
-                )}
               </div>
             </div>
             <div className="w-full flex justify-between mt-2">
@@ -223,9 +202,9 @@ function AddSubject(props) {
                   options={options}
                   setSelectedOption={setType}
                   isMulti="isMulti"
-                  // defaultValue={
-                  //   param.id && { value: data[0].Type, label: data[0].Type }
-                  // }
+                  defaultValue={
+                    props.btn && { value: data[0].Type, label: data[0].Type }
+                  }
                 ></SelectForm>
               </div>
             </div>
