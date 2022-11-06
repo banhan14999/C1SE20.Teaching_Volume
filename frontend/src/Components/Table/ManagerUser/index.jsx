@@ -25,16 +25,16 @@ function ManagerUser() {
     return { Id,IdLecturer, FullName, School, Department, Role };
   }
 function clickDelete(e) {
-  const user_id = e.target.attributes[1].nodeValue
+  const user_id = e.target.dataset.delete
   ApiTeachingVolume.Delete("/user/delete/", user_id);
   const arr = user.filter((value) => {
-    return value.id !== user_id;
+    return value.Id !== Number(user_id);
   });
   setUser(arr);
 }
   const handleUpdate = (e) => {
     dispath(SetUpdate("Update user"));
-    const user_id = e.target.attributes[1].nodeValue;
+    const user_id = e.target.dataset.update;
     let arr = user.filter((value) => value.Id === Number(user_id));
     dispath(DataUpdate(arr));
     navigate(user_id);
@@ -110,7 +110,7 @@ function clickDelete(e) {
                       <div
                         className="flex justify-center  cursor-pointer "
                         onClick={handleUpdate}
-                        username={row.Id}
+                        data-update={row.Id}
                       >
                         <GrUpdate
                           color="#0a7a0a"
@@ -123,7 +123,7 @@ function clickDelete(e) {
                       <div
                         className="cursor-pointer"
                         onClick={clickDelete}
-                        username={row.id}
+                        data-delete={row.Id}
                       >
                         <AiFillCloseCircle
                           color="#eb4f04"

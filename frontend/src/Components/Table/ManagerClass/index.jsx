@@ -30,10 +30,18 @@ function ManagerClass(props) {
     dispath(DataUpdate(arr))
     navigate(classid);
   };
-
+function handleDelete(e) {
+  const id = e.target.parentElement.dataset.delete;
+  ApiTeachingVolume.Delete("/class/delete/", id);
+  const arr = classad.filter((value) => {
+    return value.ClassID !== id;
+  });
+  setClassAd([...arr]);
+}
   function createData(ClassID, ClassName, SchoolYear, Semester, Student, Lecturer ) {
     return { ClassID, ClassName, SchoolYear, Semester, Student, Lecturer };
   }
+
 useEffect(() => {
   ApiTeachingVolume.Get("/class/all").then((data) => {
     setData([...data.classes]);
@@ -117,6 +125,7 @@ useEffect(() => {
                       <div
                         className="flex items-center cursor-pointer"
                         data-delete={row.ClassID}
+                        onClick = {handleDelete}
                       >
                         <TbListDetails className="mr-2 pointer-events-none"></TbListDetails>
                         <div>Detail</div>
