@@ -17,6 +17,7 @@ import { useEffect, useState } from "react";
 import { ApiTeachingVolume } from "../../../apis/axios";
 import { DataUpdate } from "../../../Redux/Actions/index";
 import SelectForm from "../../SelectForm";
+import axios from "axios";
 
 const cx = classNames.bind(styles);
 function ManagerClass(props) {
@@ -53,37 +54,55 @@ function ManagerClass(props) {
     });
     setClassAd([...arr]);
   }
-  function createData(
-    ClassID,
-    ClassName,
-    SchoolYear,
-    Semester,
-    Student,
-    Lecturer
-  ) {
-    return { ClassID, ClassName, SchoolYear, Semester, Student, Lecturer };
+  function createData(ClassID,ClassName,Subject,Student,Type,Credit,Coefficient,Action) {
+    return {ClassID, ClassName,Subject,Student,Type,Credit,Coefficient,Action};
   }
 
+    if (year !== null && semester !== null) {
+      localStorage.setItem(
+        "Division",
+        JSON.stringify({ year: year.value , semester: semester.value})
+      );
+      
+    }
+const token = JSON.parse(localStorage.getItem("Token"));
+const IdLecturer = JSON.parse(localStorage.getItem("IdLecturer"));
+
+
   useEffect(() => {
-    ApiTeachingVolume.Get("/class/all").then((data) => {
-      setData([...data.classes]);
-      const arr = data.classes
-        .map((value) => {
-          return createData(
-            value.IdClass,
-            value.Grade,
-            value.Year,
-            value.Semester,
-            value.NumberOfStudent,
-            value.Unit
-          );
-        })
-        .filter((value) => {
-          return value;
-        });
-      setClassAd([...arr]);
-    });
-  }, [param.id]);
+
+    if(semester && semester.value && year && year.value && IdLecturer && token){
+      axios
+      .get(
+        `http://127.0.0.1:8000/api/class/lecturer/${IdLecturer}/semester/${semester.value}/year/${year.value}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      // ApiTeachingVolume.Get(`class/lecturer/1234567890/semester/1/year/2022`)
+      .then((req) => {
+        setData([...req.data.classes]);
+        const arr = req.data.classes 
+          .map((value) => {
+            return createData(
+              value.ClassID,
+              value.Letter + " " + value.Number,
+              value.SubjectName,
+              value.NumberOfStudent,
+              value.TypeClass,
+              value.CreditClass,
+              value.SubjectCoefficient
+            );
+          })
+          .filter((value) => {
+            return value;
+          });
+        setClassAd([...arr]);
+        console.log(req);
+    })}
+  }, [param.id,year,semester]);
 
   return (
     <div className="w-[726px]">
@@ -127,7 +146,9 @@ function ManagerClass(props) {
                   <StyledTableCell align="center">Student</StyledTableCell>
                   <StyledTableCell align="center">Type</StyledTableCell>
                   <StyledTableCell align="center">Credit</StyledTableCell>
-                  <StyledTableCell align="center">Subject Coefficient</StyledTableCell>
+                  <StyledTableCell align="center">
+                    Subject Coefficient
+                  </StyledTableCell>
                   <StyledTableCell align="center">Action</StyledTableCell>
                 </TableRow>
               </TableHead>
@@ -138,22 +159,22 @@ function ManagerClass(props) {
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   >
                     <StyledTableCell align="center" component="th" scope="row">
-                      {row.ClassID}
-                    </StyledTableCell>
-                    <StyledTableCell align="center">
                       {row.ClassName}
                     </StyledTableCell>
                     <StyledTableCell align="center">
-                      {row.SchoolYear}
-                    </StyledTableCell>
-                    <StyledTableCell align="center">
-                      {row.Semester}
+                      {row.Subject}
                     </StyledTableCell>
                     <StyledTableCell align="center">
                       {row.Student}
                     </StyledTableCell>
                     <StyledTableCell align="center">
-                      {row.Lecturer}
+                      {row.Type}
+                    </StyledTableCell>
+                    <StyledTableCell align="center">
+                      {row.Credit}
+                    </StyledTableCell>
+                    <StyledTableCell align="center">
+                      {row.Coefficient}
                     </StyledTableCell>
                     <StyledTableCell>
                       <div

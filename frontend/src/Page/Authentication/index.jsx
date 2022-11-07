@@ -42,7 +42,7 @@ function Authentication() {
                   JSON.stringify(res.data.token)
                 );
                 console.log(res);
-                 localStorage.setItem("id", JSON.stringify(res.data.token));
+                 localStorage.setItem("IdLecturer", JSON.stringify(res.data.IdLecturer));
                 setCheckLogin(true);
                 navigate("/home/infowebpart");
               } else {
