@@ -7,64 +7,86 @@ import Paper from "@mui/material/Paper";
 import { useDispatch } from "react-redux";
 import { GrUpdate } from "react-icons/gr";
 import { TbListDetails } from "react-icons/tb";
-import { useParams,useNavigate } from "react-router-dom";
-
+import { useParams, useNavigate } from "react-router-dom";
+import styles from "./class.module.scss";
+import classNames from "classnames/bind";
 import StyledTableCell from "../../StyledTableCell";
 import ClassInformation from "../../Form/ClassInformation";
 import { SetUpdate } from "../../../Redux/Actions/index";
 import { useEffect, useState } from "react";
 import { ApiTeachingVolume } from "../../../apis/axios";
 import { DataUpdate } from "../../../Redux/Actions/index";
+import SelectForm from "../../SelectForm";
+
+const cx = classNames.bind(styles);
 function ManagerClass(props) {
   const param = useParams();
+  const [year, setYear] = useState(null);
+  const [semester, setSemester] = useState(null);
   const navigate = useNavigate();
   const dispath = useDispatch();
-  const [classad,setClassAd] = useState([])
-  const [data,setData] = useState([])
+  const [classad, setClassAd] = useState([]);
+  const [data, setData] = useState([]);
+  const opt = [
+    { value: "2022", label: "2021-2022" },
+    { value: "2023", label: "2022-2023" },
+    { value: "2024", label: "2024-2025" },
+  ];
+  const hocki = [
+    { value: "1", label: "Học Kỳ I" },
+    { value: "2", label: "Học Kỳ II" },
+    { value: "3", label: "Học Hè" },
+  ];
+
   const handleUpdate = (e) => {
-     const classid = e.target.parentElement.dataset.update;
-     let arr = data.filter(
-       (value) => value.IdClass  === classid
-     );
+    const classid = e.target.parentElement.dataset.update;
+    let arr = data.filter((value) => value.IdClass === classid);
     dispath(SetUpdate("Update class"));
-    dispath(DataUpdate(arr))
+    dispath(DataUpdate(arr));
     navigate(classid);
   };
-function handleDelete(e) {
-  const id = e.target.parentElement.dataset.delete;
-  ApiTeachingVolume.Delete("/class/delete/", id);
-  const arr = classad.filter((value) => {
-    return value.ClassID !== id;
-  });
-  setClassAd([...arr]);
-}
-  function createData(ClassID, ClassName, SchoolYear, Semester, Student, Lecturer ) {
+  function handleDelete(e) {
+    const id = e.target.parentElement.dataset.delete;
+    ApiTeachingVolume.Delete("/class/delete/", id);
+    const arr = classad.filter((value) => {
+      return value.ClassID !== id;
+    });
+    setClassAd([...arr]);
+  }
+  function createData(
+    ClassID,
+    ClassName,
+    SchoolYear,
+    Semester,
+    Student,
+    Lecturer
+  ) {
     return { ClassID, ClassName, SchoolYear, Semester, Student, Lecturer };
   }
 
-useEffect(() => {
-  ApiTeachingVolume.Get("/class/all").then((data) => {
-    setData([...data.classes]);
-    const arr = data.classes
-      .map((value) => {
-        return createData(
-          value.IdClass,
-          value.Grade,
-          value.Year,
-          value.Semester,
-          value.NumberOfStudent,
-          value.Unit
-        );
-      })
-      .filter((value) => {
-        return value;
-      });
-    setClassAd([...arr]);
-  });
-}, [param.id]);
+  useEffect(() => {
+    ApiTeachingVolume.Get("/class/all").then((data) => {
+      setData([...data.classes]);
+      const arr = data.classes
+        .map((value) => {
+          return createData(
+            value.IdClass,
+            value.Grade,
+            value.Year,
+            value.Semester,
+            value.NumberOfStudent,
+            value.Unit
+          );
+        })
+        .filter((value) => {
+          return value;
+        });
+      setClassAd([...arr]);
+    });
+  }, [param.id]);
 
   return (
-    <div>
+    <div className="w-[726px]">
       {param.id ? (
         <ClassInformation
           btn="Update"
@@ -73,6 +95,26 @@ useEffect(() => {
         />
       ) : (
         <div className="container">
+          <div className={cx("option")}>
+            <div className="flex pt-[107px] justify-around">
+              <span className="w-[30%] ml-[50px]">
+                <SelectForm
+                  options={opt}
+                  placeholder="Chọn năm học"
+                  height="30px w-full"
+                  setSelectedOption={setYear}
+                ></SelectForm>
+              </span>
+              <span className="w-[30%] ml-[-30px]">
+                <SelectForm
+                  options={hocki}
+                  placeholder="Chọn học kì"
+                  height="30px w-full"
+                  setSelectedOption={setSemester}
+                ></SelectForm>
+              </span>
+            </div>
+          </div>
           <div className="text-center text-[20px] font-[600] line mb-[20px] text-red-700">
             Manager Class
           </div>
@@ -80,12 +122,12 @@ useEffect(() => {
             <Table size="medium" aria-label="a dense table">
               <TableHead>
                 <TableRow>
-                  <StyledTableCell align="center">ClassID</StyledTableCell>
                   <StyledTableCell align="center">ClassName</StyledTableCell>
-                  <StyledTableCell align="center">SchoolYear</StyledTableCell>
-                  <StyledTableCell align="center">Semester</StyledTableCell>
+                  <StyledTableCell align="center">Subject</StyledTableCell>
                   <StyledTableCell align="center">Student</StyledTableCell>
-                  <StyledTableCell align="center">Lecturer</StyledTableCell>
+                  <StyledTableCell align="center">Type</StyledTableCell>
+                  <StyledTableCell align="center">Credit</StyledTableCell>
+                  <StyledTableCell align="center">Subject Coefficient</StyledTableCell>
                   <StyledTableCell align="center">Action</StyledTableCell>
                 </TableRow>
               </TableHead>
@@ -120,12 +162,12 @@ useEffect(() => {
                         onClick={handleUpdate}
                       >
                         <GrUpdate className="mr-2"></GrUpdate>
-                        <div >Update</div>
+                        <div>Update</div>
                       </div>
                       <div
                         className="flex items-center cursor-pointer"
                         data-delete={row.ClassID}
-                        onClick = {handleDelete}
+                        onClick={handleDelete}
                       >
                         <TbListDetails className="mr-2 pointer-events-none"></TbListDetails>
                         <div>Detail</div>

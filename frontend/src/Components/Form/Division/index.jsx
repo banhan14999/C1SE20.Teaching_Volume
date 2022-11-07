@@ -1,13 +1,13 @@
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import classNames from "classnames/bind";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
-// import { ApiTeachingVolume } from "../../../apis/axios";
+import { v4 as uuidv4 } from "uuid";
+
 import Button from "../../Button";
 import styles from "./division.module.scss";
 import SelectForm from "../../SelectForm";
 import TaskCard from "./card";
-import { v4 as uuidv4 } from "uuid";
-import axios from "axios";
+import { ApiTeachingVolume } from "../../../apis/axios";
 const cx = classNames.bind(styles);
 function Division() {
   const [continues, setContinues] = useState(false);
@@ -20,9 +20,10 @@ function Division() {
   const [lecturer, setLecturer] = useState();
   const [classlecturer, setclasslecturer] = useState([]);
   const token = JSON.parse(localStorage.getItem("Token"));
-
+  const [s,sets] = useState(true)
 let columnsFromBackend = {
   [uuidv4()]: {
+    idLecturer:"",
     title: "GV",
     items: [...classlecturer],
   },
@@ -34,6 +35,7 @@ let columnsFromBackend = {
 useEffect(() => {
   setColumns({
     [uuidv4()]: {
+      idLecturer: lecturer && lecturer.value,
       title: lecturer && lecturer.label,
       items: (lecturer && [...classlecturer]) || [],
     },
@@ -65,36 +67,18 @@ useEffect(() => {
   }
 
   useEffect(() => {
-    // ApiTeachingVolume.Get("/subject/all")
-    // .then((res) => {
-    //     const arr = res.data.subjects.map((value) => {
-    //       return { value: value.IdSubject, label: value.SubjectName };
-    //     });
-    //     setSubject([...arr]);
-    //   });
-    axios
-      .get("http://127.0.0.1:8000/api/subject/all", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+    ApiTeachingVolume.Get("/subject/all")
       .then((res) => {
-        const arr = res.data.subjects.map((value) => {
+        const arr = res.subjects.map((value) => {
           return { value: value.IdSubject, label: value.SubjectName };
         });
         setSubject([...arr]);
       });
   }, [token]);
   useEffect(() => {
-    // ApiTeachingVolume.Get("/user/faculty/CMU SE/department/SE")
-    axios
-      .get("http://127.0.0.1:8000/api/user/faculty/CMU SE/department/SE", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+    ApiTeachingVolume.Get("/user/faculty/CMU SE/department/SE")
       .then((res) => {
-        const arr = res.data.map((value) => {
+        const arr = res.map((value) => {
           return {
             value: value.IdLecturer,
             label: value.LastName + " " + value.FirstName,
@@ -103,39 +87,56 @@ useEffect(() => {
         setLec([...arr]);
       });
   }, [token]);
-  useEffect(()=>{
+  useLayoutEffect(()=>{
     if (lecturer && lecturer.value && semester && semester.value && year && year.value && token) {
-       axios.get(
-         `http://127.0.0.1:8000/api/class/lecturer/${lecturer.value}/semester/${semester.value}/year/${year.value}`,
-         {
-           headers: {
-             Authorization: `Bearer ${token}`,
-           },
-         }
+       ApiTeachingVolume.Get(
+         `/class/lecturer/${lecturer.value}/semester/${semester.value}/year/${year.value}`
        )
-      // ApiTeachingVolume.Get(`class/lecturer/${lecturer.value}/semester/${semester.value}/year/${year.value}`)
       .then((res) => {
-         setclasslecturer([...res.data.classes]);
+         setclasslecturer([...res.classes]);
       });
     }
-  },[lecturer,semester,year,token])
+  },[lecturer,semester,year,token,s])
 
-  useEffect(() => {
-   if (classSubject  && classSubject.value && semester && semester.value && year && year.value) {
-    //  ApiTeachingVolume.Get(`/class/classesNullLec/idSubject/${classSubject.value}/semester/${semester.value}/year/${year.value}`)
-      axios.get(
-         `http://127.0.0.1:8000/api/class/classesNullLec/idSubject/${classSubject.value}/semester/${semester.value}/year/${year.value}`,
-         {
-           headers: {
-             Authorization: `Bearer ${token}`,
-           },
-         }
+  useLayoutEffect(() => {
+    if (classSubject && classSubject.value && semester && semester.value && year && year.value) {
+       ApiTeachingVolume.Get(
+         `class/classesNullLec/idSubject/${classSubject.value}/semester/${semester.value}/year/${year.value}`
        )
-     .then((res) => {
-       setClassroom([...res.data.classes]);
-     });
-   }
-  }, [classSubject ,semester,year,token]);
+        .then((res) => {
+          setClassroom([...res.classes]);
+        });
+    }
+  }, [classSubject, lecturer, semester, year, token,s]);
+
+  function handleSave(){
+    let arr = []
+    for (const key in columns) {
+      if (columns.hasOwnProperty(key)) {
+          arr = [...arr,columns[key]];
+      }}
+   const idClassAdd = arr[0]["items"].reduce((s, value) => {
+     return [...s, value.IdClass];
+   }, []);
+   const idClassRemove = arr[1]["items"].reduce((s, value) => {
+     return [...s, value.IdClass];
+   }, []);
+    const datas = {
+      data: {
+        idLecturer: arr[0]["idLecturer"],
+        idClassAdd: [...idClassAdd],
+        idClassRemove: [...idClassRemove],
+      },
+    };
+    ApiTeachingVolume.Put("/class/doDivisionClasses", datas)
+      .then((req) => {
+        alert("Thanh cong");
+        sets((prev)=>!prev)
+      })
+      .catch((err) => {
+        alert("that bai");
+      });
+  }
 
   const [columns, setColumns] = useState(columnsFromBackend);
   
@@ -257,7 +258,7 @@ useEffect(() => {
             </div>
           </DragDropContext>
           <div className=" mt-4 w-full text-right ">
-            <Button className="ml-4" bgcolor="rgb(149, 11, 11)" width="20%">
+            <Button className="ml-4" bgcolor="rgb(149, 11, 11)" width="20%" onClick={handleSave}>
               Lưu
             </Button>
           </div>

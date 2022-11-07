@@ -64,7 +64,6 @@ function AddUser(props) {
        let checkValInput = true
        for (let key in valuesForm) {
          if (valuesForm.hasOwnProperty(key)) {
-           console.log(valuesForm[key].length);
            if (valuesForm[key] === "") {
              checkValInput = false;
            }

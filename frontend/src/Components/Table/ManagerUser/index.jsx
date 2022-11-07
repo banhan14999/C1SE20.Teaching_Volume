@@ -12,7 +12,7 @@ import { useNavigate,useParams } from "react-router-dom";
 import StyledTableCell from "../../StyledTableCell";
 import AddUser from "../../Form/AddUser";
 import { SetUpdate } from "../../../Redux/Actions/index";
-import { ApiTeachingVolume } from "../../../apis/axios";
+// import { ApiTeachingVolume } from "../../../apis/axios";
 import { DataUpdate } from "../../../Redux/Actions/index";
 import axios from "axios";
 
@@ -26,7 +26,13 @@ function ManagerUser() {
   }
 function clickDelete(e) {
   const user_id = e.target.dataset.delete
-  ApiTeachingVolume.Delete("/user/delete/", user_id);
+  // ApiTeachingVolume.Delete("/user/delete/", user_id);
+  const token = JSON.parse(localStorage.getItem("Token"));
+  axios.delete(`http://127.0.0.1:8000/api/user/delete/${user_id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
   const arr = user.filter((value) => {
     return value.Id !== Number(user_id);
   });

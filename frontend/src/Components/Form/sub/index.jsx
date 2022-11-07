@@ -14,7 +14,6 @@ const cx = classNames.bind(styles);
 function FormSubject() {
   const [count,setCount] = useState(1)
   const [form,setForm] = useState("Teaching Volume")
-
   const [renderAdd,setRenderAdd] = useState(false)
 
      function createTeaching(stt, letter, numbercode,subject,grade, semester,numberofsubject,classcoefficient,subjectcoefficient,timecoefficient ) {

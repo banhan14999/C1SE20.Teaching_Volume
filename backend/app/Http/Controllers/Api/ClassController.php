@@ -303,6 +303,7 @@ class ClassController extends Controller
 
     public function doDivisionClasses(Request $request)
     {
+        // dd($request);
         $idLecturer = $request->data['idLecturer'];
         $idClassesAdd = $request->data['idClassAdd'];
         $idClassesRemove = $request->data['idClassRemove'];
