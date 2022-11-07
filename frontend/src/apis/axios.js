@@ -14,15 +14,18 @@ const instance = axios.create({
 export const ApiTeachingVolume = {
   Get: async (api) => {
     const res = await instance.get(api);
-   return res.data
+    return res.data;
   },
-  Post:  (api,data)=>{
-    return  instance.post(api, data);
+  Post: (api, data) => {
+    return instance.post(api, data);
   },
-  Update: async (api,id,data)=>{
+  Update: async (api, id, data) => {
     return await instance.put(api + id, data);
   },
-  Delete: async (api,id)=>{
+  Put: async (api,  data) => {
+    return await instance.put(api, data);
+  },
+  Delete: async (api, id) => {
     return await instance.delete(api + id);
-  }
+  },
 };

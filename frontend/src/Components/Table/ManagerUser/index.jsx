@@ -12,7 +12,7 @@ import { useNavigate,useParams } from "react-router-dom";
 import StyledTableCell from "../../StyledTableCell";
 import AddUser from "../../Form/AddUser";
 import { SetUpdate } from "../../../Redux/Actions/index";
-import { ApiTeachingVolume } from "../../../apis/axios";
+// import { ApiTeachingVolume } from "../../../apis/axios";
 import { DataUpdate } from "../../../Redux/Actions/index";
 import axios from "axios";
 
@@ -25,16 +25,22 @@ function ManagerUser() {
     return { Id,IdLecturer, FullName, School, Department, Role };
   }
 function clickDelete(e) {
-  const user_id = e.target.attributes[1].nodeValue
-  ApiTeachingVolume.Delete("/user/delete/", user_id);
+  const user_id = e.target.dataset.delete
+  // ApiTeachingVolume.Delete("/user/delete/", user_id);
+  const token = JSON.parse(localStorage.getItem("Token"));
+  axios.delete(`http://127.0.0.1:8000/api/user/delete/${user_id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
   const arr = user.filter((value) => {
-    return value.id !== user_id;
+    return value.Id !== Number(user_id);
   });
   setUser(arr);
 }
   const handleUpdate = (e) => {
     dispath(SetUpdate("Update user"));
-    const user_id = e.target.attributes[1].nodeValue;
+    const user_id = e.target.dataset.update;
     let arr = user.filter((value) => value.Id === Number(user_id));
     dispath(DataUpdate(arr));
     navigate(user_id);
@@ -110,7 +116,7 @@ function clickDelete(e) {
                       <div
                         className="flex justify-center  cursor-pointer "
                         onClick={handleUpdate}
-                        username={row.Id}
+                        data-update={row.Id}
                       >
                         <GrUpdate
                           color="#0a7a0a"
@@ -123,7 +129,7 @@ function clickDelete(e) {
                       <div
                         className="cursor-pointer"
                         onClick={clickDelete}
-                        username={row.id}
+                        data-delete={row.Id}
                       >
                         <AiFillCloseCircle
                           color="#eb4f04"

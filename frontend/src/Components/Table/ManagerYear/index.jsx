@@ -1,4 +1,4 @@
-import * as React from "react";
+import {useEffect} from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableContainer from "@mui/material/TableContainer";
@@ -12,7 +12,10 @@ import { useParams,useNavigate } from "react-router-dom";
 import AddYear from "../../Form/AddYear"
 import StyledTableCell from "../../StyledTableCell";
 import { SetUpdate } from "../../../Redux/Actions/index";
+import { ApiTeachingVolume } from "../../../apis/axios";
+import { useState } from "react";
 function ManagerYear(props) {
+  const [year,setYear]= useState([])
 const param = useParams();
 const navigate = useNavigate();
   const dispath = useDispatch();
@@ -28,12 +31,27 @@ const navigate = useNavigate();
           .toLowerCase();
         navigate(id);
   };
-  const rows = [
-    createData(1111, 2020, 2021, "24/05/2021", "24/05/2022"),
-    createData(1112, 2020, 2021, "24/05/2021", "24/05/2022"),
-    createData(1113, 2020, 2021, "24/05/2021", "24/05/2022"),
-    createData(1114, 2020, 2021, "24/05/2021", "24/05/2022"),
-  ];
+function handleDelete(e){
+  const yearid = e.target.dataset.delete;
+    ApiTeachingVolume.Delete(`/year/delete/${yearid}`)
+    const arr = year.filter((value) => value.Start !== Number(yearid));
+    setYear([...arr])
+}
+  useEffect(()=>{
+    ApiTeachingVolume.Get("/year/all")
+    .then((req)=>{
+      const arr = req.years.map((value)=>{
+       return createData(
+         value.start,
+         value.start,
+         value.finish,
+         new Date(value.created_at).toLocaleDateString("en-US"),
+         new Date(value.updated_at).toLocaleDateString("en-US")
+       ); 
+      })
+      setYear([...arr])
+    })
+  },[])
   return (
     <div>
       {param.id ? (
@@ -58,7 +76,7 @@ const navigate = useNavigate();
                 </TableRow>
               </TableHead>
               <TableBody>
-                {rows.map((row) => (
+                {year.map((row) => (
                   <TableRow
                     key={row.Id}
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -76,17 +94,23 @@ const navigate = useNavigate();
                         data-update={row.Id}
                         onClick={handleUpdate}
                       >
-                        <GrUpdate color="#0a7a0a" fontSize={14}></GrUpdate>
+                        <GrUpdate
+                          color="#0a7a0a"
+                          className="pointer-events-none"
+                          fontSize={14}
+                        ></GrUpdate>
                       </div>
                     </StyledTableCell>
                     <StyledTableCell align="center">
                       <div
                         className="flex justify-center cursor-pointer"
-                        data-delete={row.Id}
+                        data-delete={row.Start}
+                        onClick={handleDelete}
                       >
                         <AiFillCloseCircle
                           color="#eb4f04"
                           fontSize={16}
+                          className="pointer-events-none"
                         ></AiFillCloseCircle>
                       </div>
                     </StyledTableCell>

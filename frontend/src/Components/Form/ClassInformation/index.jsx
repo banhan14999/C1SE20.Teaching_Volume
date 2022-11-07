@@ -12,13 +12,12 @@ const cx = classNames.bind(styles)
 function ClassInformation(props) {
 const [year, setYear] = useState();
 const [semester, setSemester] = useState();
-const [type, setType] = useState([]);
-
-
+const [type, setType] = useState();
+const [subjectOptions, setSubjectOptions] = useState([]);
+const [subject,setSubject] = useState()
   const param = useParams()
 const [valuesForm, setValuesForm] = useState({
   grade: "",
-  idSubject: "",
   credit: "",
   numberOfStudent: "",
   subjectCoefficient: "",
@@ -54,18 +53,14 @@ const [valuesForm, setValuesForm] = useState({
   const { data } = updateData;
  function handleAdd(){
    const token = JSON.parse(localStorage.getItem("Token"));
-   
-   const types = type.reduce((str, value) => {
-      return str + value.value + " ";
-    }, "");
    if (props.btn ) {
      const obj = {
-       Year: (year && year.value) || data[0].Year,
+       Year: (year && Number(year.value)) || data[0].Year,
        Semester: (semester && semester.value) || data[0].Semester,
        Grade: valuesForm.grade,
-       Type: types || data[0].TypeClass,
-       Credit: valuesForm.credit,
-       NumberOfStudent: valuesForm.numberOfStudent,
+       Type: (type && type.value) || data[0].TypeClass,
+       Credit: Number(valuesForm.credit),
+       NumberOfStudent: Number(valuesForm.numberOfStudent),
        SubjectCoefficient: valuesForm.subjectCoefficient,
        Unit: valuesForm.unit,
      };
@@ -81,7 +76,6 @@ const [valuesForm, setValuesForm] = useState({
      let checkValInput = true;
      for (let key in valuesForm) {
        if (valuesForm.hasOwnProperty(key)) {
-         console.log(valuesForm[key].length);
          if (valuesForm[key] === "") {
            checkValInput = false;
          }
@@ -89,18 +83,15 @@ const [valuesForm, setValuesForm] = useState({
      }
      if (!checkValInput) {
        alert("Vui lòng nhập đầy đủ các trường!");
-     } else if (checkValInput && type.length > 0) {
-       const types = type.reduce((str, value) => {
-         return str + value.value + " ";
-       }, "");
+     } else if (checkValInput) {
        const obj = {
-         Year: year.value,
+         Year: Number(year.value),
          Semester: semester.value,
          Grade: valuesForm.grade,
-         IdSubject: valuesForm.idSubject,
-         Type: types,
-         Credit: valuesForm.credit,
-         NumberOfStudent: valuesForm.numberOfStudent,
+         IdSubject: subject.value,
+         Type: type.value,
+         Credit: Number(valuesForm.credit),
+         NumberOfStudent: Number(valuesForm.numberOfStudent),
          SubjectCoefficient: valuesForm.subjectCoefficient,
          Unit: valuesForm.unit,
        };
@@ -129,6 +120,17 @@ const [valuesForm, setValuesForm] = useState({
      }
    }
  }
+ useEffect(()=>{
+    ApiTeachingVolume.Get("subject/all")
+    .then((data)=>{
+     const sub= data.subjects.reduce(
+        (arr, value) => [...arr, { value: value.IdSubject, label: value.Letter }],
+        []
+      );
+      setSubjectOptions([...sub]);
+    })
+ },[])
+
   useEffect(() => {
     if (props.btn && data[0]) {
       setValuesForm({
@@ -140,7 +142,7 @@ const [valuesForm, setValuesForm] = useState({
       });
     }
   }, [ data, props.btn]);
-
+  
     return (
       <div className={cx("form")}>
         <div className={cx("line")}>
@@ -163,8 +165,8 @@ const [valuesForm, setValuesForm] = useState({
                 defaultValue={
                   props.btn &&
                   data[0] && {
-                    label: data[0].Year,
-                    value: data[0].Year,
+                    label: data[0].IdSubject,
+                    value: data[0].IdSubject,
                   }
                 }
               ></SelectForm>
@@ -193,14 +195,30 @@ const [valuesForm, setValuesForm] = useState({
                 Subject
               </label>
               <span className="text-lg font-bold">:</span>
-              <input
+              {/* <input
                 placeholder="Subject"
                 className="w-1/2 input"
-                value={valuesForm.idSubject}
+                value={valuesForm.idSubject || ""}
                 onChange={(e) => {
-                  setValuesForm({ ...valuesForm, idSubject: e.target.value });
+                  setValuesForm({
+                    ...valuesForm,
+                    idSubject: e.target.value,
+                  });
                 }}
-              ></input>
+              ></input> */}
+              <SelectForm
+                placeholder="Subject"
+                class="w-1/2"
+                options={subjectOptions}
+                setSelectedOption={setSubject}
+                defaultValue={
+                  props.btn &&
+                  data[0] && {
+                    label: data[0].Year,
+                    value: data[0].Year,
+                  }
+                }
+              ></SelectForm>
             </div>
             <div className="w-full flex justify-between mt-2">
               <label htmlFor="" className="w-[30%]">
@@ -210,7 +228,7 @@ const [valuesForm, setValuesForm] = useState({
               <input
                 placeholder="Grade"
                 className="w-1/2 input"
-                value={valuesForm.grade}
+                value={valuesForm.grade || ""}
                 onChange={(e) => {
                   setValuesForm({ ...valuesForm, grade: e.target.value });
                 }}
@@ -224,9 +242,12 @@ const [valuesForm, setValuesForm] = useState({
               <input
                 placeholder="Credit"
                 className="w-1/2 input"
-                value={valuesForm.credit}
+                value={valuesForm.credit || ""}
                 onChange={(e) => {
-                  setValuesForm({ ...valuesForm, credit: e.target.value });
+                  setValuesForm({
+                    ...valuesForm,
+                    credit: e.target.value,
+                  });
                 }}
               ></input>
             </div>
@@ -239,10 +260,10 @@ const [valuesForm, setValuesForm] = useState({
                 placeholder="Type"
                 class="w-1/2"
                 options={typeOptions}
-                isMulti="isMulti"
                 setSelectedOption={setType}
                 defaultValue={
-                  props.btn &&  data[0] &&{
+                  props.btn &&
+                  data[0] && {
                     value: data[0].TypeClass,
                     label: data[0].TypeClass,
                   }
@@ -257,7 +278,7 @@ const [valuesForm, setValuesForm] = useState({
               <input
                 placeholder="Number Of Student"
                 className="w-1/2 input"
-                value={valuesForm.numberOfStudent}
+                value={valuesForm.numberOfStudent || ""}
                 onChange={(e) => {
                   setValuesForm({
                     ...valuesForm,
@@ -274,7 +295,7 @@ const [valuesForm, setValuesForm] = useState({
               <input
                 placeholder="Subject Coefficient"
                 className="w-1/2 input"
-                value={valuesForm.subjectCoefficient}
+                value={valuesForm.subjectCoefficient || ""}
                 onChange={(e) => {
                   setValuesForm({
                     ...valuesForm,
@@ -291,7 +312,7 @@ const [valuesForm, setValuesForm] = useState({
               <input
                 placeholder="Unit"
                 className="w-1/2 input"
-                value={valuesForm.unit}
+                value={valuesForm.unit || ""}
                 onChange={(e) => {
                   setValuesForm({ ...valuesForm, unit: e.target.value });
                 }}

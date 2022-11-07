@@ -41,6 +41,8 @@ function Authentication() {
                   "Token",
                   JSON.stringify(res.data.token)
                 );
+                console.log(res);
+                 localStorage.setItem("id", JSON.stringify(res.data.token));
                 setCheckLogin(true);
                 navigate("/home/infowebpart");
               } else {
