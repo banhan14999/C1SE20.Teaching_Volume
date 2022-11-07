@@ -276,7 +276,7 @@ class ClassController extends Controller
     public static function removeLecOutOfClass($idClassesRemove)
     {
         //$idClasses = $request->data['IdClasses'];
-        if(! empty($idClasses)) {
+        if(! empty($idClassesRemove)) {
             foreach($idClassesRemove as $idClass) {
                 DB::table('classes')
                     ->where('IdClass', '=', $idClass)
