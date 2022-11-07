@@ -272,14 +272,17 @@ class ClassController extends Controller
         ]);
     }
 
+
     public static function removeLecOutOfClass($idClassesRemove)
     {
         //$idClasses = $request->data['IdClasses'];
-        foreach($idClassesRemove as $idClass) {
-           DB::table('classes')
-               ->where('IdClass', '=', $idClass)
-               ->update(['IdLecturer' => null]);
-        }
+        if(! empty($idClasses)) {
+            foreach($idClassesRemove as $idClass) {
+                DB::table('classes')
+                    ->where('IdClass', '=', $idClass)
+                    ->update(['IdLecturer' => null]);
+             }
+        }    
         // return response()->json([
         //     'status' => 200,
         //     'message' => "Removed Lecturer Out Of Class Succesfully",
@@ -290,10 +293,12 @@ class ClassController extends Controller
     {
         // $idLecturer = $request->data['IdLecturer'];
         // $idClasses = $request->data['IdClasses'];
-        foreach($idClassesAdd as $idClass) {
-            DB::table('classes')
-                ->where('IdClass', '=', $idClass)
-                ->update(['IdLecturer' => $idLecturer]);
+        if(! empty($idClassesAdd)) {
+            foreach($idClassesAdd as $idClass) {
+                DB::table('classes')
+                    ->where('IdClass', '=', $idClass)
+                    ->update(['IdLecturer' => $idLecturer]);
+            }
         }
         // return response()->json([
         //     'status' => 200,
