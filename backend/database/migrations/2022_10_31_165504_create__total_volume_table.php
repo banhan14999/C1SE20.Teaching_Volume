@@ -22,6 +22,7 @@ return new class extends Migration
             $table->decimal('ExamVolume', 10, 2);
             $table->decimal('ActivitiesVolume', 10, 2);
             $table->decimal('ExamMonitorVolume', 10, 2);
+            $table->decimal('GradingVolume', 10, 2);
             $table->decimal('AdvisorVolume', 10, 2);
             $table->decimal('TimeScientificVolume', 10, 2);
             $table->decimal('TotalVolume', 10, 2);
