@@ -130,7 +130,7 @@ class VolumeController extends Controller
                 $grd->IdLecturer = $idLecturer;
                 $grd->IdSubject = $grade['idSubject'];
                 $grd->TypeGE = $grade['type'];
-                $grd->CreditGE = $grade['credit'];
+                //$grd->CreditGE = $grade['credit'];
                 $grd->Time = $grade['time'];
                 $grd->Unit = $grade['unit'];
                 $grd->Number = $grade['number'];
@@ -148,7 +148,7 @@ class VolumeController extends Controller
                 $ex->IdLecturer = $idLecturer;
                 $ex->IdSubject = $exam['idSubject'];
                 $ex->TypeGE = $exam['type'];
-                $ex->CreditGE = $exam['credit'];
+                //$ex->CreditGE = $exam['credit'];
                 $ex->Time = $exam['time'];
                 $ex->Unit = $exam['unit'];
                 $ex->Number = $exam['number'];

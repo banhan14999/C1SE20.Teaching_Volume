@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('IdLecturer');
             $table->integer('IdSubject', false, true);
             $table->string('TypeGE',10);
-            $table->tinyInteger('CreditGE',false,true);
+            //$table->tinyInteger('CreditGE',false,true);
             $table->tinyInteger('Time', false, true);
             $table->string('Unit', 20);
             $table->smallInteger('Number', false, true);
