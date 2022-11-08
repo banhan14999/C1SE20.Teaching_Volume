@@ -9,36 +9,84 @@ import { useEffect, useState } from "react";
 import Button from "../../Button";
 import OtherDetail from "./Form/OtherDetail";
 import ExamDetail from "./Form/LearnDetail";
-
+import { ApiTeachingVolume } from "../../../apis/axios";
+import SelectForm from "../../SelectForm";
 const cx = classNames.bind(styles);
 function FormSubject() {
   const [count,setCount] = useState(1)
   const [form,setForm] = useState("Teaching Volume")
   const [renderAdd,setRenderAdd] = useState(false)
-
+  const idLecturer = JSON.parse(localStorage.getItem("IdLecturer"));
+  const [teaching,setTeaching] = useState([])
+  const [projects, setProjects] = useState([]);
+  const [year, setYear] = useState(null);
+  const [semester, setSemester] = useState(null);
+  const [Grading,setGrading] = useState([])
+  const [examvo, setExamvo] = useState([]);
+  const [valueOther, setValueOther] = useState([createOther(0, 0, 0, 0)]);
+   const opt = [
+     { value: "2022", label: "2021-2022" },
+     { value: "2023", label: "2022-2023" },
+     { value: "2024", label: "2024-2025" },
+   ];
+   const hocki = [
+     { value: "1", label: "Học Kỳ I" },
+     { value: "2", label: "Học Kỳ II" },
+     { value: "3", label: "Học Hè" },
+   ];
      function createTeaching(stt, letter, numbercode,subject,grade, semester,numberofsubject,classcoefficient,subjectcoefficient,timecoefficient ) {
        return {stt, letter, numbercode,subject,grade, semester,numberofsubject,classcoefficient,subjectcoefficient,timecoefficient}
      }
-     const teaching = [
-       createTeaching(1, "CS", 211, "CMU", "AIS", 1, 65, 1.05, 1.2, 45),
-       createTeaching(2, "CS", 211, "CMU", "AIS", 1, 65, 1.05, 1.2, 45),
-     ];
-      function createProject(stt, letter, numbercode,subject,grade,type, semester,credit,unit,number,coefficient ) {
+     function createProject(stt, letter, numbercode,subject,grade,type, semester,credit,unit,number,coefficient ) {
        return {stt, letter, numbercode,subject,grade, type, semester,credit,unit,number,coefficient}
      }
+     useEffect(() => {
+       if (idLecturer && semester && semester.value && year && year.value) {
+         ApiTeachingVolume.Get(
+           `/class/theoryClass/${idLecturer}/semester/${semester.value}/year/${year.value}`
+         ).then((req) => {
+           const arr = req.classes.map((value, index) => {
+             return createTeaching(
+               index+1,
+               value.Letter,
+               value.Number,
+               value.SubjectName,
+               value.Grade,
+               value.Semester,
+               value.NumberOfStudent,
+               value.Coefficient,
+               value.SubjectCoefficient,
+               value.TimeTeaching
+             );
+           });
+           setTeaching([...arr]);
+         });
+         ApiTeachingVolume.Get(
+           `/class/realityClass/${idLecturer}/semester/${semester.value}/year/${year.value}`
+         ).then((req) => {
+           const arr = req.classes.map((value, index) => {
+             return createProject(
+               index+1,
+               value.Letter,
+               value.Number,
+               value.SubjectName,
+               value.Grade,
+               value.TypeClass,
+               value.Semester,
+               value.CreditClass,
+               value.Unit,
+               value.NumberOfStudent,
+               value.Coefficient
+             );
+           });
+           setProjects([...arr]);
+         });
+       }
+     }, [idLecturer, semester,year]);
 
-     const project = [
-       createProject(1, "CMU-SE", 403, "DO AN CDIO", "PIS","PRJ", 2, 2, "SV", 40, 0.96),
-       createProject(2, "CMU-SE", 403, "DO AN CDIO", "PIS","PRJ", 2, 2, "SV", 40, 0.96),
-     ];
-     function createOther(Activities, ExamMonitor, Advisor,TimeScientific,Semester ) {
-       return { Activities, ExamMonitor, Advisor, TimeScientific, Semester };
+     function createOther(Activities, ExamMonitor, Advisor,TimeScientific ) {
+       return { Activities, ExamMonitor, Advisor, TimeScientific };
      }
-
-     const other = [
-       createOther(1, "CMU-SE", 403, "DO AN CDIO", "PIS","PRJ", 2, 2, "SV", 40, 0.96),
-       createOther(2, "CMU-SE", 403, "DO AN CDIO", "PIS","PRJ", 2, 2, "SV", 40, 0.96),
-     ];
      
      const handleClick = (e)=>{
         setForm(e.target.textContent);
@@ -48,14 +96,13 @@ function FormSubject() {
          e.target.textContent === "Exam Volume" && setCount(4);
          e.target.textContent === "Other" && setCount(5); 
       }
-     
       const obj = {
-       "Teaching Volume": <TeachingVolume rows={teaching} />,
-       "Project Volume": <ProjectVolume rows={project} />,
-       "Grading Volume": <GradingVolume rows={project} />,
-       "Exam Volume": <ExamVolume rows={project} />,
-       Other: <Other rows={other} />,
-     };
+        "Teaching Volume": <TeachingVolume rows={teaching} />,
+        "Project Volume": <ProjectVolume rows={projects} />,
+        "Grading Volume": <GradingVolume rows={Grading} />,
+        "Exam Volume": <ExamVolume rows={examvo} />,
+        Other: <Other rows={valueOther} onClick={handleAdd} />,
+      };
 
      function handleNext(e){
        setCount((prev) => prev + 1)
@@ -82,6 +129,26 @@ function FormSubject() {
      
   return (
     <div className={cx("form")}>
+      <div className={cx("option")}>
+        <div className="flex pt-[14.3%] justify-around">
+          <span className="w-[30%] ml-[50px]">
+            <SelectForm
+              options={opt}
+              placeholder="Chọn năm học"
+              height="30px w-full"
+              setSelectedOption={setYear}
+            ></SelectForm>
+          </span>
+          <span className="w-[30%] ml-[-30px]">
+            <SelectForm
+              options={hocki}
+              placeholder="Chọn học kì"
+              height="30px w-full"
+              setSelectedOption={setSemester}
+            ></SelectForm>
+          </span>
+        </div>
+      </div>
       <div className={cx("nav_form")}>
         <ul onClick={handleClick}>
           <li className={`${form === "Teaching Volume" && "!bg-red-800"}`}>
@@ -99,36 +166,74 @@ function FormSubject() {
           <li className={`${form === "Other" && "!bg-red-800"}`}>Other</li>
         </ul>
         <div className="mt-[20px]">
-          {form !== "Teaching Volume" && form !== "Project Volume" ? (
-            <Button onClick={handleAdd} width="150px">
-              Add
-            </Button>
+          {form !== "Teaching Volume" &&
+          form !== "Project Volume" &&
+          form !== "Other" ? (
+            <span
+              className="block w-[150px]"
+              onClick={handleAdd}
+              data-add={form}
+            >
+              <Button width="w-full">Add</Button>
+            </span>
           ) : (
             <></>
           )}
         </div>
       </div>
       {obj[form]}
-      <div className="text-right mt-[20px]">
-        {form !== "Teaching Volume" && (
-          <Button width="150px" bgcolor="red" class="mr-3" onClick={handlePrev}>
-            Prev
-          </Button>
-        )}
-        {form !== "Other" && (
-          <Button width="150px" bgcolor="red" class="ml-3" onClick={handleNext}>
-            Next
-          </Button>
-        )}
-        {form === "Other" && (
-          <Button width="150px" bgcolor="red" class="ml-3">
-            submit
-          </Button>
-        )}
+      <div className="mt-[20px] flex justify-end">
+        <p className="mr-5">
+          {form !== "Teaching Volume" && (
+            <Button
+              width="150px"
+              bgcolor="red"
+              class="mr-3"
+              onClick={handlePrev}
+            >
+              Prev
+            </Button>
+          )}
+        </p>
+        <p className="ml-5">
+          {form !== "Other" && (
+            <Button
+              width="150px"
+              bgcolor="red"
+              class="ml-3"
+              onClick={handleNext}
+            >
+              Next
+            </Button>
+          )}
+          {form === "Other" && (
+            <Button width="150px" bgcolor="red" class="ml-3">
+              submit
+            </Button>
+          )}
+        </p>
       </div>
-      {renderAdd && count === 5 && <OtherDetail setRenderAdd={setRenderAdd}/>}
-      {renderAdd && count === 4 && <ExamDetail setRenderAdd={setRenderAdd}/>}
-      {renderAdd && count === 3 && <ExamDetail setRenderAdd={setRenderAdd} title="Grading Detail" />}
+      {renderAdd && count === 5 && (
+        <OtherDetail
+          setRenderAdd={setRenderAdd}
+          setValueOther={setValueOther}
+        />
+      )}
+      {renderAdd && count === 4 && (
+        <ExamDetail
+          setRenderAdd={setRenderAdd}
+          setExamvo={setExamvo}
+          Semester={semester.value}
+        />
+      )}
+      {renderAdd && count === 3 && (
+        <ExamDetail
+          setRenderAdd={setRenderAdd}
+          title="Grading Detail"
+          setGrading={setGrading}
+          Semester={semester.value}
+        />
+      )}
     </div>
   );
 }

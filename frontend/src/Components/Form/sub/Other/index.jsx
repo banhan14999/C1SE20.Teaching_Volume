@@ -17,12 +17,11 @@ function Other(props) {
               <StyledTableCell align="center">Exam Monitor</StyledTableCell>
               <StyledTableCell align="center">Advisor</StyledTableCell>
               <StyledTableCell align="center">Time Scientific</StyledTableCell>
-              <StyledTableCell align="center">Semester</StyledTableCell>
               <StyledTableCell align="center">Action</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {props.rows.map((row) => (
+            {props.rows && props.rows.map((row) => (
               <TableRow
                 key={row.Activities}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -35,11 +34,10 @@ function Other(props) {
                 </StyledTableCell>
                 <StyledTableCell align="center">{row.Advisor}</StyledTableCell>
                 <StyledTableCell align="center">{row.TimeScientific}</StyledTableCell>
-                <StyledTableCell align="center">{row.Semester}</StyledTableCell>
                 <StyledTableCell>
-                  <div className="flex items-center cursor-pointer">
-                    <GrUpdate className="mr-2"></GrUpdate>
-                    <div>Update</div>
+                  <div className="flex items-center cursor-pointer" onClick={props.onClick}>
+                    <GrUpdate className="mr-2 pointer-events-none"></GrUpdate>
+                    <div className="pointer-events-none">Update</div>
                   </div>
                 </StyledTableCell>
               </TableRow>

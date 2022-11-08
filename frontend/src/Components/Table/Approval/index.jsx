@@ -41,7 +41,7 @@ function Approval() {
     return (
       <div className="w-[726px]">
         <div className={cx("option")}>
-          <div className="flex pt-[107px] justify-around">
+          <div className="flex pt-[14.3%] justify-around">
             <span className="w-[30%] ml-[50px]">
               <SelectForm
                 options={opt}

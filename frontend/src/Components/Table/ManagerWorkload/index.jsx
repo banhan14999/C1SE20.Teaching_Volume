@@ -8,7 +8,7 @@ import Paper from "@mui/material/Paper";
 import { Link } from "react-router-dom";
 import { GrUpdate } from "react-icons/gr";
 import {TbListDetails} from "react-icons/tb"
-
+import FormSubject from "../../Form/sub"
 import StyledTableCell from "../../StyledTableCell";
 
 function ManagerWorkload() {
@@ -25,8 +25,10 @@ function ManagerWorkload() {
     createData(6, "HD khoa hoc", "Đã Duyệt"),
   ];
   return (
-    <div className="container">
-      <div className="text-center text-[20px] font-[600] line mb-[20px] text-red-700">
+    <>
+      <FormSubject></FormSubject>
+
+      {/* <div className="text-center text-[20px] font-[600] line mb-[20px] text-red-700">
         Manager Workload
       </div>
       <TableContainer component={Paper}>
@@ -66,13 +68,14 @@ function ManagerWorkload() {
                       </>
                     )}
                   </Link>
+                
                 </StyledTableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
-      </TableContainer>
-    </div>
+      </TableContainer> */}
+    </>
   );
 }
 

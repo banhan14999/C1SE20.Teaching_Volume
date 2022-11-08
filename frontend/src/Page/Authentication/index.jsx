@@ -41,8 +41,15 @@ function Authentication() {
                   "Token",
                   JSON.stringify(res.data.token)
                 );
-                console.log(res);
-                 localStorage.setItem("IdLecturer", JSON.stringify(res.data.IdLecturer));
+                
+                localStorage.setItem("IdLecturer", JSON.stringify(res.data.IdLecturer));
+                sessionStorage.setItem(
+                  "Department",
+                  JSON.stringify({
+                    IdDepartment: res.data.IdDepartment,
+                    IdFaculty: res.data.IdFaculty,
+                  })
+                );
                 setCheckLogin(true);
                 navigate("/home/infowebpart");
               } else {
@@ -133,7 +140,7 @@ function Authentication() {
               <div className="text-right h-[32px] mt-2"></div>
             ) : (
               <div className="text-right text-sm  h-[32px] mt-2">
-                Mã xác nhận không hợp lệ
+                Tài khoản mật khẩu không hợp lệ
               </div>
             )}
 

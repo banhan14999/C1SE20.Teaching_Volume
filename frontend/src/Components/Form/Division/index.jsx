@@ -65,7 +65,6 @@ useEffect(() => {
       alert("vui long chon nam hoc")
     }
   }
-
   useEffect(() => {
     ApiTeachingVolume.Get("/subject/all")
       .then((res) => {
@@ -76,16 +75,18 @@ useEffect(() => {
       });
   }, [token]);
   useEffect(() => {
-    ApiTeachingVolume.Get("/user/faculty/CMU SE/department/SE")
-      .then((res) => {
-        const arr = res.map((value) => {
-          return {
-            value: value.IdLecturer,
-            label: value.LastName + " " + value.FirstName,
-          };
-        });
-        setLec([...arr]);
+    const department = JSON.parse(sessionStorage.getItem("Department"));
+    ApiTeachingVolume.Get(
+      `/user/faculty/${department.IdFaculty}/department/${department.IdDepartment}`
+    ).then((res) => {
+      const arr = res.map((value) => {
+        return {
+          value: value.IdLecturer,
+          label: value.LastName + " " + value.FirstName,
+        };
       });
+      setLec([...arr]);
+    });
   }, [token]);
   useLayoutEffect(()=>{
     if (lecturer && lecturer.value && semester && semester.value && year && year.value && token) {
@@ -128,6 +129,7 @@ useEffect(() => {
         idClassRemove: [...idClassRemove],
       },
     };
+    console.log(datas);
     ApiTeachingVolume.Put("/class/doDivisionClasses", datas)
       .then((req) => {
         alert("Thanh cong");
@@ -179,7 +181,7 @@ useEffect(() => {
   return (
     <div className="w-[726px]">
       <div className={cx("option")}>
-        <div className="flex pt-[107px] justify-around">
+        <div className="flex pt-[14%] justify-around">
           <span className="w-[30%] ml-[50px]">
             <SelectForm
               options={opt}
@@ -199,9 +201,11 @@ useEffect(() => {
         </div>
       </div>
       <div className="text-center mb-3">
-       {continues === false && <Button width="200px" bgcolor="#950B0B" onClick={handleContinue}>
-          Tiếp tục
-        </Button>}
+        {continues === false && (
+          <Button width="200px" bgcolor="#950B0B" onClick={handleContinue}>
+            Tiếp tục
+          </Button>
+        )}
       </div>
       {continues && (
         <div>
@@ -258,7 +262,12 @@ useEffect(() => {
             </div>
           </DragDropContext>
           <div className=" mt-4 w-full text-right ">
-            <Button className="ml-4" bgcolor="rgb(149, 11, 11)" width="20%" onClick={handleSave}>
+            <Button
+              className="ml-4"
+              bgcolor="rgb(149, 11, 11)"
+              width="20%"
+              onClick={handleSave}
+            >
               Lưu
             </Button>
           </div>

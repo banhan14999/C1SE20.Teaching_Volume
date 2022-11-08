@@ -26,7 +26,7 @@ function ExamVolume(props) {
               <StyledTableCell align="center">Grade</StyledTableCell>
               <StyledTableCell align="center">Type</StyledTableCell>
               <StyledTableCell align="center">Semester</StyledTableCell>
-              <StyledTableCell align="center">Credit</StyledTableCell>
+              <StyledTableCell align="center">Time</StyledTableCell>
               <StyledTableCell align="center">Unit</StyledTableCell>
               <StyledTableCell align="center">Number</StyledTableCell>
               <StyledTableCell align="center">Coefficient</StyledTableCell>
@@ -50,7 +50,7 @@ function ExamVolume(props) {
                 <StyledTableCell align="center">{row.grade}</StyledTableCell>
                 <StyledTableCell align="center">{row.type}</StyledTableCell>
                 <StyledTableCell align="center">{row.semester}</StyledTableCell>
-                <StyledTableCell align="center">{row.credit}</StyledTableCell>
+                <StyledTableCell align="center">{row.time}</StyledTableCell>
                 <StyledTableCell align="center">{row.unit}</StyledTableCell>
                 <StyledTableCell align="center">{row.number}</StyledTableCell>
                 <StyledTableCell align="center">

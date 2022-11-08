@@ -1,6 +1,5 @@
 import classNames from "classnames/bind";
 import { ApiTeachingVolume } from "../../../apis/axios";
-import axios from "axios";
 import styles from "./classInformationform.module.scss";
 import SelectForm from "../../SelectForm";
 import { default as Button} from "../../Button";
@@ -52,7 +51,6 @@ const [valuesForm, setValuesForm] = useState({
   const updateData = useSelector((data) => data.dtupdate);
   const { data } = updateData;
  function handleAdd(){
-   const token = JSON.parse(localStorage.getItem("Token"));
    if (props.btn ) {
      const obj = {
        Year: (year && Number(year.value)) || data[0].Year,
@@ -63,7 +61,7 @@ const [valuesForm, setValuesForm] = useState({
        NumberOfStudent: Number(valuesForm.numberOfStudent),
        SubjectCoefficient: valuesForm.subjectCoefficient,
        Unit: valuesForm.unit,
-     };
+     }
      const check = ApiTeachingVolume.Update(`/class/update/`, param.id, obj);
      check
        .then(function (response) {
@@ -96,13 +94,7 @@ const [valuesForm, setValuesForm] = useState({
          Unit: valuesForm.unit,
        };
        //  setCheck(true);
-       //  const addUser = ApiTeachingVolume.Post("/user/add", obj);
-       axios
-         .post("http://127.0.0.1:8000/api/class/add", obj, {
-           headers: {
-             Authorization: `Bearer ${token}`,
-           },
-         })
+        ApiTeachingVolume.Post("/class/add", obj)
          .then((res) => {
            alert("Add Done");
            setValuesForm({
@@ -152,7 +144,7 @@ const [valuesForm, setValuesForm] = useState({
         </div>
         <div className="p-5">
           <form action="">
-            <div className="w-full flex justify-between mt-2">
+            <div className="w-full flex justify-between mt-2 ">
               <label htmlFor="" className="w-[30%]">
                 Year
               </label>
@@ -165,10 +157,11 @@ const [valuesForm, setValuesForm] = useState({
                 defaultValue={
                   props.btn &&
                   data[0] && {
-                    label: data[0].IdSubject,
-                    value: data[0].IdSubject,
+                    label: data[0].Year,
+                    value: data[0].Year,
                   }
                 }
+                isDisabled={true}
               ></SelectForm>
             </div>
             <div className="w-full flex justify-between mt-2">
@@ -184,6 +177,7 @@ const [valuesForm, setValuesForm] = useState({
                 defaultValue={
                   props.btn && data[0] && semesterValue(data[0].Semester)[0]
                 }
+                isDisabled={true}
               ></SelectForm>
             </div>
             <div
@@ -195,17 +189,6 @@ const [valuesForm, setValuesForm] = useState({
                 Subject
               </label>
               <span className="text-lg font-bold">:</span>
-              {/* <input
-                placeholder="Subject"
-                className="w-1/2 input"
-                value={valuesForm.idSubject || ""}
-                onChange={(e) => {
-                  setValuesForm({
-                    ...valuesForm,
-                    idSubject: e.target.value,
-                  });
-                }}
-              ></input> */}
               <SelectForm
                 placeholder="Subject"
                 class="w-1/2"
@@ -218,6 +201,7 @@ const [valuesForm, setValuesForm] = useState({
                     value: data[0].Year,
                   }
                 }
+                isDisabled={true}
               ></SelectForm>
             </div>
             <div className="w-full flex justify-between mt-2">
@@ -232,6 +216,7 @@ const [valuesForm, setValuesForm] = useState({
                 onChange={(e) => {
                   setValuesForm({ ...valuesForm, grade: e.target.value });
                 }}
+                disabled={props.btn ? true : false}
               ></input>
             </div>
             <div className="w-full flex justify-between mt-2">
@@ -249,6 +234,7 @@ const [valuesForm, setValuesForm] = useState({
                     credit: e.target.value,
                   });
                 }}
+                disabled={props.btn ? true : false}
               ></input>
             </div>
             <div className="w-full flex justify-between mt-2">
@@ -268,6 +254,7 @@ const [valuesForm, setValuesForm] = useState({
                     label: data[0].TypeClass,
                   }
                 }
+                isDisabled={true}
               ></SelectForm>
             </div>
             <div className="w-full flex justify-between mt-2">
@@ -316,6 +303,7 @@ const [valuesForm, setValuesForm] = useState({
                 onChange={(e) => {
                   setValuesForm({ ...valuesForm, unit: e.target.value });
                 }}
+                disabled={props.btn ? true : false}
               ></input>
             </div>
             <div className="flex justify-around mt-[20px]">

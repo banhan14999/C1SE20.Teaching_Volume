@@ -26,7 +26,6 @@ function AddSubject(props) {
     { value: "PRJ", label: "PRJ" },
     { value: "DEM", label: "DEM" },
     { value: "DIS", label: "DIS" },
-    { value: "LEC+LAB", label: "LEC+LAB" },
   ];
   
   function handleClickAdd() {

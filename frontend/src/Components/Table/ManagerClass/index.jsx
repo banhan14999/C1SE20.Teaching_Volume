@@ -38,16 +38,20 @@ function ManagerClass(props) {
     { value: "2", label: "Học Kỳ II" },
     { value: "3", label: "Học Hè" },
   ];
-
+function selectValue(s,arr) {
+  return arr.filter((value) => {
+    return value.value === s;
+  });
+}
   const handleUpdate = (e) => {
-    const classid = e.target.parentElement.dataset.update;
+    const classid = e.target.dataset.update;
     let arr = data.filter((value) => value.IdClass === classid);
     dispath(SetUpdate("Update class"));
     dispath(DataUpdate(arr));
     navigate(classid);
   };
   function handleDelete(e) {
-    const id = e.target.parentElement.dataset.delete;
+    const id = e.target.dataset.delete;
     ApiTeachingVolume.Delete("/class/delete/", id);
     const arr = classad.filter((value) => {
       return value.ClassID !== id;
@@ -58,19 +62,18 @@ function ManagerClass(props) {
     return {ClassID, ClassName,Subject,Student,Type,Credit,Coefficient,Action};
   }
 
-    if (year !== null && semester !== null) {
-      localStorage.setItem(
-        "Division",
-        JSON.stringify({ year: year.value , semester: semester.value})
-      );
-      
-    }
+useEffect(()=>{
+  if (year !== null && semester !== null) {
+    localStorage.setItem(
+      "year",
+      JSON.stringify({ year: year.value, semester: semester.value })
+    );
+  }
+},[year,semester])
 const token = JSON.parse(localStorage.getItem("Token"));
 const IdLecturer = JSON.parse(localStorage.getItem("IdLecturer"));
-
-
+const years = JSON.parse(localStorage.getItem("year"));
   useEffect(() => {
-
     if(semester && semester.value && year && year.value && IdLecturer && token){
       axios
       .get(
@@ -87,7 +90,7 @@ const IdLecturer = JSON.parse(localStorage.getItem("IdLecturer"));
         const arr = req.data.classes 
           .map((value) => {
             return createData(
-              value.ClassID,
+              value.IdClass,
               value.Letter + " " + value.Number,
               value.SubjectName,
               value.NumberOfStudent,
@@ -100,10 +103,8 @@ const IdLecturer = JSON.parse(localStorage.getItem("IdLecturer"));
             return value;
           });
         setClassAd([...arr]);
-        console.log(req);
     })}
   }, [param.id,year,semester]);
-
   return (
     <div className="w-[726px]">
       {param.id ? (
@@ -115,13 +116,16 @@ const IdLecturer = JSON.parse(localStorage.getItem("IdLecturer"));
       ) : (
         <div className="container">
           <div className={cx("option")}>
-            <div className="flex pt-[107px] justify-around">
+            <div className="flex pt-[14%] justify-around">
               <span className="w-[30%] ml-[50px]">
                 <SelectForm
                   options={opt}
                   placeholder="Chọn năm học"
                   height="30px w-full"
                   setSelectedOption={setYear}
+                  defaultValue={
+                    years && years.year && selectValue(years.year, opt)
+                  }
                 ></SelectForm>
               </span>
               <span className="w-[30%] ml-[-30px]">
@@ -130,6 +134,13 @@ const IdLecturer = JSON.parse(localStorage.getItem("IdLecturer"));
                   placeholder="Chọn học kì"
                   height="30px w-full"
                   setSelectedOption={setSemester}
+                  defaultValue={
+                    years &&
+                    years.semester &&
+                    years &&
+                    years.year &&
+                    selectValue(years.semester, hocki)
+                  }
                 ></SelectForm>
               </span>
             </div>
@@ -167,9 +178,7 @@ const IdLecturer = JSON.parse(localStorage.getItem("IdLecturer"));
                     <StyledTableCell align="center">
                       {row.Student}
                     </StyledTableCell>
-                    <StyledTableCell align="center">
-                      {row.Type}
-                    </StyledTableCell>
+                    <StyledTableCell align="center">{row.Type}</StyledTableCell>
                     <StyledTableCell align="center">
                       {row.Credit}
                     </StyledTableCell>
@@ -182,8 +191,8 @@ const IdLecturer = JSON.parse(localStorage.getItem("IdLecturer"));
                         data-update={row.ClassID}
                         onClick={handleUpdate}
                       >
-                        <GrUpdate className="mr-2"></GrUpdate>
-                        <div>Update</div>
+                        <GrUpdate className="mr-2 pointer-events-none"></GrUpdate>
+                        <div className="pointer-events-none">Update</div>
                       </div>
                       <div
                         className="flex items-center cursor-pointer"
@@ -191,7 +200,7 @@ const IdLecturer = JSON.parse(localStorage.getItem("IdLecturer"));
                         onClick={handleDelete}
                       >
                         <TbListDetails className="mr-2 pointer-events-none"></TbListDetails>
-                        <div>Detail</div>
+                        <div className="pointer-events-none">Detail</div>
                       </div>
                     </StyledTableCell>
                   </TableRow>
