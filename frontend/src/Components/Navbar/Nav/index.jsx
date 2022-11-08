@@ -37,6 +37,7 @@ function NavLeft() {
           navLeftItem.forEach((item) => {
             item.style.height = "0px";
             item.onclick = (e) => {
+              document.title = e.target.textContent;
               dispatch(ShowForm(e.target.textContent));
               dispatch(SetUpdate());
               if (e.stopPropagation) e.stopPropagation();

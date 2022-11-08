@@ -20,10 +20,10 @@ function Division() {
   const [lecturer, setLecturer] = useState();
   const [classlecturer, setclasslecturer] = useState([]);
   const token = JSON.parse(localStorage.getItem("Token"));
-  const [s,sets] = useState(true)
+  // const [s,sets] = useState(true)
 let columnsFromBackend = {
   [uuidv4()]: {
-    idLecturer:"",
+    idfturer:"",
     title: "GV",
     items: [...classlecturer],
   },
@@ -76,7 +76,8 @@ useEffect(() => {
   }, [token]);
   useEffect(() => {
     const department = JSON.parse(sessionStorage.getItem("Department"));
-    ApiTeachingVolume.Get(
+   if(department){
+     ApiTeachingVolume.Get(
       `/user/faculty/${department.IdFaculty}/department/${department.IdDepartment}`
     ).then((res) => {
       const arr = res.map((value) => {
@@ -86,10 +87,11 @@ useEffect(() => {
         };
       });
       setLec([...arr]);
-    });
-  }, [token]);
+   })
+    }
+  }, []);
   useLayoutEffect(()=>{
-    if (lecturer && lecturer.value && semester && semester.value && year && year.value && token) {
+    if (lecturer && lecturer.value && semester && semester.value && year && year.value) {
        ApiTeachingVolume.Get(
          `/class/lecturer/${lecturer.value}/semester/${semester.value}/year/${year.value}`
        )
@@ -97,7 +99,7 @@ useEffect(() => {
          setclasslecturer([...res.classes]);
       });
     }
-  },[lecturer,semester,year,token,s])
+  },[lecturer,semester,year])
 
   useLayoutEffect(() => {
     if (classSubject && classSubject.value && semester && semester.value && year && year.value) {
@@ -108,7 +110,7 @@ useEffect(() => {
           setClassroom([...res.classes]);
         });
     }
-  }, [classSubject, lecturer, semester, year, token,s]);
+  }, [classSubject, lecturer, semester, year]);
 
   function handleSave(){
     let arr = []
@@ -129,11 +131,10 @@ useEffect(() => {
         idClassRemove: [...idClassRemove],
       },
     };
-    console.log(datas);
     ApiTeachingVolume.Put("/class/doDivisionClasses", datas)
       .then((req) => {
         alert("Thanh cong");
-        sets((prev)=>!prev)
+        // sets((prev)=>!prev)
       })
       .catch((err) => {
         alert("that bai");
