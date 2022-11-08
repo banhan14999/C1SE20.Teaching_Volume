@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\GradingExam;
 use Illuminate\Http\Request;
 use App\Models\Total;
 use Illuminate\Support\Facades\DB;
@@ -61,7 +62,7 @@ class VolumeController extends Controller
         $gradingVol = 0.00;
         if(! empty($grading)) {
             foreach($grading as $grade) {
-                $gradingVol = round($grade['gradeCoefficient'] * $grade['numberOfExam']);
+                $gradingVol = round($grade['coefficientGrade'] * $grade['number']);
             }
         }
         return $gradingVol;
@@ -72,7 +73,7 @@ class VolumeController extends Controller
         $examVol = 0.00;
         if(! empty($exams)) {
             foreach($exams as $exam) {
-                $examVol = round($exam['examCoefficient'] * $exam['numberOfExam'], 2);
+                $examVol = round($exam['coefficientExam'] * $exam['number'], 2);
             }
         }
         return $examVol;
@@ -116,36 +117,69 @@ class VolumeController extends Controller
 
     private static function storeGradeExam($data)
     {
-
+        $year = $data['year'];
+        $semester = $data['semester'];
+        $idLecturer = $data['idLecturer'];
+        $grades = $data['grades'];
+        $exams = $data['exams'];
+        if(! empty($grades)) {
+            foreach($grades as $grade) {
+                $grd = new GradingExam;
+                $grd->Year = $year;
+                $grd->Semester = $semester;
+                $grd->IdLecturer = $idLecturer;
+                $grd->IdSubject = $grade['idSubject'];
+                $grd->TypeGE = $grade['type'];
+                $grd->CreditGE = $grade['credit'];
+                $grd->Time = $grade['time'];
+                $grd->Unit = $grade['unit'];
+                $grd->Number = $grade['number'];
+                $grd->CoefficientGradeExam = $grade['coefficientGrade'];
+                $grd->CategoryVolume = "Grading";
+                $grd->save();
+            }
+            
+        }
+        if(! empty($exams)) {
+            foreach($exams as $exam) {
+                $ex = new GradingExam;
+                $ex->Year = $year;
+                $ex->Semester = $semester;
+                $ex->IdLecturer = $idLecturer;
+                $ex->IdSubject = $exam['idSubject'];
+                $ex->TypeGE = $exam['type'];
+                $ex->CreditGE = $exam['credit'];
+                $ex->Time = $exam['time'];
+                $ex->Unit = $exam['unit'];
+                $ex->Number = $exam['number'];
+                $ex->CoefficientGradeExam = $exam['coefficientExam'];
+                $ex->CategoryVolume = "Exam";
+                $ex->save();
+            }
+        }
     }
 
     public function handleTotalRequest(Request $request)
     {
-        $idLecturer = $request->input('idLecturer');
-        $year = $request->input('year');
-        $semester = $request->input('semester');
-        $teaching = $request->input('teaching');
-        $project = $request->input('project');
-        $grading = $request->input('grading');
-        $exam = $request->input('exam');
-        $activitiesVol = $request->input('activities');
-        $examMonitorVol = $request->input('examMonitor');
-        $advisorVol = $request->input('advisor');
-        $timeScientific = $request->input('scientific');
+        $idLecturer = $request->data['idLecturer'];
+        $year = $request->data['year'];
+        $semester = $request->data['semester'];
+        $teaching = $request->data['teaching'];
+        $project = $request->data['project'];
+        $grading = $request->data['grading'];
+        $exam = $request->data['exam'];
+        $activitiesVol = $request->data['other']['activities'];
+        $examMonitorVol = $request->data['other']['examMonitor'];
+        $advisorVol = $request->data['other']['advisor'];
+        $timeScientific = $request->data['other']['scientific'];
 
         //create array data to store into table gradingexam
         $gradeExam = [
             'year' => $year,
             'semester' => $semester,
             'idLecturer' => $idLecturer,
-            'grade' => [
-                'grades' => $grading,
-                'category' => 'Grading',
-            ],
-            'exam' => [
-                'exams' => $exam,
-                'category' => 'Exam', 
-            ],
+            'grades' => $grading,
+            'exams' => $exam
         ];
 
         #caculate all total to store into table total
@@ -170,6 +204,11 @@ class VolumeController extends Controller
 
         self::storeGradeExam($gradeExam);
         self::storeTotal($totalVol);
+
+        return response()->json([
+            'status' => 200,
+            'message' => 'Added succesfully!',
+        ]);
     }
 
 }

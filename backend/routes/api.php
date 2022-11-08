@@ -134,6 +134,7 @@ Route::middleware(['auth:sanctum'])->group(function(){
         Route::prefix('volume')->group(function() {
             Route::get('checkExist/idLecturer/{idLecturer}/semester/{sem}/year/{year}','checkExist');
             
+            Route::post('total', 'handleTotalRequest');
         });
     });
 });
