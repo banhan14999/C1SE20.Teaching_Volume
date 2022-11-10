@@ -31,8 +31,9 @@ class VolumeController extends Controller
         ]);
     }
     //Load before Manage Workload
-    public function checkExist($idLecturer, $semester, $year)
+    public function checkExist($semester, $year)
     {
+        $idLecturer = auth()->user()['IdLecturer'];
         $totalVolume = DB::table('totalvolume')
                        ->where([
                             ['IdLecturer', '=', $idLecturer],
@@ -46,7 +47,7 @@ class VolumeController extends Controller
                 'status' => false,
             ]);
         }
-        else{
+        else{        
             return response()->json([
                 'status' => 200,
                 'totalVolume' => $totalVolume,
@@ -235,21 +236,6 @@ class VolumeController extends Controller
         ]);
     }
 
-    public function getTotal($semester, $year)
-    {
-        $idLecturer = auth()->user()['IdLecturer'];
-        $totalVol = DB::table('totalvolume')
-                    ->where([
-                        ['IdLecturer', '=', $idLecturer],
-                        ['Semester', '=', $semester],
-                        ['Year', '=', $year],
-                    ])
-                    ->get();
-        return response()->json([
-            'status' => 200,
-            'totalVol' => $totalVol,
-        ]);
-    }
 
     private static function getTheoryClass($idLecturer, $semester, $year)
     {
@@ -319,6 +305,7 @@ class VolumeController extends Controller
         return $others;
     }
 
+    //Lấy thông tin chi tiết của giảng viên (detail)
     public function getTotalDetail($idLecturer, $semester, $year)
     {
         $theoryClass = self::getTheoryClass($idLecturer, $semester, $year);

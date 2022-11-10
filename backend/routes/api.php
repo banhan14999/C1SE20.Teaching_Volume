@@ -132,9 +132,8 @@ Route::middleware(['auth:sanctum'])->group(function(){
     //Volume Controller
     Route::controller(VolumeController::class)->group(function() {
         Route::prefix('volume')->group(function() {
-            Route::get('checkExist/idLecturer/{idLecturer}/semester/{sem}/year/{year}', 'checkExist');
+            Route::get('checkExist/sem/{sem}/year/{year}', 'checkExist');
             Route::get('totalByHead/sem/{sem}/year/{year}', 'getAllTotalByHead');
-            Route::get('selfTotal/sem/{sem}/year/{year}', 'getTotal');
             Route::get('selfTotalDetail/idLecture/{id}/sem/{sem}/year/{year}', 'getTotalDetail');
             
             Route::post('total', 'handleTotalRequest');
