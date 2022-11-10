@@ -19,8 +19,7 @@ function Division() {
   const [lec, setLec] = useState([]);
   const [lecturer, setLecturer] = useState();
   const [classlecturer, setclasslecturer] = useState([]);
-  const token = JSON.parse(localStorage.getItem("Token"));
-  // const [s,sets] = useState(true)
+  
 let columnsFromBackend = {
   [uuidv4()]: {
     idfturer:"",
@@ -73,7 +72,7 @@ useEffect(() => {
         });
         setSubject([...arr]);
       });
-  }, [token]);
+  }, []);
   useEffect(() => {
     const department = JSON.parse(sessionStorage.getItem("Department"));
    if(department){
@@ -110,7 +109,7 @@ useEffect(() => {
           setClassroom([...res.classes]);
         });
     }
-  }, [classSubject, lecturer, semester, year]);
+  }, [classSubject, semester, year]);
 
   function handleSave(){
     let arr = []
@@ -134,7 +133,6 @@ useEffect(() => {
     ApiTeachingVolume.Put("/class/doDivisionClasses", datas)
       .then((req) => {
         alert("Thanh cong");
-        // sets((prev)=>!prev)
       })
       .catch((err) => {
         alert("that bai");

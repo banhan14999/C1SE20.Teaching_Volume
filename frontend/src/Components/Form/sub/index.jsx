@@ -24,6 +24,8 @@ function FormSubject() {
   const [Grading,setGrading] = useState([])
   const [examvo, setExamvo] = useState([]);
   const [valueOther, setValueOther] = useState([createOther(0, 0, 0, 0)]);
+  const [teachingapi, setTeachingApi] = useState([]);
+
    const opt = [
      { value: "2022", label: "2021-2022" },
      { value: "2023", label: "2022-2023" },
@@ -83,9 +85,21 @@ function FormSubject() {
          });
        }
      }, [idLecturer, semester,year]);
-
-     function createOther(Activities, ExamMonitor, Advisor,TimeScientific ) {
-       return { Activities, ExamMonitor, Advisor, TimeScientific };
+     useEffect(()=>{
+    const arr =  teaching.reduce((arr,value)=>{
+        return [
+          ...arr,
+          {
+            classCoefficient: Number(value.classcoefficient),
+            subjectCoefficient: Number(value.subjectcoefficient),
+            timeTeaching: Number(value.timecoefficient),
+          },
+        ];
+      },[])
+      setTeachingApi([...arr])
+     },[teaching])
+     function createOther(activities, examMonitor, advisor,scientific ) {
+       return { activities, examMonitor, advisor, scientific };
      }
      
      const handleClick = (e)=>{
@@ -126,7 +140,28 @@ function FormSubject() {
         count === 4 && setForm("Exam Volume");
         count === 5 && setForm("Other");
      },[count])
-     
+     function handleSubmitForm(){
+        const obj = {
+          data: {
+            idLecturer: idLecturer,
+            year: year && Number(year.value),
+            semester: semester && semester.value,
+            teaching: teachingapi,
+            project: [],
+            grading: Grading,
+            exam: examvo,
+            other: valueOther[0],
+          },
+        };
+        console.log(obj);
+        ApiTeachingVolume.Post("/volume/total",obj)
+        .then(res=>{
+            alert("Thanh cong")
+        })
+        .catch(err=>{
+          alert("loi")
+        })
+  }
   return (
     <div className={cx("form")}>
       <div className={cx("option")}>
@@ -165,24 +200,21 @@ function FormSubject() {
           </li>
           <li className={`${form === "Other" && "!bg-red-800"}`}>Other</li>
         </ul>
-        <div className="mt-[20px]">
+      </div>
+      {obj[form]}
+
+      <div className="mt-[20px] flex justify-end">
+        <div className="mr-10">
           {form !== "Teaching Volume" &&
           form !== "Project Volume" &&
           form !== "Other" ? (
-            <span
-              className="block w-[150px]"
-              onClick={handleAdd}
-              data-add={form}
-            >
-              <Button width="w-full">Add</Button>
-            </span>
+            <p className="w-[150px]" onClick={handleAdd} data-add={form}>
+              <Button width="100%">Add</Button>
+            </p>
           ) : (
             <></>
           )}
         </div>
-      </div>
-      {obj[form]}
-      <div className="mt-[20px] flex justify-end">
         <p className="mr-5">
           {form !== "Teaching Volume" && (
             <Button
@@ -207,31 +239,36 @@ function FormSubject() {
             </Button>
           )}
           {form === "Other" && (
-            <Button width="150px" bgcolor="red" class="ml-3">
+            <Button width="150px" bgcolor="red" class="ml-3"
+            onClick={handleSubmitForm}
+            >
               submit
             </Button>
           )}
         </p>
       </div>
-      {renderAdd && count === 5 && (
-        <OtherDetail
-          setRenderAdd={setRenderAdd}
-          setValueOther={setValueOther}
-        />
-      )}
-      {renderAdd && count === 4 && (
+      {renderAdd &&
+        count === 5 && semester &&(
+          <OtherDetail
+            setRenderAdd={setRenderAdd}
+            setValueOther={setValueOther}
+          />
+        )}
+      {renderAdd && count === 4 && semester && (
         <ExamDetail
           setRenderAdd={setRenderAdd}
           setExamvo={setExamvo}
           Semester={semester.value}
+          length={examvo}
         />
       )}
-      {renderAdd && count === 3 && (
+      {renderAdd && count === 3 && semester && (
         <ExamDetail
           setRenderAdd={setRenderAdd}
           title="Grading Detail"
           setGrading={setGrading}
           Semester={semester.value}
+          length={Grading}
         />
       )}
     </div>

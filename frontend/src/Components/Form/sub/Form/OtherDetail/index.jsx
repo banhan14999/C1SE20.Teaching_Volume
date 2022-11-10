@@ -6,10 +6,10 @@ import { useState } from "react";
 const cx = classNames.bind(styles);
 function OtherDetail({ setRenderAdd, setValueOther }) {
  const [valueForm, setValueForm] = useState({
-   Activities: "",
-   ExamMonitor: "",
-   Advisor: "",
-   TimeScientific: "",
+   activities: "",
+   examMonitor: "",
+   advisor: "",
+   scientific: "",
  });
   function handleCancle() {
     setRenderAdd(false);
@@ -34,9 +34,9 @@ function OtherDetail({ setRenderAdd, setValueOther }) {
               <input
                 placeholder="Letter"
                 className={`w-full input ${cx("input")} `}
-                value={valueForm.Activities || ""}
+                value={valueForm.activities || ""}
                 onChange={(e) => {
-                  setValueForm({ ...valueForm, Activities: e.target.value });
+                  setValueForm({ ...valueForm, activities: Number(e.target.value) });
                 }}
               ></input>
             </div>
@@ -50,9 +50,9 @@ function OtherDetail({ setRenderAdd, setValueOther }) {
               <input
                 placeholder="Number"
                 className={`w-full input ${cx("input")} `}
-                value={valueForm.ExamMonitor || ""}
+                value={valueForm.examMonitor || ""}
                 onChange={(e) => {
-                  setValueForm({ ...valueForm, ExamMonitor: e.target.value });
+                  setValueForm({ ...valueForm, examMonitor: Number(e.target.value) });
                 }}
               ></input>
             </div>
@@ -66,9 +66,9 @@ function OtherDetail({ setRenderAdd, setValueOther }) {
               <input
                 placeholder="Subject"
                 className={`w-full input ${cx("input")} `}
-                value={valueForm.Advisor || ""}
+                value={valueForm.advisor || ""}
                 onChange={(e) => {
-                  setValueForm({ ...valueForm, Advisor: e.target.value });
+                  setValueForm({ ...valueForm, advisor: Number(e.target.value) });
                 }}
               ></input>
             </div>
@@ -82,11 +82,11 @@ function OtherDetail({ setRenderAdd, setValueOther }) {
               <input
                 placeholder="Credit"
                 className={`w-full input ${cx("input")} `}
-                value={valueForm.TimeScientific || ""}
+                value={valueForm.scientific || ""}
                 onChange={(e) => {
                   setValueForm({
                     ...valueForm,
-                    TimeScientific: e.target.value,
+                    scientific: Number(e.target.value),
                   });
                 }}
               ></input>

@@ -51,7 +51,7 @@ function GradingVolume(props) {
                 <StyledTableCell align="center">{row.semester}</StyledTableCell>
                 <StyledTableCell align="center">{row.time}</StyledTableCell>
                 <StyledTableCell align="center">{row.unit}</StyledTableCell>
-                <StyledTableCell align="center">{row.number}</StyledTableCell>
+                <StyledTableCell align="center">{row.numberGE}</StyledTableCell>
                 <StyledTableCell align="center">
                   {row.coefficient}
                 </StyledTableCell>

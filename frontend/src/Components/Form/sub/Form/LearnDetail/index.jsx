@@ -5,12 +5,10 @@ import SelectForm from "../../../../SelectForm";
 import { useEffect, useState } from "react";
 import { ApiTeachingVolume } from "../../../../../apis/axios";
 const cx = classNames.bind(styles);
-function ExamDetail({ setRenderAdd, setGrading, setExamvo, Semester }) {
+function ExamDetail({ setRenderAdd, setGrading, setExamvo, Semester, length }) {
   const [subject, setSubject] = useState();
   const [type, setType] = useState();
   const [subjectop, setSubjectop] = useState([]);
-  const [countGrading, setcountGrading] = useState(1);
-  const [countExam, setcountExam] = useState(1);
 
   const typeOptions = [
     { value: "LEC", label: "LEC" },
@@ -33,9 +31,10 @@ function ExamDetail({ setRenderAdd, setGrading, setExamvo, Semester }) {
           credit: exam.credit,
           subject: subject.label,
           type: type.value,
-          time: exam.time,
-          number: exam.number,
-          coefficient: exam.number,
+          time: Number(exam.time),
+          numberGE: Number(exam.number),
+          coefficientGrade: Number(exam.number),
+          idSubject: subject.id,
         };
         let checkValInput = true;
         for (let key in exam) {
@@ -57,17 +56,17 @@ function ExamDetail({ setRenderAdd, setGrading, setExamvo, Semester }) {
             ...prev,
             {
               ...obj,
-              stt: countGrading,
+              stt: length.length + 1,
               letter: subject.value.slice(0, subject.value.indexOf(" ")),
               numbercode: subject.value.slice(
                 subject.value.indexOf(" ") + 1,
                 subject.value.length
               ),
-              semester:Semester,
-              unit: "DE",
+              semester: Semester,
+              unit: "Bài",
+              coefficient:exam.number
             },
           ]);
-          setcountGrading((prev) => prev + 1);
         }
       }
     } else if (setExamvo) {
@@ -76,9 +75,10 @@ function ExamDetail({ setRenderAdd, setGrading, setExamvo, Semester }) {
           credit: exam.credit,
           subject: subject.label,
           type: type.value,
-          time: exam.time,
-          number: exam.number,
-          coefficient: exam.number,
+          time: Number(exam.time),
+          numberGE: Number(exam.number),
+          coefficientExam: Number(exam.number),
+          idSubject: subject.id,
         };
         let checkValInput = true;
         for (let key in exam) {
@@ -100,17 +100,17 @@ function ExamDetail({ setRenderAdd, setGrading, setExamvo, Semester }) {
             ...prev,
             {
               ...obj,
-              stt: countExam,
+              stt: length.length + 1,
               letter: subject.value.slice(0, subject.value.indexOf(" ")),
               numbercode: subject.value.slice(
                 subject.value.indexOf(" ") + 1,
                 subject.value.length
               ),
               semester: Semester,
-              unit: "DE",
+              unit: "Đề",
+              coefficient: exam.number,
             },
           ]);
-          setcountExam((prev) => prev + 1);
         }
       }
     }
@@ -120,11 +120,12 @@ function ExamDetail({ setRenderAdd, setGrading, setExamvo, Semester }) {
       const arr = req.subjects.map((item) => ({
         label: item.SubjectName,
         value: item.Letter + " " + item.Number,
+        id: item.IdSubject,
       }));
       setSubjectop([...arr]);
     });
   }, []);
-  
+
   return (
     <div className={cx("form")}>
       <div className={cx("line")}>

@@ -21,27 +21,35 @@ function Other(props) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {props.rows && props.rows.map((row) => (
-              <TableRow
-                key={row.Activities}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-              >
-                <StyledTableCell align="center" component="th" scope="row">
-                  {row.Activities}
-                </StyledTableCell>
-                <StyledTableCell align="center">
-                  {row.ExamMonitor}
-                </StyledTableCell>
-                <StyledTableCell align="center">{row.Advisor}</StyledTableCell>
-                <StyledTableCell align="center">{row.TimeScientific}</StyledTableCell>
-                <StyledTableCell>
-                  <div className="flex items-center cursor-pointer" onClick={props.onClick}>
-                    <GrUpdate className="mr-2 pointer-events-none"></GrUpdate>
-                    <div className="pointer-events-none">Update</div>
-                  </div>
-                </StyledTableCell>
-              </TableRow>
-            ))}
+            {props.rows &&
+              props.rows.map((row) => (
+                <TableRow
+                  key={row.activities}
+                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                >
+                  <StyledTableCell align="center" component="th" scope="row">
+                    {row.activities}
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
+                    {row.examMonitor}
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
+                    {row.advisor}
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
+                    {row.scientific}
+                  </StyledTableCell>
+                  <StyledTableCell>
+                    <div
+                      className="flex items-center cursor-pointer"
+                      onClick={props.onClick}
+                    >
+                      <GrUpdate className="mr-2 pointer-events-none"></GrUpdate>
+                      <div className="pointer-events-none">Update</div>
+                    </div>
+                  </StyledTableCell>
+                </TableRow>
+              ))}
           </TableBody>
         </Table>
       </TableContainer>
