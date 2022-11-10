@@ -10,6 +10,24 @@ use Illuminate\Support\Facades\DB;
 
 class VolumeController extends Controller
 {
+    //get all total volume by Dean
+    public function getAllTotalByDean($semester, $year)
+    {
+        $faculty = auth()->user()['IdFaculty'];
+        $totalVols  = DB::table('totalvolume')
+                      ->join('users', 'totalvolume.IdLecturer', '=', 'users.IdLecturer')
+                      ->where([
+                          ['IdFaculty', '=', $faculty],
+                          ['Semester', '=', $semester],
+                          ['Year', '=', $year],
+                      ])
+                      ->get();
+        return response()->json([
+            'status' => 200,
+            'totalVols' => $totalVols,
+        ]);
+    }
+
     //get all total volume by head
     public function getAllTotalByHead($semester, $year)
     {
@@ -30,7 +48,7 @@ class VolumeController extends Controller
             'totalVols' => $totalVols,
         ]);
     }
-    //Load before Manage Workload
+    //kiểm tra xem nếu đã làm rồi thì xuất ra bảng tổng - nếu chưa thì hiện form
     public function checkExist($semester, $year)
     {
         $idLecturer = auth()->user()['IdLecturer'];
@@ -100,20 +118,36 @@ class VolumeController extends Controller
         return $examVol;
     }
 
-    public function approvalVolume()
+    public function approvalVolume($idLecturer, $semester, $year)
     {
-
+        DB::table('totalvolume')
+                    ->where([
+                        ['IdLecturer', '=', $idLecturer],
+                        ['Semester', '=', $semester],
+                        ['Year', '=', $year],
+                    ])
+                    ->update(['Status' => 'Approved']);
+        return response()->json([
+            'status' => 200,
+            'message' => 'Approved Successfully',
+        ]);
     }
 
-    public function declineVolume()
+    public function declineVolume($idLecturer, $semester, $year)
     {
-
+        DB::table('totalvolume')
+        ->where([
+            ['IdLecturer', '=', $idLecturer],
+            ['Semester', '=', $semester],
+            ['Year', '=', $year],
+        ])
+        ->update(['Status' => 'Decline']);
+        return response()->json([
+            'status' => 200,
+            'message' => 'Decline successfully',
+        ]);
     }
 
-    public function updateAfterFix()
-    {
-        
-    }
 
     private static function storeTotal($data)
     {
@@ -190,7 +224,7 @@ class VolumeController extends Controller
         $year = $request->data['year'];
         $semester = $request->data['semester'];
         $teaching = $request->data['teaching'];
-        $project = $request->data['project'] ?? '';
+        $project = $request->data['project'];
         $grading = $request->data['grading'];
         $exam = $request->data['exam'];
         $activitiesVol = $request->data['other']['activities'];
@@ -319,6 +353,101 @@ class VolumeController extends Controller
             'grades' => $grades,
             'exams' => $exams,
             'others' => $others,
+        ]);
+    }
+
+
+
+    private static function deleteGEForUpdate($idLecturer, $semester, $year)
+    {
+        DB::table('gradingexamvolume')
+            ->where([
+                ['IdLecturer', '=', $idLecturer],
+                ['Semester', '=', $semester],
+                ['Year', '=', $year],
+            ])
+            ->delete();
+    }
+
+    //Update
+
+    private static function updateTotalVolume($data)
+    {
+        $TotalVolume = $data['teachingVol'] + $data['projectVol']    + $data['gradingVol']
+                    + $data['examVol']     + $data['activitiesVol'] + $data['examMonitorVol']
+                    + $data['advisorVol']  + $data['timeScientific'];
+        DB::table('totalvolume')
+        ->where([
+                ['IdLecturer', '=', $data['idLecturer']],
+                ['Semester', '=', $data['semester']],
+                ['Year', '=', $data['year']],
+        ])
+        ->update([
+            'TeachingVolume' => $data['teachingVol'],
+            'ProjectVolume' => $data['projectVol'],
+            'GradingVolume' => $data['gradingVol'],
+            'ExamVolume' => $data['examVol'],
+            'ActivitiesVolume' => $data['activitiesVol'],
+            'ExamMonitorVolume' => $data['examMonitorVol'],
+            'AdvisorVolume' => $data['advisorVol'],
+            'TimeScientificVolume' => $data['timeScientific'],
+            'TotalVolume' => $TotalVolume,
+            'Status' => 'Waiting',
+        ]);
+        // $total->Status = "Waiting";
+        // $total->save();
+    }
+
+    public function handleUpdateTotalRequest(Request $request)
+    {
+        $idLecturer = $request->data['idLecturer'];
+        $semester = $request->data['semester'];
+        $year = $request->data['year'];
+        self::deleteGEForUpdate($idLecturer, $semester, $year);
+        $teaching = $request->data['teaching'];
+        $project = $request->data['project'];
+        $grading = $request->data['grading'];
+        $exam = $request->data['exam'];
+        $activitiesVol = $request->data['other']['activities'];
+        $examMonitorVol = $request->data['other']['examMonitor'];
+        $advisorVol = $request->data['other']['advisor'];
+        $timeScientific = $request->data['other']['scientific'];
+
+        //create array data to store into table gradingexam
+        $gradeExam = [
+            'year' => $year,
+            'semester' => $semester,
+            'idLecturer' => $idLecturer,
+            'grades' => $grading,
+            'exams' => $exam
+        ];
+
+        #caculate all total to store into table total
+        $teachingVol = self::totalTeachVol($teaching);
+        $projectVol = self::totalProjectVol($project);
+        $gradingVol = self::totalGradeVol($grading);
+        $examVol = self::totalExamVol($exam);
+
+        $totalVol = [
+            'year' => $year,
+            'semester' => $semester,
+            'idLecturer' => $idLecturer,
+            'teachingVol' => $teachingVol,
+            'projectVol' => $projectVol,
+            'gradingVol' => $gradingVol, 
+            'examVol' => $examVol,
+            'activitiesVol' => $activitiesVol,
+            'examMonitorVol' => $examMonitorVol,
+            'advisorVol' => $advisorVol,
+            'timeScientific' => $timeScientific,
+        ];
+
+        self::updateTotalVolume($totalVol);
+        self::storeGradeExam($gradeExam);
+
+        return response()->json([
+            'status' => 200,
+            'message' => 'Updated Successfully',
         ]);
     }
 }

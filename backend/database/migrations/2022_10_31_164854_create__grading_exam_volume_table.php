@@ -22,7 +22,7 @@ return new class extends Migration
             //$table->tinyInteger('CreditGE',false,true);
             $table->tinyInteger('Time', false, true);
             $table->string('Unit', 20);
-            $table->smallInteger('Number', false, true);
+            $table->smallInteger('NumberGE', false, true);
             $table->decimal("CoefficientGradeExam", 10,2);
             $table->string("CategoryVolume", 20);
             $table->timestamps();
