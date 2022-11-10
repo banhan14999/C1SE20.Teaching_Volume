@@ -1,7 +1,7 @@
 import { AiFillCheckCircle } from "react-icons/ai";
 import { TbListDetails } from "react-icons/tb";
 import {BiMessageDetail} from "react-icons/bi"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableContainer from "@mui/material/TableContainer";
@@ -14,10 +14,12 @@ import styles from "./approval.module.scss"
 import Button from "../../Button";
 import SelectForm from "../../SelectForm";
 import StyledTableCell from "../../StyledTableCell";
+import { ApiTeachingVolume } from "../../../apis/axios";
 const cx  = classNames.bind(styles)
 
 function Approval() {
     const [continues, setContinues] = useState(false);
+    const [dataApproval,setDataApproval] = useState([])
     const opt = [
       { value: "2021-2022", label: "2021-2022" },
       { value: "2022-2023", label: "2022-2023" },
@@ -31,10 +33,15 @@ function Approval() {
       function createData(code, fullname, title, status) {
         return { code, fullname, title, status };
       }
-        const rows = [
-          createData("22233344", "Ngô Thanh Hiền", "Teaching volume", "Waiting"),
-           createData("222333441", "Ngô Thanh Hiền", "Teaching volume", "Waiting"),
-        ];
+        useEffect(()=>{
+          ApiTeachingVolume.Get("/volume/checkExist/sem/1/year/2022")
+          .then(res=>{
+            const arr =  res.totalVolume.map(value=>{
+              return createData(value.IdLecturer, 0, 0, value.Status);
+            })
+            setDataApproval([...arr])
+          })
+        },[])
       function handleContinue() {
         setContinues(true);
       }
@@ -78,7 +85,7 @@ function Approval() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {rows.map((row) => (
+                {dataApproval.map((row) => (
                   <TableRow
                     key={row.code}
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -92,7 +99,7 @@ function Approval() {
                     <StyledTableCell align="center">
                       {row.title}
                     </StyledTableCell>
-                    <StyledTableCell align="center">
+                    <StyledTableCell align="center" style={{color:"yellow"}}>
                       {row.status}
                     </StyledTableCell>
                     <StyledTableCell>
