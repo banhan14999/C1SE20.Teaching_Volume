@@ -10,6 +10,26 @@ use Illuminate\Support\Facades\DB;
 
 class VolumeController extends Controller
 {
+    //get all total volume by head
+    public function getAllTotalByHead($semester, $year)
+    {
+        //$idLecturer = auth()->user()['IdLecturer'];
+        $department = auth()->user()['IdDepartment'];
+        $faculty    = auth()->user()['IdFaculty'];
+        $totalVols  = DB::table('totalvolume')
+                      ->join('users', 'totalvolume.IdLecturer', '=', 'users.IdLecturer')
+                      ->where([
+                          ['IdDepartment', '=', $department],
+                          ['IdFaculty', '=', $faculty],
+                          ['Semester', '=', $semester],
+                          ['Year', '=', $year],
+                      ])
+                      ->get();
+        return response()->json([
+            'status' => 200,
+            'totalVols' => $totalVols,
+        ]);
+    }
     //Load before Manage Workload
     public function checkExist($idLecturer, $semester, $year)
     {
@@ -62,7 +82,7 @@ class VolumeController extends Controller
         $gradingVol = 0.00;
         if(! empty($grading)) {
             foreach($grading as $grade) {
-                $gradingVol = round($grade['coefficientGrade'] * $grade['number']);
+                $gradingVol = round($grade['coefficientGrade'] * $grade['numberGE']);
             }
         }
         return $gradingVol;
@@ -73,7 +93,7 @@ class VolumeController extends Controller
         $examVol = 0.00;
         if(! empty($exams)) {
             foreach($exams as $exam) {
-                $examVol = round($exam['coefficientExam'] * $exam['number'], 2);
+                $examVol = round($exam['coefficientExam'] * $exam['numberGE'], 2);
             }
         }
         return $examVol;
@@ -133,7 +153,7 @@ class VolumeController extends Controller
                 //$grd->CreditGE = $grade['credit'];
                 $grd->Time = $grade['time'];
                 $grd->Unit = $grade['unit'];
-                $grd->Number = $grade['number'];
+                $grd->NumberGE = $grade['numberGE'];
                 $grd->CoefficientGradeExam = $grade['coefficientGrade'];
                 $grd->CategoryVolume = "Grading";
                 $grd->save();
@@ -151,7 +171,7 @@ class VolumeController extends Controller
                 //$ex->CreditGE = $exam['credit'];
                 $ex->Time = $exam['time'];
                 $ex->Unit = $exam['unit'];
-                $ex->Number = $exam['number'];
+                $ex->NumberGE = $exam['numberGE'];
                 $ex->CoefficientGradeExam = $exam['coefficientExam'];
                 $ex->CategoryVolume = "Exam";
                 $ex->save();
@@ -161,11 +181,15 @@ class VolumeController extends Controller
 
     public function handleTotalRequest(Request $request)
     {
+        //dd($request->data);
+        // return response()->json([
+        //    'project' =>  $request->data['project'],
+        // ]);
         $idLecturer = $request->data['idLecturer'];
         $year = $request->data['year'];
         $semester = $request->data['semester'];
         $teaching = $request->data['teaching'];
-        $project = $request->data['project'];
+        $project = $request->data['project'] ?? '';
         $grading = $request->data['grading'];
         $exam = $request->data['exam'];
         $activitiesVol = $request->data['other']['activities'];
@@ -211,4 +235,103 @@ class VolumeController extends Controller
         ]);
     }
 
+    public function getTotal($semester, $year)
+    {
+        $idLecturer = auth()->user()['IdLecturer'];
+        $totalVol = DB::table('totalvolume')
+                    ->where([
+                        ['IdLecturer', '=', $idLecturer],
+                        ['Semester', '=', $semester],
+                        ['Year', '=', $year],
+                    ])
+                    ->get();
+        return response()->json([
+            'status' => 200,
+            'totalVol' => $totalVol,
+        ]);
+    }
+
+    private static function getTheoryClass($idLecturer, $semester, $year)
+    {
+        $theoryClass = DB::table('classes')
+                       ->join('subjects', 'classes.IdSubject', '=', 'subjects.IdSubject')
+                       ->where([
+                            ['IdLecturer','=',$idLecturer],
+                            ['Semester','=', $semester],
+                            ['Year', '=', $year],   
+                       ])
+                       ->whereIn('TypeClass', ['LAB', 'DIS', 'LEC'])
+                       ->get();
+        return $theoryClass;
+    }
+
+    private static function getRealityClass($idLecturer, $semester, $year)
+    {
+        $realityClass = DB::table('classes')
+                        ->join('subjects', 'classes.IdSubject', '=', 'subjects.IdSubject')
+                        ->where([
+                            ['IdLecturer','=',$idLecturer],
+                            ['Semester','=', $semester],
+                            ['Year', '=', $year],   
+                        ])
+                        ->whereIn('TypeClass', ['PRJ', 'INT'])
+                        ->get();
+        return $realityClass;
+    }
+
+    private static function getGradesVol($idLecturer, $semester, $year)
+    {
+        $grades = DB::table('gradingexamvolume')
+                    ->join('subjects', 'gradingexamvolume.IdSubject', '=', 'subjects.IdSubject')
+                    ->where([
+                        ['IdLecturer','=',$idLecturer],
+                        ['Semester','=', $semester],
+                        ['Year', '=', $year],
+                        ['CategoryVolume', '=', 'Grading'],   
+                    ])
+                    ->get();
+        return $grades;
+    }
+
+    private static function getExamsVol($idLecturer, $semester, $year)
+    {
+        $exams = DB::table('gradingexamvolume')
+                    ->join('subjects', 'gradingexamvolume.IdSubject', '=', 'subjects.IdSubject')
+                    ->where([
+                        ['IdLecturer','=',$idLecturer],
+                        ['Semester','=', $semester],
+                        ['Year', '=', $year],
+                        ['CategoryVolume', '=', 'Exam'],   
+                    ])
+                    ->get();
+        return $exams;
+    }
+
+    private static function getOthersVol($idLecturer, $semester, $year)
+    {
+        $others = DB::table('totalvolume')
+                ->where([
+                    ['IdLecturer','=',$idLecturer],
+                    ['Semester','=', $semester],
+                    ['Year', '=', $year],  
+                ])
+                ->get();
+        return $others;
+    }
+
+    public function getTotalDetail($idLecturer, $semester, $year)
+    {
+        $theoryClass = self::getTheoryClass($idLecturer, $semester, $year);
+        $realityClass = self::getRealityClass($idLecturer, $semester, $year);
+        $grades = self::getGradesVol($idLecturer, $semester, $year);
+        $exams = self::getExamsVol($idLecturer, $semester, $year);
+        $others = self::getOthersVol($idLecturer, $semester, $year);
+        return response()->json([
+            'theoryClass' => $theoryClass,
+            'realityClass' => $realityClass,
+            'grades' => $grades,
+            'exams' => $exams,
+            'others' => $others,
+        ]);
+    }
 }
