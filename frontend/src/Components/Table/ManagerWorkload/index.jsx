@@ -11,6 +11,8 @@ import StyledTableCell from "../../StyledTableCell";
 import styles from "./workload.module.scss"
 import classNames from "classnames/bind";
 import SelectForm from "../../SelectForm";
+import {TbListDetails} from "react-icons/tb"
+
 const cx = classNames.bind(styles)
 
 function ManagerWorkload() {
@@ -30,7 +32,9 @@ function ManagerWorkload() {
       { value: "2", label: "Học Kỳ II" },
       { value: "3", label: "Học Hè" },
     ];
-
+  function handleupdate(){
+    setTotal([]);
+  }
   useEffect(() => {
     if (semester && year && semester.value && year.value) {
       ApiTeachingVolume.Get(
@@ -101,6 +105,7 @@ function ManagerWorkload() {
                   </StyledTableCell>
                   <StyledTableCell align="center">Total</StyledTableCell>
                   <StyledTableCell align="center">Status</StyledTableCell>
+                  <StyledTableCell align="center">Action</StyledTableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -121,6 +126,14 @@ function ManagerWorkload() {
                     <StyledTableCell>{row.timeScientific}</StyledTableCell>
                     <StyledTableCell>{row.total}</StyledTableCell>
                     <StyledTableCell>{row.status}</StyledTableCell>
+                    <StyledTableCell>
+                      <p className="flex justify-around items-center"
+                      onClick = {handleupdate}
+                      >
+                        <TbListDetails />
+                        Detail
+                      </p>
+                    </StyledTableCell>
                   </TableRow>
                 ))}
               </TableBody>

@@ -28,11 +28,12 @@ function AddUser(props) {
   const updateData = useSelector((data) => data.dtupdate);
   const { data } = updateData;
   const Faculty = [{ value: "CMU-SE", label: "CMU-SE" }];
-  const Department = [
-    {value : "SE", label: "Software Engineer"},
-    {value : "NS", label: "Network Security"},
-    {value : "MIS", label: "Management Information System"},
+  const Departmentop = [
+    { value: "SE", label: "Software Enginner" },
+    { value: "NS", label: "Network Security" },
+    { value: "MIS", label: "Management Information System" },
   ];
+
   const Role = [
     { value: "3", label: "Head" },
     { value: "4", label: "Lecturer" },
@@ -237,11 +238,11 @@ function AddUser(props) {
                   options={Faculty}
                   setSelectedOption={setFaculty}
                   defaultValue={
-                  props.btn &&
-                  data[0].School && {
-                    label: data[0].School,
-                    value: data[0].School,
-                  }
+                    props.btn &&
+                    data[0].School && {
+                      label: data[0].School,
+                      value: data[0].School,
+                    }
                   }
                 ></SelectForm>
               </div>
@@ -255,7 +256,7 @@ function AddUser(props) {
                 <SelectForm
                   placeholder="Department"
                   class="w-full"
-                  options={Department}
+                  options={Departmentop}
                   setSelectedOption={setDepartment}
                   defaultValue={
                     props.btn &&

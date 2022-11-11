@@ -161,7 +161,7 @@ const [valuesForm, setValuesForm] = useState({
                     value: data[0].Year,
                   }
                 }
-                isDisabled={true}
+                isDisabled={props.btn ? true : false}
               ></SelectForm>
             </div>
             <div className="w-full flex justify-between mt-2">
@@ -177,7 +177,7 @@ const [valuesForm, setValuesForm] = useState({
                 defaultValue={
                   props.btn && data[0] && semesterValue(data[0].Semester)[0]
                 }
-                isDisabled={true}
+                isDisabled={props.btn ? true : false}
               ></SelectForm>
             </div>
             <div
@@ -201,7 +201,7 @@ const [valuesForm, setValuesForm] = useState({
                     value: data[0].Year,
                   }
                 }
-                isDisabled={true}
+                isDisabled={props.btn ? true : false}
               ></SelectForm>
             </div>
             <div className="w-full flex justify-between mt-2">
@@ -254,7 +254,7 @@ const [valuesForm, setValuesForm] = useState({
                     label: data[0].TypeClass,
                   }
                 }
-                isDisabled={true}
+                isDisabled={props.btn ? true : false}
               ></SelectForm>
             </div>
             <div className="w-full flex justify-between mt-2">

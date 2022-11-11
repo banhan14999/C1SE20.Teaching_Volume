@@ -9,7 +9,7 @@ import { CgPlayListRemove } from "react-icons/cg";
 
 function ExamVolume(props) {
   return (
-    <div>
+    <div >
       <TableContainer component={Paper}>
         <Table size="medium" aria-label="a dense table">
           <TableHead>
