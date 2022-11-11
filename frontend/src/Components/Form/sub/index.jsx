@@ -12,6 +12,7 @@ import ExamDetail from "./Form/LearnDetail";
 import { ApiTeachingVolume } from "../../../apis/axios";
 const cx = classNames.bind(styles);
 function FormSubject({ year, semester }) {
+  console.log(year,semester);
   const [count, setCount] = useState(1);
   const [form, setForm] = useState("Teaching Volume");
   const [renderAdd, setRenderAdd] = useState(false);
@@ -177,8 +178,8 @@ function FormSubject({ year, semester }) {
     const obj = {
       data: {
         idLecturer: idLecturer,
-        year: year && Number(year.value),
-        semester: semester && semester.value,
+        year: Number(year),
+        semester: semester,
         teaching: teachingapi,
         project: [],
         grading: Grading,
@@ -293,7 +294,7 @@ function FormSubject({ year, semester }) {
         <ExamDetail
           setRenderAdd={setRenderAdd}
           setExamvo={setExamvo}
-          Semester={semester.value}
+          Semester={semester}
           length={examvo}
         />
       )}
@@ -302,7 +303,7 @@ function FormSubject({ year, semester }) {
           setRenderAdd={setRenderAdd}
           title="Grading Detail"
           setGrading={setGrading}
-          Semester={semester.value}
+          Semester={semester}
           length={Grading}
         />
       )}

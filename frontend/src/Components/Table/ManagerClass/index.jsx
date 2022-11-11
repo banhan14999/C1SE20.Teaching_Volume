@@ -17,7 +17,6 @@ import { useEffect, useState } from "react";
 import { ApiTeachingVolume } from "../../../apis/axios";
 import { DataUpdate } from "../../../Redux/Actions/index";
 import SelectForm from "../../SelectForm";
-import axios from "axios";
 
 const cx = classNames.bind(styles);
 function ManagerClass(props) {
@@ -70,24 +69,12 @@ useEffect(()=>{
     );
   }
 },[year,semester])
-const token = JSON.parse(localStorage.getItem("Token"));
-const IdLecturer = JSON.parse(localStorage.getItem("IdLecturer"));
 const years = JSON.parse(localStorage.getItem("year"));
   useEffect(() => {
-    if(semester && semester.value && year && year.value && IdLecturer && token){
-      axios
-      .get(
-        `http://127.0.0.1:8000/api/class/lecturer/${IdLecturer}/semester/${semester.value}/year/${year.value}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      )
-      // ApiTeachingVolume.Get(`class/lecturer/1234567890/semester/1/year/2022`)
-      .then((req) => {
-        setData([...req.data.classes]);
-        const arr = req.data.classes 
+    if(semester && semester.value && year && year.value ){
+      ApiTeachingVolume.Get(`class/all`).then((req) => {
+        setData([...req.classes]);
+        const arr = req.classes
           .map((value) => {
             return createData(
               value.IdClass,
@@ -103,7 +90,7 @@ const years = JSON.parse(localStorage.getItem("year"));
             return value;
           });
         setClassAd([...arr]);
-    })}
+      });}
   }, [param.id,year,semester]);
   return (
     <div className="w-[726px]">
