@@ -20,6 +20,7 @@ function FormSubject({ year, semester }) {
   const [projects, setProjects] = useState([]);
   const [Grading, setGrading] = useState([]);
   const [examvo, setExamvo] = useState([]);
+  const [pros, setPros] = useState([])
   const [valueOther, setValueOther] = useState([createOther(0, 0, 0, 0)]);
   const [teachingapi, setTeachingApi] = useState([]);
 
@@ -115,7 +116,18 @@ function FormSubject({ year, semester }) {
           );
         });
         setProjects([...arr]);
+        const arrs = req.classes.reduce((arr, value) => {
+          return [
+            ...arr,
+            {
+              subjectCoefficient: Number(value.SubjectCoefficient),
+              numberOfStudent: value.NumberOfStudent,
+            },
+          ];
+        }, []);
+        setPros([...arrs])
       });
+      
     }
   }, [idLecturer, semester, year]);
   useEffect(() => {
@@ -180,12 +192,13 @@ function FormSubject({ year, semester }) {
         year: Number(year),
         semester: semester,
         teaching: teachingapi,
-        project: [],
+        project: pros,
         grading: Grading,
         exam: examvo,
         other: valueOther[0],
       },
     };
+    console.log(obj);
     ApiTeachingVolume.Post("/volume/total", obj)
       .then((res) => {
         alert("Thanh cong");
@@ -195,11 +208,7 @@ function FormSubject({ year, semester }) {
       });
   }
 
-useEffect(()=>{
-  ApiTeachingVolume.Get(`class/theoryClass/1232569800/semester/1/year/2022`);
-},[])
 
-useEffect(() => {}, []);
 
   return (
     <div className={cx("form")}>
