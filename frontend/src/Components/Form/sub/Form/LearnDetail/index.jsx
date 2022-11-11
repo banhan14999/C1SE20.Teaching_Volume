@@ -33,7 +33,7 @@ function ExamDetail({ setRenderAdd, setGrading, setExamvo, Semester, length }) {
           type: type.value,
           time: Number(exam.time),
           numberGE: Number(exam.number),
-          coefficientGrade: Number(exam.number),
+          coefficientGrade: Number(exam.coefficient),
           idSubject: subject.id,
         };
         let checkValInput = true;
