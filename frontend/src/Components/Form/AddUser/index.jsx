@@ -28,6 +28,11 @@ function AddUser(props) {
   const updateData = useSelector((data) => data.dtupdate);
   const { data } = updateData;
   const Faculty = [{ value: "CMU-SE", label: "CMU-SE" }];
+  const Department = [
+    {value : "SE", label: "Software Engineer"},
+    {value : "NS", label: "Network Security"},
+    {value : "MIS", label: "Management Information System"},
+  ];
   const Role = [
     { value: "3", label: "Head" },
     { value: "4", label: "Lecturer" },
@@ -96,7 +101,7 @@ function AddUser(props) {
              password: "",
              idlecturer: "",
              firstname: "",
-             lastname: ""
+             lastname: "",
            });
          })
          .catch(() => {
@@ -148,6 +153,7 @@ function AddUser(props) {
               <span className="text-lg font-bold">:</span>
               <div className="flex w-[50%] relative items-center">
                 <input
+                  type = "password"
                   placeholder="Password"
                   className={`w-full input ${cx("input")}`}
                   value={valuesForm.password}
@@ -249,7 +255,7 @@ function AddUser(props) {
                 <SelectForm
                   placeholder="Department"
                   class="w-full"
-                  options={Faculty}
+                  options={Department}
                   setSelectedOption={setDepartment}
                   defaultValue={
                     props.btn &&
