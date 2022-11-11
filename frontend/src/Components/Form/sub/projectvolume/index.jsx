@@ -7,7 +7,6 @@ import Paper from "@mui/material/Paper";
 import StyledTableCell from "../../../StyledTableCell";
 
 function ProjectVolume(props) {
-  // http://127.0.0.1:8000/api/class/realityClass/1234567890/semester/1/year/2022
     return (
       <div>
         <TableContainer component={Paper}>

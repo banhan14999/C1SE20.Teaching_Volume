@@ -34,17 +34,22 @@ function Approval() {
         return { code, fullname, title, status };
       }
         useEffect(()=>{
-          ApiTeachingVolume.Get("/volume/checkExist/sem/1/year/2022")
-          .then(res=>{
-            const arr =  res.totalVolume.map(value=>{
-              return createData(value.IdLecturer, 0, 0, value.Status);
-            })
-            setDataApproval([...arr])
-          })
+          ApiTeachingVolume.Get(`/volume/checkExist/sem/1/year/2022`).then(
+            (res) => {
+              console.log(res);
+              if (res.status !== false) {
+                const arr = res.totalVolume.map((value) => {
+                  return createData(value.IdLecturer, 0, 0, value.Status);
+                });
+                setDataApproval([...arr]);
+              }
+            }
+          );
         },[])
       function handleContinue() {
         setContinues(true);
       }
+      console.log(dataApproval);
     return (
       <div className="w-[726px]">
         <div className={cx("option")}>
@@ -54,6 +59,7 @@ function Approval() {
                 options={opt}
                 placeholder="Chọn năm học"
                 height="30px"
+
               ></SelectForm>
             </span>
             <span className="w-[30%] ml-[-30px]">
