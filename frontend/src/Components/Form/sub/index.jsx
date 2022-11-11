@@ -100,6 +100,7 @@ function FormSubject({ year, semester }) {
       ApiTeachingVolume.Get(
         `/class/realityClass/${idLecturer}/semester/${semester}/year/${year}`
       ).then((req) => {
+        console.log(req);
         const arr = req.classes.map((value, index) => {
           return createProject(
             index + 1,
@@ -112,7 +113,7 @@ function FormSubject({ year, semester }) {
             value.CreditClass,
             value.Unit,
             value.NumberOfStudent,
-            value.Coefficient
+            value.SubjectCoefficient
           );
         });
         setProjects([...arr]);
@@ -198,7 +199,6 @@ function FormSubject({ year, semester }) {
         other: valueOther[0],
       },
     };
-    console.log(obj);
     ApiTeachingVolume.Post("/volume/total", obj)
       .then((res) => {
         alert("Thanh cong");
