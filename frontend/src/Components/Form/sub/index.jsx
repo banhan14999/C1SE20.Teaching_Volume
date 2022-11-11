@@ -12,7 +12,6 @@ import ExamDetail from "./Form/LearnDetail";
 import { ApiTeachingVolume } from "../../../apis/axios";
 const cx = classNames.bind(styles);
 function FormSubject({ year, semester }) {
-  console.log(year,semester);
   const [count, setCount] = useState(1);
   const [form, setForm] = useState("Teaching Volume");
   const [renderAdd, setRenderAdd] = useState(false);
@@ -77,9 +76,9 @@ function FormSubject({ year, semester }) {
     };
   }
   useEffect(() => {
-    if (idLecturer && semester && semester.value && year && year.value) {
+    if (idLecturer && semester && year ) {
       ApiTeachingVolume.Get(
-        `/class/theoryClass/${idLecturer}/semester/${semester.value}/year/${year.value}`
+        `/class/theoryClass/${idLecturer}/semester/${semester}/year/${year}`
       ).then((req) => {
         const arr = req.classes.map((value, index) => {
           return createTeaching(
@@ -94,11 +93,11 @@ function FormSubject({ year, semester }) {
             value.SubjectCoefficient,
             value.TimeTeaching
           );
-        });
+        },);
         setTeaching([...arr]);
       });
       ApiTeachingVolume.Get(
-        `/class/realityClass/${idLecturer}/semester/${semester.value}/year/${year.value}`
+        `/class/realityClass/${idLecturer}/semester/${semester}/year/${year}`
       ).then((req) => {
         const arr = req.classes.map((value, index) => {
           return createProject(
@@ -187,7 +186,6 @@ function FormSubject({ year, semester }) {
         other: valueOther[0],
       },
     };
-    console.log(obj);
     ApiTeachingVolume.Post("/volume/total", obj)
       .then((res) => {
         alert("Thanh cong");
@@ -196,6 +194,13 @@ function FormSubject({ year, semester }) {
         alert("loi");
       });
   }
+
+useEffect(()=>{
+  ApiTeachingVolume.Get(`class/theoryClass/1232569800/semester/1/year/2022`);
+},[])
+
+useEffect(() => {}, []);
+
   return (
     <div className={cx("form")}>
       {/* <div className={cx("option")}>
