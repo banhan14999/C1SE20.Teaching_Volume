@@ -178,4 +178,23 @@ class SubjectController extends Controller
         ]);
     }
 
+    //API cho ra đề thi và chấm bài thi
+    public function getSubjectByLec($idLec, $semester, $year)
+    {
+        $subjects = DB::table('subjects')
+                  ->select('subjects.IdSubject', 'Letter', 'Number', 'SubjectName')
+                  ->leftJoin('classes', 'subjects.IdSubject', '=', 'classes.IdSubject')
+                  ->where([
+                    ['IdLecturer', '=', $idLec],
+                    ['Semester', '=', $semester],
+                    ['Year', '=', $year],
+                  ])
+                  ->distinct()
+                  ->get();
+        return response()->json([
+            'status' => 200,
+            'subjects' => $subjects,
+        ]);
+    }
+
 }

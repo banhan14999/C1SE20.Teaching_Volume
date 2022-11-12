@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('totalvolume', function (Blueprint $table) {
-            $table->string('IdLecturer');
+            $table->string('IdLecturer',20);
             $table->integer('Year', false, true);
             $table->string('Semester', 10);
             $table->decimal('TeachingVolume', 10, 2);

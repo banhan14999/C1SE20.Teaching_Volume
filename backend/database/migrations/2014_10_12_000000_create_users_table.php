@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('Username',100)->unique();
             $table->string('Password');
-            $table->string('IdLecturer')->unique()->nullable();
+            $table->string('IdLecturer',20)->unique()->nullable();
             $table->string('FirstName');
             $table->string('LastName');
             $table->string('IdFaculty',20)->nullable();
