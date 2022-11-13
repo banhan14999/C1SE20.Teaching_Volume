@@ -87,7 +87,7 @@ function Authentication() {
         <div className="mt-6">
           <form action="">
             <div className="flex justify-between">
-              <label htmlFor="username" className="mr-2 ">
+              <label htmlFor="username" className="mr-2">
                 Tên Đăng nhập:
               </label>
               <input
@@ -133,7 +133,9 @@ function Authentication() {
                     handlLogin(e);
                   }}
                 ></input>
-                <MyCaptcha ref={refcaptcha} />
+                <div className="w-[50%]">
+                  <MyCaptcha ref={refcaptcha} />
+                </div>
               </div>
             </div>
             {checkLogin === true ? (

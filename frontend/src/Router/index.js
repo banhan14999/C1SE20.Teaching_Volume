@@ -1,6 +1,5 @@
 import Home from "../Page/Home"
 import Authentication from "../Page/Authentication";
-import ViewReport from "../Page/ViewReport";
 import DaskBoard from "../Page/DashBoard";
 import NotFound from "../Page/NotFound";
 import AddUser from "../Components/Form/AddUser";
@@ -46,7 +45,6 @@ export const publicRouters = [
       { path: "subject", component: FormSubject },
     ],
   },
-  { path: "/report", component: ViewReport },
   { path: "/daskboard", component: DaskBoard },
   { path: "*", component: NotFound },
 ];

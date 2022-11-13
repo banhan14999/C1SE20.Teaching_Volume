@@ -6,7 +6,13 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import StyledTableCell from "../../../StyledTableCell";
 import {CgPlayListRemove} from "react-icons/cg"
-function GradingVolume(props) {
+function GradingVolume({ rows, setGrading }) {
+  function handleRemove(e) {
+    const id = e.target.dataset.list;
+    console.log(id);
+   const arr = rows.filter((value, index) => index !== Number(id));
+   setGrading([...arr])
+  }
   return (
     <div>
       <TableContainer component={Paper}>
@@ -33,13 +39,13 @@ function GradingVolume(props) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {props.rows.map((row) => (
+            {rows.map((row, index) => (
               <TableRow
-                key={row.stt}
+                key={index}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
                 <StyledTableCell align="center" component="th" scope="row">
-                  {row.stt}
+                  {index + 1}
                 </StyledTableCell>
                 <StyledTableCell align="center">{row.letter}</StyledTableCell>
                 <StyledTableCell align="center">
@@ -56,7 +62,13 @@ function GradingVolume(props) {
                   {row.coefficient}
                 </StyledTableCell>
                 <StyledTableCell align="center">
-                  <CgPlayListRemove className="text-[20px] text-[blue] text-center" />
+                  <div
+                    onClick={handleRemove}
+                    data-list={index}
+                    className="cursor-pointer"
+                  >
+                    <CgPlayListRemove className="text-[20px] text-[blue] text-center pointer-events-none" />
+                  </div>
                 </StyledTableCell>
               </TableRow>
             ))}

@@ -2,7 +2,9 @@ import ViewTable from "../../Components/ViewTable";
 
 function ViewReport() {
     return (
-      <ViewTable></ViewTable>
+      <div>
+        <ViewTable></ViewTable>
+      </div>
     );
 }
 

@@ -57,6 +57,7 @@ function selectValue(s,arr) {
     });
     setClassAd([...arr]);
   }
+  
   function createData(ClassID,ClassName,Subject,Student,Type,Credit,Coefficient,Action) {
     return {ClassID, ClassName,Subject,Student,Type,Credit,Coefficient,Action};
   }

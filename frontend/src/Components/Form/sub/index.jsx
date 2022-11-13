@@ -100,7 +100,6 @@ function FormSubject({ year, semester }) {
       ApiTeachingVolume.Get(
         `/class/realityClass/${idLecturer}/semester/${semester}/year/${year}`
       ).then((req) => {
-        console.log(req);
         const arr = req.classes.map((value, index) => {
           return createProject(
             index + 1,
@@ -144,6 +143,7 @@ function FormSubject({ year, semester }) {
     }, []);
     setTeachingApi([...arr]);
   }, [teaching]);
+  
   function createOther(activities, examMonitor, advisor, scientific) {
     return { activities, examMonitor, advisor, scientific };
   }
@@ -159,8 +159,8 @@ function FormSubject({ year, semester }) {
   const obj = {
     "Teaching Volume": <TeachingVolume rows={teaching} />,
     "Project Volume": <ProjectVolume rows={projects} />,
-    "Grading Volume": <GradingVolume rows={Grading} />,
-    "Exam Volume": <ExamVolume rows={examvo} />,
+    "Grading Volume": <GradingVolume rows={Grading} setGrading={setGrading} />,
+    "Exam Volume": <ExamVolume rows={examvo} setExamvo ={setExamvo}/>,
     Other: <Other rows={valueOther} onClick={handleAdd} />,
   };
 
@@ -186,6 +186,7 @@ function FormSubject({ year, semester }) {
     count === 4 && setForm("Exam Volume");
     count === 5 && setForm("Other");
   }, [count]);
+
   function handleSubmitForm() {
     const obj = {
       data: {
@@ -212,26 +213,6 @@ function FormSubject({ year, semester }) {
 
   return (
     <div className={cx("form")}>
-      {/* <div className={cx("option")}>
-        <div className="flex pt-[14.3%] justify-around">
-          <span className="w-[30%] ml-[50px]">
-            <SelectForm
-              options={opt}
-              placeholder="Chọn năm học"
-              height="30px w-full"
-              setSelectedOption={setYear}
-            ></SelectForm>
-          </span>
-          <span className="w-[30%] ml-[-30px]">
-            <SelectForm
-              options={hocki}
-              placeholder="Chọn học kì"
-              height="30px w-full"
-              setSelectedOption={setSemester}
-            ></SelectForm>
-          </span>
-        </div>
-      </div> */}
       <div className={cx("nav_form")}>
         <ul onClick={handleClick}>
           <li className={`${form === "Teaching Volume" && "!bg-red-800"}`}>

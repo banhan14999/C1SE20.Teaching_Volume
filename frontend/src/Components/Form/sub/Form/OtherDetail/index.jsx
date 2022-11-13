@@ -16,6 +16,7 @@ function OtherDetail({ setRenderAdd, setValueOther }) {
   }
   function handleAdd() {
     setValueOther([{...valueForm}]);
+    setRenderAdd(false);
   }
 
   return (

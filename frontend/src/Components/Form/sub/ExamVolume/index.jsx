@@ -7,9 +7,14 @@ import Paper from "@mui/material/Paper";
 import StyledTableCell from "../../../StyledTableCell";
 import { CgPlayListRemove } from "react-icons/cg";
 
-function ExamVolume(props) {
+function ExamVolume({ rows, setExamvo }) {
+  function handleRemove(e) {
+    const stt = e.target.dataset.list;
+    const arr = rows.filter((value) => value.stt !== Number(stt));
+    setExamvo([...arr]);
+  }
   return (
-    <div >
+    <div>
       <TableContainer component={Paper}>
         <Table size="medium" aria-label="a dense table">
           <TableHead>
@@ -34,7 +39,7 @@ function ExamVolume(props) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {props.rows.map((row) => (
+            {rows.map((row) => (
               <TableRow
                 key={row.stt}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -56,9 +61,15 @@ function ExamVolume(props) {
                 <StyledTableCell align="center">
                   {row.coefficient}
                 </StyledTableCell>
-                <StyledTableCell align="center">
-                  <CgPlayListRemove className="text-[20px] text-[blue] text-center" />
-                </StyledTableCell>
+                  <StyledTableCell align="center">
+                    <div
+                      onClick={handleRemove}
+                      data-list={row.stt}
+                      className="cursor-pointer"
+                    >
+                      <CgPlayListRemove className="text-[20px] text-[blue] text-center pointer-events-none" />
+                    </div>
+                  </StyledTableCell>
               </TableRow>
             ))}
           </TableBody>

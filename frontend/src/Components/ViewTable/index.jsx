@@ -20,11 +20,14 @@ import classNames from "classnames/bind";
 import {AiFillPrinter} from "react-icons/ai"
 import  StyledTableCell from "../StyledTableCell";
 import styles from "./viewtable.module.scss";
-import { useRef } from "react";
+import { useRef,useEffect } from "react";
+import { ApiTeachingVolume } from "../../apis/axios";
+
 const cx = classNames.bind(styles);
 
 function ViewTable() {
   const reftableview= useRef()
+  const [workload,setWorkload]= React.useState([])
   function handleprint(e) {
     const originalContents = document.body.innerHTML;
     const printContents = reftableview.current.innerHTML;
@@ -129,7 +132,15 @@ function ViewTable() {
       total,
     };
   }
- 
+ useEffect(()=>{
+      ApiTeachingVolume.Get(`volume/totalByDean/sem/2/year/2022`)
+      .then(req=>{
+      const arr =   req.totalVols.map((e)=>{
+          return createRow(e.id, e.IdLecturer,e.FirstName,e.LastName,e.TeachingVolume,e.GradingVolume,e.ExamVolume,e.ExamMonitorVolume,e.ActivitiesVolume,e.AdvisorVolume,e.TotalVolume);
+        })
+        setWorkload([...arr])
+      })
+ },[])
 
   const rows = [
     createRow(
@@ -373,9 +384,6 @@ function ViewTable() {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-
- 
-
   return (
     <div className="container">
       <div className={`${cx("tableview")}`} ref={reftableview}>
@@ -499,11 +507,11 @@ function ViewTable() {
             </TableHead>
             <TableBody>
               {(rowsPerPage > 0
-                ? rows.slice(
+                ? workload.slice(
                     page * rowsPerPage,
                     page * rowsPerPage + rowsPerPage
                   )
-                : rows
+                : workload
               ).map((row) => (
                 <TableRow key={row.id}>
                   <StyledTableCell align="center">{row.id}</StyledTableCell>
@@ -723,20 +731,6 @@ function ViewTable() {
             </TableFooter>
           </Table>
         </TableContainer>
-        {/* <div className="w-full flex justify-around text-center">
-          <div>
-            <h2>TP. PHÒNG ĐÀO TẠO ĐẠI HỌC & SAU ĐẠI HỌC</h2>
-          </div>
-          <div>
-            <h2>HIỆU TRƯỞNG/ VIỆN TRƯỞNG</h2>
-            <p>(kí và ghi rõ họ và tên)</p>
-          </div>
-          <div>
-            <p>Đà Nẵng,Ngày..... Tháng..... Năm 20... </p>
-            <h2>HIỆU TRƯỞNG/ VIỆN TRƯỞNG</h2>
-            <p>(kí và ghi rõ họ và tên)</p>
-          </div>
-        </div> */}
       </div>
     </div>
   );

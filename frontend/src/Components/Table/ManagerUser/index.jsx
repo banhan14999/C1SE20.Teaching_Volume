@@ -12,9 +12,8 @@ import { useNavigate,useParams } from "react-router-dom";
 import StyledTableCell from "../../StyledTableCell";
 import AddUser from "../../Form/AddUser";
 import { SetUpdate } from "../../../Redux/Actions/index";
-// import { ApiTeachingVolume } from "../../../apis/axios";
+import { ApiTeachingVolume } from "../../../apis/axios";
 import { DataUpdate } from "../../../Redux/Actions/index";
-import axios from "axios";
 
 function ManagerUser() {
   const param = useParams();
@@ -26,13 +25,7 @@ function ManagerUser() {
   }
 function clickDelete(e) {
   const user_id = e.target.dataset.delete
-  // ApiTeachingVolume.Delete("/user/delete/", user_id);
-  const token = JSON.parse(localStorage.getItem("Token"));
-  axios.delete(`http://127.0.0.1:8000/api/user/delete/${user_id}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  ApiTeachingVolume.Delete("/user/delete/", user_id);
   const arr = user.filter((value) => {
     return value.Id !== Number(user_id);
   });
@@ -46,15 +39,8 @@ function clickDelete(e) {
     navigate(user_id);
   };
   useEffect(() => {
-     const token = JSON.parse(localStorage.getItem("Token"))
-    axios
-      .get("http://127.0.0.1:8000/api/user/all", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((res) => {
-        const arr = res.data.users
+      ApiTeachingVolume.Get("user/all").then((res) => {
+        const arr = res.users
           .map((value) => {
             if (value.IdRole !== 1) {
               return createData(
