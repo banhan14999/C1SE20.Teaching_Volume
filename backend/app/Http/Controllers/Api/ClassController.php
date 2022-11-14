@@ -274,8 +274,37 @@ class ClassController extends Controller
         ]);
     }
 
+    //Do division class
+    private static function getTotalIfExists($idLecturer, $semester, $year)
+    {
+        $total = DB::table('totalvolume')
+                 ->where([
+                    ['IdLecturer', '=', $idLecturer],
+                    ['Semester', '=', $semester],
+                    ['Year', '=', $year],
+                 ])
+                 ->first();
+        return $total;
+    }
 
-    public static function removeLecOutOfClass($idClassesRemove)
+
+    private static function getClassForTotal($idClass)
+    {
+        $class = Classes::find($idClass);
+        return $class;
+    }
+
+    private static function theoryVolume($class)
+    {
+        return round($class['Coefficient'] * $class['SubjectCoefficient'] * $class['TimeTeaching'],2);
+    }
+    
+    private static function realityVolume($class)
+    {
+        return round($class['SubjectCoefficient'] * $class['NumberOfStudent']);
+    }
+
+    private static function removeLecOutOfClass($idClassesRemove)
     {
         //$idClasses = $request->data['IdClasses'];
         if(! empty($idClassesRemove)) {
@@ -291,7 +320,7 @@ class ClassController extends Controller
         // ]);
     }
 
-    public static function addLecIntoClass($idLecturer, $idClassesAdd)
+    private static function addLecIntoClass($idLecturer, $idClassesAdd)
     {
         // $idLecturer = $request->data['IdLecturer'];
         // $idClasses = $request->data['IdClasses'];
@@ -308,14 +337,74 @@ class ClassController extends Controller
         // ]);
     }
 
+
+
+    private static function updateVolumeAfterDivisionAgain($data)
+    {
+        $total = $data['theoryVol'] + $data['realityVol'] + $data['gradingVol']
+               + $data['examVol'] + $data['examMonitorVol'] + $data['advisorVol']
+               + $data['activitiesVol'] + $data['scientificVol'];
+        DB::table('totalvolume')
+            ->where([
+                ['IdLecturer', '=', $data['idLec']],
+                ['Semester', '=', $data['sem']],
+                ['Year', '=', $data['year']],
+            ])
+            ->update([
+                'TeachingVolume' => $data['theoryVol'],
+                'ProjectVolume' => $data['realityVol'],
+                'TotalVolume' => $total,
+            ]);
+        return $total;
+    }
+
     public function doDivisionClasses(Request $request)
     {
         // dd($request);
+        
         $idLecturer = $request->data['idLecturer'];
         $idClassesAdd = $request->data['idClassAdd'];
         $idClassesRemove = $request->data['idClassRemove'];
         self::removeLecOutOfClass($idClassesRemove);
         self::addLecIntoClass($idLecturer, $idClassesAdd);
+
+        //update total volume if exists
+        $year = $request->data['year'];
+        $semester = $request->data['semester'];
+        //return (self::checkExistTotalForm($idLecturer, $semester, $year));
+        $total = self::getTotalIfExists($idLecturer, $semester, $year);
+        if($total !== null) {
+            //
+            $theoryVol = 0; 
+            $realityVol = 0;
+            if(! empty($idClassesAdd)) {
+                foreach($idClassesAdd as $idClass) {
+                    $class = self::getClassForTotal($idClass);
+                    if($class['TypeClass'] === 'PRJ' || $class['TypeClass'] === 'INT') {
+                        $realityVol += self::realityVolume($class);
+                    }
+                    else {
+                        $theoryVol += self::theoryVolume($class);
+                    }
+                }
+            }
+            //encapsulation
+            $data = [
+                'idLec' => $idLecturer,
+                'sem' => $semester,
+                'year' => $year,
+                'theoryVol' => $theoryVol,
+                'realityVol' => $realityVol,
+                'gradingVol' => $total->GradingVolume,
+                'examVol' => $total->ExamVolume,
+                'activitiesVol' => $total->ActivitiesVolume,
+                'examMonitorVol' => $total->ExamMonitorVolume,
+                'advisorVol' => $total->AdvisorVolume,
+                'scientificVol' => $total->TimeScientificVolume,
+            ];
+            self::updateVolumeAfterDivisionAgain($data);
+        }
+
         return response()->json([
             'status' => 200,
             'message' => "Updated Successfully",
