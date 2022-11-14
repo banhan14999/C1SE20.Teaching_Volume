@@ -19,6 +19,10 @@ function ManagerWorkload() {
   const [total,setTotal] = useState([])
     const [year, setYear] = useState(null);
     const [semester, setSemester] = useState(null);
+    const [theoryClass,setTheoryClass] = useState([])
+    const [exams, setExams] = useState([]);
+    const [others, setOthers] = useState([]);
+
     function createData(teaching,grading,project,exam,activities,examMonitor,advisor,timeScientific,total,status) {
     return { teaching,grading,project,exam,activities,examMonitor,advisor,timeScientific,total,status };
   }
@@ -32,8 +36,53 @@ function ManagerWorkload() {
       { value: "2", label: "Học Kỳ II" },
       { value: "3", label: "Học Hè" },
     ];
+      function createOther(activities, examMonitor, advisor, scientific) {
+        return { activities, examMonitor, advisor, scientific };
+      }
+
   function handleupdate(){
     setTotal([]);
+    if(semester && year && semester.value && year.value){
+      ApiTeachingVolume.Get(
+        `volume/selfTotalDetail/idLecture/1232569800/sem/${semester.value}/year/${year.value}`
+      ).then(req=>{
+       const theory =  req.theoryClass.map((e,index)=>{
+            return {
+              stt: index + 1,
+              letter: e.Letter,
+              numbercode: e.Number,
+              subject: e.SubjectName,
+              type: e.Type,
+              semester: e.Semester,
+              time: e.TimeTeaching,
+              unit: e.Unit,
+              numberGE: e.NumberOfStudent,
+              coefficient: e.Coefficient,
+              coefficientGrade: e.Coefficient,
+            };
+        })
+        setTheoryClass([...theory]);
+        const exam = req.exams.map((e,index)=>{
+           return {
+            stt:index+1,
+             letter: e.Letter,
+             numbercode: e.Number,
+             subject: e.SubjectName,
+             type: e.Type,
+             semester: e.Semester,
+             time: e.Time,
+             unit: e.Unit,
+             numberGE: e.numberGE,
+             coefficient: e.CoefficientGradeExam,
+             coefficientExam: e.CoefficientGradeExam,
+           };
+        })
+        setExams([...exam]);
+        setOthers([...req.others.map((e)=>{
+          return createOther(e.ActivitiesVolume, e.ExamMonitorVolume,e.AdvisorVolume,e.TimeScientificVolume);
+        })]);
+      })
+    }
   }
   useEffect(() => {
     if (semester && year && semester.value && year.value) {
@@ -85,7 +134,13 @@ function ManagerWorkload() {
         </div>
       </div>
       {total && total.length === 0 && year && semester && (
-        <FormSubject year={year.value} semester={semester.value}></FormSubject>
+        <FormSubject
+          year={year.value}
+          semester={semester.value}
+          theoryClass={theoryClass}
+          exams={exams}
+          others={others}
+        ></FormSubject>
       )}
       {total && total.length !== 0 && (
         <div>
@@ -127,8 +182,9 @@ function ManagerWorkload() {
                     <StyledTableCell>{row.total}</StyledTableCell>
                     <StyledTableCell>{row.status}</StyledTableCell>
                     <StyledTableCell>
-                      <p className="flex justify-around items-center"
-                      onClick = {handleupdate}
+                      <p
+                        className="flex justify-around items-center cursor-pointer"
+                        onClick={handleupdate}
                       >
                         <TbListDetails />
                         Detail

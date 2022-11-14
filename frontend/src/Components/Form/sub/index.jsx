@@ -11,7 +11,7 @@ import OtherDetail from "./Form/OtherDetail";
 import ExamDetail from "./Form/LearnDetail";
 import { ApiTeachingVolume } from "../../../apis/axios";
 const cx = classNames.bind(styles);
-function FormSubject({ year, semester }) {
+function FormSubject({ year, semester,theoryClass,exams,others }) {
   const [count, setCount] = useState(1);
   const [form, setForm] = useState("Teaching Volume");
   const [renderAdd, setRenderAdd] = useState(false);
@@ -159,9 +159,9 @@ function FormSubject({ year, semester }) {
   const obj = {
     "Teaching Volume": <TeachingVolume rows={teaching} />,
     "Project Volume": <ProjectVolume rows={projects} />,
-    "Grading Volume": <GradingVolume rows={Grading} setGrading={setGrading} />,
-    "Exam Volume": <ExamVolume rows={examvo} setExamvo ={setExamvo}/>,
-    Other: <Other rows={valueOther} onClick={handleAdd} />,
+    "Grading Volume": <GradingVolume rows={Grading && theoryClass} setGrading={setGrading} />,
+    "Exam Volume": <ExamVolume rows={examvo && exams} setExamvo ={setExamvo}/>,
+    Other: <Other rows={valueOther && others} onClick={handleAdd} />,
   };
 
   function handleNext(e) {
@@ -231,7 +231,6 @@ function FormSubject({ year, semester }) {
         </ul>
       </div>
       {obj[form]}
-
       <div className="mt-[20px] flex justify-end">
         <div className="mr-10">
           {form !== "Teaching Volume" &&

@@ -9,9 +9,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import classNames from "classnames/bind";
-
 import styles from "./approval.module.scss"
-import Button from "../../Button";
 import SelectForm from "../../SelectForm";
 import StyledTableCell from "../../StyledTableCell";
 import { ApiTeachingVolume } from "../../../apis/axios";
@@ -39,23 +37,28 @@ function Approval() {
       useEffect(() => {
         if (semester && semester.value && year && year.value){
           ApiTeachingVolume.Get(
-            `/volume/checkExist/sem/${semester.value}/year/${year.value}`
-          ).then((res) => {
-            console.log(res);
-            if (res.status !== false) {
-              const arr = res.totalVolume.map((value) => {
-                return createData(value.IdLecturer, 0, 0, value.Status);
-              });
-              setDataApproval([...arr]);
-              setContinues(true);
-            }else {
+            `/volume/totalByDean/sem/${semester.value}/year/${year.value}`
+          )
+            .then((res) => {
+              console.log(res);
+              if (res.status === 200 && res.totalVols && res.totalVols.length >0) {
+                const arr = res.totalVols.map((value) => {
+                  return createData(
+                    value.IdLecturer,
+                    value.LastName + " " + value.FirstName,
+                    "What What",
+                    value.Status
+                  );
+                });
+                setDataApproval([...arr]);
+                setContinues(true);
+              } else {
+                setContinues(false);
+              }
+            })
+            .catch((err) => {
               setContinues(false);
-
-            }
-          })
-          .catch(err=>{
-              setContinues(false);
-          })
+            });
         }
       }, [semester, year]);
     return (
@@ -109,14 +112,29 @@ function Approval() {
                     <StyledTableCell align="center">
                       {row.title}
                     </StyledTableCell>
-                    <StyledTableCell align="center" style={{ color: "yellow" }}>
+                    <StyledTableCell align="center" style={{color: "yellow" }}>
                       {row.status}
                     </StyledTableCell>
                     <StyledTableCell>
                       <div className="flex justify-around items-center">
-                        <BiMessageDetail className="text-[16px]" />
-                        <AiFillCheckCircle className="text-green-600 text-[16px]" />
-                        <TbListDetails className="text-orange-600 text-[16px]" />
+                        {row.status === "Done" && (
+                          <>
+                            <BiMessageDetail className="text-[16px]" />
+                            <TbListDetails className="text-orange-600 text-[16px]" />
+                          </>
+                        )}
+                        {row.status === "Waiting" && (
+                          <>
+                            <BiMessageDetail className="text-[16px]" />
+                            <AiFillCheckCircle className="text-green-600 text-[16px]" />
+                            <TbListDetails className="text-orange-600 text-[16px]" />
+                          </>
+                        )}
+                        {row.status === "Revoke" && (
+                          <>
+                            <TbListDetails className="text-orange-600 text-[16px]" />
+                          </>
+                        )}
                       </div>
                     </StyledTableCell>
                   </TableRow>
