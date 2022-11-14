@@ -340,14 +340,23 @@ class VolumeController extends Controller
     }
 
     //Lấy thông tin chi tiết của giảng viên (detail)
+    private static function getLecInfor($idLecturer)
+    {
+        $lecturer = DB::table('users')
+                    ->where('IdLecturer', '=', $idLecturer)
+                    ->first();
+        return $lecturer;
+    }
     public function getTotalDetail($idLecturer, $semester, $year)
     {
+        $lecturer = self::getLecInfor($idLecturer); 
         $theoryClass = self::getTheoryClass($idLecturer, $semester, $year);
         $realityClass = self::getRealityClass($idLecturer, $semester, $year);
         $grades = self::getGradesVol($idLecturer, $semester, $year);
         $exams = self::getExamsVol($idLecturer, $semester, $year);
         $others = self::getOthersVol($idLecturer, $semester, $year);
         return response()->json([
+            'lecturer' => $lecturer,
             'theoryClass' => $theoryClass,
             'realityClass' => $realityClass,
             'grades' => $grades,
