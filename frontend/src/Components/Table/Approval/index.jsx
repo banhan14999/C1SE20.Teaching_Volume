@@ -20,34 +20,44 @@ const cx  = classNames.bind(styles)
 function Approval() {
     const [continues, setContinues] = useState(false);
     const [dataApproval,setDataApproval] = useState([])
+  const [year, setYear] = useState(null);
+  const [semester, setSemester] = useState(null);
     const opt = [
-      { value: "2021-2022", label: "2021-2022" },
-      { value: "2022-2023", label: "2022-2023" },
-      { value: "2023-2024", label: "2024-2025" },
+      { value: "2022", label: "2021-2022" },
+      { value: "2023", label: "2022-2023" },
+      { value: "2024", label: "2024-2025" },
     ];
     const hocki = [
-      { value: "Học Kỳ I", label: "Học Kỳ I" },
-      { value: "Học Kỳ II", label: "Học Kỳ II" },
-      { value: "Học Hè", label: "Học Hè" },
+      { value: "1", label: "Học Kỳ I" },
+      { value: "2", label: "Học Kỳ II" },
+      { value: "3", label: "Học Hè" },
     ];
       function createData(code, fullname, title, status) {
         return { code, fullname, title, status };
       }
-        useEffect(()=>{
-          ApiTeachingVolume.Get(`/volume/checkExist/sem/1/year/2022`).then(
-            (res) => {
-              if (res.status !== false) {
-                const arr = res.totalVolume.map((value) => {
-                  return createData(value.IdLecturer, 0, 0, value.Status);
-                });
-                setDataApproval([...arr]);
-              }
+
+      useEffect(() => {
+        if (semester && semester.value && year && year.value){
+          ApiTeachingVolume.Get(
+            `/volume/checkExist/sem/${semester.value}/year/${year.value}`
+          ).then((res) => {
+            console.log(res);
+            if (res.status !== false) {
+              const arr = res.totalVolume.map((value) => {
+                return createData(value.IdLecturer, 0, 0, value.Status);
+              });
+              setDataApproval([...arr]);
+              setContinues(true);
+            }else {
+              setContinues(false);
+
             }
-          );
-        },[])
-      function handleContinue() {
-        setContinues(true);
-      }
+          })
+          .catch(err=>{
+              setContinues(false);
+          })
+        }
+      }, [semester, year]);
     return (
       <div className="w-[726px]">
         <div className={cx("option")}>
@@ -57,6 +67,7 @@ function Approval() {
                 options={opt}
                 placeholder="Chọn năm học"
                 height="30px"
+                setSelectedOption={setYear}
               ></SelectForm>
             </span>
             <span className="w-[30%] ml-[-30px]">
@@ -64,14 +75,10 @@ function Approval() {
                 options={hocki}
                 placeholder="Chọn học kì"
                 height="30px"
+                setSelectedOption={setSemester}
               ></SelectForm>
             </span>
           </div>
-        </div>
-        <div className="text-center mb-3">
-          <Button width="200px" bgcolor="#950B0B" onClick={handleContinue}>
-            Tiếp tục
-          </Button>
         </div>
         {continues && (
           <TableContainer component={Paper}>
@@ -102,7 +109,7 @@ function Approval() {
                     <StyledTableCell align="center">
                       {row.title}
                     </StyledTableCell>
-                    <StyledTableCell align="center" style={{color:"yellow"}}>
+                    <StyledTableCell align="center" style={{ color: "yellow" }}>
                       {row.status}
                     </StyledTableCell>
                     <StyledTableCell>

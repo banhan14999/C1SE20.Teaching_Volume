@@ -9,7 +9,6 @@ import {CgPlayListRemove} from "react-icons/cg"
 function GradingVolume({ rows, setGrading }) {
   function handleRemove(e) {
     const id = e.target.dataset.list;
-    console.log(id);
    const arr = rows.filter((value, index) => index !== Number(id));
    setGrading([...arr])
   }
