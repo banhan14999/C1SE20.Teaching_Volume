@@ -102,7 +102,7 @@ function AddUser(props) {
              password: "",
              idlecturer: "",
              firstname: "",
-             lastname: ""
+             lastname: "",
            });
          })
          .catch(() => {
@@ -154,6 +154,7 @@ function AddUser(props) {
               <span className="text-lg font-bold">:</span>
               <div className="flex w-[50%] relative items-center">
                 <input
+                  type = "password"
                   placeholder="Password"
                   className={`w-full input ${cx("input")}`}
                   value={valuesForm.password}

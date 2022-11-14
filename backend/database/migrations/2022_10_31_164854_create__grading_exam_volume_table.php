@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('GradingExamVolume', function (Blueprint $table) {
             $table->integer('Year', false, true);
             $table->string('Semester',10);
-            $table->string('IdLecturer');
+            $table->string('IdLecturer',20);
             $table->integer('IdSubject', false, true);
             $table->string('TypeGE',10);
             //$table->tinyInteger('CreditGE',false,true);

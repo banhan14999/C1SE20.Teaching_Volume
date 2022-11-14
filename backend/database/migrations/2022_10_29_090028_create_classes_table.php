@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('Semester',10);
             $table->string('Grade',10);
             $table->integer('IdSubject',false,true);
-            $table->string('IdLecturer')->nullable();
+            $table->string('IdLecturer',20)->nullable();
             $table->string('TypeClass',20);
             $table->tinyInteger('CreditClass',false,true);
             $table->smallInteger('NumberOfStudent',false,true);

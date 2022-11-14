@@ -20,7 +20,9 @@ class ClassController extends Controller
      */
     public function index()
     {
-        $classes = Classes::all();
+        $classes = DB::table('classes')
+                  ->join('subjects', 'classes.IdSubject', '=', 'subjects.IdSubject')
+                  ->get();
         return response()->json([
             'status' => 200,
             'classes' => $classes,
