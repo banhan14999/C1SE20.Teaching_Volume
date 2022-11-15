@@ -12,6 +12,7 @@ function GradingVolume({ rows, setGrading,btn }) {
    const arr = rows.filter((value, index) => index !== Number(id));
    setGrading([...arr])
   }
+
   return (
     <div>
       <TableContainer component={Paper}>
@@ -34,9 +35,9 @@ function GradingVolume({ rows, setGrading,btn }) {
               <StyledTableCell align="center">Unit</StyledTableCell>
               <StyledTableCell align="center">Number</StyledTableCell>
               <StyledTableCell align="center">Coefficient</StyledTableCell>
-              {!btn &&
-              <StyledTableCell align="center">Action</StyledTableCell>
-              }
+              {btn !== "btn" && (
+                <StyledTableCell align="center">Action</StyledTableCell>
+              )}
             </TableRow>
           </TableHead>
           <TableBody>
@@ -63,16 +64,17 @@ function GradingVolume({ rows, setGrading,btn }) {
                   {row.coefficient}
                 </StyledTableCell>
 
-                {!btn && 
-                <StyledTableCell align="center">
-                  <div
-                    onClick={handleRemove}
-                    data-list={index}
-                    className="cursor-pointer"
-                  >
-                    <CgPlayListRemove className="text-[20px] text-[blue] text-center pointer-events-none" />
-                  </div>
-                </StyledTableCell>}
+                {btn !== "btn" && (
+                  <StyledTableCell align="center">
+                    <div
+                      onClick={handleRemove}
+                      data-list={index}
+                      className="cursor-pointer"
+                    >
+                      <CgPlayListRemove className="text-[20px] text-[blue] text-center pointer-events-none" />
+                    </div>
+                  </StyledTableCell>
+                )}
               </TableRow>
             ))}
           </TableBody>

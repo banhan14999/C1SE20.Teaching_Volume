@@ -22,7 +22,7 @@ function ManagerWorkload() {
     const [theoryClass,setTheoryClass] = useState([])
     const [exams, setExams] = useState([]);
     const [others, setOthers] = useState([]);
-
+  const [btnupdate,setBtnupdate]= useState(null)
     function createData(teaching,grading,project,exam,activities,examMonitor,advisor,timeScientific,total,status) {
     return { teaching,grading,project,exam,activities,examMonitor,advisor,timeScientific,total,status };
   }
@@ -40,10 +40,8 @@ function ManagerWorkload() {
       function createOther(activities, examMonitor, advisor, scientific) {
         return { activities, examMonitor, advisor, scientific };
       }
-
-  function handleupdate(){
-    setTotal([]);
-    if(semester && year && semester.value && year.value){
+      function data(){
+ if (semester && year && semester.value && year.value) {
       ApiTeachingVolume.Get(
         `volume/selfTotalDetail/idLecture/${idlecturer}/sem/${semester.value}/year/${year.value}`
       ).then((req) => {
@@ -60,6 +58,7 @@ function ManagerWorkload() {
             numberGE: e.NumberOfStudent,
             coefficient: e.Coefficient,
             coefficientGrade: e.Coefficient,
+            idSubject: e.IdSubject,
           };
         });
         setTheoryClass([...theory]);
@@ -76,6 +75,7 @@ function ManagerWorkload() {
             numberGE: e.numberGE,
             coefficient: e.CoefficientGradeExam,
             coefficientExam: e.CoefficientGradeExam,
+            idSubject: e.IdSubject,
           };
         });
         setExams([...exam]);
@@ -91,6 +91,16 @@ function ManagerWorkload() {
         ]);
       });
     }
+      }
+  function handleView() {
+    setTotal([]);
+   data()
+   setBtnupdate("btn")
+  }
+ function handleupdate(){
+    setTotal([]);
+    data()
+    setBtnupdate("update")
   }
   useEffect(() => {
     if (semester && year && semester.value && year.value) {
@@ -116,7 +126,7 @@ function ManagerWorkload() {
         }else{
           setTotal([])
           setExams([]);
-          setOthers([]);
+          setOthers([createOther(0,0,0,0)]);
           setTheoryClass([])
         }
       });
@@ -151,7 +161,7 @@ function ManagerWorkload() {
           theoryClass={theoryClass}
           exams={exams}
           others={others}
-          btn={others && "btn"}
+          btn={(exams.length > 0 && btnupdate) || (theoryClass.length > 0 && btnupdate)}
         ></FormSubject>
       )}
       {total && total.length !== 0 && (
@@ -194,13 +204,23 @@ function ManagerWorkload() {
                     <StyledTableCell>{row.total}</StyledTableCell>
                     <StyledTableCell>{row.status}</StyledTableCell>
                     <StyledTableCell>
-                      <p
-                        className="flex justify-around items-center cursor-pointer"
-                        onClick={handleupdate}
-                      >
-                        <TbListDetails />
-                        Detail
-                      </p>
+                      {row.status === "Waiting" ? (
+                        <p
+                          className="flex justify-around items-center cursor-pointer"
+                          onClick={handleView}
+                        >
+                          <TbListDetails />
+                          Detail
+                        </p>
+                      ) : (
+                        <p
+                          className="flex justify-around items-center cursor-pointer"
+                          onClick={handleupdate}
+                        >
+                          <TbListDetails />
+                          Update
+                        </p>
+                      )}
                     </StyledTableCell>
                   </TableRow>
                 ))}

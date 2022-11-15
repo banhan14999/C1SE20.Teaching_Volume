@@ -12,7 +12,6 @@ import ExamDetail from "./Form/LearnDetail";
 import { ApiTeachingVolume } from "../../../apis/axios";
 const cx = classNames.bind(styles);
 function FormSubject({ year, semester, theoryClass, exams, others, btn }) {
-  console.log(btn);
   const [count, setCount] = useState(1);
   const [form, setForm] = useState("Teaching Volume");
   const [renderAdd, setRenderAdd] = useState(false);
@@ -161,12 +160,18 @@ function FormSubject({ year, semester, theoryClass, exams, others, btn }) {
     "Teaching Volume": <TeachingVolume rows={teaching} />,
     "Project Volume": <ProjectVolume rows={projects} />,
     "Grading Volume": (
-      <GradingVolume rows={Grading && theoryClass} setGrading={setGrading} btn={btn}/>
+      <GradingVolume rows={ Grading } setGrading={setGrading} btn={btn}/>
     ),
-    "Exam Volume": <ExamVolume rows={examvo && exams} setExamvo={setExamvo} btn={btn}/>,
-    Other: <Other rows={valueOther && others} onClick={handleAdd} />,
+    "Exam Volume": <ExamVolume rows={  examvo} setExamvo={setExamvo} btn={btn}/>,
+    Other: <Other rows={ valueOther} onClick={handleAdd} />,
   };
-
+  useEffect(() => {
+   if(btn){
+     setGrading([...theoryClass]);
+     setExamvo([...exams]);
+     setValueOther([...others]);
+   }
+  }, [btn]);
   function handleNext(e) {
     setCount((prev) => prev + 1);
     if (count === 5) {
@@ -191,27 +196,48 @@ function FormSubject({ year, semester, theoryClass, exams, others, btn }) {
   }, [count]);
 
   function handleSubmitForm() {
-    const obj = {
-      data: {
-        idLecturer: idLecturer,
-        year: Number(year),
-        semester: semester,
-        teaching: teachingapi,
-        project: pros,
-        grading: Grading,
-        exam: examvo,
-        other: valueOther[0],
-      },
-    };
-    ApiTeachingVolume.Post("/volume/total", obj)
-      .then((res) => {
-        alert("Thanh cong");
-      })
-      .catch((err) => {
-        alert("loi");
-      });
+    if(btn === "btn"){
+      const obj = {
+        data: {
+          idLecturer: idLecturer,
+          year: Number(year),
+          semester: semester,
+          teaching: teachingapi,
+          project: pros,
+          grading: Grading,
+          exam:  examvo,
+          other: valueOther[0] ,
+        },
+      };
+      ApiTeachingVolume.Post("/volume/total", obj)
+        .then((res) => {
+          alert("Thanh cong");
+        })
+        .catch((err) => {
+          alert("loi");
+        });
+    }else if(btn==="update"){
+      const obj = {
+        data: {
+          idLecturer: idLecturer,
+          year: Number(year),
+          semester: semester,
+          teaching: teachingapi,
+          project: pros,
+          grading: theoryClass || Grading,
+          exam: exams || examvo,
+          other: (btn && others[0]) || valueOther[0],
+        },
+      };
+      ApiTeachingVolume.Put("/volume/update", obj)
+        .then((res) => {
+          alert("Thanh cong");
+        })
+        .catch((err) => {
+          alert("loi");
+        });
+    }
   }
-
   return (
     <div className={cx("form")}>
       <div className={cx("nav_form")}>
@@ -234,7 +260,7 @@ function FormSubject({ year, semester, theoryClass, exams, others, btn }) {
       {obj[form]}
       <div className="mt-[20px] flex justify-end">
         <div className="mr-10">
-          {!btn &&
+          {btn !== "btn" &&
           form !== "Teaching Volume" &&
           form !== "Project Volume" &&
           form !== "Other" ? (
@@ -268,7 +294,7 @@ function FormSubject({ year, semester, theoryClass, exams, others, btn }) {
               Next
             </Button>
           )}
-          {!btn && form === "Other" && (
+          {form === "Other" && (
             <Button
               width="150px"
               bgcolor="red"
