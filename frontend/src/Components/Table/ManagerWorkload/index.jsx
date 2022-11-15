@@ -26,6 +26,7 @@ function ManagerWorkload() {
     function createData(teaching,grading,project,exam,activities,examMonitor,advisor,timeScientific,total,status) {
     return { teaching,grading,project,exam,activities,examMonitor,advisor,timeScientific,total,status };
   }
+  const idlecturer = JSON.parse(localStorage.getItem("IdLecturer"));
     const opt = [
       { value: "2022", label: "2021-2022" },
       { value: "2023", label: "2022-2023" },
@@ -44,44 +45,51 @@ function ManagerWorkload() {
     setTotal([]);
     if(semester && year && semester.value && year.value){
       ApiTeachingVolume.Get(
-        `volume/selfTotalDetail/idLecture/1232569800/sem/${semester.value}/year/${year.value}`
-      ).then(req=>{
-       const theory =  req.theoryClass.map((e,index)=>{
-            return {
-              stt: index + 1,
-              letter: e.Letter,
-              numbercode: e.Number,
-              subject: e.SubjectName,
-              type: e.Type,
-              semester: e.Semester,
-              time: e.TimeTeaching,
-              unit: e.Unit,
-              numberGE: e.NumberOfStudent,
-              coefficient: e.Coefficient,
-              coefficientGrade: e.Coefficient,
-            };
-        })
+        `volume/selfTotalDetail/idLecture/${idlecturer}/sem/${semester.value}/year/${year.value}`
+      ).then((req) => {
+        const theory = req.theoryClass.map((e, index) => {
+          return {
+            stt: index + 1,
+            letter: e.Letter,
+            numbercode: e.Number,
+            subject: e.SubjectName,
+            type: e.Type,
+            semester: e.Semester,
+            time: e.TimeTeaching,
+            unit: e.Unit,
+            numberGE: e.NumberOfStudent,
+            coefficient: e.Coefficient,
+            coefficientGrade: e.Coefficient,
+          };
+        });
         setTheoryClass([...theory]);
-        const exam = req.exams.map((e,index)=>{
-           return {
-            stt:index+1,
-             letter: e.Letter,
-             numbercode: e.Number,
-             subject: e.SubjectName,
-             type: e.Type,
-             semester: e.Semester,
-             time: e.Time,
-             unit: e.Unit,
-             numberGE: e.numberGE,
-             coefficient: e.CoefficientGradeExam,
-             coefficientExam: e.CoefficientGradeExam,
-           };
-        })
+        const exam = req.exams.map((e, index) => {
+          return {
+            stt: index + 1,
+            letter: e.Letter,
+            numbercode: e.Number,
+            subject: e.SubjectName,
+            type: e.Type,
+            semester: e.Semester,
+            time: e.Time,
+            unit: e.Unit,
+            numberGE: e.numberGE,
+            coefficient: e.CoefficientGradeExam,
+            coefficientExam: e.CoefficientGradeExam,
+          };
+        });
         setExams([...exam]);
-        setOthers([...req.others.map((e)=>{
-          return createOther(e.ActivitiesVolume, e.ExamMonitorVolume,e.AdvisorVolume,e.TimeScientificVolume);
-        })]);
-      })
+        setOthers([
+          ...req.others.map((e) => {
+            return createOther(
+              e.ActivitiesVolume,
+              e.ExamMonitorVolume,
+              e.AdvisorVolume,
+              e.TimeScientificVolume
+            );
+          }),
+        ]);
+      });
     }
   }
   useEffect(() => {
@@ -107,10 +115,13 @@ function ManagerWorkload() {
           setTotal([...arr]);
         }else{
           setTotal([])
+          setExams([]);
+          setOthers([]);
+          setTheoryClass([])
         }
       });
     }
-  }, [semester, year]);
+  }, [semester && semester.value, year && year.value]);
   return (
     <>
       <div className={cx("option")}>
@@ -140,6 +151,7 @@ function ManagerWorkload() {
           theoryClass={theoryClass}
           exams={exams}
           others={others}
+          btn={others && "btn"}
         ></FormSubject>
       )}
       {total && total.length !== 0 && (

@@ -125,6 +125,8 @@ useEffect(() => {
    }, []);
     const datas = {
       data: {
+        year:year.value,
+        semester:semester.value,
         idLecturer: arr[0]["idLecturer"],
         idClassAdd: [...idClassAdd],
         idClassRemove: [...idClassRemove],

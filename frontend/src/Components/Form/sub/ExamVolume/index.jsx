@@ -7,7 +7,8 @@ import Paper from "@mui/material/Paper";
 import StyledTableCell from "../../../StyledTableCell";
 import { CgPlayListRemove } from "react-icons/cg";
 
-function ExamVolume({ rows, setExamvo }) {
+function ExamVolume({ rows, setExamvo,btn }) {
+  console.log(btn);
   function handleRemove(e) {
     const stt = e.target.dataset.list;
     const arr = rows.filter((value) => value.stt !== Number(stt));
@@ -35,7 +36,8 @@ function ExamVolume({ rows, setExamvo }) {
               <StyledTableCell align="center">Unit</StyledTableCell>
               <StyledTableCell align="center">Number</StyledTableCell>
               <StyledTableCell align="center">Coefficient</StyledTableCell>
-              <StyledTableCell align="center">Action</StyledTableCell>
+              {!btn &&<StyledTableCell align="center">Action</StyledTableCell>
+              }
             </TableRow>
           </TableHead>
           <TableBody>
@@ -61,15 +63,16 @@ function ExamVolume({ rows, setExamvo }) {
                 <StyledTableCell align="center">
                   {row.coefficient}
                 </StyledTableCell>
-                  <StyledTableCell align="center">
-                    <div
-                      onClick={handleRemove}
-                      data-list={row.stt}
-                      className="cursor-pointer"
-                    >
-                      <CgPlayListRemove className="text-[20px] text-[blue] text-center pointer-events-none" />
-                    </div>
-                  </StyledTableCell>
+                {!btn &&
+                <StyledTableCell align="center">
+                  <div
+                    onClick={handleRemove}
+                    data-list={row.stt}
+                    className="cursor-pointer"
+                  >
+                    <CgPlayListRemove className="text-[20px] text-[blue] text-center pointer-events-none" />
+                  </div>
+                </StyledTableCell>}
               </TableRow>
             ))}
           </TableBody>

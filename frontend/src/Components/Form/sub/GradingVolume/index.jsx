@@ -6,7 +6,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import StyledTableCell from "../../../StyledTableCell";
 import {CgPlayListRemove} from "react-icons/cg"
-function GradingVolume({ rows, setGrading }) {
+function GradingVolume({ rows, setGrading,btn }) {
   function handleRemove(e) {
     const id = e.target.dataset.list;
    const arr = rows.filter((value, index) => index !== Number(id));
@@ -34,7 +34,9 @@ function GradingVolume({ rows, setGrading }) {
               <StyledTableCell align="center">Unit</StyledTableCell>
               <StyledTableCell align="center">Number</StyledTableCell>
               <StyledTableCell align="center">Coefficient</StyledTableCell>
+              {!btn &&
               <StyledTableCell align="center">Action</StyledTableCell>
+              }
             </TableRow>
           </TableHead>
           <TableBody>
@@ -60,6 +62,8 @@ function GradingVolume({ rows, setGrading }) {
                 <StyledTableCell align="center">
                   {row.coefficient}
                 </StyledTableCell>
+
+                {!btn && 
                 <StyledTableCell align="center">
                   <div
                     onClick={handleRemove}
@@ -68,7 +72,7 @@ function GradingVolume({ rows, setGrading }) {
                   >
                     <CgPlayListRemove className="text-[20px] text-[blue] text-center pointer-events-none" />
                   </div>
-                </StyledTableCell>
+                </StyledTableCell>}
               </TableRow>
             ))}
           </TableBody>

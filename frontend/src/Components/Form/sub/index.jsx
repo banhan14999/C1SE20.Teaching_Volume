@@ -11,7 +11,8 @@ import OtherDetail from "./Form/OtherDetail";
 import ExamDetail from "./Form/LearnDetail";
 import { ApiTeachingVolume } from "../../../apis/axios";
 const cx = classNames.bind(styles);
-function FormSubject({ year, semester,theoryClass,exams,others }) {
+function FormSubject({ year, semester, theoryClass, exams, others, btn }) {
+  console.log(btn);
   const [count, setCount] = useState(1);
   const [form, setForm] = useState("Teaching Volume");
   const [renderAdd, setRenderAdd] = useState(false);
@@ -20,7 +21,7 @@ function FormSubject({ year, semester,theoryClass,exams,others }) {
   const [projects, setProjects] = useState([]);
   const [Grading, setGrading] = useState([]);
   const [examvo, setExamvo] = useState([]);
-  const [pros, setPros] = useState([])
+  const [pros, setPros] = useState([]);
   const [valueOther, setValueOther] = useState([createOther(0, 0, 0, 0)]);
   const [teachingapi, setTeachingApi] = useState([]);
 
@@ -76,8 +77,9 @@ function FormSubject({ year, semester,theoryClass,exams,others }) {
       coefficient,
     };
   }
+
   useEffect(() => {
-    if (idLecturer && semester && year ) {
+    if (idLecturer && semester && year) {
       ApiTeachingVolume.Get(
         `/class/theoryClass/${idLecturer}/semester/${semester}/year/${year}`
       ).then((req) => {
@@ -94,7 +96,7 @@ function FormSubject({ year, semester,theoryClass,exams,others }) {
             value.SubjectCoefficient,
             value.TimeTeaching
           );
-        },);
+        });
         setTeaching([...arr]);
       });
       ApiTeachingVolume.Get(
@@ -125,9 +127,8 @@ function FormSubject({ year, semester,theoryClass,exams,others }) {
             },
           ];
         }, []);
-        setPros([...arrs])
+        setPros([...arrs]);
       });
-      
     }
   }, [idLecturer, semester, year]);
   useEffect(() => {
@@ -143,7 +144,7 @@ function FormSubject({ year, semester,theoryClass,exams,others }) {
     }, []);
     setTeachingApi([...arr]);
   }, [teaching]);
-  
+
   function createOther(activities, examMonitor, advisor, scientific) {
     return { activities, examMonitor, advisor, scientific };
   }
@@ -159,8 +160,10 @@ function FormSubject({ year, semester,theoryClass,exams,others }) {
   const obj = {
     "Teaching Volume": <TeachingVolume rows={teaching} />,
     "Project Volume": <ProjectVolume rows={projects} />,
-    "Grading Volume": <GradingVolume rows={Grading && theoryClass} setGrading={setGrading} />,
-    "Exam Volume": <ExamVolume rows={examvo && exams} setExamvo ={setExamvo}/>,
+    "Grading Volume": (
+      <GradingVolume rows={Grading && theoryClass} setGrading={setGrading} btn={btn}/>
+    ),
+    "Exam Volume": <ExamVolume rows={examvo && exams} setExamvo={setExamvo} btn={btn}/>,
     Other: <Other rows={valueOther && others} onClick={handleAdd} />,
   };
 
@@ -209,8 +212,6 @@ function FormSubject({ year, semester,theoryClass,exams,others }) {
       });
   }
 
-
-
   return (
     <div className={cx("form")}>
       <div className={cx("nav_form")}>
@@ -233,7 +234,8 @@ function FormSubject({ year, semester,theoryClass,exams,others }) {
       {obj[form]}
       <div className="mt-[20px] flex justify-end">
         <div className="mr-10">
-          {form !== "Teaching Volume" &&
+          {!btn &&
+          form !== "Teaching Volume" &&
           form !== "Project Volume" &&
           form !== "Other" ? (
             <p className="w-[150px]" onClick={handleAdd} data-add={form}>
@@ -266,7 +268,7 @@ function FormSubject({ year, semester,theoryClass,exams,others }) {
               Next
             </Button>
           )}
-          {form === "Other" && (
+          {!btn && form === "Other" && (
             <Button
               width="150px"
               bgcolor="red"
