@@ -11,7 +11,7 @@ import OtherDetail from "./Form/OtherDetail";
 import ExamDetail from "./Form/LearnDetail";
 import { ApiTeachingVolume } from "../../../apis/axios";
 const cx = classNames.bind(styles);
-function FormSubject({ year, semester, theoryClass, exams, others, btn }) {
+function FormSubject({ year, semester, theoryClass, exams, others, btn,title,idLec }) {
   const [count, setCount] = useState(1);
   const [form, setForm] = useState("Teaching Volume");
   const [renderAdd, setRenderAdd] = useState(false);
@@ -171,7 +171,7 @@ function FormSubject({ year, semester, theoryClass, exams, others, btn }) {
      setExamvo([...exams]);
      setValueOther([...others]);
    }
-  }, [btn]);
+  }, [btn,theoryClass,exams,others]);
   function handleNext(e) {
     setCount((prev) => prev + 1);
     if (count === 5) {
@@ -219,7 +219,7 @@ function FormSubject({ year, semester, theoryClass, exams, others, btn }) {
     }else if(btn==="update"){
       const obj = {
         data: {
-          idLecturer: idLecturer,
+          idLecturer: idLec || idLecturer,
           year: Number(year),
           semester: semester,
           teaching: teachingapi,
@@ -240,6 +240,7 @@ function FormSubject({ year, semester, theoryClass, exams, others, btn }) {
   }
   return (
     <div className={cx("form")}>
+      <h2 className="text-[25px] text-center mb-3">{title}</h2>
       <div className={cx("nav_form")}>
         <ul onClick={handleClick}>
           <li className={`${form === "Teaching Volume" && "!bg-red-800"}`}>
@@ -260,7 +261,7 @@ function FormSubject({ year, semester, theoryClass, exams, others, btn }) {
       {obj[form]}
       <div className="mt-[20px] flex justify-end">
         <div className="mr-10">
-          {btn !== "btn" &&
+          {btn !== "view" &&
           form !== "Teaching Volume" &&
           form !== "Project Volume" &&
           form !== "Other" ? (
@@ -294,7 +295,7 @@ function FormSubject({ year, semester, theoryClass, exams, others, btn }) {
               Next
             </Button>
           )}
-          {form === "Other" && (
+          {btn !== "view" && form === "Other" && (
             <Button
               width="150px"
               bgcolor="red"

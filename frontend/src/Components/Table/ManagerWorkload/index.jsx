@@ -22,7 +22,7 @@ function ManagerWorkload() {
     const [theoryClass,setTheoryClass] = useState([])
     const [exams, setExams] = useState([]);
     const [others, setOthers] = useState([]);
-  const [btnupdate,setBtnupdate]= useState(null)
+  const [btnupdate,setBtnupdate]= useState("btn")
     function createData(teaching,grading,project,exam,activities,examMonitor,advisor,timeScientific,total,status) {
     return { teaching,grading,project,exam,activities,examMonitor,advisor,timeScientific,total,status };
   }
@@ -93,9 +93,9 @@ function ManagerWorkload() {
     }
       }
   function handleView() {
-    setTotal([]);
+  setTotal([]);
    data()
-   setBtnupdate("btn")
+   setBtnupdate("view")
   }
  function handleupdate(){
     setTotal([]);
@@ -103,7 +103,7 @@ function ManagerWorkload() {
     setBtnupdate("update")
   }
   useEffect(() => {
-    if (semester && year && semester.value && year.value) {
+    if (semester && year) {
       ApiTeachingVolume.Get(
         `volume/checkExist/sem/${semester.value}/year/${year.value}`
       ).then((res) => {
@@ -131,7 +131,7 @@ function ManagerWorkload() {
         }
       });
     }
-  }, [semester && semester.value, year && year.value]);
+  }, [semester , year ]);
   return (
     <>
       <div className={cx("option")}>
@@ -161,7 +161,7 @@ function ManagerWorkload() {
           theoryClass={theoryClass}
           exams={exams}
           others={others}
-          btn={(exams.length > 0 && btnupdate) || (theoryClass.length > 0 && btnupdate)}
+          btn={btnupdate}
         ></FormSubject>
       )}
       {total && total.length !== 0 && (
@@ -204,21 +204,21 @@ function ManagerWorkload() {
                     <StyledTableCell>{row.total}</StyledTableCell>
                     <StyledTableCell>{row.status}</StyledTableCell>
                     <StyledTableCell>
-                      {row.status === "Waiting" ? (
-                        <p
-                          className="flex justify-around items-center cursor-pointer"
-                          onClick={handleView}
-                        >
-                          <TbListDetails />
-                          Detail
-                        </p>
-                      ) : (
+                      {row.status === "Decline" ? (
                         <p
                           className="flex justify-around items-center cursor-pointer"
                           onClick={handleupdate}
                         >
                           <TbListDetails />
                           Update
+                        </p>
+                      ) : (
+                        <p
+                          className="flex justify-around items-center cursor-pointer"
+                          onClick={handleView}
+                        >
+                          <TbListDetails />
+                          Detail
                         </p>
                       )}
                     </StyledTableCell>

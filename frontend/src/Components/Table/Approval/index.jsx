@@ -13,13 +13,21 @@ import styles from "./approval.module.scss"
 import SelectForm from "../../SelectForm";
 import StyledTableCell from "../../StyledTableCell";
 import { ApiTeachingVolume } from "../../../apis/axios";
+import FormSubject from "../../Form/sub"
+
 const cx  = classNames.bind(styles)
 
 function Approval() {
     const [continues, setContinues] = useState(false);
     const [dataApproval,setDataApproval] = useState([])
+    const [approvalForm,setApprovalForm] = useState()
   const [year, setYear] = useState(null);
   const [semester, setSemester] = useState(null);
+   const [theoryClass, setTheoryClass] = useState([]);
+   const [exams, setExams] = useState([]);
+   const [others, setOthers] = useState([]);
+  // const idlecturer = JSON.parse(localStorage.getItem("IdLecturer"));
+
     const opt = [
       { value: "2022", label: "2021-2022" },
       { value: "2023", label: "2022-2023" },
@@ -30,17 +38,70 @@ function Approval() {
       { value: "2", label: "Học Kỳ II" },
       { value: "3", label: "Học Hè" },
     ];
+     function data(id) {
+       if (semester && year && semester.value && year.value) {
+         ApiTeachingVolume.Get(
+           `volume/selfTotalDetail/idLecture/${id}/sem/${semester.value}/year/${year.value}`
+         ).then((req) => {
+           const theory = req.theoryClass.map((e, index) => {
+             return {
+               stt: index + 1,
+               letter: e.Letter,
+               numbercode: e.Number,
+               subject: e.SubjectName,
+               type: e.Type,
+               semester: e.Semester,
+               time: e.TimeTeaching,
+               unit: e.Unit,
+               numberGE: e.NumberOfStudent,
+               coefficient: e.Coefficient,
+               coefficientGrade: e.Coefficient,
+               idSubject: e.IdSubject,
+             };
+           });
+           setTheoryClass([...theory]);
+           const exam = req.exams.map((e, index) => {
+             return {
+               stt: index + 1,
+               letter: e.Letter,
+               numbercode: e.Number,
+               subject: e.SubjectName,
+               type: e.Type,
+               semester: e.Semester,
+               time: e.Time,
+               unit: e.Unit,
+               numberGE: e.numberGE,
+               coefficient: e.CoefficientGradeExam,
+               coefficientExam: e.CoefficientGradeExam,
+               idSubject: e.IdSubject,
+             };
+           });
+           setExams([...exam]);
+           setOthers([
+             ...req.others.map((e) => {
+               return createOther(
+                 e.ActivitiesVolume,
+                 e.ExamMonitorVolume,
+                 e.AdvisorVolume,
+                 e.TimeScientificVolume
+               );
+             }),
+           ]);
+         });
+       }
+     }
       function createData(code, fullname, title, status) {
         return { code, fullname, title, status };
       }
-
+    function createOther(activities, examMonitor, advisor, scientific) {
+      return { activities, examMonitor, advisor, scientific };
+    }
       useEffect(() => {
         if (semester && semester.value && year && year.value){
           ApiTeachingVolume.Get(
             `/volume/totalByDean/sem/${semester.value}/year/${year.value}`
           )
             .then((res) => {
-              console.log(res);
               if (res.status === 200 && res.totalVols && res.totalVols.length >0) {
                 const arr = res.totalVols.map((value) => {
                   return createData(
@@ -61,6 +122,82 @@ function Approval() {
             });
         }
       }, [semester, year]);
+   
+function hanldeDetail(e){
+  const id = e.target.dataset.id;
+  data(id);
+  setApprovalForm(
+    <FormSubject
+      title={id}
+      year={year.value}
+      semester={semester.value}
+      theoryClass={theoryClass}
+      exams={exams}
+      others={others}
+      idLec = {id}
+      btn="view"
+    />
+  );
+}
+function hanldeAccept(e){
+  const id = e.target.parentElement.dataset.id;
+   if (semester && id && year) {
+     ApiTeachingVolume.Put(
+       `volume/approval/idLec/${id}/sem/${semester.value}/year/${year.value}`,
+       {}
+     );
+      if (semester && semester.value && year && year.value) {
+        ApiTeachingVolume.Get(
+          `/volume/totalByDean/sem/${semester.value}/year/${year.value}`
+        )
+          .then((res) => {
+            if (
+              res.status === 200 &&
+              res.totalVols &&
+              res.totalVols.length > 0
+            ) {
+              const arr = res.totalVols.map((value) => {
+                return createData(
+                  value.IdLecturer,
+                  value.LastName + " " + value.FirstName,
+                  "What What",
+                  value.Status
+                );
+              });
+              setDataApproval([...arr]);
+            } 
+          })
+      }
+   }
+}
+function hanldeUndo(e){
+  const id = e.target.parentElement.dataset.id;
+    if(semester && id && year){
+      ApiTeachingVolume.Put(`volume/decline/idLec/${id}/sem/${semester.value}/year/${year.value}`,{});
+       if (semester && semester.value && year && year.value) {
+         ApiTeachingVolume.Get(
+           `/volume/totalByDean/sem/${semester.value}/year/${year.value}`
+         )
+           .then((res) => {
+             if (
+               res.status === 200 &&
+               res.totalVols &&
+               res.totalVols.length > 0
+             ) {
+               const arr = res.totalVols.map((value) => {
+                 return createData(
+                   value.IdLecturer,
+                   value.LastName + " " + value.FirstName,
+                   "What What",
+                   value.Status
+                 );
+               });
+               setDataApproval([...arr]);
+             } 
+           })
+       }
+    }
+}
     return (
       <div className="w-[726px]">
         <div className={cx("option")}>
@@ -112,29 +249,57 @@ function Approval() {
                     <StyledTableCell align="center">
                       {row.title}
                     </StyledTableCell>
-                    <StyledTableCell align="center" style={{color: "yellow" }}>
+                    <StyledTableCell
+                      align="center"
+                      style={{
+                        color:
+                          row.status === "Waiting"
+                            ? "yellow"
+                            : row.status === "Accept"
+                            ? "green"
+                            : "gray",
+                      }}
+                    >
                       {row.status}
                     </StyledTableCell>
                     <StyledTableCell>
                       <div className="flex justify-around items-center">
-                        {row.status === "Done" && (
-                          <>
-                            <BiMessageDetail className="text-[16px]" />
-                            <TbListDetails className="text-orange-600 text-[16px]" />
-                          </>
+                        {row.status === "Approved" && (
+                          <p
+                            className="flex justify-around items-center "
+                            data-id={row.code}
+                          >
+                            <BiMessageDetail
+                              className="text-[16px] cursor-pointer"
+                              onClick={hanldeUndo}
+                              data-id={row.code}
+                            />
+                          </p>
                         )}
                         {row.status === "Waiting" && (
-                          <>
-                            <BiMessageDetail className="text-[16px]" />
-                            <AiFillCheckCircle className="text-green-600 text-[16px]" />
-                            <TbListDetails className="text-orange-600 text-[16px]" />
-                          </>
+                          <p
+                            className="flex  items-center justify-around w-[66%]"
+                            data-id={row.code}
+                          >
+                            <BiMessageDetail
+                              className="text-[16px] cursor-pointer"
+                              onClick={hanldeUndo}
+                              data-id={row.code}
+                            />
+                            <AiFillCheckCircle
+                              className="text-green-600 text-[16px] cursor-pointer"
+                              onClick={hanldeAccept}
+                              data-id={row.code}
+                            />
+                          </p>
                         )}
-                        {row.status === "Revoke" && (
-                          <>
-                            <TbListDetails className="text-orange-600 text-[16px]" />
-                          </>
-                        )}
+                        <p data-id={row.code}>
+                          <TbListDetails
+                            className="text-orange-600 text-[16px] cursor-pointer"
+                            onClick={hanldeDetail}
+                            data-id={row.code}
+                          />
+                        </p>
                       </div>
                     </StyledTableCell>
                   </TableRow>
@@ -143,6 +308,7 @@ function Approval() {
             </Table>
           </TableContainer>
         )}
+        {approvalForm}
       </div>
     );
 }
