@@ -6,15 +6,12 @@ import { SiWebpack, SiGoogleclassroom, SiManageiq } from "react-icons/si";
 import { MdSubject, MdManageAccounts, MdAssignmentInd } from "react-icons/md";
 import { RiVoiceRecognitionFill } from "react-icons/ri";
 import { GiManacles } from "react-icons/gi";
-import { Link, Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import Tippy from "@tippyjs/react";
 import classNames from "classnames/bind";
-
 import styles from "./nav.module.scss";
 import NavLeft from "./Nav";
-import { ApiTeachingVolume } from "../../apis/axios";
 import axios from "axios";
-import { useEffect } from "react";
 
 const cx = classNames.bind(styles);
 
@@ -102,7 +99,7 @@ function HandleLogout(){
       </div>
       <div className="flex border-r-[1px] border-[#D5D5D5] border-solid">
         <NavLeft></NavLeft>
-        <div className="prints w-[726px] mb-3 ">
+        <div className="w-[726px] mb-3 ">
           <Outlet></Outlet>
         </div>
       </div>

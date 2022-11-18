@@ -59,15 +59,17 @@ function ViewReport() {
             </span>
           </div>
         </div>
-        <div className="flex  justify-end  mb-[10px] ">
-          <span
-            className="cursor-pointer text-[22px] flex items-center"
-            onClick={handleprint}
-          >
-            <AiFillPrinter />
-            Print
-          </span>
-        </div>
+        {year && semester && (
+          <div className="flex  justify-end  mb-[10px] ">
+            <span
+              className="cursor-pointer text-[22px] flex items-center"
+              onClick={handleprint}
+            >
+              <AiFillPrinter />
+              Print
+            </span>
+          </div>
+        )}
         {year && semester && semester.value !== "4" ? (
           <ViewSemester
             year={year.value}
@@ -84,7 +86,6 @@ function ViewReport() {
             ></ViewTable>
           )
         )}
-       
       </div>
     );
 }

@@ -134,7 +134,7 @@ const [valuesForm, setValuesForm] = useState({
       });
     }
   }, [ data, props.btn]);
-  
+  console.log(props.title);
     return (
       <div className={cx("form")}>
         <div className={cx("line")}>
@@ -265,7 +265,7 @@ const [valuesForm, setValuesForm] = useState({
               <input
                 placeholder="Number Of Student"
                 className="w-1/2 input"
-                disabled={props.btn === "Detail" ? true : false}
+                disabled={props.title ? true : false}
                 value={valuesForm.numberOfStudent || ""}
                 onChange={(e) => {
                   setValuesForm({
@@ -283,7 +283,7 @@ const [valuesForm, setValuesForm] = useState({
               <input
                 placeholder="Subject Coefficient"
                 className="w-1/2 input"
-                disabled={props.btn === "Detail" ? true : false}
+                disabled={props.title ? true : false}
                 value={valuesForm.subjectCoefficient || ""}
                 onChange={(e) => {
                   setValuesForm({

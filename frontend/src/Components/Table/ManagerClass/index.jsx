@@ -26,6 +26,8 @@ function ManagerClass(props) {
   const navigate = useNavigate();
   const dispath = useDispatch();
   const [classad, setClassAd] = useState([]);
+  const [title, setTitle] = useState("");
+
   const [data, setData] = useState([]);
   const opt = [
     { value: "2022", label: "2021-2022" },
@@ -45,17 +47,24 @@ function selectValue(s,arr) {
   const handleUpdate = (e) => {
     const classid = e.target.dataset.update;
     let arr = data.filter((value) => value.IdClass === classid);
-    dispath(SetUpdate("Update class"));
+    // dispath(SetUpdate("Update class"));
+    setTitle("");
     dispath(DataUpdate(arr));
     navigate(classid);
   };
   function handleDelete(e) {
-    const id = e.target.dataset.delete;
-    ApiTeachingVolume.Delete("/class/delete/", id);
-    const arr = classad.filter((value) => {
-      return value.ClassID !== id;
-    });
-    setClassAd([...arr]);
+    const classid = e.target.dataset.delete;
+    if(e.target.textContent === "Detail"){
+        // dispath(SetUpdate("Detail"));
+        setTitle("Detail class")
+        dispath(DataUpdate(data));
+        navigate(classid);
+    }
+    // ApiTeachingVolume.Delete("/class/delete/", id);
+    // const arr = classad.filter((value) => {
+    //   return value.ClassID !== id;
+    // });
+    // setClassAd([...arr]);
   }
   
   function createData(ClassID,ClassName,Subject,Student,Type,Credit,Coefficient,Action) {
@@ -71,36 +80,39 @@ useEffect(()=>{
   }
 },[year,semester])
 const years = JSON.parse(localStorage.getItem("year"));
-  useEffect(() => {
-    if(semester && semester.value && year && year.value ){
-      ApiTeachingVolume.Get(`class/all`).then((req) => {
-        setData([...req.classes]);
-        const arr = req.classes
-          .map((value) => {
-            return createData(
-              value.IdClass,
-              value.Letter + " " + value.Number,
-              value.SubjectName,
-              value.NumberOfStudent,
-              value.TypeClass,
-              value.CreditClass,
-              value.SubjectCoefficient
-            );
-          })
-          .filter((value) => {
-            return value;
-          });
-        setClassAd([...arr]);
-      });}
-  }, [param.id,year,semester]);
+const idlec = JSON.parse(localStorage.getItem("IdLecturer"));
+const ad = JSON.parse(localStorage.getItem("Admin"));
+
+useEffect(() => {
+  if (semester && semester.value && year && year.value) {
+    const str =
+      (ad && "class/all") ||
+      `class/lecturer/${idlec}/semester/${semester.value}/year/${year.value}`;
+    ApiTeachingVolume.Get(str).then((req) => {
+      setData([...req.classes]);
+      const arr = req.classes
+        .map((value) => {
+          return createData(
+            value.IdClass,
+            value.Letter + " " + value.Number,
+            value.SubjectName,
+            value.NumberOfStudent,
+            value.TypeClass,
+            value.CreditClass,
+            value.SubjectCoefficient
+          );
+        })
+        .filter((value) => {
+          return value;
+        });
+      setClassAd([...arr]);
+    });
+  }
+}, [param.id, year, semester, ad, idlec]);
   return (
     <div className="w-[726px]">
       {param.id ? (
-        <ClassInformation
-          btn="Update"
-          disabled={true}
-          title="Updata Information"
-        />
+        <ClassInformation btn="Update" disabled={true} title={title} />
       ) : (
         <div className="container">
           <div className={cx("option")}>

@@ -5,7 +5,7 @@ import SelectForm from "../../../../SelectForm";
 import { useEffect, useState } from "react";
 import { ApiTeachingVolume } from "../../../../../apis/axios";
 const cx = classNames.bind(styles);
-function ExamDetail({ setRenderAdd, setGrading, setExamvo, Semester, length }) {
+function ExamDetail({ setRenderAdd, setGrading, setExamvo, Semester, length,title }) {
   const [subject, setSubject] = useState();
   const [type, setType] = useState();
   const [subjectop, setSubjectop] = useState([]);
@@ -129,7 +129,7 @@ function ExamDetail({ setRenderAdd, setGrading, setExamvo, Semester, length }) {
   return (
     <div className={cx("form")}>
       <div className={cx("line")}>
-        <h2 className="text-xl font-semibold">{"Exam Detail"}</h2>
+        <h2 className="text-xl font-semibold">{title||"Exam Detail"}</h2>
       </div>
       <div className="p-5">
         <form action="">
