@@ -26,6 +26,8 @@ function ManagerClass(props) {
   const navigate = useNavigate();
   const dispath = useDispatch();
   const [classad, setClassAd] = useState([]);
+  const [title, setTitle] = useState("");
+
   const [data, setData] = useState([]);
   const opt = [
     { value: "2022", label: "2021-2022" },
@@ -45,14 +47,16 @@ function selectValue(s,arr) {
   const handleUpdate = (e) => {
     const classid = e.target.dataset.update;
     let arr = data.filter((value) => value.IdClass === classid);
-    dispath(SetUpdate("Update class"));
+    // dispath(SetUpdate("Update class"));
+    setTitle("Update class");
     dispath(DataUpdate(arr));
     navigate(classid);
   };
   function handleDelete(e) {
     const classid = e.target.dataset.delete;
     if(e.target.textContent === "Detail"){
-        dispath(SetUpdate("Detail"));
+        // dispath(SetUpdate("Detail"));
+        setTitle("Detail class")
         dispath(DataUpdate(data));
         navigate(classid);
     }
@@ -108,11 +112,7 @@ useEffect(() => {
   return (
     <div className="w-[726px]">
       {param.id ? (
-        <ClassInformation
-          btn="Update"
-          disabled={true}
-          title="Updata Information"
-        />
+        <ClassInformation btn="Update" disabled={true} title={title} />
       ) : (
         <div className="container">
           <div className={cx("option")}>
