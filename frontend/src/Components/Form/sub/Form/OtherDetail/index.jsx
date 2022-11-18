@@ -33,11 +33,14 @@ function OtherDetail({ setRenderAdd, setValueOther }) {
             <span className="text-lg font-bold">:</span>
             <div className="flex w-[55%] relative items-center">
               <input
-                placeholder="Letter"
+                placeholder="Activities"
                 className={`w-full input ${cx("input")} `}
                 value={valueForm.activities || ""}
                 onChange={(e) => {
-                  setValueForm({ ...valueForm, activities: Number(e.target.value) });
+                  setValueForm({
+                    ...valueForm,
+                    activities: Number(e.target.value),
+                  });
                 }}
               ></input>
             </div>
@@ -49,11 +52,14 @@ function OtherDetail({ setRenderAdd, setValueOther }) {
             <span className="text-lg font-bold">:</span>
             <div className="flex w-[55%] relative items-center">
               <input
-                placeholder="Number"
+                placeholder="Exam monitor"
                 className={`w-full input ${cx("input")} `}
                 value={valueForm.examMonitor || ""}
                 onChange={(e) => {
-                  setValueForm({ ...valueForm, examMonitor: Number(e.target.value) });
+                  setValueForm({
+                    ...valueForm,
+                    examMonitor: Number(e.target.value),
+                  });
                 }}
               ></input>
             </div>
@@ -65,11 +71,14 @@ function OtherDetail({ setRenderAdd, setValueOther }) {
             <span className="text-lg font-bold">:</span>
             <div className="flex w-[55%] relative items-center">
               <input
-                placeholder="Subject"
+                placeholder="Advisor"
                 className={`w-full input ${cx("input")} `}
                 value={valueForm.advisor || ""}
                 onChange={(e) => {
-                  setValueForm({ ...valueForm, advisor: Number(e.target.value) });
+                  setValueForm({
+                    ...valueForm,
+                    advisor: Number(e.target.value),
+                  });
                 }}
               ></input>
             </div>
@@ -81,7 +90,7 @@ function OtherDetail({ setRenderAdd, setValueOther }) {
             <span className="text-lg font-bold">:</span>
             <div className="flex w-[55%] relative items-center">
               <input
-                placeholder="Credit"
+                placeholder="Time Scientific"
                 className={`w-full input ${cx("input")} `}
                 value={valueForm.scientific || ""}
                 onChange={(e) => {

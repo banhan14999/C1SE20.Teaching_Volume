@@ -50,12 +50,17 @@ function selectValue(s,arr) {
     navigate(classid);
   };
   function handleDelete(e) {
-    const id = e.target.dataset.delete;
-    ApiTeachingVolume.Delete("/class/delete/", id);
-    const arr = classad.filter((value) => {
-      return value.ClassID !== id;
-    });
-    setClassAd([...arr]);
+    const classid = e.target.dataset.delete;
+    if(e.target.textContent === "Detail"){
+        dispath(SetUpdate("Detail"));
+        dispath(DataUpdate(data));
+        navigate(classid);
+    }
+    // ApiTeachingVolume.Delete("/class/delete/", id);
+    // const arr = classad.filter((value) => {
+    //   return value.ClassID !== id;
+    // });
+    // setClassAd([...arr]);
   }
   
   function createData(ClassID,ClassName,Subject,Student,Type,Credit,Coefficient,Action) {
@@ -71,28 +76,35 @@ useEffect(()=>{
   }
 },[year,semester])
 const years = JSON.parse(localStorage.getItem("year"));
-  useEffect(() => {
-    if(semester && semester.value && year && year.value ){
-      ApiTeachingVolume.Get(`class/all`).then((req) => {
-        setData([...req.classes]);
-        const arr = req.classes
-          .map((value) => {
-            return createData(
-              value.IdClass,
-              value.Letter + " " + value.Number,
-              value.SubjectName,
-              value.NumberOfStudent,
-              value.TypeClass,
-              value.CreditClass,
-              value.SubjectCoefficient
-            );
-          })
-          .filter((value) => {
-            return value;
-          });
-        setClassAd([...arr]);
-      });}
-  }, [param.id,year,semester]);
+const idlec = JSON.parse(localStorage.getItem("IdLecturer"));
+const ad = JSON.parse(localStorage.getItem("Admin"));
+
+useEffect(() => {
+  if (semester && semester.value && year && year.value) {
+    const str =
+      (ad && "class/all") ||
+      `class/lecturer/${idlec}/semester/${semester.value}/year/${year.value}`;
+    ApiTeachingVolume.Get(str).then((req) => {
+      setData([...req.classes]);
+      const arr = req.classes
+        .map((value) => {
+          return createData(
+            value.IdClass,
+            value.Letter + " " + value.Number,
+            value.SubjectName,
+            value.NumberOfStudent,
+            value.TypeClass,
+            value.CreditClass,
+            value.SubjectCoefficient
+          );
+        })
+        .filter((value) => {
+          return value;
+        });
+      setClassAd([...arr]);
+    });
+  }
+}, [param.id, year, semester, ad, idlec]);
   return (
     <div className="w-[726px]">
       {param.id ? (

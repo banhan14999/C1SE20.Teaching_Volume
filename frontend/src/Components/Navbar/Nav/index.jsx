@@ -74,7 +74,7 @@ function NavLeft() {
     // width : 223px
     <div className="w-[23.21%] mr-[12px] min-h-[420px] bg-[#E5E5E5] ">
       <ul className={`${cx("nav_left")}`}>
-        {Lecturer && (
+        {Admin && (
           <li>
             <p
               className={`${cx(
@@ -156,7 +156,7 @@ function NavLeft() {
           </li>
         )}
 
-        { Admin || Head  ? (
+        {Admin || Head || Dean || Lecturer ? (
           <li>
             <p
               className={`${cx(
@@ -177,23 +177,23 @@ function NavLeft() {
                 </li>
               </ul>
             )}
-            {Head &&(
+            {Head|| Dean || Lecturer ?(
               <ul className={`${cx("nav_left_item")} text-[14px] `}>
-                <li className="flex">
+                {Head && <li className="flex">
                   <AiFillCaretRight className="mr-1"></AiFillCaretRight>
                   <p>Division</p>
-                </li>
-                <li className="flex">
+                </li>}
+               {(Head|| Dean || Lecturer) ?<li className="flex">
                   <AiFillCaretRight className="mr-1"></AiFillCaretRight>
                   <p>Manager Class</p>
-                </li>
+                </li>:<></>}
               </ul>
-            )}
+            ):<></>}
           </li>
         ) : (
           <></>
         )}
-        {Lecturer && (
+        {/* {Lecturer && (
           <li>
             <p
               className={`${cx(
@@ -209,7 +209,7 @@ function NavLeft() {
               </li>
             </ul>
           </li>
-        )}
+        )} */}
         {Dean || Head || Lecturer ? (
           <li>
             <p
@@ -220,10 +220,10 @@ function NavLeft() {
               Workload
             </p>
             <ul className={`${cx("nav_left_item")} text-[14px] `}>
-              <li className="flex">
+             { Head &&<li className="flex">
                 <AiFillCaretRight className="mr-1"></AiFillCaretRight>
                 <p>Approval</p>
-              </li>
+              </li>}
               <li className="flex">
                 <AiFillCaretRight className="mr-1"></AiFillCaretRight>
                 <p>Manager Workload</p>

@@ -18,7 +18,7 @@ function AddSubject(props) {
   });
   const updateData = useSelector((data) => data.dtupdate);
   const { data } = updateData;
-  const [type, setType] = useState([]);
+  const [type, setType] = useState();
 
   const options = [
     { value: "LEC", label: "LEC" },
@@ -29,9 +29,6 @@ function AddSubject(props) {
   ];
   
   function handleClickAdd() {
-     const types = type.reduce((str, value) => {
-       return str + value.value + " ";
-     }, "");
 
    if(props.btn){
       const id = data[0].Subject_id;
@@ -40,7 +37,7 @@ function AddSubject(props) {
          number: parseInt(valuesForm.number),
          subject_name: valuesForm.subject_name,
          credit: parseInt(valuesForm.credit),
-         type: types || data[0].Type,
+         type: (type && type.value) || data[0].Type,
        };
      const check = ApiTeachingVolume.Update("/subject/update/", id, obj);
      check
@@ -61,32 +58,32 @@ function AddSubject(props) {
          }
        }
      }
-     if (!checkValInput || type.length === 0) {
+     if (!checkValInput) {
        alert("Vui lòng nhập đầy đủ các trường!");
-     } else if (checkValInput && type.length > 0) {
-       const types = type.reduce((str, value) => {
-         return str + value.value + " ";
-       }, "");
-
+     } else if (checkValInput) {
        const obj = {
          letter: valuesForm.letter,
          number: parseInt(valuesForm.number),
          subject_name: valuesForm.subject_name,
          credit: parseInt(valuesForm.credit),
-         type: types,
+         type: type && type.value,
        };
       const add = ApiTeachingVolume.Post("/subject/add", obj);
       add 
       .then((res)=>{
-           alert("Add Done");
+        if (res && res.data && res.data.message && res.data.message.letter) {
+          alert(res.data.message.letter[0]);
+        } else if (res && res.data && res.data.status === 201) {
+          alert("Add Done");
           setValuesForm({
             letter: "",
             number: "",
             subject_name: "",
             credit: "",
           });
+        }
       })
-      .catch(()=>{
+      .catch((err)=>{
          alert("Add That bai");
       })
      }
@@ -200,7 +197,6 @@ function AddSubject(props) {
                   class=" w-full"
                   options={options}
                   setSelectedOption={setType}
-                  isMulti="isMulti"
                   defaultValue={
                     props.btn && { value: data[0].Type, label: data[0].Type }
                   }
