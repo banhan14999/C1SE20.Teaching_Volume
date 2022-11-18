@@ -12,12 +12,10 @@ function Authentication() {
   const navigate = useNavigate();
   const [checkLogin, setCheckLogin] = useState(true);
   const [imgcaptcha, setImgcaptcha] = useState();
-  const [data, setData] = useState([]);
   const refcaptcha = useRef();
   const inputPassValue = useRef();
   const inputUserValue = useRef();
   const inputCaptchaValue = useRef();
-
   // Login
   function handlLogin(event) {
     const obj = {
@@ -43,6 +41,15 @@ function Authentication() {
                   "Token",
                   JSON.stringify(res.data.token)
                 );
+                
+                localStorage.setItem("IdLecturer", JSON.stringify(res.data.IdLecturer));
+                sessionStorage.setItem(
+                  "Department",
+                  JSON.stringify({
+                    IdDepartment: res.data.IdDepartment,
+                    IdFaculty: res.data.IdFaculty,
+                  })
+                );
                 setCheckLogin(true);
                 navigate("/home/infowebpart");
               } else {
@@ -59,14 +66,11 @@ function Authentication() {
       }
     }
   }
-
   useEffect(() => {
-    localStorage.clear("Head");
-    localStorage.clear("Admin");
-    localStorage.clear("Dean");
-    localStorage.clear("Lecturer");
+    localStorage.clear();
     setImgcaptcha(refcaptcha.current.children[0].dataset.key);
   }, []);
+  
   return (
     <div
       className="w-screen h-screen items-center flex justify-center "
@@ -83,7 +87,7 @@ function Authentication() {
         <div className="mt-6">
           <form action="">
             <div className="flex justify-between">
-              <label htmlFor="username" className="mr-2 ">
+              <label htmlFor="username" className="mr-2">
                 Tên Đăng nhập:
               </label>
               <input
@@ -129,14 +133,16 @@ function Authentication() {
                     handlLogin(e);
                   }}
                 ></input>
-                <MyCaptcha ref={refcaptcha} />
+                <div className="w-[50%]">
+                  <MyCaptcha ref={refcaptcha} />
+                </div>
               </div>
             </div>
             {checkLogin === true ? (
               <div className="text-right h-[32px] mt-2"></div>
             ) : (
               <div className="text-right text-sm  h-[32px] mt-2">
-                Mã xác nhận không hợp lệ
+                Tài khoản mật khẩu không hợp lệ
               </div>
             )}
 

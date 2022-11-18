@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\LecturerController;
 use App\Http\Controllers\Api\SubjectController;
 use App\Http\Controllers\Api\RoleController;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\VolumeController;
 use App\Http\Controllers\Api\YearController;
 use App\Models\Lecturer;
 use App\Models\User;
@@ -50,6 +51,7 @@ Route::group(['prefix' => 'role'], function() {
 //Authentication
 Route::controller(AuthController::class)->group(function(){
     // Route::post('user/add','store');
+    
     Route::post('login','login');
     Route::middleware(['auth:sanctum'])->group(function () {
         Route::post('user/add','store');
@@ -73,6 +75,8 @@ Route::middleware(['auth:sanctum'])->group(function(){
         Route::prefix('user')->group(function(){
             Route::get('all','index');
             Route::get('{id}','show');
+            Route::get('faculty/{idFaculty}/department/{idDepartment}','getLecturerByDepartmentAndFaculty');
+
             Route::put('update/{id}','update');
         });
     });
@@ -82,8 +86,14 @@ Route::middleware(['auth:sanctum'])->group(function(){
         Route::prefix('subject')->group(function(){
             Route::get('all','index');
             Route::get('{id}','show');
+            Route::get('letter/{letter}','getAllSubjectByLetter');
+            Route::get('getSubjectByYearAndSemester/semester/{sem}/year/{year}','getSubjectBySemesterAndYear');
+            Route::get('Lec/idLec/{idLec}/sem/{sem}/year/{year}', 'getSubjectByLec');
+
             Route::post('add','store');
+
             Route::put('update/{id}','update');
+
             Route::delete('delete/{id}','destroy');
         });
     });
@@ -97,13 +107,44 @@ Route::middleware(['auth:sanctum'])->group(function(){
         });
     });
 
+    //Class Controller
     Route::controller(ClassController::class)->group(function() {
         Route::prefix('class')->group(function() {
+
             Route::get('all','index');
-            Route::post('add','store');
             Route::get('{id}','show');
+            Route::get('lecturer/{id}/semester/{semester}/year/{year}','getAllClassByIdLecturer');
+            Route::get('classesNullLec/idSubject/{id}/semester/{semester}/year/{year}','getClassesBySubjectNullLec'); //get all class by subject but not have lecturer 
+            Route::get('realityClass/{idLecturer}/semester/{semester}/year/{year}','getRealityClassByLecturer'); // get all class Lab By Lecturer
+            Route::get('theoryClass/{idLecturer}/semester/{semester}/year/{year}','getTheoryClassByLecturer');// get all class not lab by lecturer
+            Route::get('load/Before','loadBeforeDivisionClasses');
+
+            Route::post('add','store');
+            
             Route::put('update/{id}','update');
-            Route::delete('delete/{id}','destroy');
+            //Route::put('removeLecOutClass','removeLecOutOfClass');
+            //Route::put('addLecInClass','addLecIntoClass');
+            Route::put('doDivisionClasses',"doDivisionClasses");
+
+            Route::delete('delete/{id}','destroy');    
+        });
+    });
+
+    //Volume Controller
+    Route::controller(VolumeController::class)->group(function() {
+        Route::prefix('volume')->group(function() {
+            Route::get('checkExist/sem/{sem}/year/{year}', 'checkExist');
+            Route::get('totalByDean/sem/{sem}/year/{year}', 'getAllTotalByDean');
+            Route::get('totalByHead/sem/{sem}/year/{year}', 'getAllTotalByHead');
+            Route::get('selfTotalDetail/idLecture/{id}/sem/{sem}/year/{year}', 'getTotalDetail');
+            
+            Route::post('total', 'handleTotalRequest');
+
+            Route::put('approval/idLec/{id}/sem/{sem}/year/{year}', 'approvalVolume');
+            Route::put('decline/idLec/{id}/sem/{sem}/year/{year}', 'declineVolume');
+            Route::put('update', 'handleUpdateTotalRequest');
         });
     });
 });
+
+

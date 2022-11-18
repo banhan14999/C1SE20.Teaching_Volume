@@ -14,50 +14,42 @@ import AddUser from "../../Form/AddUser";
 import { SetUpdate } from "../../../Redux/Actions/index";
 import { ApiTeachingVolume } from "../../../apis/axios";
 import { DataUpdate } from "../../../Redux/Actions/index";
-import axios from "axios";
 
-function ManagerUser(props) {
+function ManagerUser() {
   const param = useParams();
   const navigate = useNavigate();
   const dispath = useDispatch();
   const [user,setUser] = useState([])
-  function createData(Id, FullName, School, Department, Role, Username) {
-    return { Id, FullName, School, Department, Role, Username };
+  function createData(Id,IdLecturer, FullName, School, Department, Role) {
+    return { Id,IdLecturer, FullName, School, Department, Role };
   }
 function clickDelete(e) {
-  const user_id = e.target.attributes[1].nodeValue
+  const user_id = e.target.dataset.delete
   ApiTeachingVolume.Delete("/user/delete/", user_id);
   const arr = user.filter((value) => {
-    return value.Username !== user_id;
+    return value.Id !== Number(user_id);
   });
   setUser(arr);
 }
   const handleUpdate = (e) => {
     dispath(SetUpdate("Update user"));
-    const user_id = e.target.attributes[1].nodeValue;
-    let arr = user.filter((value) => value.Username === user_id);
+    const user_id = e.target.dataset.update;
+    let arr = user.filter((value) => value.Id === Number(user_id));
     dispath(DataUpdate(arr));
     navigate(user_id);
   };
   useEffect(() => {
-     const token = JSON.parse(localStorage.getItem("Token"))
-    axios
-      .get("http://127.0.0.1:8000/api/user/all", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((res) => {
-        const arr = res.data.users
+      ApiTeachingVolume.Get("user/all").then((res) => {
+        const arr = res.users
           .map((value) => {
-            if (value.IdRole !== "Admin") {
+            if (value.IdRole !== 1) {
               return createData(
+                value.id,
                 value.IdLecturer,
                 value.FirstName + " " + value.LastName,
                 value.IdFaculty,
                 value.IdDepartment,
-                value.IdRole,
-                value.Username
+                value.IdRole
               );
             } else {
               return false;
@@ -69,9 +61,10 @@ function clickDelete(e) {
         setUser([...arr]);
       });
   }, [param.id]);
+  
   return (
     <div>
-      { param.id ? (
+      {param.id ? (
         <AddUser hide="hidden" btn="Update" title="Updata User"></AddUser>
       ) : (
         <div className="container">
@@ -99,7 +92,7 @@ function clickDelete(e) {
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   >
                     <StyledTableCell align="center" component="th" scope="row">
-                      {row.Id}
+                      {row.IdLecturer}
                     </StyledTableCell>
                     <StyledTableCell>{row.FullName}</StyledTableCell>
                     <StyledTableCell>{row.School}</StyledTableCell>
@@ -109,7 +102,7 @@ function clickDelete(e) {
                       <div
                         className="flex justify-center  cursor-pointer "
                         onClick={handleUpdate}
-                        username={row.Username}
+                        data-update={row.Id}
                       >
                         <GrUpdate
                           color="#0a7a0a"
@@ -122,7 +115,7 @@ function clickDelete(e) {
                       <div
                         className="cursor-pointer"
                         onClick={clickDelete}
-                        username={row.Username}
+                        data-delete={row.Id}
                       >
                         <AiFillCloseCircle
                           color="#eb4f04"

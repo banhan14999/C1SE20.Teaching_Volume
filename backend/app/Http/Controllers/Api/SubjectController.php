@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Subjects\AddSubjectRequest;
 use App\Models\Subject;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 use function PHPSTORM_META\map;
 
@@ -58,18 +61,40 @@ class SubjectController extends Controller
         // $subject->Credit         = $request->input('credit');
         // $subject->Type           = $request->input('type');
         // $subject->save();
-        Subject::create([
-            'Letter' => $request->letter ,
-            'Number' => $request->number,
-            'SubjectName' => $request->subject_name ,
-            'Credit' => $request->credit,
-            'Type' => $request->type,
-        ]);
 
-        return response()->json([
-            'status'    => 201,
-            'message'   => 'Subject Added Successfully!',
-        ]);
+        $messages  = [
+            'letter.unique' => 'letter with this number is already taken!!',
+        ];
+        $validator = Validator::make($request->all(),[
+            'letter' => [
+                'required',
+                'max:10',
+                Rule::unique('subjects')->where(function($query) use ($request) {
+                    return $query->where('Letter', $request->letter)
+                                 ->where('Number', $request->number);
+                }),
+            ]
+        ], $messages);
+
+        if($validator->fails()) {
+            return response()->json([
+                'message' => $validator->errors(),
+            ]);
+        }
+        else {
+            Subject::create([
+                'Letter' => $request->letter ,
+                'Number' => $request->number,
+                'SubjectName' => $request->subject_name ,
+                'Credit' => $request->credit,
+                'Type' => $request->type,
+            ]);
+    
+            return response()->json([
+                'status'    => 201,
+                'message'   => 'Subject Added Successfully!',
+            ]);
+        }
     }
 
     /**
@@ -141,4 +166,35 @@ class SubjectController extends Controller
             'message'   => 'Subject Deleted Successfully!',
         ]);
     }
+
+    public function getAllSubjectByLetter($letter)
+    {
+        $subjects = DB::table('subjects')
+                    ->where('Letter','=',$letter)
+                    ->get();
+        return response()->json([
+            'status' => 200,
+            'subjects' => $subjects,
+        ]);
+    }
+
+    //API cho ra đề thi và chấm bài thi
+    public function getSubjectByLec($idLec, $semester, $year)
+    {
+        $subjects = DB::table('subjects')
+                  ->select('subjects.IdSubject', 'Letter', 'Number', 'SubjectName')
+                  ->leftJoin('classes', 'subjects.IdSubject', '=', 'classes.IdSubject')
+                  ->where([
+                    ['IdLecturer', '=', $idLec],
+                    ['Semester', '=', $semester],
+                    ['Year', '=', $year],
+                  ])
+                  ->distinct()
+                  ->get();
+        return response()->json([
+            'status' => 200,
+            'subjects' => $subjects,
+        ]);
+    }
+
 }

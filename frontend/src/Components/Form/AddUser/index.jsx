@@ -1,13 +1,13 @@
-import { IoIosWarning } from "react-icons/io";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import classNames from "classnames/bind";
-import md5 from "md5"
+//import md5 from "md5"
 
 import SelectForm from "../../SelectForm";
 import { default as Button } from "../../Button";
 import styles from "./adduser.module.scss";
 import { ApiTeachingVolume } from "../../../apis/axios";
+import axios from "axios";
 
 const cx = classNames.bind(styles);
 
@@ -15,6 +15,7 @@ function AddUser(props) {
   const [roles, setRole] = useState();
   const [faculty, setFaculty] = useState();
   const [disabled,setDisabled] = useState(false)
+  const [check, setCheck] = useState(false);
   const [department, setDepartment] = useState();
   const [valuesForm, setValuesForm] = useState({
     username: "",
@@ -23,9 +24,16 @@ function AddUser(props) {
     firstname: "",
     lastname: ""
   });
+
   const updateData = useSelector((data) => data.dtupdate);
   const { data } = updateData;
   const Faculty = [{ value: "CMU-SE", label: "CMU-SE" }];
+  const Departmentop = [
+    { value: "SE", label: "Software Enginner" },
+    { value: "NS", label: "Network Security" },
+    { value: "MIS", label: "Management Information System" },
+  ];
+
   const Role = [
     { value: "3", label: "Head" },
     { value: "4", label: "Lecturer" },
@@ -34,20 +42,21 @@ function AddUser(props) {
 
   function roleValue(role){
     return Role.filter(value=>{
-        return value.label === role
+        return Number(value.value) === role;
     })
   }
 
   function clickAddUser(){
+  const token = JSON.parse(localStorage.getItem("Token"));
      if (props.btn) {
        const id = data[0].Username;
         const obj = {
           idlecturer: parseInt(valuesForm.idlecturer),
           firstname: valuesForm.firstname,
           lastname: valuesForm.lastname,
-          faculty: (faculty && faculty.value) || data[0].School,
-          department: (department && department.value) || data[0].Department,
-          role: (roles && roles.value) || roleValue(data[0].Role)[0].value,
+          idfaculty: (faculty && faculty.value) || data[0].School,
+          iddepartment: (department && department.value) || data[0].Department,
+          idrole: (roles && roles.value) || roleValue(data[0].Role)[0].value,
         };
        const check = ApiTeachingVolume.Update("/user/update/", id, obj);
        check
@@ -61,7 +70,6 @@ function AddUser(props) {
        let checkValInput = true
        for (let key in valuesForm) {
          if (valuesForm.hasOwnProperty(key)) {
-           console.log(valuesForm[key].length);
            if (valuesForm[key] === "") {
              checkValInput = false;
            }
@@ -72,16 +80,21 @@ function AddUser(props) {
      } else{
         const obj = {
           username: valuesForm.username,
-          password: md5(valuesForm.password),
+          password: valuesForm.password,
           idlecturer: valuesForm.idlecturer,
           firstname: valuesForm.firstname,
           lastname: valuesForm.lastname,
-          faculty: faculty.value,
-          department: department.value,
-          role: roles.value,
+          idfaculty: faculty.value,
+          iddepartment: department.value,
+          idrole: roles.value,
         };
-       const addUser = ApiTeachingVolume.Post("/user/add", obj);
-       addUser
+        setCheck(true)
+      //  const addUser = ApiTeachingVolume.Post("/user/add", obj);
+       axios.post("http://127.0.0.1:8000/api/user/add", obj, {
+         headers: {
+           Authorization: `Bearer ${token}`,
+         },
+       })
          .then((res) => {
            alert("Add Done");
            setValuesForm({
@@ -89,7 +102,7 @@ function AddUser(props) {
              password: "",
              idlecturer: "",
              firstname: "",
-             lastname: ""
+             lastname: "",
            });
          })
          .catch(() => {
@@ -132,11 +145,6 @@ function AddUser(props) {
                     setValuesForm({ ...valuesForm, username: e.target.value });
                   }}
                 ></input>
-                {valuesForm.username === "" && (
-                  <p className="absolute right-3 text-yellow-300">
-                    <IoIosWarning className="text-[24px]"></IoIosWarning>
-                  </p>
-                )}
               </div>
             </div>
             <div className={`w-full flex justify-between mt-2 ${props.hide}`}>
@@ -146,6 +154,7 @@ function AddUser(props) {
               <span className="text-lg font-bold">:</span>
               <div className="flex w-[50%] relative items-center">
                 <input
+                  type = "password"
                   placeholder="Password"
                   className={`w-full input ${cx("input")}`}
                   value={valuesForm.password}
@@ -153,14 +162,14 @@ function AddUser(props) {
                     setValuesForm({ ...valuesForm, password: e.target.value });
                   }}
                 ></input>
-                {valuesForm.password === "" && (
-                  <p className="absolute right-3 text-yellow-300">
-                    <IoIosWarning className="text-[24px]"></IoIosWarning>
-                  </p>
-                )}
               </div>
             </div>
-            <div className="w-full flex justify-between mt-2">
+            {check && valuesForm.password.length < 8 && (
+              <div className="text-right text-red-800 leading-[10px] mt-1">
+                Password lớn hơn 8 kí tự
+              </div>
+            )}
+            <div className={`w-full flex justify-between mt-2 ${props.hide}`}>
               <label htmlFor="" className="w-[30%]">
                 DTU-ID
               </label>
@@ -176,15 +185,15 @@ function AddUser(props) {
                       idlecturer: e.target.value,
                     });
                   }}
-                  disabled={disabled}               
+                  disabled={disabled}
                 ></input>
-                {valuesForm.idlecturer === "" && (
-                  <p className="absolute right-3 text-yellow-300">
-                    <IoIosWarning className="text-[24px]"></IoIosWarning>
-                  </p>
-                )}
               </div>
             </div>
+            {check && valuesForm.idlecturer.length !== 10 && (
+              <div className="text-right text-red-800 leading-[10px] mt-1">
+                DTU-ID bằng 10 kí tự
+              </div>
+            )}
             <div className="w-full flex justify-between mt-2">
               <label htmlFor="" className="w-[30%]">
                 First name
@@ -199,11 +208,6 @@ function AddUser(props) {
                     setValuesForm({ ...valuesForm, firstname: e.target.value });
                   }}
                 ></input>
-                {valuesForm.firstname === "" && (
-                  <p className="absolute right-3 text-yellow-300">
-                    <IoIosWarning className="text-[24px]"></IoIosWarning>
-                  </p>
-                )}
               </div>
             </div>
             <div className="w-full flex justify-between mt-2">
@@ -220,11 +224,6 @@ function AddUser(props) {
                     setValuesForm({ ...valuesForm, lastname: e.target.value });
                   }}
                 ></input>
-                {valuesForm.lastname === "" && (
-                  <p className="absolute right-3 text-yellow-300">
-                    <IoIosWarning className="text-[24px]"></IoIosWarning>
-                  </p>
-                )}
               </div>
             </div>
             <div className="w-full flex justify-between mt-2">
@@ -257,7 +256,7 @@ function AddUser(props) {
                 <SelectForm
                   placeholder="Department"
                   class="w-full"
-                  options={Faculty}
+                  options={Departmentop}
                   setSelectedOption={setDepartment}
                   defaultValue={
                     props.btn &&

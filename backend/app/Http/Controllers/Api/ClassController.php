@@ -6,7 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Classes\AddClassRequest;
 use App\Http\Requests\Classes\UpdateClassRequest;
 use App\Models\Classes;
+use App\Models\Subject;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ClassController extends Controller
 {
@@ -17,7 +20,9 @@ class ClassController extends Controller
      */
     public function index()
     {
-        $classes = Classes::all();
+        $classes = DB::table('classes')
+                  ->join('subjects', 'classes.IdSubject', '=', 'subjects.IdSubject')
+                  ->get();
         return response()->json([
             'status' => 200,
             'classes' => $classes,
@@ -56,7 +61,7 @@ class ClassController extends Controller
         }
 
         //Time_teaching
-        if($request->Type === 'LAB'){
+        if($request->Type === 'LAB' || $request->Type === 'PRJ' || $request->Type === 'INT'){
             $timeTeaching = 30 * $request->Credit;
         }else{
             $timeTeaching = 15 * $request->Credit;
@@ -68,8 +73,8 @@ class ClassController extends Controller
             'Semester'           => $request->Semester,
             'Grade'              => $request->Grade,
             'IdSubject'          => $request->IdSubject,
-            'Type'               => $request->Type,
-            'Credit'             => $request->Credit,
+            'TypeClass'          => $request->Type,
+            'CreditClass'        => $request->Credit,
             'NumberOfStudent'    => $request->NumberOfStudent,
             'Coefficient'        => $classCoefficient,
             'SubjectCoefficient' => $request->SubjectCoefficient,
@@ -131,17 +136,17 @@ class ClassController extends Controller
         }
 
         //Time_teaching
-        if($request->Type === 'LAB'){
+        if($request->Type === 'LAB' || $request->Type === 'PRJ' || $request->Type === 'INT'){
             $timeTeaching = 30 * $request->Credit;
         }else{
             $timeTeaching = 15 * $request->Credit;
         }
 
-        $class->Year              = $request->Year;
+        $class->Year               = $request->Year;
         $class->Semester           = $request->input("Semester");
         $class->Grade              = $request->input("Grade");
-        $class->Type               = $request->input("Type");
-        $class->Credit             = $request->input("Credit");
+        $class->TypeClass          = $request->input("Type");
+        $class->CreditClass        = $request->input("Credit");
         $class->NumberOfStudent    = $request->input("NumberOfStudent");
         $class->Coefficient        = $classCoefficient;
         $class->SubjectCoefficient = $request->input("SubjectCoefficient");
@@ -171,9 +176,251 @@ class ClassController extends Controller
         ]);
     }
 
-    //Update all classes in column IdLecturer
-    public function updateLecturerForClass(Request $request)
+    /**
+     * Get all class have type such as: PRJ, INT ... by year and semester of lecturer
+     * @param $idLecturer
+     * @param $semester
+     * @param $year
+     * @return array[] classes
+     */
+    public function getRealityClassByLecturer($idLecturer, $semester, $year)
     {
+        $classes = DB::table('classes')
+                    ->join('subjects', 'classes.IdSubject', '=', 'subjects.IdSubject')
+                    ->where([
+                        ['IdLecturer','=', $idLecturer],                       
+                        ['Semester','=', $semester],
+                        ['Year', '=', $year]    
+                    ])
+                    ->whereIn('TypeClass', ['PRJ', 'INT'])
+                    ->get();
+        return response()->json([
+            'status' => 200,
+            'classes' => $classes,
+        ]);
+    }
 
+    /**
+     * Get all class have type such as: LEC, DIS,  ... by year and semester of lecturer
+     * @param $idLecturer
+     * @param $semester
+     * @param $year
+     * @return array[] classes
+     */
+    public function getTheoryClassByLecturer($idLecturer, $semester, $year)
+    {
+        $classes = DB::table('classes')
+                    ->join('subjects', 'classes.IdSubject', '=', 'subjects.IdSubject')
+                    ->where([
+                        ['IdLecturer','=',$idLecturer],
+                        ['Semester','=', $semester],
+                        ['Year', '=', $year],   
+                    ])
+                    ->whereIn('TypeClass', ['LAB', 'DIS', 'LEC'])
+                    ->get();
+        return response()->json([
+            'status' => 200,
+            'classes' => $classes,
+        ]);
+    }
+
+    /**
+     * Get classes are teached by Lecturer in semeter year
+     * Use for Division class in manage class
+     * @param $idLecturer
+     * @param $semester
+     * @param $year
+     * @return array[] classes
+     */
+    public function getAllClassByIdLecturer($idLecturer, $semester, $year)
+    {
+        $classes = DB::table('classes')
+                   ->join('subjects', 'classes.IdSubject', '=', 'subjects.IdSubject')
+                   ->where([
+                        ['IdLecturer', '=', $idLecturer],
+                        ['Semester', '=', $semester],
+                        ['Year', '=', $year]
+                    ])
+                   ->get();
+        return response()->json([
+            'status' => 200,
+            'classes' => $classes,
+        ]);
+    }
+
+    /**
+     * Get classes are undivisioned in semeter year
+     * Use for Division class in manage class
+     * @param $letter : Letter in subject code
+     * @param $number : number in subject code
+     * @param $semester 
+     * @param $year
+     * @return array[] classes
+     */
+    public function getClassesBySubjectNullLec($idSubject, $semester, $year)
+    {
+        $classes = DB::table('classes')
+                   ->join('subjects', 'classes.IdSubject', '=', 'subjects.IdSubject')
+                   ->where([
+                        ['classes.IdSubject', '=', $idSubject],
+                        ['IdLecturer', '=', null],
+                        ['Semester', '=', $semester],
+                        ['Year', '=', $year],
+                    ])
+                   ->get();
+        return response()->json([
+            'status' => 200,
+            'classes' => $classes,
+        ]);
+    }
+
+    //Do division class
+    private static function getTotalIfExists($idLecturer, $semester, $year)
+    {
+        $total = DB::table('totalvolume')
+                 ->where([
+                    ['IdLecturer', '=', $idLecturer],
+                    ['Semester', '=', $semester],
+                    ['Year', '=', $year],
+                 ])
+                 ->first();
+        return $total;
+    }
+
+
+    private static function getClassForTotal($idClass)
+    {
+        $class = Classes::find($idClass);
+        return $class;
+    }
+
+    private static function theoryVolume($class)
+    {
+        return round($class['Coefficient'] * $class['SubjectCoefficient'] * $class['TimeTeaching'],2);
+    }
+    
+    private static function realityVolume($class)
+    {
+        return round($class['SubjectCoefficient'] * $class['NumberOfStudent']);
+    }
+
+    private static function removeLecOutOfClass($idClassesRemove)
+    {
+        //$idClasses = $request->data['IdClasses'];
+        if(! empty($idClassesRemove)) {
+            foreach($idClassesRemove as $idClass) {
+                DB::table('classes')
+                    ->where('IdClass', '=', $idClass)
+                    ->update(['IdLecturer' => null]);
+             }
+        }    
+        // return response()->json([
+        //     'status' => 200,
+        //     'message' => "Removed Lecturer Out Of Class Succesfully",
+        // ]);
+    }
+
+    private static function addLecIntoClass($idLecturer, $idClassesAdd)
+    {
+        // $idLecturer = $request->data['IdLecturer'];
+        // $idClasses = $request->data['IdClasses'];
+        if(! empty($idClassesAdd)) {
+            foreach($idClassesAdd as $idClass) {
+                DB::table('classes')
+                    ->where('IdClass', '=', $idClass)
+                    ->update(['IdLecturer' => $idLecturer]);
+            }
+        }
+        // return response()->json([
+        //     'status' => 200,
+        //     'message' => "Add Lecturer Into Class Successfully"
+        // ]);
+    }
+
+
+
+    private static function updateVolumeAfterDivisionAgain($data)
+    {
+        $total = $data['theoryVol'] + $data['realityVol'] + $data['gradingVol']
+               + $data['examVol'] + $data['examMonitorVol'] + $data['advisorVol']
+               + $data['activitiesVol'] + $data['scientificVol'];
+        DB::table('totalvolume')
+            ->where([
+                ['IdLecturer', '=', $data['idLec']],
+                ['Semester', '=', $data['sem']],
+                ['Year', '=', $data['year']],
+            ])
+            ->update([
+                'TeachingVolume' => $data['theoryVol'],
+                'ProjectVolume' => $data['realityVol'],
+                'TotalVolume' => $total,
+            ]);
+        return $total;
+    }
+
+    public function doDivisionClasses(Request $request)
+    {
+        // dd($request);
+        
+        $idLecturer = $request->data['idLecturer'];
+        $idClassesAdd = $request->data['idClassAdd'];
+        $idClassesRemove = $request->data['idClassRemove'];
+        self::removeLecOutOfClass($idClassesRemove);
+        self::addLecIntoClass($idLecturer, $idClassesAdd);
+
+        //update total volume if exists
+        $year = $request->data['year'];
+        $semester = $request->data['semester'];
+        //return (self::checkExistTotalForm($idLecturer, $semester, $year));
+        $total = self::getTotalIfExists($idLecturer, $semester, $year);
+        if($total !== null) {
+            //
+            $theoryVol = 0; 
+            $realityVol = 0;
+            if(! empty($idClassesAdd)) {
+                foreach($idClassesAdd as $idClass) {
+                    $class = self::getClassForTotal($idClass);
+                    if($class['TypeClass'] === 'PRJ' || $class['TypeClass'] === 'INT') {
+                        $realityVol += self::realityVolume($class);
+                    }
+                    else {
+                        $theoryVol += self::theoryVolume($class);
+                    }
+                }
+            }
+            //encapsulation
+            $data = [
+                'idLec' => $idLecturer,
+                'sem' => $semester,
+                'year' => $year,
+                'theoryVol' => $theoryVol,
+                'realityVol' => $realityVol,
+                'gradingVol' => $total->GradingVolume,
+                'examVol' => $total->ExamVolume,
+                'activitiesVol' => $total->ActivitiesVolume,
+                'examMonitorVol' => $total->ExamMonitorVolume,
+                'advisorVol' => $total->AdvisorVolume,
+                'scientificVol' => $total->TimeScientificVolume,
+            ];
+            self::updateVolumeAfterDivisionAgain($data);
+        }
+
+        return response()->json([
+            'status' => 200,
+            'message' => "Updated Successfully",
+        ]);
+    }
+
+    public function loadBeforeDivisionClasses()
+    {        
+        $subjects = Subject::all();
+        $idFaculty = auth()->user()['IdFaculty'];
+        $idDepartment = auth()->user()['IdDepartment'];
+        $lecturers = UserController::getLecturerByDepartmentAndFaculty($idFaculty, $idDepartment);
+        return response()->json([
+            'status' => 200,
+            'subjects' => $subjects,
+            'lecturers' => $lecturers,
+        ]);
     }
 }

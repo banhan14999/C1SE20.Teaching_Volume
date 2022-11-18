@@ -86,6 +86,9 @@ class AuthController extends Controller
                 'token' => $token,
                 'type_token' => 'Bearer',
                 'role' => $role,
+                'IdLecturer' => $user->IdLecturer,
+                'IdFaculty' => $user->IdFaculty,
+                'IdDepartment' => $user->IdDepartment,
                 'message' => 'Logged In Successfully',
             ]);
         }

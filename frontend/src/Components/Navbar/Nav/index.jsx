@@ -29,6 +29,7 @@ function NavLeft() {
         if (back.style.backgroundPosition === "-1px -297px" && item) {
           back.style.backgroundPosition = "-1px -252px";
           item.style.height = "0px";
+          back.style.color = "#000";
         } else {
           let navLeftItem = [
             ...document.getElementsByClassName(`${styles.nav_left_item}`),
@@ -36,6 +37,7 @@ function NavLeft() {
           navLeftItem.forEach((item) => {
             item.style.height = "0px";
             item.onclick = (e) => {
+              document.title = e.target.textContent;
               dispatch(ShowForm(e.target.textContent));
               dispatch(SetUpdate());
               if (e.stopPropagation) e.stopPropagation();
@@ -50,13 +52,17 @@ function NavLeft() {
           navs.forEach((backgroundback) => {
             let back = backgroundback.querySelector(`.${styles.item}`);
             back.style.backgroundPosition = "-1px -252px";
+            back.style.color = "#000";
+
           });
           back.style.backgroundPosition = "-1px -297px";
+          back.style.color = "#fff"
           value.style.color = "#fff";
           item.style.height = `${dem}px`;
           if (item) {
             if (item.style.height === "0px") {
               item.style.height = "unset";
+             back.style.color = "#000";
             }
           }
         }
@@ -150,7 +156,7 @@ function NavLeft() {
           </li>
         )}
 
-        {Lecturer || Admin || Head || Dean ? (
+        { Admin || Head  ? (
           <li>
             <p
               className={`${cx(
@@ -171,7 +177,7 @@ function NavLeft() {
                 </li>
               </ul>
             )}
-            {Head && (
+            {Head &&(
               <ul className={`${cx("nav_left_item")} text-[14px] `}>
                 <li className="flex">
                   <AiFillCaretRight className="mr-1"></AiFillCaretRight>

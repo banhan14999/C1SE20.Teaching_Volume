@@ -1,0 +1,13 @@
+.TaskInformation {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 0 15px;
+  min-height: 40px;
+  border-radius: 5px;
+  max-width: 100%; 
+  background: white;
+  margin-top: 15px;
+  user-select: none;
+}

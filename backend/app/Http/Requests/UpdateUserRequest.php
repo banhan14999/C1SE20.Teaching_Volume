@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateUserRequest extends FormRequest
 {
@@ -24,9 +25,13 @@ class UpdateUserRequest extends FormRequest
     public function rules()
     {
         return [
-            'idlecturer'=>'unique:users,IdLecturer | max:10',
-            //'firstname'=>'required',
-            //'lastname'=>'required',
+            'firstname'=>'required',
+            'lastname'=>'required',
+            'idlecturer'=>[
+                'required',
+                'max:10',
+                Rule::unique('users')->ignore('id'),
+            ]
         ];
     }
 }

@@ -19,14 +19,14 @@ function WorkVolume() {
       };
  
    const options = [
-     { value: "2021-2022", label: "2021-2022" },
-     { value: "2022-2023", label: "2022-2023" },
-     { value: "2023-2024", label: "2024-2025" },
+     { value: "2022", label: "2021-2022" },
+     { value: "2023", label: "2022-2023" },
+     { value: "2024", label: "2024-2025" },
    ];
    const hocki = [
-     { value: "Học Kỳ I", label: "Học Kỳ I" },
-     { value: "Học Kỳ II", label: "Học Kỳ II" },
-     { value: "Học Hè", label: "Học Hè" },
+     { value: "1", label: "Học Kỳ I" },
+     { value: "2", label: "Học Kỳ II" },
+     { value: "3", label: "Học Hè" },
    ];
   return (
     <div>

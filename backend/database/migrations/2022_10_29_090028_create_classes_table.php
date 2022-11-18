@@ -19,16 +19,16 @@ return new class extends Migration
             $table->string('Semester',10);
             $table->string('Grade',10);
             $table->integer('IdSubject',false,true);
-            $table->string('IdLecturer')->nullable();
-            $table->string('Type',20);
-            $table->tinyInteger('Credit',false,true);
+            $table->string('IdLecturer',20)->nullable();
+            $table->string('TypeClass',20);
+            $table->tinyInteger('CreditClass',false,true);
             $table->smallInteger('NumberOfStudent',false,true);
             $table->decimal('Coefficient',10,2,true);
             $table->decimal('SubjectCoefficient',10,2,true);
             $table->tinyInteger('TimeTeaching',false,true);
             $table->string('Unit',20);
             $table->timestamps();
-            $table->unique(['Year', 'Semester', 'Grade']);
+            $table->unique(['Year', 'Semester', 'IdSubject', 'Grade']);
         });
     }
 
