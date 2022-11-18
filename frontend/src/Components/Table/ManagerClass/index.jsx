@@ -48,7 +48,7 @@ function selectValue(s,arr) {
     const classid = e.target.dataset.update;
     let arr = data.filter((value) => value.IdClass === classid);
     // dispath(SetUpdate("Update class"));
-    setTitle("Update class");
+    setTitle("");
     dispath(DataUpdate(arr));
     navigate(classid);
   };
