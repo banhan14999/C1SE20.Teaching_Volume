@@ -78,6 +78,8 @@ Route::middleware(['auth:sanctum'])->group(function(){
             Route::get('faculty/{idFaculty}/department/{idDepartment}','getLecturerByDepartmentAndFaculty');
 
             Route::put('update/{id}','update');
+
+            Route::delete('delete/{id}', 'destroy');
         });
     });
 
