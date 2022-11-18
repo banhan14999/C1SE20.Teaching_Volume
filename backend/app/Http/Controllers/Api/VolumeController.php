@@ -27,6 +27,24 @@ class VolumeController extends Controller
             'totalVols' => $totalVols,
         ]);
     }
+    
+    //get full volume by dean
+    public function getAllSemTotalByDean($year)
+    {
+        $faculty = auth()->user()['IdFaculty'];
+        $totalVols  = DB::table('totalvolume')
+        ->join('users', 'totalvolume.IdLecturer', '=', 'users.IdLecturer')
+        ->where([
+            ['IdFaculty', '=', $faculty],
+            ['Year', '=', $year],
+        ])
+        ->groupBy('totalvolume.IdLecturer')
+        ->get();
+        return response()->json([
+            'status' => 200,
+            'totalVols' => $totalVols,
+        ]);
+    }
 
     //get all total volume by head
     public function getAllTotalByHead($semester, $year)
