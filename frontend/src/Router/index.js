@@ -1,6 +1,5 @@
 import Home from "../Page/Home"
 import Authentication from "../Page/Authentication";
-import DaskBoard from "../Page/DashBoard";
 import NotFound from "../Page/NotFound";
 import AddUser from "../Components/Form/AddUser";
 import AddSubject from "../Components/Form/AddSubject";
@@ -15,12 +14,13 @@ import ManagerWorkload from "../Components/Table/ManagerWorkload";
 import Permission from "../Components/Table/Permission";
 import Division from "../Components/Form/Division";
 import ManagerYear from "../Components/Table/ManagerYear";
-import ViewTable from "../Components/ViewTable";
+import ViewReport from "../Components/ViewReport";
 import FormSubject from "../Components/Form/sub";
 export const publicRouters = [
   { path: "/authentication", component: Authentication },
   {
-    path: "/home", component: Home,
+    path: "/home",
+    component: Home,
     chidren: [
       { path: "InfoWebpart", component: InfoWebpart },
       { path: "addnewuser", component: AddUser },
@@ -41,11 +41,10 @@ export const publicRouters = [
       { path: "manageryear/:id", component: ManagerYear },
       { path: "addnewyear", component: AddYear },
       { path: "manageryear/:id", component: ManagerYear },
-      { path: "viewtable", component: ViewTable },
+      { path: "viewtable", component: ViewReport },
       { path: "subject", component: FormSubject },
     ],
   },
-  { path: "/daskboard", component: DaskBoard },
   { path: "*", component: NotFound },
 ];
 export const privateRouters = [  

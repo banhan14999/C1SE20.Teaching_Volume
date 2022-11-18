@@ -17,24 +17,16 @@ import PropTypes from "prop-types";
 import { useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import classNames from "classnames/bind";
-import {AiFillPrinter} from "react-icons/ai"
 import  StyledTableCell from "../StyledTableCell";
 import styles from "./viewtable.module.scss";
 import { useRef,useEffect } from "react";
 import { ApiTeachingVolume } from "../../apis/axios";
-
 const cx = classNames.bind(styles);
 
-function ViewTable() {
+function ViewTable({year,semester}) {
   const reftableview= useRef()
   const [workload,setWorkload]= React.useState([])
-  function handleprint(e) {
-    const originalContents = document.body.innerHTML;
-    const printContents = reftableview.current.innerHTML;
-    document.body.innerHTML = printContents;
-    window.print();
-    document.body.innerHTML = originalContents;
-  }
+  
   function TablePaginationActions(props) {
     const theme = useTheme();
     const { count, page, rowsPerPage, onPageChange } = props;
@@ -104,277 +96,54 @@ function ViewTable() {
     rowsPerPage: PropTypes.number.isRequired,
   };
   function createRow(
-    id,
-    mAGV,
-    firtName,
-    lastName,
-    Teaching,
-    guide,
-    gradingPaper,
-    examQuestions,
-    examSupervisor,
-    facultyActivities,
-    academicAdvisor,
-    total
+    id1,
+    mAGV1,
+    firtName1,
+    lastName1,
+    Teaching1,
+    guide1,
+    gradingPaper1,
+    examQuestions1,
+    examSupervisor1,
+    facultyActivities1,
+    academicAdvisor1,
+    total1
   ) {
     return {
-      id,
-      mAGV,
-      firtName,
-      lastName,
-      Teaching,
-      guide,
-      gradingPaper,
-      examQuestions,
-      examSupervisor,
-      facultyActivities,
-      academicAdvisor,
-      total,
+      id1,
+      mAGV1,
+      firtName1,
+      lastName1,
+      Teaching1,
+      guide1,
+      gradingPaper1,
+      examQuestions1,
+      examSupervisor1,
+      facultyActivities1,
+      academicAdvisor1,
+      total1,
     };
   }
  useEffect(()=>{
-      ApiTeachingVolume.Get(`volume/totalByDean/sem/2/year/2022`)
+      if(semester&&year){
+        ApiTeachingVolume.Get(`volume/totalByDean/sem/${semester}/year/${year}`)
       .then(req=>{
       const arr =   req.totalVols.map((e)=>{
-          return createRow(e.id, e.IdLecturer,e.FirstName,e.LastName,e.TeachingVolume,e.GradingVolume,e.ExamVolume,e.ExamMonitorVolume,e.ActivitiesVolume,e.AdvisorVolume,e.TotalVolume);
+          return createRow(e.id, e.IdLecturer,e.FirstName,e.LastName,e.TeachingVolume,0,e.GradingVolume,e.ExamVolume,e.ExamMonitorVolume,e.ActivitiesVolume,e.AdvisorVolume,e.TotalVolume);
         })
         setWorkload([...arr])
       })
- },[])
+      }
+ },[semester,year])
 
-  const rows = [
-    createRow(
-      1,
-      "61191023",
-      "Huỳnh bá",
-      "diệu",
-      666.0,
-      0.0,
-      8.0,
-      1.6,
-      3.0,
-      3.0,
-      2.0,
-      68360
-    ),
-    createRow(
-      2,
-      "61191023",
-      "Huỳnh bá",
-      "diệu",
-      666.0,
-      0.0,
-      8.0,
-      1.6,
-      3.0,
-      3.0,
-      2.0,
-      68360
-    ),
-    createRow(
-      3,
-      "61191023",
-      "Huỳnh bá ",
-      "diệu",
-      666.0,
-      0.0,
-      8.0,
-      1.6,
-      3.0,
-      3.0,
-      2.0,
-      68360
-    ),
-    createRow(
-      4,
-      "61191023",
-      "Huỳnh bá ",
-      "diệu",
-      666.0,
-      0.0,
-      8.0,
-      1.6,
-      3.0,
-      3.0,
-      2.0,
-      68360
-    ),
-    createRow(
-      5,
-      "61191023",
-      "Huỳnh bá ",
-      "diệu",
-      666.0,
-      0.0,
-      8.0,
-      1.6,
-      3.0,
-      3.0,
-      2.0,
-      68360
-    ),
-    createRow(
-      6,
-      "61191023",
-      "Huỳnh bá ",
-      "diệu",
-      666.0,
-      0.0,
-      8.0,
-      1.6,
-      3.0,
-      3.0,
-      2.0,
-      68360
-    ),
-    createRow(
-      6,
-      "61191023",
-      "Huỳnh bá ",
-      "diệu",
-      666.0,
-      0.0,
-      8.0,
-      1.6,
-      3.0,
-      3.0,
-      2.0,
-      68360
-    ),
-    createRow(
-      6,
-      "61191023",
-      "Huỳnh bá ",
-      "diệu",
-      666.0,
-      0.0,
-      8.0,
-      1.6,
-      3.0,
-      3.0,
-      2.0,
-      68360
-    ),
-    createRow(
-      6,
-      "61191023",
-      "Huỳnh bá ",
-      "diệu",
-      666.0,
-      0.0,
-      8.0,
-      1.6,
-      3.0,
-      3.0,
-      2.0,
-      68360
-    ),
-    createRow(
-      6,
-      "61191023",
-      "Huỳnh bá ",
-      "diệu",
-      666.0,
-      0.0,
-      8.0,
-      1.6,
-      3.0,
-      3.0,
-      2.0,
-      68360
-    ),
-    createRow(
-      6,
-      "61191023",
-      "Huỳnh bá ",
-      "diệu",
-      666.0,
-      0.0,
-      8.0,
-      1.6,
-      3.0,
-      3.0,
-      2.0,
-      68360
-    ),
-    createRow(
-      6,
-      "61191023",
-      "Huỳnh bá ",
-      "diệu",
-      666.0,
-      0.0,
-      8.0,
-      1.6,
-      3.0,
-      3.0,
-      2.0,
-      68360
-    ),
-    createRow(
-      6,
-      "61191023",
-      "Huỳnh bá ",
-      "diệu",
-      666.0,
-      0.0,
-      8.0,
-      1.6,
-      3.0,
-      3.0,
-      2.0,
-      68360
-    ),
-    createRow(
-      6,
-      "61191023",
-      "Huỳnh bá ",
-      "diệu",
-      666.0,
-      0.0,
-      8.0,
-      1.6,
-      3.0,
-      3.0,
-      2.0,
-      68360
-    ),
-    createRow(
-      6,
-      "61191023",
-      "Huỳnh bá ",
-      "diệu",
-      666.0,
-      0.0,
-      8.0,
-      1.6,
-      3.0,
-      3.0,
-      2.0,
-      68360
-    ),
-    createRow(
-      6,
-      "61191023",
-      "Huỳnh bá ",
-      "diệu",
-      666.0,
-      0.0,
-      8.0,
-      1.6,
-      3.0,
-      3.0,
-      2.0,
-      68360
-    ),
-  ];
+
 
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - workload.length) : 0;
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -386,29 +155,20 @@ function ViewTable() {
   };
   return (
     <div className="container">
-      <div className={`${cx("tableview")}`} ref={reftableview}>
+      <div className={`${cx("tableview")}`} id="print" ref={reftableview}>
         <h1 className="text-center font-bold text-[30px] text-red-800 leading-[80px]">
           Manager Workload
         </h1>
-        <div className="flex  justify-end  mb-[10px] ">
-          <span
-            className="cursor-pointer text-[22px] flex items-center"
-            onClick={handleprint}
-          >
-            <AiFillPrinter />
-            Print
-          </span>
-        </div>
         <TableContainer
           component={Paper}
-          style={{
-            overflowX: "auto",
-            boxShadow: "none",
-            overflowY: "scroll",
-            maxHeight: "450px",
-          }}
+          // style={{
+          //   overflowX: "auto",
+          //   boxShadow: "none",
+          //   // overflowY: "scroll",
+          //   maxHeight: "450px",
+          // }}
         >
-          <Table size="small" style={{ width: "100%", tableLayout: "auto" }}>
+          <Table size="small">
             <TableHead>
               <TableRow>
                 <StyledTableCell align="center" rowSpan={2}>
@@ -491,7 +251,7 @@ function ViewTable() {
                 <StyledTableCell
                   align="center"
                   style={{ backgroundColor: "rgba(128,121,214,0.5)" }}
-                  width="20px"
+                  // width="20px"
                 >
                   GIỜ ĐỨNG LỚP
                 </StyledTableCell>
@@ -513,47 +273,47 @@ function ViewTable() {
                   )
                 : workload
               ).map((row) => (
-                <TableRow key={row.id}>
-                  <StyledTableCell align="center">{row.id}</StyledTableCell>
-                  <StyledTableCell align="left">{row.mAGV}</StyledTableCell>
+                <TableRow key={row.id1}>
+                  <StyledTableCell align="center">{row.id1}</StyledTableCell>
+                  <StyledTableCell align="left">{row.mAGV1}</StyledTableCell>
                   <StyledTableCell
                     align="left"
                     style={{ borderRight: "none" }}
                     className={cx("tablecell")}
                   >
-                    {row.firtName}
+                    {row.firtName1}
                   </StyledTableCell>
                   <StyledTableCell
                     align="center"
                     style={{ borderLeft: "none" }}
                   >
-                    {row.lastName}
+                    {row.lastName1}
                   </StyledTableCell>
 
                   <StyledTableCell align="center">
-                    {row.Teaching}
+                    {row.Teaching1}
                   </StyledTableCell>
-                  <StyledTableCell align="center">{row.guide}</StyledTableCell>
+                  <StyledTableCell align="center">{row.guide1}</StyledTableCell>
                   <StyledTableCell align="center">
-                    {row.gradingPaper}
-                  </StyledTableCell>
-                  <StyledTableCell align="center">
-                    {row.examQuestions}
+                    {row.gradingPaper1}
                   </StyledTableCell>
                   <StyledTableCell align="center">
-                    {row.examSupervisor}
+                    {row.examQuestions1}
                   </StyledTableCell>
                   <StyledTableCell align="center">
-                    {row.facultyActivities}
+                    {row.examSupervisor1}
                   </StyledTableCell>
                   <StyledTableCell align="center">
-                    {row.academicAdvisor}
+                    {row.facultyActivities1}
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
+                    {row.academicAdvisor1}
                   </StyledTableCell>
                   <StyledTableCell
                     align="center"
                     style={{ backgroundColor: "rgba(223,208,168,0.5)" }}
                   >
-                    {row.total}
+                    {row.total1}
                   </StyledTableCell>
 
                   <StyledTableCell align="center">
@@ -714,7 +474,7 @@ function ViewTable() {
               <TableRow>
                 <TablePagination
                   rowsPerPageOptions={[5, 10, 25, { label: "All", value: -1 }]}
-                  count={rows.length}
+                  count={workload.length}
                   rowsPerPage={rowsPerPage}
                   page={page}
                   SelectProps={{
@@ -731,6 +491,20 @@ function ViewTable() {
             </TableFooter>
           </Table>
         </TableContainer>
+        <div id="printsig" className="w-full justify-around text-center hidden">
+          <div>
+            <h2>TP. PHÒNG ĐÀO TẠO ĐẠI HỌC & SAU ĐẠI HỌC</h2>
+          </div>
+          <div>
+            <h2>HIỆU TRƯỞNG/ VIỆN TRƯỞNG</h2>
+            <p>(kí và ghi rõ họ và tên)</p>
+          </div>
+          <div>
+            <p>Đà Nẵng,Ngày..... Tháng..... Năm 20... </p>
+            <h2>HIỆU TRƯỞNG/ VIỆN TRƯỞNG</h2>
+            <p>(kí và ghi rõ họ và tên)</p>
+          </div>
+        </div>
       </div>
     </div>
   );

@@ -102,7 +102,7 @@ function HandleLogout(){
       </div>
       <div className="flex border-r-[1px] border-[#D5D5D5] border-solid">
         <NavLeft></NavLeft>
-        <div className="w-[726px] mb-3 ">
+        <div className="prints w-[726px] mb-3 ">
           <Outlet></Outlet>
         </div>
       </div>

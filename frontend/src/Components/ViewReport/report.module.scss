@@ -1,0 +1,15 @@
+.option {
+  width: 100%;
+  min-height: 175px;
+  background: url("../../Assets/img/bg-dangkymonhoc.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+@media print {
+    .MuiTableFooter-root { 
+      opacity:0 !important; 
+    }
+    #printsig {
+     display: flex !important;
+    }
+}
