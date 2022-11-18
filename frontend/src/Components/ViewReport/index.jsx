@@ -34,7 +34,7 @@ function ViewReport() {
        maxWidth: 1123,
        scanStyles: true,
        style:
-         "table, td, th {border: 1px solid;} table {width:100%;border-collapse: collapse !important; display:block !important;} .MuiTableFooter-root {display:none !important;} #printsig {width:1123px !important;display:flex !important;margin:0 auto !important;justify-content:space-around !important;}}",
+         "td, th {border: 1px solid;} table {width:100%;border-collapse: collapse !important; display:block !important;} .MuiTableFooter-root {display:none !important;} #printsig {width:1123px !important;display:flex !important;margin:0 auto !important;justify-content:space-around !important;}}",
      });
    }
     return (

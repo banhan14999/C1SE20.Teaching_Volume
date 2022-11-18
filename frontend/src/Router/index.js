@@ -40,7 +40,6 @@ export const publicRouters = [
       { path: "manageryear", component: ManagerYear },
       { path: "manageryear/:id", component: ManagerYear },
       { path: "addnewyear", component: AddYear },
-      { path: "manageryear/:id", component: ManagerYear },
       { path: "viewtable", component: ViewReport },
       { path: "subject", component: FormSubject },
     ],

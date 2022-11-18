@@ -133,7 +133,7 @@ function ManagerWorkload() {
     }
   }, [semester , year ]);
   return (
-    <>
+    <div className="container">
       <div className={cx("option")}>
         <div className="flex pt-[14.3%] justify-around">
           <span className="w-[30%] ml-[50px] z-10">
@@ -202,7 +202,32 @@ function ManagerWorkload() {
                     <StyledTableCell>{row.advisor}</StyledTableCell>
                     <StyledTableCell>{row.timeScientific}</StyledTableCell>
                     <StyledTableCell>{row.total}</StyledTableCell>
-                    <StyledTableCell>{row.status}</StyledTableCell>
+                    <StyledTableCell
+                      style={{
+                        color:
+                          row.status === "Decline"
+                            ? "red"
+                            : row.status === "Waiting"
+                            ? "greenyellow"
+                            : "green",
+                        fontWeight:700,
+                      }}
+                    >
+                      <div className="flex justify-between items-center">
+                        <p
+                          style={{
+                            backgroundColor:
+                              row.status === "Decline"
+                                ? "red"
+                                : row.status === "Waiting"
+                                ? "yellow"
+                                : "green",
+                          }}
+                          className="w-[10px] h-[10px] rounded-[50%] mr-1"
+                        ></p>
+                        {row.status}
+                      </div>
+                    </StyledTableCell>
                     <StyledTableCell>
                       {row.status === "Decline" ? (
                         <p
@@ -229,7 +254,7 @@ function ManagerWorkload() {
           </TableContainer>
         </div>
       )}
-    </>
+    </div>
   );
 }
 

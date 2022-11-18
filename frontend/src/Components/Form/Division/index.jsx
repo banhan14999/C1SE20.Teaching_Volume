@@ -180,7 +180,7 @@ useEffect(() => {
   };
   
   return (
-    <div className="w-[726px]">
+    <div className="container">
       <div className={cx("option")}>
         <div className="flex pt-[14%] justify-around">
           <span className="w-[30%] ml-[50px]">
