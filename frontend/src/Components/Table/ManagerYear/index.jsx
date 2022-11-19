@@ -90,19 +90,6 @@ function handleDelete(e){
                     <StyledTableCell>{row.UpdatedAdd}</StyledTableCell>
                     <StyledTableCell align="center">
                       <div
-                        className="flex justify-center  cursor-pointer "
-                        data-update={row.Id}
-                        onClick={handleUpdate}
-                      >
-                        <GrUpdate
-                          color="#0a7a0a"
-                          className="pointer-events-none"
-                          fontSize={14}
-                        ></GrUpdate>
-                      </div>
-                    </StyledTableCell>
-                    <StyledTableCell align="center">
-                      <div
                         className="flex justify-center cursor-pointer"
                         data-delete={row.Start}
                         onClick={handleDelete}

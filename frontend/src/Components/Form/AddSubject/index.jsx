@@ -106,7 +106,7 @@ function AddSubject(props) {
 
 
   return (
-    <div>
+    <div className="container">
       <div className={cx("form")}>
         <div className={cx("line")}>
           <h2 className="text-xl font-semibold">

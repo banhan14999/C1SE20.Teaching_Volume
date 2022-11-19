@@ -60,11 +60,6 @@ function selectValue(s,arr) {
         dispath(DataUpdate(data));
         navigate(classid);
     }
-    // ApiTeachingVolume.Delete("/class/delete/", id);
-    // const arr = classad.filter((value) => {
-    //   return value.ClassID !== id;
-    // });
-    // setClassAd([...arr]);
   }
   
   function createData(ClassID,ClassName,Subject,Student,Type,Credit,Coefficient,Action) {
@@ -85,10 +80,9 @@ const ad = JSON.parse(localStorage.getItem("Admin"));
 
 useEffect(() => {
   if (semester && semester.value && year && year.value) {
-    const str =
-      (ad && "class/all") ||
+    const str = !ad &&
       `class/lecturer/${idlec}/semester/${semester.value}/year/${year.value}`;
-    ApiTeachingVolume.Get(str).then((req) => {
+    ApiTeachingVolume.Get(str || "class/all").then((req) => {
       setData([...req.classes]);
       const arr = req.classes
         .map((value) => {

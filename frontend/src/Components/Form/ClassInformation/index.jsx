@@ -136,192 +136,194 @@ const [valuesForm, setValuesForm] = useState({
   }, [ data, props.btn]);
   console.log(props.title);
     return (
-      <div className={cx("form")}>
-        <div className={cx("line")}>
-          <h2 className="text-xl font-semibold">
-            {props.title || "Class Infomation"}
-          </h2>
-        </div>
-        <div className="p-5">
-          <form action="">
-            <div className="w-full flex justify-between mt-2 ">
-              <label htmlFor="" className="w-[30%]">
-                Year
-              </label>
-              <span className="text-lg font-bold">:</span>
-              <SelectForm
-                placeholder="Year"
-                class="w-1/2"
-                options={yearOptions}
-                setSelectedOption={setYear}
-                defaultValue={
-                  props.btn &&
-                  data[0] && {
-                    label: data[0].Year,
-                    value: data[0].Year,
+      <div className="container">
+        <div className={cx("form")}>
+          <div className={cx("line")}>
+            <h2 className="text-xl font-semibold">
+              {props.title || "Class Infomation"}
+            </h2>
+          </div>
+          <div className="p-5">
+            <form action="">
+              <div className="w-full flex justify-between mt-2 ">
+                <label htmlFor="" className="w-[30%]">
+                  Year
+                </label>
+                <span className="text-lg font-bold">:</span>
+                <SelectForm
+                  placeholder="Year"
+                  class="w-1/2"
+                  options={yearOptions}
+                  setSelectedOption={setYear}
+                  defaultValue={
+                    props.btn &&
+                    data[0] && {
+                      label: data[0].Year,
+                      value: data[0].Year,
+                    }
                   }
-                }
-                isDisabled={props.btn ? true : false}
-              ></SelectForm>
-            </div>
-            <div className="w-full flex justify-between mt-2">
-              <label htmlFor="" className="w-[30%]">
-                Semester
-              </label>
-              <span className="text-lg font-bold">:</span>
-              <SelectForm
-                placeholder="Semester"
-                class="w-1/2"
-                options={semesterOptions}
-                setSelectedOption={setSemester}
-                defaultValue={
-                  props.btn && data[0] && semesterValue(data[0].Semester)[0]
-                }
-                isDisabled={props.btn ? true : false}
-              ></SelectForm>
-            </div>
-            <div
-              className={`w-full flex justify-between mt-2 ${
-                param.id && "hidden"
-              }`}
-            >
-              <label htmlFor="" className="w-[30%]">
-                Subject
-              </label>
-              <span className="text-lg font-bold">:</span>
-              <SelectForm
-                placeholder="Subject"
-                class="w-1/2"
-                options={subjectOptions}
-                setSelectedOption={setSubject}
-                defaultValue={
-                  props.btn &&
-                  data[0] && {
-                    label: data[0].Year,
-                    value: data[0].Year,
+                  isDisabled={props.btn ? true : false}
+                ></SelectForm>
+              </div>
+              <div className="w-full flex justify-between mt-2">
+                <label htmlFor="" className="w-[30%]">
+                  Semester
+                </label>
+                <span className="text-lg font-bold">:</span>
+                <SelectForm
+                  placeholder="Semester"
+                  class="w-1/2"
+                  options={semesterOptions}
+                  setSelectedOption={setSemester}
+                  defaultValue={
+                    props.btn && data[0] && semesterValue(data[0].Semester)[0]
                   }
-                }
-                isDisabled={props.btn ? true : false}
-              ></SelectForm>
-            </div>
-            <div className="w-full flex justify-between mt-2">
-              <label htmlFor="" className="w-[30%]">
-                Grade
-              </label>
-              <span className="text-lg font-bold">:</span>
-              <input
-                placeholder="Grade"
-                className="w-1/2 input"
-                value={valuesForm.grade || ""}
-                onChange={(e) => {
-                  setValuesForm({ ...valuesForm, grade: e.target.value });
-                }}
-                disabled={props.btn ? true : false}
-              ></input>
-            </div>
-            <div className="w-full flex justify-between mt-2">
-              <label htmlFor="" className="w-[30%]">
-                Credit
-              </label>
-              <span className="text-lg font-bold">:</span>
-              <input
-                placeholder="Credit"
-                className="w-1/2 input"
-                value={valuesForm.credit || ""}
-                onChange={(e) => {
-                  setValuesForm({
-                    ...valuesForm,
-                    credit: e.target.value,
-                  });
-                }}
-                disabled={props.btn ? true : false}
-              ></input>
-            </div>
-            <div className="w-full flex justify-between mt-2">
-              <label htmlFor="" className="w-[30%]">
-                Type
-              </label>
-              <span className="text-lg font-bold">:</span>
-              <SelectForm
-                placeholder="Type"
-                class="w-1/2"
-                options={typeOptions}
-                setSelectedOption={setType}
-                defaultValue={
-                  props.btn &&
-                  data[0] && {
-                    value: data[0].TypeClass,
-                    label: data[0].TypeClass,
-                  }
-                }
-                isDisabled={props.btn ? true : false}
-              ></SelectForm>
-            </div>
-            <div className="w-full flex justify-between mt-2">
-              <label htmlFor="" className="w-[30%]">
-                Number Of Student
-              </label>
-              <span className="text-lg font-bold">:</span>
-              <input
-                placeholder="Number Of Student"
-                className="w-1/2 input"
-                disabled={props.title ? true : false}
-                value={valuesForm.numberOfStudent || ""}
-                onChange={(e) => {
-                  setValuesForm({
-                    ...valuesForm,
-                    numberOfStudent: e.target.value,
-                  });
-                }}
-              ></input>
-            </div>
-            <div className="w-full flex justify-between mt-2">
-              <label htmlFor="" className="w-[30%]">
-                Subject Coefficient
-              </label>
-              <span className="text-lg font-bold">:</span>
-              <input
-                placeholder="Subject Coefficient"
-                className="w-1/2 input"
-                disabled={props.title ? true : false}
-                value={valuesForm.subjectCoefficient || ""}
-                onChange={(e) => {
-                  setValuesForm({
-                    ...valuesForm,
-                    subjectCoefficient: e.target.value,
-                  });
-                }}
-              ></input>
-            </div>
-            <div className="w-full flex justify-between mt-2">
-              <label htmlFor="" className="w-[30%]">
-                Unit
-              </label>
-              <span className="text-lg font-bold">:</span>
-              <input
-                placeholder="Unit"
-                className="w-1/2 input"
-                value={valuesForm.unit || ""}
-                onChange={(e) => {
-                  setValuesForm({ ...valuesForm, unit: e.target.value });
-                }}
-                disabled={props.btn ? true : false}
-              ></input>
-            </div>
-            <div className="flex justify-around mt-[20px]">
-              <Button
-                bgcolor="#950b0b"
-                width="30%"
-                size="large"
-                onClick={handleAdd}
+                  isDisabled={props.btn ? true : false}
+                ></SelectForm>
+              </div>
+              <div
+                className={`w-full flex justify-between mt-2 ${
+                  param.id && "hidden"
+                }`}
               >
-                {props.btn || "Add"}
-              </Button>
-              <Button bgcolor="#950b0b" width="30%" size="large">
-                Cancel
-              </Button>
-            </div>
-          </form>
+                <label htmlFor="" className="w-[30%]">
+                  Subject
+                </label>
+                <span className="text-lg font-bold">:</span>
+                <SelectForm
+                  placeholder="Subject"
+                  class="w-1/2"
+                  options={subjectOptions}
+                  setSelectedOption={setSubject}
+                  defaultValue={
+                    props.btn &&
+                    data[0] && {
+                      label: data[0].Year,
+                      value: data[0].Year,
+                    }
+                  }
+                  isDisabled={props.btn ? true : false}
+                ></SelectForm>
+              </div>
+              <div className="w-full flex justify-between mt-2">
+                <label htmlFor="" className="w-[30%]">
+                  Grade
+                </label>
+                <span className="text-lg font-bold">:</span>
+                <input
+                  placeholder="Grade"
+                  className="w-1/2 input"
+                  value={valuesForm.grade || ""}
+                  onChange={(e) => {
+                    setValuesForm({ ...valuesForm, grade: e.target.value });
+                  }}
+                  disabled={props.btn ? true : false}
+                ></input>
+              </div>
+              <div className="w-full flex justify-between mt-2">
+                <label htmlFor="" className="w-[30%]">
+                  Credit
+                </label>
+                <span className="text-lg font-bold">:</span>
+                <input
+                  placeholder="Credit"
+                  className="w-1/2 input"
+                  value={valuesForm.credit || ""}
+                  onChange={(e) => {
+                    setValuesForm({
+                      ...valuesForm,
+                      credit: e.target.value,
+                    });
+                  }}
+                  disabled={props.btn ? true : false}
+                ></input>
+              </div>
+              <div className="w-full flex justify-between mt-2">
+                <label htmlFor="" className="w-[30%]">
+                  Type
+                </label>
+                <span className="text-lg font-bold">:</span>
+                <SelectForm
+                  placeholder="Type"
+                  class="w-1/2"
+                  options={typeOptions}
+                  setSelectedOption={setType}
+                  defaultValue={
+                    props.btn &&
+                    data[0] && {
+                      value: data[0].TypeClass,
+                      label: data[0].TypeClass,
+                    }
+                  }
+                  isDisabled={props.btn ? true : false}
+                ></SelectForm>
+              </div>
+              <div className="w-full flex justify-between mt-2">
+                <label htmlFor="" className="w-[30%]">
+                  Number Of Student
+                </label>
+                <span className="text-lg font-bold">:</span>
+                <input
+                  placeholder="Number Of Student"
+                  className="w-1/2 input"
+                  disabled={props.title ? true : false}
+                  value={valuesForm.numberOfStudent || ""}
+                  onChange={(e) => {
+                    setValuesForm({
+                      ...valuesForm,
+                      numberOfStudent: e.target.value,
+                    });
+                  }}
+                ></input>
+              </div>
+              <div className="w-full flex justify-between mt-2">
+                <label htmlFor="" className="w-[30%]">
+                  Subject Coefficient
+                </label>
+                <span className="text-lg font-bold">:</span>
+                <input
+                  placeholder="Subject Coefficient"
+                  className="w-1/2 input"
+                  disabled={props.title ? true : false}
+                  value={valuesForm.subjectCoefficient || ""}
+                  onChange={(e) => {
+                    setValuesForm({
+                      ...valuesForm,
+                      subjectCoefficient: e.target.value,
+                    });
+                  }}
+                ></input>
+              </div>
+              <div className="w-full flex justify-between mt-2">
+                <label htmlFor="" className="w-[30%]">
+                  Unit
+                </label>
+                <span className="text-lg font-bold">:</span>
+                <input
+                  placeholder="Unit"
+                  className="w-1/2 input"
+                  value={valuesForm.unit || ""}
+                  onChange={(e) => {
+                    setValuesForm({ ...valuesForm, unit: e.target.value });
+                  }}
+                  disabled={props.btn ? true : false}
+                ></input>
+              </div>
+              <div className="flex justify-around mt-[20px]">
+                {!props.title && <Button
+                  bgcolor="#950b0b"
+                  width="30%"
+                  size="large"
+                  onClick={handleAdd}
+                >
+                  {props.btn || "Add"}
+                </Button>}
+                <Button bgcolor="#950b0b" width="30%" size="large">
+                  Cancel
+                </Button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     );
