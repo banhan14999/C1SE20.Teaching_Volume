@@ -79,7 +79,7 @@ function FormSubject({ year, semester, theoryClass, exams, others, btn,title,idL
   useEffect(() => {
     if (idLecturer && semester && year) {
       ApiTeachingVolume.Get(
-        `/class/theoryClass/${idLecturer}/semester/${semester}/year/${year}`
+        `/class/theoryClass/${idLec || idLecturer}/semester/${semester}/year/${year}`
       ).then((req) => {
         const arr = req.classes.map((value, index) => {
           return createTeaching(
@@ -98,7 +98,7 @@ function FormSubject({ year, semester, theoryClass, exams, others, btn,title,idL
         setTeaching([...arr]);
       });
       ApiTeachingVolume.Get(
-        `/class/realityClass/${idLecturer}/semester/${semester}/year/${year}`
+        `/class/realityClass/${idLec || idLecturer}/semester/${semester}/year/${year}`
       ).then((req) => {
         const arr = req.classes.map((value, index) => {
           return createProject(

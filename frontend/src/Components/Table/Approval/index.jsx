@@ -147,6 +147,7 @@ function Approval() {
 
   function hanldeDetail(e) {
     const id = e.target.parentElement.dataset.id;
+    data(id)
     setFormsmount(true);
   }
   function hanldeAccept(e) {
