@@ -1,7 +1,7 @@
 import { AiFillCheckCircle } from "react-icons/ai";
 import { TbListDetails } from "react-icons/tb";
 import { BiMessageDetail } from "react-icons/bi";
-import { useEffect, useLayoutEffect, useState } from "react";
+import {  useLayoutEffect, useState } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableContainer from "@mui/material/TableContainer";
@@ -23,9 +23,6 @@ function Approval() {
   const [approvalID, setApprovalID] = useState();
   const [year, setYear] = useState(null);
   const [semester, setSemester] = useState(null);
-  const [theoryClass, setTheoryClass] = useState([]);
-  const [exams, setExams] = useState([]);
-  const [others, setOthers] = useState([]);
   const [formsmount, setFormsmount] = useState(false);
   const [approvalForm,setApprovalForm] = useState({theoryClass:[],exams:[],others:[]})
 
@@ -52,7 +49,7 @@ function Approval() {
             subject: e.SubjectName,
             type: e.Type,
             semester: e.Semester,
-            time: e.TimeTeaching,
+            time: e.Time,
             unit: e.Unit,
             numberGE: e.numberGE,
             coefficient: e.CoefficientGradeExam,
@@ -147,6 +144,7 @@ function Approval() {
 
   function hanldeDetail(e) {
     const id = e.target.parentElement.dataset.id;
+    data(id);
     setFormsmount(true);
   }
   function hanldeAccept(e) {
@@ -293,14 +291,14 @@ function Approval() {
                           className="flex  items-center justify-around w-[66%]"
                           data-id={row.code}
                         >
-                          <BiMessageDetail
-                            className="text-[16px] cursor-pointer"
-                            onClick={hanldeUndo}
-                            data-id={row.code}
-                          />
                           <AiFillCheckCircle
                             className="text-green-600 text-[16px] cursor-pointer"
                             onClick={hanldeAccept}
+                            data-id={row.code}
+                          />
+                          <BiMessageDetail
+                            className="text-[16px] cursor-pointer"
+                            onClick={hanldeUndo}
                             data-id={row.code}
                           />
                         </p>
