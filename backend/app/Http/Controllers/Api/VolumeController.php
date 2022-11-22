@@ -99,7 +99,7 @@ class VolumeController extends Controller
         $teachingVol = 0.00;
         if(! empty($teaching)) {
             foreach($teaching as $teach) {
-                $teachingVol = round($teach['classCoefficient'] * $teach['subjectCoefficient'] * $teach['timeTeaching'], 2); 
+                $teachingVol += round($teach['classCoefficient'] * $teach['subjectCoefficient'] * $teach['timeTeaching'], 2); 
             }
         }
         return $teachingVol;
@@ -110,7 +110,7 @@ class VolumeController extends Controller
         $projectVol = 0.00;
         if(! empty($projects)) {
             foreach($projects as $project) {
-                $projectVol = round($project['subjectCoefficient'] * $project['numberOfStudent'], 2);
+                $projectVol += round($project['subjectCoefficient'] * $project['numberOfStudent'], 2);
             }
         }
         return $projectVol;
@@ -121,7 +121,7 @@ class VolumeController extends Controller
         $gradingVol = 0.00;
         if(! empty($grading)) {
             foreach($grading as $grade) {
-                $gradingVol = round($grade['coefficientGrade'] * $grade['numberGE']);
+                $gradingVol += round($grade['coefficientGrade'] * $grade['numberGE']);
             }
         }
         return $gradingVol;
@@ -132,7 +132,7 @@ class VolumeController extends Controller
         $examVol = 0.00;
         if(! empty($exams)) {
             foreach($exams as $exam) {
-                $examVol = round($exam['coefficientExam'] * $exam['numberGE'], 2);
+                $examVol += round($exam['coefficientExam'] * $exam['numberGE'], 2);
             }
         }
         return $examVol;
