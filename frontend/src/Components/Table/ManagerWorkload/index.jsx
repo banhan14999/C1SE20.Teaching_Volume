@@ -46,7 +46,6 @@ function ManagerWorkload() {
       ApiTeachingVolume.Get(
         `volume/selfTotalDetail/idLecture/${idlecturer}/sem/${semester.value}/year/${year.value}`
       ).then((req) => {
-        console.log(req);
         const theory = req.grades.map((e, index) => {
           return {
             stt: index + 1,

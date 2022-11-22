@@ -9,7 +9,7 @@ header {
         position: relative;
 }
 
-@media only screen and (max-width:768px) {
+@media only screen and (min-width:984px) {
   .header{
     max-width: 100%;
     left: 0;
