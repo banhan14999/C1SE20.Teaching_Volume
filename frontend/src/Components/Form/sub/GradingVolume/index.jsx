@@ -69,7 +69,7 @@ function GradingVolume({ rows, setGrading,btn }) {
                     <div
                       onClick={handleRemove}
                       data-list={index}
-                      className="cursor-pointer"
+                      className="cursor-pointer flex justify-center items-center"
                     >
                       <CgPlayListRemove className="text-[20px] text-[blue] text-center pointer-events-none" />
                     </div>

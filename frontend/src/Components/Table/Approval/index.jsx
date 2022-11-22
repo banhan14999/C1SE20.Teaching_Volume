@@ -58,7 +58,6 @@ function Approval() {
             idSubject: e.IdSubject,
           };
         });
-        // setTheoryClass([...theory]);
         const exam = req.exams.map((e, index) => {
           return {
             stt: index + 1,
@@ -75,17 +74,6 @@ function Approval() {
             idSubject: e.IdSubject,
           };
         });
-        // setExams([...exam]);
-        // setOthers([
-        //   ...req.others.map((e) => {
-        //     return createOther(
-        //       e.ActivitiesVolume,
-        //       e.ExamMonitorVolume,
-        //       e.AdvisorVolume,
-        //       e.TimeScientificVolume
-        //     );
-        //   }),
-        // ]);
         const other = req.others.map((e) => {
             return createOther(
               e.ActivitiesVolume,
@@ -113,10 +101,13 @@ function Approval() {
   function createOther(activities, examMonitor, advisor, scientific) {
     return { activities, examMonitor, advisor, scientific };
   }
+
   useLayoutEffect(() => {
     if (semester && semester.value && year && year.value) {
       ApiTeachingVolume.Get(
-        `/volume/totalByDean/sem/${semester.value}/year/${year.value}`
+        `/volume/totalByHead/sem/${
+          semester.value
+        }/year/${year.value}`
       )
         .then((res) => {
           if (res.status === 200 && res.totalVols && res.totalVols.length > 0) {
@@ -132,16 +123,16 @@ function Approval() {
             setContinues(true);
             setFormsmount(false);
           } else {
-             setContinues(false);
-             setFormsmount(false);
+            setContinues(false);
+            setFormsmount(false);
           }
         })
         .catch((err) => {
           setContinues(false);
-            setFormsmount(false);    
+          setFormsmount(false);
         });
     }
-  }, [semester , year]);
+  }, [semester, year]);
 
   function hanldeDetail(e) {
     const id = e.target.parentElement.dataset.id;
@@ -155,7 +146,7 @@ function Approval() {
       ApiTeachingVolume.Put( `volume/approval/idLec/${id}/sem/${semester.value}/year/${year.value}`,{});
       if (semester && semester.value && year && year.value) {
         ApiTeachingVolume.Get(
-          `/volume/totalByDean/sem/${semester.value}/year/${year.value}`
+          `/volume/totalByHead/sem/${semester.value}/year/${year.value}`
         ).then((res) => {
           if (res.status === 200 && res.totalVols && res.totalVols.length > 0) {
             const arr = res.totalVols.map((value) => {
@@ -182,7 +173,7 @@ function Approval() {
       );
       if (semester && semester.value && year && year.value) {
         ApiTeachingVolume.Get(
-          `/volume/totalByDean/sem/${semester.value}/year/${year.value}`
+          `/volume/totalByHead/sem/${semester.value}/year/${year.value}`
         ).then((res) => {
           if (res.status === 200 && res.totalVols && res.totalVols.length > 0) {
             const arr = res.totalVols.map((value) => {
