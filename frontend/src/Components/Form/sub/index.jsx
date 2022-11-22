@@ -228,10 +228,9 @@ function FormSubject({ year, semester, theoryClass, exams, others, btn,title,idL
           project: pros,
           grading: Grading,
           exam: examvo,
-          other: (btn && others[0]) || valueOther[0],
+          other: valueOther[0] || (btn && others[0]),
         },
       };
-      console.log(obj);
       ApiTeachingVolume.Put("/volume/update", obj)
         .then((res) => {
           alert("Thanh cong");
