@@ -20,6 +20,7 @@ class VolumeController extends Controller
                           ['IdFaculty', '=', $faculty],
                           ['Semester', '=', $semester],
                           ['Year', '=', $year],
+                          ['Status', '=', 'Approved'],
                       ])
                       ->get();
         return response()->json([
@@ -37,6 +38,7 @@ class VolumeController extends Controller
         ->where([
             ['IdFaculty', '=', $faculty],
             ['Year', '=', $year],
+            ['Status', '=', 'Approved'],
         ])
         ->groupBy('totalvolume.IdLecturer')
         ->get();
