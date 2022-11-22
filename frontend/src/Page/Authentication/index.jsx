@@ -3,10 +3,13 @@ import { useRef, useState, useEffect } from "react";
 import { default as Button } from "../../Components/Button";
 import MyCaptcha from "../../Components/Captcha";
 import bg from "../../Assets/img/bg.jpg";
-
+import classNames from "classnames/bind";
 import logoform from "../../Assets/img/logo_dtu_while.png";
 import { ApiTeachingVolume } from "../../apis/axios";
 import axios from "axios";
+import styles from "./authen.module.scss"
+
+const cx = classNames.bind(styles)
 
 function Authentication() {
   const navigate = useNavigate();
@@ -73,10 +76,10 @@ function Authentication() {
   
   return (
     <div
-      className="w-screen h-screen items-center flex justify-center "
+      className={`w-screen h-screen items-center flex justify-center`}
       style={{ background: `url(${bg}) left top` }}
     >
-      <div className="w-[35%] text-white bg-white/10 p-8 rounded-xl shadow-lg shadow-slate-800 ">
+      <div className={`w-[35%] text-white bg-white/10 p-8 rounded-xl shadow-lg shadow-slate-800 ${cx("form_authen")}`}>
         <div>
           <img
             src={logoform}
@@ -85,8 +88,8 @@ function Authentication() {
           />
         </div>
         <div className="mt-6">
-          <form action="">
-            <div className="flex justify-between">
+          <form action="" className={`${cx("form_login")}`}>
+            <div className="flex justify-between items-center">
               <label htmlFor="username" className="mr-2">
                 Tên Đăng nhập:
               </label>
@@ -102,7 +105,7 @@ function Authentication() {
                 }}
               ></input>
             </div>
-            <div className="mt-4 flex justify-between">
+            <div className="mt-4 flex justify-between items-center">
               <label htmlFor="password" className="mr-2">
                 Mật khẩu:
               </label>
@@ -118,7 +121,7 @@ function Authentication() {
                 }}
               />
             </div>
-            <div className="mt-4 flex justify-between">
+            <div className="mt-4 flex justify-between items-center">
               <label htmlFor="" className="mr-2">
                 Mã xác nhận:
               </label>

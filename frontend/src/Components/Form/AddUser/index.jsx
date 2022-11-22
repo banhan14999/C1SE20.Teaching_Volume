@@ -11,7 +11,6 @@ const cx = classNames.bind(styles);
 function AddUser(props) {
   const [roles, setRole] = useState();
   const [faculty, setFaculty] = useState();
-  const [disabled,setDisabled] = useState(false)
   const [check, setCheck] = useState(false);
   const [department, setDepartment] = useState();
   const navigate = useNavigate()
@@ -68,17 +67,16 @@ const iduserf = JSON.parse(sessionStorage.getItem("iduser"));
   
   function clickAddUser(){
      if (props.btn || param.id) {
-       const id = (data && data.length >0 &&  data[0].Username) || param.id;
+       const id = param.id
         const obj = {
-          idlecturer: parseInt(valuesForm.idlecturer),
+          idlecturer: valuesForm.idlecturer,
           firstname: valuesForm.firstname,
           lastname: valuesForm.lastname,
           idfaculty: (faculty && faculty.value) ||( data.length > 0 && data[0].School )|| valuesForm.idfaculty.value,
           iddepartment: (department && department.value) ||  (data.length > 0 && data[0].Department) || valuesForm.iddepartment.value,
-          idrole: (roles && roles.value) ||  (data.length > 0 && roleValue(data[0].Role)[0].value )|| valuesForm.idrole.value,
+          idrole: (roles && roles.value) ||  (data.length > 0 && Number(roleValue(data[0].Role)[0].value) ) || Number(roleValue(iduserf.idrole)[0].value),
         };
-       const check = ApiTeachingVolume.Update("/user/update/", id, obj);
-       check
+       ApiTeachingVolume.Update("/user/update/", id, obj)
          .then(function (response) {
            alert("Update Done");
          })
@@ -103,9 +101,9 @@ const iduserf = JSON.parse(sessionStorage.getItem("iduser"));
           idlecturer: valuesForm.idlecturer,
           firstname: valuesForm.firstname,
           lastname: valuesForm.lastname,
-          idfaculty: faculty.value,
-          iddepartment: department.value,
-          idrole: roles.value,
+          idfaculty: faculty && faculty.value,
+          iddepartment: department && department.value,
+          idrole: roles && roles.value,
         };
         setCheck(true)
         ApiTeachingVolume.Post("/user/add", obj)
@@ -141,11 +139,11 @@ const iduserf = JSON.parse(sessionStorage.getItem("iduser"));
          lastname: lastname,
        };
      });
-     setDisabled(true);
+
    }
  }, [props.btn,data]);
- function createData(id,firstname,lastname,faculty,department,role) {
-   return {id, firstname, lastname, faculty, department, role };
+ function createData(id,idlecturer,firstname,lastname,faculty,department,role) {
+   return {id,idlecturer, firstname, lastname, faculty, department, role };
  }
 useEffect(() => {
   if (param.id) {
@@ -153,6 +151,7 @@ useEffect(() => {
       const subjects = data.users.map((e) => {
         return createData(
           e.id,
+          e.IdLecturer,
           e.FirstName,
           e.LastName,
           e.IdFaculty,
@@ -163,6 +162,7 @@ useEffect(() => {
       const arr = subjects.filter((e) => {
         return e.id === Number(param.id);
       });
+      console.log(arr);
        if (arr.length > 0){
          sessionStorage.setItem(
            "iduser",
@@ -178,6 +178,7 @@ useEffect(() => {
          setValuesForm((prev) => {
            return {
              ...prev,
+             idlecturer: arr[0].idlecturer,
              firstname: arr[0].firstname,
              lastname: arr[0].lastname,
              idfaculty: { value: arr[0].faculty, label: arr[0].faculty },
@@ -240,7 +241,7 @@ useEffect(() => {
                 Password lớn hơn 8 kí tự
               </div>
             )}
-            <div className={`w-full flex justify-between mt-2 ${props.hide}`}>
+            <div className={`w-full flex justify-between mt-2`}>
               <label htmlFor="" className="w-[30%]">
                 DTU-ID
               </label>
@@ -256,7 +257,6 @@ useEffect(() => {
                       idlecturer: e.target.value,
                     });
                   }}
-                  disabled={disabled}
                 ></input>
               </div>
             </div>

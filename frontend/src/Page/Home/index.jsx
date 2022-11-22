@@ -20,7 +20,7 @@ function Home() {
           <SubHeader />
         </div>
       </header>
-      <div className="max-w-[984px] m-auto">
+      <div className={`max-w-[984px] m-auto ${cx("navleft")}`}>
         <NavLeft></NavLeft>
       </div>
       <Footer></Footer>

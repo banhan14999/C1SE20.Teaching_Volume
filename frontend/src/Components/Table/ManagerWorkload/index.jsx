@@ -12,7 +12,7 @@ import styles from "./workload.module.scss"
 import classNames from "classnames/bind";
 import SelectForm from "../../SelectForm";
 import {TbListDetails} from "react-icons/tb"
-
+import {BiEdit} from "react-icons/bi"
 const cx = classNames.bind(styles)
 
 function ManagerWorkload() {
@@ -42,7 +42,6 @@ function ManagerWorkload() {
       }
       function data(){
  if (semester && year && semester.value && year.value) {
-  console.log(`volume/selfTotalDetail/idLecture/${idlecturer}/sem/${semester.value}/year/${year.value}`);
       ApiTeachingVolume.Get(
         `volume/selfTotalDetail/idLecture/${idlecturer}/sem/${semester.value}/year/${year.value}`
       ).then((req) => {
@@ -211,7 +210,7 @@ function ManagerWorkload() {
                             : row.status === "Waiting"
                             ? "greenyellow"
                             : "green",
-                        fontWeight:700,
+                        fontWeight: 700,
                       }}
                     >
                       <div className="flex justify-between items-center">
@@ -235,7 +234,7 @@ function ManagerWorkload() {
                           className="flex justify-around items-center cursor-pointer"
                           onClick={handleupdate}
                         >
-                          <TbListDetails />
+                          <BiEdit />
                           Update
                         </p>
                       ) : (

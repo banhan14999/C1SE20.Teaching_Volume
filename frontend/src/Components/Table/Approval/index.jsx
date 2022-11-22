@@ -1,6 +1,5 @@
 import { AiFillCheckCircle } from "react-icons/ai";
 import { TbListDetails } from "react-icons/tb";
-import { BiMessageDetail } from "react-icons/bi";
 import {  useLayoutEffect, useState } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -14,6 +13,7 @@ import SelectForm from "../../SelectForm";
 import StyledTableCell from "../../StyledTableCell";
 import { ApiTeachingVolume } from "../../../apis/axios";
 import FormSubject from "../../Form/sub";
+import { GrClear } from "react-icons/gr";
 
 const cx = classNames.bind(styles);
 
@@ -271,7 +271,7 @@ function Approval() {
                           className="flex justify-around items-center "
                           data-id={row.code}
                         >
-                          <BiMessageDetail
+                          <GrClear
                             className="text-[16px] cursor-pointer"
                             onClick={hanldeUndo}
                             data-id={row.code}
@@ -288,7 +288,7 @@ function Approval() {
                             onClick={hanldeAccept}
                             data-id={row.code}
                           />
-                          <BiMessageDetail
+                          <GrClear
                             className="text-[16px] cursor-pointer"
                             onClick={hanldeUndo}
                             data-id={row.code}
