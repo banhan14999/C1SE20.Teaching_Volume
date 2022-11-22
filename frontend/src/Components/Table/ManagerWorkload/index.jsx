@@ -42,10 +42,12 @@ function ManagerWorkload() {
       }
       function data(){
  if (semester && year && semester.value && year.value) {
+  console.log(`volume/selfTotalDetail/idLecture/${idlecturer}/sem/${semester.value}/year/${year.value}`);
       ApiTeachingVolume.Get(
         `volume/selfTotalDetail/idLecture/${idlecturer}/sem/${semester.value}/year/${year.value}`
       ).then((req) => {
-        const theory = req.theoryClass.map((e, index) => {
+        console.log(req);
+        const theory = req.grades.map((e, index) => {
           return {
             stt: index + 1,
             letter: e.Letter,
@@ -53,11 +55,11 @@ function ManagerWorkload() {
             subject: e.SubjectName,
             type: e.Type,
             semester: e.Semester,
-            time: e.TimeTeaching,
+            time: e.Time,
             unit: e.Unit,
-            numberGE: e.NumberOfStudent,
-            coefficient: e.Coefficient,
-            coefficientGrade: e.Coefficient,
+            numberGE: e.NumberGE,
+            coefficient: e.CoefficientGradeExam,
+            coefficientGrade: e.CoefficientGradeExam,
             idSubject: e.IdSubject,
           };
         });
@@ -72,7 +74,7 @@ function ManagerWorkload() {
             semester: e.Semester,
             time: e.Time,
             unit: e.Unit,
-            numberGE: e.numberGE,
+            numberGE: e.NumberGE,
             coefficient: e.CoefficientGradeExam,
             coefficientExam: e.CoefficientGradeExam,
             idSubject: e.IdSubject,

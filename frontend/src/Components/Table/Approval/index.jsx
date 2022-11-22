@@ -25,7 +25,7 @@ function Approval() {
   const [semester, setSemester] = useState(null);
   const [formsmount, setFormsmount] = useState(false);
   const [approvalForm,setApprovalForm] = useState({theoryClass:[],exams:[],others:[]})
-
+  
   const opt = [
     { value: "2022", label: "2021-2022" },
     { value: "2023", label: "2022-2023" },
