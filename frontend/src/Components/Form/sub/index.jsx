@@ -76,7 +76,6 @@ function FormSubject({ year, semester, theoryClass, exams, others, btn,title,idL
       coefficient,
     };
   }
-
   useEffect(() => {
     if (idLecturer && semester && year) {
       ApiTeachingVolume.Get(
@@ -240,7 +239,7 @@ function FormSubject({ year, semester, theoryClass, exams, others, btn,title,idL
   }
   return (
     <div className={cx("form")}>
-      <h2 className="text-[25px] text-center mb-3">{title}</h2>
+      <p className="text-[25px] text-center mb-3">{title}</p>
       <div className={cx("nav_form")}>
         <ul onClick={handleClick}>
           <li className={`${form === "Teaching Volume" && "!bg-red-800"}`}>

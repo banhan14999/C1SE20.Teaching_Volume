@@ -8,8 +8,10 @@
     position: relative;
     left: 50%;
     top: 0px;
+    background-size: contain;
     transform: translateX(-50%);
     user-select: none;
+
 }
 .date {
     position: absolute;
@@ -38,6 +40,20 @@
     transform: translateX(-50%);
     font-size: 20px;
     margin-left: 15px;
-   
-    
+}
+
+@media only screen and (max-width:768px) {
+  .subheader{
+    max-width: 100%;
+    background-size: contain;
+  }
+  .date {
+    top: 54%;
+    left: 52%;
+    font-size: 12px;
+  }
+  .datetime span{
+    font-size: 20px;
+    padding: 0px 5px;
+  }
 }

@@ -1,14 +1,11 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import classNames from "classnames/bind";
-//import md5 from "md5"
-
 import SelectForm from "../../SelectForm";
 import { default as Button } from "../../Button";
 import styles from "./adduser.module.scss";
 import { ApiTeachingVolume } from "../../../apis/axios";
-import axios from "axios";
-
+import {useNavigate, useParams} from "react-router-dom"
 const cx = classNames.bind(styles);
 
 function AddUser(props) {
@@ -17,12 +14,35 @@ function AddUser(props) {
   const [disabled,setDisabled] = useState(false)
   const [check, setCheck] = useState(false);
   const [department, setDepartment] = useState();
+  const navigate = useNavigate()
+  const param = useParams()
+const iduserf = JSON.parse(sessionStorage.getItem("iduser"));
+
+  function clickCancel(){
+    if(param && param.id){
+      navigate(-1);
+    }else{
+      setValuesForm({
+        username: "",
+        password: "",
+        idlecturer: "",
+        firstname: "",
+        lastname: "",
+        idfaculty: { value: "", label: "" },
+        iddepartment: { value: "", label: "" },
+        idrole: { value: "", label: "" },
+      });
+    }
+  }
   const [valuesForm, setValuesForm] = useState({
     username: "",
     password: "",
     idlecturer: "",
     firstname: "",
-    lastname: ""
+    lastname: "",
+     idfaculty: { value: "", label: "" },
+        iddepartment: { value: "", label: "" },
+        idrole: { value: "", label: "" },
   });
 
   const updateData = useSelector((data) => data.dtupdate);
@@ -45,18 +65,17 @@ function AddUser(props) {
         return Number(value.value) === role;
     })
   }
-
+  
   function clickAddUser(){
-  const token = JSON.parse(localStorage.getItem("Token"));
-     if (props.btn) {
-       const id = data[0].Username;
+     if (props.btn || param.id) {
+       const id = (data && data.length >0 &&  data[0].Username) || param.id;
         const obj = {
           idlecturer: parseInt(valuesForm.idlecturer),
           firstname: valuesForm.firstname,
           lastname: valuesForm.lastname,
-          idfaculty: (faculty && faculty.value) || data[0].School,
-          iddepartment: (department && department.value) || data[0].Department,
-          idrole: (roles && roles.value) || roleValue(data[0].Role)[0].value,
+          idfaculty: (faculty && faculty.value) ||( data.length > 0 && data[0].School )|| valuesForm.idfaculty.value,
+          iddepartment: (department && department.value) ||  (data.length > 0 && data[0].Department) || valuesForm.iddepartment.value,
+          idrole: (roles && roles.value) ||  (data.length > 0 && roleValue(data[0].Role)[0].value )|| valuesForm.idrole.value,
         };
        const check = ApiTeachingVolume.Update("/user/update/", id, obj);
        check
@@ -89,12 +108,7 @@ function AddUser(props) {
           idrole: roles.value,
         };
         setCheck(true)
-      //  const addUser = ApiTeachingVolume.Post("/user/add", obj);
-       axios.post("http://127.0.0.1:8000/api/user/add", obj, {
-         headers: {
-           Authorization: `Bearer ${token}`,
-         },
-       })
+        ApiTeachingVolume.Post("/user/add", obj)
          .then((res) => {
            alert("Add Done");
            setValuesForm({
@@ -103,6 +117,9 @@ function AddUser(props) {
              idlecturer: "",
              firstname: "",
              lastname: "",
+             idfaculty:{ value: "", label: "" },
+            iddepartment:{ value: "", label: "" },
+            idrole:{ value: "", label: "" },
            });
          })
          .catch(() => {
@@ -112,15 +129,69 @@ function AddUser(props) {
      }
   }
  useEffect(() => {
-   if (props.btn) {
-      const id = data[0].Id;
-      const firstname = data[0].FullName.slice(0, data[0].FullName.indexOf(" "));
-      const lastname = data[0].FullName.slice(data[0].FullName.indexOf(" ") + 1);
-    setValuesForm((prev)=>{return {...prev,idlecturer: id, firstname: firstname,lastname: lastname}});
-    setDisabled(true)
+   if (props.btn && data && data.length > 0) {
+     const id = data[0].Id;
+     const firstname = data[0].FullName.slice(0, data[0].FullName.indexOf(" "));
+     const lastname = data[0].FullName.slice(data[0].FullName.indexOf(" ") + 1);
+     setValuesForm((prev) => {
+       return {
+         ...prev,
+         idlecturer: id,
+         firstname: firstname,
+         lastname: lastname,
+       };
+     });
+     setDisabled(true);
    }
  }, [props.btn,data]);
-
+ function createData(id,firstname,lastname,faculty,department,role) {
+   return {id, firstname, lastname, faculty, department, role };
+ }
+useEffect(() => {
+  if (param.id) {
+    ApiTeachingVolume.Get("/user/all").then((data) => {
+      const subjects = data.users.map((e) => {
+        return createData(
+          e.id,
+          e.FirstName,
+          e.LastName,
+          e.IdFaculty,
+          e.IdDepartment,
+          e.IdRole
+        );
+      });
+      const arr = subjects.filter((e) => {
+        return e.id === Number(param.id);
+      });
+       if (arr.length > 0){
+         sessionStorage.setItem(
+           "iduser",
+           JSON.stringify({
+             idfaculty: { label: arr[0].faculty, value: arr[0].faculty },
+             iddepartment: {
+               label: arr[0].department,
+               value: arr[0].department,
+             },
+             idrole: arr[0].role,
+           })
+         );
+         setValuesForm((prev) => {
+           return {
+             ...prev,
+             firstname: arr[0].firstname,
+             lastname: arr[0].lastname,
+             idfaculty: { value: arr[0].faculty, label: arr[0].faculty },
+             iddepartment: {
+               value: arr[0].department,
+               label: arr[0].department,
+             },
+             idrole: arr[0].role,
+           };
+         });
+       }
+    });
+  }
+}, [param.id]);
   return (
     <div>
       <div className={cx("form")}>
@@ -154,7 +225,7 @@ function AddUser(props) {
               <span className="text-lg font-bold">:</span>
               <div className="flex w-[50%] relative items-center">
                 <input
-                  type = "password"
+                  type="password"
                   placeholder="Password"
                   className={`w-full input ${cx("input")}`}
                   value={valuesForm.password}
@@ -238,11 +309,12 @@ function AddUser(props) {
                   options={Faculty}
                   setSelectedOption={setFaculty}
                   defaultValue={
-                    props.btn &&
-                    data[0].School && {
-                      label: data[0].School,
-                      value: data[0].School,
-                    }
+                    props.btn && data && data.length > 0
+                      ? {
+                          label: data[0].School,
+                          value: data[0].School,
+                        }
+                      : iduserf && iduserf.idfaculty
                   }
                 ></SelectForm>
               </div>
@@ -259,11 +331,12 @@ function AddUser(props) {
                   options={Departmentop}
                   setSelectedOption={setDepartment}
                   defaultValue={
-                    props.btn &&
-                    data[0].Department && {
-                      label: data[0].Department,
-                      value: data[0].Department,
-                    }
+                    props.btn && data && data.length > 0
+                      ? {
+                          label: data[0].Department,
+                          value: data[0].Department,
+                        }
+                      : iduserf && iduserf.iddepartment
                   }
                 ></SelectForm>
               </div>
@@ -280,7 +353,9 @@ function AddUser(props) {
                   options={Role}
                   setSelectedOption={setRole}
                   defaultValue={
-                    props.btn && data[0].Role && roleValue(data[0].Role)[0]
+                    props.btn && data && data.length > 0
+                      ? roleValue(data[0].Role)[0]
+                      : iduserf && roleValue(iduserf.idrole)[0]
                   }
                 ></SelectForm>
               </div>
@@ -294,8 +369,13 @@ function AddUser(props) {
               >
                 {props.btn || "Add"}
               </Button>
-              <Button bgcolor="#950b0b" width="30%" size="large">
-                Cancel
+              <Button
+                bgcolor="#950b0b"
+                width="30%"
+                size="large"
+                onClick={clickCancel}
+              >
+                {param && param.id ? "Cancel" : "Reset"}
               </Button>
             </div>
           </form>
