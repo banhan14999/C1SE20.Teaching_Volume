@@ -5,7 +5,7 @@ import SelectForm from "../../SelectForm";
 import { default as Button} from "../../Button";
 import {useState,useEffect} from "react"
 import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 const cx = classNames.bind(styles)
 
 function ClassInformation(props) {
@@ -22,7 +22,22 @@ const [valuesForm, setValuesForm] = useState({
   subjectCoefficient: "",
   unit: "",
 });
+const idclass = JSON.parse(sessionStorage.getItem("idclass"));
 
+  const navigate = useNavigate();
+  function clickCancel() {
+    if (param && param.id) {
+      navigate(-1);
+    } else {
+      setValuesForm({
+        grade: "",
+        credit: "",
+        numberOfStudent: "",
+        subjectCoefficient: "",
+        unit: "",
+      });
+    }
+  }
   const yearOptions = [
     { value: "2022", label: "2021-2022" },
     { value: "2023", label: "2022-2023" },
@@ -33,6 +48,11 @@ const [valuesForm, setValuesForm] = useState({
         return value.value === semester;
       });
     }
+      function YearValue(year) {
+        return yearOptions.filter((value) => {
+          return Number(value.value) === year;
+        });
+      }
   const semesterOptions = [
     { value: "1", label: "Học Kỳ I" },
     { value: "2", label: "Học Kỳ II" },
@@ -134,7 +154,48 @@ const [valuesForm, setValuesForm] = useState({
       });
     }
   }, [ data, props.btn]);
-  console.log(props.title);
+ function createData(id,Year,Semester,Grade,Credit,Type,NumberOfStudent,SubjectCoefficient,Unit) {
+    return {id,Year,Semester,Grade,Credit,Type,NumberOfStudent,SubjectCoefficient,Unit};
+  }
+  useEffect(() => {
+    if (param.id) {
+      ApiTeachingVolume.Get(`/class/${param.id}`).then((data) => {
+        const classes = [data.class].map((e) => {
+          return createData(
+            e.IdClass,
+            e.Year,
+            e.Semester,
+            e.Grade,
+            e.CreditClass,
+            e.TypeClass,
+            e.NumberOfStudent,
+            e.SubjectCoefficient,
+            e.Unit
+          );
+        });
+        if (classes.length > 0) {
+          sessionStorage.setItem(
+            "idclass",
+            JSON.stringify({
+              Year:classes[0].Year,
+              Semester: classes[0].Semester,
+              Type: { value: classes[0].Type, label: classes[0].Type },
+            })
+          );
+          setValuesForm((prev) => {
+            return {
+              ...prev,
+              grade: classes[0].Grade,
+              credit: classes[0].Credit,
+              numberOfStudent: classes[0].NumberOfStudent,
+              subjectCoefficient: classes[0].SubjectCoefficient,
+              unit: classes[0].Unit,
+            };
+          });
+        }
+      });
+    }
+  }, [param.id]);
     return (
       <div className="container">
         <div className={cx("form")}>
@@ -156,11 +217,9 @@ const [valuesForm, setValuesForm] = useState({
                   options={yearOptions}
                   setSelectedOption={setYear}
                   defaultValue={
-                    props.btn &&
-                    data[0] && {
-                      label: data[0].Year,
-                      value: data[0].Year,
-                    }
+                    props.btn && data && data.length > 0
+                      ? YearValue(data[0].Year)[0]
+                      : idclass && YearValue(idclass.Year)[0]
                   }
                   isDisabled={props.btn ? true : false}
                 ></SelectForm>
@@ -176,7 +235,9 @@ const [valuesForm, setValuesForm] = useState({
                   options={semesterOptions}
                   setSelectedOption={setSemester}
                   defaultValue={
-                    props.btn && data[0] && semesterValue(data[0].Semester)[0]
+                    props.btn && data && data.length > 0
+                      ? semesterValue(data[0].Semester)[0]
+                      : idclass && semesterValue(idclass.Semester)[0]
                   }
                   isDisabled={props.btn ? true : false}
                 ></SelectForm>
@@ -249,11 +310,12 @@ const [valuesForm, setValuesForm] = useState({
                   options={typeOptions}
                   setSelectedOption={setType}
                   defaultValue={
-                    props.btn &&
-                    data[0] && {
-                      value: data[0].TypeClass,
-                      label: data[0].TypeClass,
-                    }
+                    props.btn && data && data.length > 0
+                      ? {
+                          value: data[0].TypeClass,
+                          label: data[0].TypeClass,
+                        }
+                      : idclass && idclass.Type
                   }
                   isDisabled={props.btn ? true : false}
                 ></SelectForm>
@@ -310,16 +372,23 @@ const [valuesForm, setValuesForm] = useState({
                 ></input>
               </div>
               <div className="flex justify-around mt-[20px]">
-                {!props.title && <Button
+                {!props.title && (
+                  <Button
+                    bgcolor="#950b0b"
+                    width="30%"
+                    size="large"
+                    onClick={handleAdd}
+                  >
+                    {props.btn || "Add"}
+                  </Button>
+                )}
+                <Button
                   bgcolor="#950b0b"
                   width="30%"
                   size="large"
-                  onClick={handleAdd}
+                  onClick={clickCancel}
                 >
-                  {props.btn || "Add"}
-                </Button>}
-                <Button bgcolor="#950b0b" width="30%" size="large">
-                  Cancel
+                  {param && param.id ? "Cancel" : "Reset"}
                 </Button>
               </div>
             </form>

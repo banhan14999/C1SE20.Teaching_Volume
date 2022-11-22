@@ -3,18 +3,30 @@ import classNames from "classnames/bind";
 import { useState } from "react";
 import styles from "./addyear.module.scss";
 import { ApiTeachingVolume } from "../../../apis/axios";
+import { useParams,useNavigate } from "react-router-dom";
+
 const cx = classNames.bind(styles);
 
 function AddYear(props) {
-   const [valuesForm, setValuesForm] = useState({
+const param = useParams()
+const navigate = useNavigate()
+  const [valuesForm, setValuesForm] = useState({
      start: "",
    });
+    function clickCancel() {
+      if (param && param.id) {
+        navigate(-1);
+      } else {
+        setValuesForm({
+          start: "",
+        });
+      }
+    }
  function handleAdd(e){
     if (props.btn) {
-      const obj = {
-        start: valuesForm.start,
-      };
-      console.log(obj);
+      // const obj = {
+      //   start: valuesForm.start,
+      // };
       // const check = ApiTeachingVolume.Update("/subject/update/", obj);
       // check
       //   .then(function (response) {
@@ -38,9 +50,7 @@ function AddYear(props) {
         const obj = {
           start: valuesForm.start,
         };
-        console.log(obj);
-        const add = ApiTeachingVolume.Post("/year/add", obj);
-        add
+        ApiTeachingVolume.Post("/year/add", obj)
           .then((res) => {
             alert("Add Done");
             setValuesForm({
@@ -57,33 +67,49 @@ function AddYear(props) {
     <div>
       <div className={cx("form")}>
         <div className={cx("line")}>
-          <h2 className="text-xl font-semibold">{props.title||"Year Infomation"}</h2>
+          <h2 className="text-xl font-semibold">
+            {props.title || "Year Infomation"}
+          </h2>
         </div>
         <div className="p-5">
           <form action="">
-            <div className={`w-full flex justify-between ${props.hide}`}>
+            {/* <div className={`w-full flex justify-between ${props.hide}`}>
               <label htmlFor="" className="w-[30%]">
                 ID
               </label>
               <span className="text-lg font-bold">:</span>
               <input placeholder="ID" className="w-1/2 input"></input>
-            </div>
+            </div> */}
             <div className="w-full flex justify-between mt-2">
               <label htmlFor="" className="w-[30%]">
                 Start
               </label>
               <span className="text-lg font-bold">:</span>
-              <input placeholder="Start" className="w-1/2 input"
-              value={valuesForm.start}
-              onChange={(e)=> setValuesForm({...valuesForm ,start :e.target.value})}
+              <input
+                placeholder="Start"
+                className="w-1/2 input"
+                value={valuesForm.start}
+                onChange={(e) =>
+                  setValuesForm({ ...valuesForm, start: e.target.value })
+                }
               ></input>
             </div>
             <div className="flex justify-around mt-[20px]">
-              <Button bgcolor="#950b0b" width="30%" size="large" onClick = {handleAdd}>
+              <Button
+                bgcolor="#950b0b"
+                width="30%"
+                size="large"
+                onClick={handleAdd}
+              >
                 {props.btn || "Add"}
               </Button>
-              <Button bgcolor="#950b0b" width="30%" size="large">
-                Cancel
+              <Button
+                bgcolor="#950b0b"
+                width="30%"
+                size="large"
+                onClick={clickCancel}
+              >
+                {param && param.id ? "Cancel": "Reset"}
               </Button>
             </div>
           </form>

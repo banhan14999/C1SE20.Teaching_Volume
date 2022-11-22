@@ -12,7 +12,6 @@ import styles from "./class.module.scss";
 import classNames from "classnames/bind";
 import StyledTableCell from "../../StyledTableCell";
 import ClassInformation from "../../Form/ClassInformation";
-import { SetUpdate } from "../../../Redux/Actions/index";
 import { useEffect, useState } from "react";
 import { ApiTeachingVolume } from "../../../apis/axios";
 import { DataUpdate } from "../../../Redux/Actions/index";

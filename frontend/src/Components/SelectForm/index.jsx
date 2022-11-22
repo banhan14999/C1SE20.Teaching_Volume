@@ -3,15 +3,22 @@ function SelectForm(props) {
   const customStyles = {
     option: (provided, state) => ({
       ...provided,
+      background: "white",
       borderBottom: "1px dotted pink",
       color: state.isSelected ? "red" : "black",
+      "&:hover": {
+        background: "rgb(218, 220, 221)",
+      },
     }),
     control: (base) => ({
       ...base,
       border: "1px solid gray !important",
-      boxShadow: `1px 1px 1px 1px ${(props.type && props.type.length === 0 ? "rgb(149, 11, 11)" : "gray") || "gray"} inset!important`,
+      boxShadow: `1px 1px 1px 1px ${
+        (props.type && props.type.length === 0 ? "rgb(149, 11, 11)" : "gray") ||
+        "gray"
+      } inset!important`,
       fontSize: "16px",
-      fontWeight: "500",  
+      fontWeight: "500",
       minHeight: `${props.height} !important`,
       maxHeight: `${props.height}`,
       height: `38px`,

@@ -6,31 +6,25 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { AiFillCloseCircle } from "react-icons/ai";
-import { GrUpdate } from "react-icons/gr";
-import { useDispatch } from "react-redux";
-import { useParams,useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import AddYear from "../../Form/AddYear"
 import StyledTableCell from "../../StyledTableCell";
-import { SetUpdate } from "../../../Redux/Actions/index";
 import { ApiTeachingVolume } from "../../../apis/axios";
 import { useState } from "react";
 function ManagerYear(props) {
   const [year,setYear]= useState([])
 const param = useParams();
-const navigate = useNavigate();
-  const dispath = useDispatch();
   function createData(Id, Start, Finish, CreatedAdd, UpdatedAdd) {
     return { Id, Start, Finish, CreatedAdd, UpdatedAdd };
   }
-
-  const handleUpdate = (e) => {
-     dispath(SetUpdate("Update Year"));
-        const yearid = e.target.parentElement.dataset.update;
-        const id = yearid.toLowerCase().split("").filter((value) => value !== " ")
-          .join("")
-          .toLowerCase();
-        navigate(id);
-  };
+  // const handleUpdate = (e) => {
+  //    dispath(SetUpdate("Update Year"));
+  //       const yearid = e.target.parentElement.dataset.update;
+  //       const id = yearid.toLowerCase().split("").filter((value) => value !== " ")
+  //         .join("")
+  //         .toLowerCase();
+  //       navigate(id);
+  // };
 function handleDelete(e){
   const yearid = e.target.dataset.delete;
     ApiTeachingVolume.Delete(`/year/delete/${yearid}`)

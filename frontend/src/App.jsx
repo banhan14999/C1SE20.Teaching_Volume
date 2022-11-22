@@ -3,14 +3,15 @@ import { publicRouters } from "./Router";
 function App() { 
   return (
     <BrowserRouter>
-      <Routes>  
+      <Routes> 
           {publicRouters.map((e) => {
           if(e.chidren){
               return (
-                <Route key={e.path} path={e.path} element={<e.component />}>
+                <Route exact  key={e.path} path={e.path} element={<e.component />}>
                   {e.chidren.map((c) => {
                     return (
                       <Route
+                        exact
                         key={c.path}
                         path={c.path}
                         element={<c.component />}

@@ -1,7 +1,7 @@
 import { AiFillCheckCircle } from "react-icons/ai";
 import { TbListDetails } from "react-icons/tb";
 import { BiMessageDetail } from "react-icons/bi";
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableContainer from "@mui/material/TableContainer";
@@ -20,7 +20,7 @@ const cx = classNames.bind(styles);
 function Approval() {
   const [continues, setContinues] = useState(false);
   const [dataApproval, setDataApproval] = useState([]);
-  const [approvalForm, setApprovalForm] = useState();
+  const [approvalID, setApprovalID] = useState();
   const [year, setYear] = useState(null);
   const [semester, setSemester] = useState(null);
   const [theoryClass, setTheoryClass] = useState([]);
@@ -28,7 +28,6 @@ function Approval() {
   const [others, setOthers] = useState([]);
   const [formsmount, setFormsmount] = useState(false);
 
-  // const idlecturer = JSON.parse(localStorage.getItem("IdLecturer"));
 
   const opt = [
     { value: "2022", label: "2021-2022" },
@@ -90,6 +89,7 @@ function Approval() {
           }),
         ]);
       });
+      setApprovalID(id);
     }
   }
   function createData(code, fullname, title, status) {
@@ -98,7 +98,7 @@ function Approval() {
   function createOther(activities, examMonitor, advisor, scientific) {
     return { activities, examMonitor, advisor, scientific };
   }
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (semester && semester.value && year && year.value) {
       ApiTeachingVolume.Get(
         `/volume/totalByDean/sem/${semester.value}/year/${year.value}`
@@ -115,37 +115,20 @@ function Approval() {
             });
             setDataApproval([...arr]);
             setContinues(true);
-            setFormsmount(false);    
-          } else {
-            setContinues(false);
-            setFormsmount(false);    
-
-          }
+            setFormsmount(false);
+          } 
         })
         .catch((err) => {
           setContinues(false);
             setFormsmount(false);    
-
         });
     }
-  }, [semester, year]);
+  }, [semester , year]);
 
   function hanldeDetail(e) {
     const id = e.target.dataset.id;
-    data(id);
-    setFormsmount(true);
-    setApprovalForm(
-      <FormSubject
-        title={id}
-        year={year.value}
-        semester={semester.value}
-        theoryClass={theoryClass}
-        exams={exams}
-        others={others}
-        idLec={id}
-        btn="view"
-      />
-    );
+       data(id);
+       setFormsmount(true);
   }
   function hanldeAccept(e) {
     setFormsmount(false);
@@ -320,7 +303,20 @@ function Approval() {
           </Table>
         </TableContainer>
       )}
-      <p className="mt-4">{formsmount && approvalForm}</p>
+      <p className="mt-4">
+        {formsmount && (
+          <FormSubject
+            title={approvalID}
+            year={year.value}
+            semester={semester.value}
+            theoryClass={theoryClass}
+            exams={exams}
+            others={others}
+            idLec={approvalID}
+            btn="view"
+          />
+        )}
+      </p>
     </div>
   );
 }
