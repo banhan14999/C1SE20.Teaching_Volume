@@ -27,7 +27,7 @@ function Approval() {
   const [exams, setExams] = useState([]);
   const [others, setOthers] = useState([]);
   const [formsmount, setFormsmount] = useState(false);
-
+  const [approvalForm,setApprovalForm] = useState({theoryClass:[],exams:[],others:[]})
 
   const opt = [
     { value: "2022", label: "2021-2022" },
@@ -44,7 +44,7 @@ function Approval() {
       ApiTeachingVolume.Get(
         `volume/selfTotalDetail/idLecture/${id}/sem/${semester.value}/year/${year.value}`
       ).then((req) => {
-        const theory = req.theoryClass.map((e, index) => {
+        const theory = req.grades.map((e, index) => {
           return {
             stt: index + 1,
             letter: e.Letter,
@@ -54,13 +54,13 @@ function Approval() {
             semester: e.Semester,
             time: e.TimeTeaching,
             unit: e.Unit,
-            numberGE: e.NumberOfStudent,
-            coefficient: e.Coefficient,
-            coefficientGrade: e.Coefficient,
+            numberGE: e.numberGE,
+            coefficient: e.CoefficientGradeExam,
+            coefficientGrade: e.CoefficientGradeExam,
             idSubject: e.IdSubject,
           };
         });
-        setTheoryClass([...theory]);
+        // setTheoryClass([...theory]);
         const exam = req.exams.map((e, index) => {
           return {
             stt: index + 1,
@@ -77,20 +77,37 @@ function Approval() {
             idSubject: e.IdSubject,
           };
         });
-        setExams([...exam]);
-        setOthers([
-          ...req.others.map((e) => {
+        // setExams([...exam]);
+        // setOthers([
+        //   ...req.others.map((e) => {
+        //     return createOther(
+        //       e.ActivitiesVolume,
+        //       e.ExamMonitorVolume,
+        //       e.AdvisorVolume,
+        //       e.TimeScientificVolume
+        //     );
+        //   }),
+        // ]);
+        const other = req.others.map((e) => {
             return createOther(
               e.ActivitiesVolume,
               e.ExamMonitorVolume,
               e.AdvisorVolume,
               e.TimeScientificVolume
             );
-          }),
-        ]);
+          })
+           setApprovalForm((prev) => {
+             return {
+               ...prev,
+               theoryClass: [...theory],
+               exams: [...exam],
+               others: [...other],
+             };
+           });
       });
-      setApprovalID(id);
+     
     }
+    setApprovalID(id); 
   }
   function createData(code, fullname, title, status) {
     return { code, fullname, title, status };
@@ -109,14 +126,17 @@ function Approval() {
               return createData(
                 value.IdLecturer,
                 value.LastName + " " + value.FirstName,
-                "What What",
+                "Volume Form",
                 value.Status
               );
             });
             setDataApproval([...arr]);
             setContinues(true);
             setFormsmount(false);
-          } 
+          } else {
+             setContinues(false);
+             setFormsmount(false);
+          }
         })
         .catch((err) => {
           setContinues(false);
@@ -126,18 +146,14 @@ function Approval() {
   }, [semester , year]);
 
   function hanldeDetail(e) {
-    const id = e.target.dataset.id;
-       data(id);
-       setFormsmount(true);
+    const id = e.target.parentElement.dataset.id;
+    setFormsmount(true);
   }
   function hanldeAccept(e) {
     setFormsmount(false);
     const id = e.target.parentElement.dataset.id;
     if (semester && id && year) {
-      ApiTeachingVolume.Put(
-        `volume/approval/idLec/${id}/sem/${semester.value}/year/${year.value}`,
-        {}
-      );
+      ApiTeachingVolume.Put( `volume/approval/idLec/${id}/sem/${semester.value}/year/${year.value}`,{});
       if (semester && semester.value && year && year.value) {
         ApiTeachingVolume.Get(
           `/volume/totalByDean/sem/${semester.value}/year/${year.value}`
@@ -147,7 +163,7 @@ function Approval() {
               return createData(
                 value.IdLecturer,
                 value.LastName + " " + value.FirstName,
-                "What What",
+                "Volume Form",
                 value.Status
               );
             });
@@ -174,7 +190,7 @@ function Approval() {
               return createData(
                 value.IdLecturer,
                 value.LastName + " " + value.FirstName,
-                "What What",
+                "Volume Form",
                 value.Status
               );
             });
@@ -184,6 +200,7 @@ function Approval() {
       }
     }
   }
+
   return (
     <div className="container">
       <div className={cx("option")}>
@@ -309,9 +326,9 @@ function Approval() {
             title={approvalID}
             year={year.value}
             semester={semester.value}
-            theoryClass={theoryClass}
-            exams={exams}
-            others={others}
+            theoryClass={approvalForm.theoryClass}
+            exams={approvalForm.exams}
+            others={approvalForm.others}
             idLec={approvalID}
             btn="view"
           />
