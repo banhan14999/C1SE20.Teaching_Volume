@@ -23,7 +23,6 @@ function FormSubject({ year, semester, theoryClass, exams, others, btn,title,idL
   const [pros, setPros] = useState([]);
   const [valueOther, setValueOther] = useState([createOther(0, 0, 0, 0)]);
   const [teachingapi, setTeachingApi] = useState([]);
-
   function createTeaching(
     stt,
     letter,
@@ -77,9 +76,11 @@ function FormSubject({ year, semester, theoryClass, exams, others, btn,title,idL
     };
   }
   useEffect(() => {
-    if (idLecturer && semester && year) {
+    if ( semester && year && (idLecturer || idLec)) {
       ApiTeachingVolume.Get(
-        `/class/theoryClass/${idLec || idLecturer}/semester/${semester}/year/${year}`
+        `/class/theoryClass/${
+          idLec || idLecturer
+        }/semester/${semester}/year/${year}`
       ).then((req) => {
         const arr = req.classes.map((value, index) => {
           return createTeaching(
@@ -98,7 +99,9 @@ function FormSubject({ year, semester, theoryClass, exams, others, btn,title,idL
         setTeaching([...arr]);
       });
       ApiTeachingVolume.Get(
-        `/class/realityClass/${idLec || idLecturer}/semester/${semester}/year/${year}`
+        `/class/realityClass/${
+          idLec || idLecturer
+        }/semester/${semester}/year/${year}`
       ).then((req) => {
         const arr = req.classes.map((value, index) => {
           return createProject(
@@ -128,7 +131,7 @@ function FormSubject({ year, semester, theoryClass, exams, others, btn,title,idL
         setPros([...arrs]);
       });
     }
-  }, [idLecturer, semester, year]);
+  }, [idLec,idLecturer, semester, year]);
   useEffect(() => {
     const arr = teaching.reduce((arr, value) => {
       return [
@@ -159,10 +162,10 @@ function FormSubject({ year, semester, theoryClass, exams, others, btn,title,idL
     "Teaching Volume": <TeachingVolume rows={teaching} />,
     "Project Volume": <ProjectVolume rows={projects} />,
     "Grading Volume": (
-      <GradingVolume rows={ Grading } setGrading={setGrading} btn={btn}/>
+      <GradingVolume rows={Grading} setGrading={setGrading} btn={btn} />
     ),
-    "Exam Volume": <ExamVolume rows={  examvo} setExamvo={setExamvo} btn={btn}/>,
-    Other: <Other rows={ valueOther} onClick={handleAdd} />,
+    "Exam Volume": <ExamVolume rows={examvo} setExamvo={setExamvo} btn={btn} />,
+    Other: <Other rows={valueOther} onClick={handleAdd} btn={btn} />,
   };
   useEffect(() => {
    if(btn){

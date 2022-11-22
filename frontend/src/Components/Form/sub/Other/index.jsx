@@ -17,7 +17,7 @@ function Other(props) {
               <StyledTableCell align="center">Exam Monitor</StyledTableCell>
               <StyledTableCell align="center">Advisor</StyledTableCell>
               <StyledTableCell align="center">Time Scientific</StyledTableCell>
-              <StyledTableCell align="center">Action</StyledTableCell>
+              {props.btn !=='view' && <StyledTableCell align="center">Action</StyledTableCell>}
             </TableRow>
           </TableHead>
           <TableBody>
@@ -39,7 +39,7 @@ function Other(props) {
                   <StyledTableCell align="center">
                     {row.scientific}
                   </StyledTableCell>
-                  <StyledTableCell>
+                  {props.btn !== 'view' && <StyledTableCell>
                     <div
                       className="flex items-center cursor-pointer"
                       onClick={props.onClick}
@@ -47,7 +47,7 @@ function Other(props) {
                       <GrUpdate className="mr-2 pointer-events-none"></GrUpdate>
                       <div className="pointer-events-none">Update</div>
                     </div>
-                  </StyledTableCell>
+                  </StyledTableCell>}
                 </TableRow>
               ))}
           </TableBody>
