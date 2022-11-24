@@ -80,7 +80,7 @@ function clickDelete(e) {
                   <StyledTableCell align="center">Faculty</StyledTableCell>
                   <StyledTableCell align="center">Department</StyledTableCell>
                   <StyledTableCell align="center">Role</StyledTableCell>
-                  <StyledTableCell align="center" colSpan={2}>
+                  <StyledTableCell align="center" >
                     Action
                   </StyledTableCell>
                 </TableRow>
@@ -99,29 +99,29 @@ function clickDelete(e) {
                     <StyledTableCell>{row.Department}</StyledTableCell>
                     <StyledTableCell>{row.Role}</StyledTableCell>
                     <StyledTableCell align="center">
-                      <div
-                        className="flex justify-center  cursor-pointer "
-                        onClick={handleUpdate}
-                        data-update={row.Id}
-                      >
-                        <GrUpdate
-                          color="#0a7a0a"
-                          className="pointer-events-none"
-                          fontSize={14}
-                        ></GrUpdate>
-                      </div>
-                    </StyledTableCell>
-                    <StyledTableCell align="center">
-                      <div
-                        className="cursor-pointer"
-                        onClick={clickDelete}
-                        data-delete={row.Id}
-                      >
-                        <AiFillCloseCircle
-                          color="#eb4f04"
-                          className="pointer-events-none"
-                          fontSize={16}
-                        ></AiFillCloseCircle>
+                      <div className="flex justify-around items-center">
+                        <div
+                          className="flex justify-center  cursor-pointer "
+                          onClick={handleUpdate}
+                          data-update={row.Id}
+                        >
+                          <GrUpdate
+                            color="#0a7a0a"
+                            className="pointer-events-none"
+                            fontSize={14}
+                          ></GrUpdate>
+                        </div>
+                        <div
+                          className="cursor-pointer"
+                          onClick={clickDelete}
+                          data-delete={row.Id}
+                        >
+                          <AiFillCloseCircle
+                            color="#eb4f04"
+                            className="pointer-events-none"
+                            fontSize={16}
+                          ></AiFillCloseCircle>
+                        </div>
                       </div>
                     </StyledTableCell>
                   </TableRow>

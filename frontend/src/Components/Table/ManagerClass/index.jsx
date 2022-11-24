@@ -5,7 +5,6 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { useDispatch } from "react-redux";
-import { GrUpdate } from "react-icons/gr";
 import { TbListDetails } from "react-icons/tb";
 import { useParams, useNavigate } from "react-router-dom";
 import styles from "./class.module.scss";
@@ -16,7 +15,7 @@ import { useEffect, useState } from "react";
 import { ApiTeachingVolume } from "../../../apis/axios";
 import { DataUpdate } from "../../../Redux/Actions/index";
 import SelectForm from "../../SelectForm";
-
+import {BiEdit} from "react-icons/bi"
 const cx = classNames.bind(styles);
 function ManagerClass(props) {
   const param = useParams();
@@ -65,20 +64,20 @@ function selectValue(s,arr) {
     return {ClassID, ClassName,Subject,Student,Type,Credit,Coefficient,Action};
   }
 
-useEffect(()=>{
+useEffect(() => {
   if (year !== null && semester !== null) {
     localStorage.setItem(
       "year",
       JSON.stringify({ year: year.value, semester: semester.value })
     );
   }
-},[year,semester])
+}, [semester,year]);
 const years = JSON.parse(localStorage.getItem("year"));
 const idlec = JSON.parse(localStorage.getItem("IdLecturer"));
 const ad = JSON.parse(localStorage.getItem("Admin"));
 
 useEffect(() => {
-  if (semester && semester.value && year && year.value) {
+  if ((semester && semester.value && year && year.value)|| ad) {
     const str = !ad &&
       `class/lecturer/${idlec}/semester/${semester.value}/year/${year.value}`;
     ApiTeachingVolume.Get(str || "class/all").then((req) => {
@@ -101,14 +100,14 @@ useEffect(() => {
       setClassAd([...arr]);
     });
   }
-}, [param.id, year, semester, ad, idlec]);
+}, [year, semester, ad, idlec]);
   return (
     <div className="w-[726px]">
       {param.id ? (
         <ClassInformation btn="Update" disabled={true} title={title} />
       ) : (
         <div className="container">
-          <div className={cx("option")}>
+          {!ad && <div className={cx("option")}>
             <div className="flex pt-[14%] justify-around">
               <span className="w-[30%] ml-[50px]">
                 <SelectForm
@@ -137,7 +136,7 @@ useEffect(() => {
                 ></SelectForm>
               </span>
             </div>
-          </div>
+          </div>}
           <div className="text-center text-[20px] font-[600] line mb-[20px] text-red-700">
             Manager Class
           </div>
@@ -184,7 +183,7 @@ useEffect(() => {
                         data-update={row.ClassID}
                         onClick={handleUpdate}
                       >
-                        <GrUpdate className="mr-2 pointer-events-none"></GrUpdate>
+                        <BiEdit className="mr-2 pointer-events-none"></BiEdit>
                         <div className="pointer-events-none">Update</div>
                       </div>
                       <div

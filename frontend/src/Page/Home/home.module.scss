@@ -9,7 +9,21 @@ header {
         position: relative;
 }
 
-@media only screen and (min-width:984px) {
+@media only screen and (max-width:984px)  {
+  .header{
+    left: 0;
+    align-items: center;
+    justify-content: start;
+    width: 100%;
+  }
+  .header-logo {
+    max-width: 10%;
+  }
+  .navleft {
+    width: 100%;
+  }
+}
+@media only screen and (max-width:600px) {
   .header{
     max-width: 100%;
     left: 0;
@@ -19,4 +33,5 @@ header {
   .header-logo {
     max-width: 10%;
   }
+ 
 }

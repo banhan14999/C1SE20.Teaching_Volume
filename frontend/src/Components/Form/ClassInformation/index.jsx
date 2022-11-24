@@ -65,23 +65,22 @@ const idclass = JSON.parse(sessionStorage.getItem("idclass"));
    { value: "PRJ", label: "PRJ" },
    { value: "DEM", label: "DEM" },
    { value: "DIS", label: "DIS" },
-   { value: "LEC+LAB", label: "LEC+LAB" },
  ];
 
   const updateData = useSelector((data) => data.dtupdate);
   const { data } = updateData;
  function handleAdd(){
-   if (props.btn ) {
+   if (props.btn || param.id ) {
      const obj = {
-       Year: (year && Number(year.value)) || data[0].Year,
-       Semester: (semester && semester.value) || data[0].Semester,
+       Year: (year && Number(year.value)) || (data && data.length>0 && data[0].Year) || (idclass && idclass.Year),
+       Semester: (semester && semester.value) || (data && data.length>0 && data[0].Semester) || (idclass && idclass.Semester),
        Grade: valuesForm.grade,
-       Type: (type && type.value) || data[0].TypeClass,
+       Type: (type && type.value) || (data && data.length>0 &&data[0].TypeClass) ||(idclass && idclass.Type.value),
        Credit: Number(valuesForm.credit),
        NumberOfStudent: Number(valuesForm.numberOfStudent),
        SubjectCoefficient: valuesForm.subjectCoefficient,
        Unit: valuesForm.unit,
-     }
+     };
      const check = ApiTeachingVolume.Update(`/class/update/`, param.id, obj);
      check
        .then(function (response) {
@@ -103,11 +102,11 @@ const idclass = JSON.parse(sessionStorage.getItem("idclass"));
        alert("Vui lòng nhập đầy đủ các trường!");
      } else if (checkValInput) {
        const obj = {
-         Year: Number(year.value),
-         Semester: semester.value,
+         Year: (year && Number(year.value)) ||(idclass && idclass.Year),
+         Semester: (semester && semester.value) || (idclass && idclass.Semester),
          Grade: valuesForm.grade,
-         IdSubject: subject.value,
-         Type: type.value,
+         IdSubject: subject && subject.value,
+         Type: (type && type.value) || (idclass && idclass.Type.value),
          Credit: Number(valuesForm.credit),
          NumberOfStudent: Number(valuesForm.numberOfStudent),
          SubjectCoefficient: valuesForm.subjectCoefficient,
@@ -119,7 +118,6 @@ const idclass = JSON.parse(sessionStorage.getItem("idclass"));
            alert("Add Done");
            setValuesForm({
              grade: "",
-             idSubject: "",
              credit: "",
              numberOfStudent: "",
              subjectCoefficient: "",
@@ -177,7 +175,7 @@ const idclass = JSON.parse(sessionStorage.getItem("idclass"));
           sessionStorage.setItem(
             "idclass",
             JSON.stringify({
-              Year:classes[0].Year,
+              Year: classes[0].Year,
               Semester: classes[0].Semester,
               Type: { value: classes[0].Type, label: classes[0].Type },
             })
@@ -257,11 +255,11 @@ const idclass = JSON.parse(sessionStorage.getItem("idclass"));
                   options={subjectOptions}
                   setSelectedOption={setSubject}
                   defaultValue={
-                    props.btn &&
-                    data[0] && {
-                      label: data[0].Year,
-                      value: data[0].Year,
-                    }
+                    props.btn && data && data.length > 0
+                      && {
+                          label: data[0].Year,
+                          value: data[0].Year,
+                        }
                   }
                   isDisabled={props.btn ? true : false}
                 ></SelectForm>

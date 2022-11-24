@@ -1,0 +1,44 @@
+
+@media only screen and (max-width:984px)  {
+  .form_authen{
+        width: 80%;
+    }
+    .form_login div label {
+         font-size: 18px;
+
+         font-weight: 700;
+    }
+}
+@media only screen and (max-width:600px)  {
+   .form_login div label {
+         font-size: 18px;
+         font-weight: 600;
+    }
+    .form_login div input {
+        font-size: 18px;
+    }
+}
+@media only screen and (max-width:414px)  {
+  .form_authen{
+        width: 90%;
+    }
+   .form_login div label {
+         font-size: 16px;
+         font-weight: 500;
+    }
+    .form_login div input {
+        font-size: 14px;
+    }
+}
+@media only screen and (max-width:320px)  {
+  .form_authen{
+        width: 100%;
+    }
+   .form_login div label {
+         font-size: 16px;
+         font-weight: 500;
+    }
+    .form_login div input {
+        font-size: 14px;
+    }
+}

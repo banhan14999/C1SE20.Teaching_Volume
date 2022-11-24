@@ -58,7 +58,7 @@ function HandleLogout(){
 }
   return (
     <div className={cx("container")}>
-      <div className="flex justify-between select-none">
+      <div className="flex justify-between select-none relative">
         <div className="flex items-center">
           <div
             className={`${cx(
@@ -70,7 +70,7 @@ function HandleLogout(){
           </div>
           <div className={`${cx("sitemap")}`}>
             <span className="mr-2">{IconForm[form]}</span>
-            <span className="leading-[54px]">{update || form}</span>
+            <span >{update || form}</span>
           </div>
         </div>
         <Tippy
@@ -99,7 +99,7 @@ function HandleLogout(){
       </div>
       <div className="flex border-r-[1px] border-[#D5D5D5] border-solid">
         <NavLeft></NavLeft>
-        <div className="w-[726px] mb-3 ">
+        <div className={`w-[726px] mb-3 ${cx("outlet")}`}>
           <Outlet></Outlet>
         </div>
       </div>

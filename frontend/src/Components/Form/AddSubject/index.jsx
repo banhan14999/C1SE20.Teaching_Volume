@@ -45,14 +45,14 @@ function AddSubject(props) {
   ];
   
   function handleClickAdd() {
-   if(props.btn){
-      const id = data[0].Subject_id;
+   if(props.btn || param.id){
+      const id = (data && data.length>0&& data[0].Subject_id) || param.id;
        const obj = {
          letter: valuesForm.letter,
          number: parseInt(valuesForm.number),
          subject_name: valuesForm.subject_name,
          credit: parseInt(valuesForm.credit),
-         type: (type && type.value) || data[0].Type,
+         type: (type && type.value) || (data && data.length >0 && data[0].Type) || (typeId && typeId.value),
        };
      const check = ApiTeachingVolume.Update("/subject/update/", id, obj);
      check
@@ -81,8 +81,9 @@ function AddSubject(props) {
          number: parseInt(valuesForm.number),
          subject_name: valuesForm.subject_name,
          credit: parseInt(valuesForm.credit),
-         type: type && type.value,
+         type: (type && type.value) || (typeId && typeId.value),
        };
+       console.log(obj);
       ApiTeachingVolume.Post("/subject/add", obj)
       .then((res)=>{
         if (res && res.data && res.data.message && res.data.message.letter) {

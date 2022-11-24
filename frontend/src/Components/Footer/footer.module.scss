@@ -13,3 +13,8 @@
 .footer {
   margin: 0 auto;
 }
+@media only screen and (max-width:984px) {
+  .footer_wrapper{
+    max-width: 100%;
+  }
+}
