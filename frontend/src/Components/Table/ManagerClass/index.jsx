@@ -102,7 +102,7 @@ useEffect(() => {
   }
 }, [year, semester, ad, idlec]);
   return (
-    <div className="w-[726px]">
+    <div>
       {param.id ? (
         <ClassInformation btn="Update" disabled={true} title={title} />
       ) : (

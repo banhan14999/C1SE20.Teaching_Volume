@@ -58,7 +58,7 @@ function HandleLogout(){
 }
   return (
     <div className={cx("container")}>
-      <div className="flex justify-between select-none relative">
+      <div className={`flex justify-between select-none relative ${cx("nav_sitemap")}`}>
         <div className="flex items-center">
           <div
             className={`${cx(

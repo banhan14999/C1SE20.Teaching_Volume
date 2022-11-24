@@ -72,7 +72,7 @@ function NavLeft() {
 
   return (
     // width : 223px
-    <div className="w-[23.21%] mr-[12px] min-h-[420px] bg-[#E5E5E5] ">
+    <div className="w-[23.21%] mr-[8px] min-h-[420px] bg-[#E5E5E5] ">
       <ul className={`${cx("nav_left")}`}>
         {Admin && (
           <li>
