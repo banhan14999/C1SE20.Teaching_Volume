@@ -8,6 +8,8 @@ use App\Models\TokenUser;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
@@ -104,7 +106,13 @@ class UserController extends Controller
         // $user->IdDepartment = $request->input('iddepartment');
         // $user->IdRole       = $request->input('idrole');
         // $user->update();
-       
+        
+        Validator::make($request->all(),[
+            'idLecturer' => [
+                Rule::unique('users')->ignore($id, 'id'),
+            ]
+        ]);
+
         DB::table("users")
             ->where('id', '=', $id)
             ->update([
