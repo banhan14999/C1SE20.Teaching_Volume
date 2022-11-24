@@ -109,8 +109,6 @@ class UserController extends Controller
         
         Validator::make($request->all(),[
             'idLecturer' => [
-                'required',
-                'max:10',
                 Rule::unique('users')->ignore($id, 'id'),
             ]
         ]);
