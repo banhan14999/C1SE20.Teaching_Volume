@@ -6,7 +6,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { MdAutoDelete } from "react-icons/md";
-import { GrUpdate } from "react-icons/gr";
+import { BiEdit } from "react-icons/bi";
 import { useDispatch } from "react-redux";
 
 import StyledTableCell from "../../StyledTableCell";
@@ -101,11 +101,11 @@ function ManagerSubject() {
                           sub_id={row.Subject_id}
                           onClick={handleUpdate}
                         >
-                          <GrUpdate
+                          <BiEdit
                             color="#0a7a0a"
                             className="mr-[2px]"
                             fontSize={12}
-                          ></GrUpdate>
+                          ></BiEdit>
                           <span>Update</span>
                         </div>
                         <div

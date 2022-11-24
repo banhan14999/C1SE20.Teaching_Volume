@@ -15,7 +15,7 @@ function AddUser(props) {
   const [department, setDepartment] = useState();
   const navigate = useNavigate()
   const param = useParams()
-const iduserf = JSON.parse(sessionStorage.getItem("iduser"));
+const iduserf = JSON.parse(sessionStorage.getItem("iduser")); 
 
   function clickCancel(){
     if(param && param.id){
@@ -314,7 +314,7 @@ useEffect(() => {
                           label: data[0].School,
                           value: data[0].School,
                         }
-                      : iduserf && iduserf.idfaculty
+                      : param.id && iduserf && iduserf.idfaculty
                   }
                 ></SelectForm>
               </div>
@@ -336,7 +336,7 @@ useEffect(() => {
                           label: data[0].Department,
                           value: data[0].Department,
                         }
-                      : iduserf && iduserf.iddepartment
+                      : param.id && iduserf && iduserf.iddepartment
                   }
                 ></SelectForm>
               </div>
@@ -355,7 +355,7 @@ useEffect(() => {
                   defaultValue={
                     props.btn && data && data.length > 0
                       ? roleValue(data[0].Role)[0]
-                      : iduserf && roleValue(iduserf.idrole)[0]
+                      : param.id && iduserf && roleValue(iduserf.idrole)[0]
                   }
                 ></SelectForm>
               </div>

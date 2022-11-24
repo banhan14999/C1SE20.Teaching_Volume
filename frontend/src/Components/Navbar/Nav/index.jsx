@@ -102,7 +102,7 @@ function NavLeft() {
                 "item"
               )} flex pl-4 items-center font-medium text-[14px] select-none `}
             >
-              Dash
+              Dashboard
             </p>
             <ul className={`${cx("nav_left_item")} text-[14px] `}>
               <li className="flex">

@@ -5,7 +5,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { AiFillCloseCircle } from "react-icons/ai";
-import { GrUpdate } from "react-icons/gr";
+import { BiEdit } from "react-icons/bi";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate,useParams } from "react-router-dom";
@@ -105,11 +105,11 @@ function clickDelete(e) {
                           onClick={handleUpdate}
                           data-update={row.Id}
                         >
-                          <GrUpdate
+                          <BiEdit
                             color="#0a7a0a"
                             className="pointer-events-none"
                             fontSize={14}
-                          ></GrUpdate>
+                          ></BiEdit>
                         </div>
                         <div
                           className="cursor-pointer"

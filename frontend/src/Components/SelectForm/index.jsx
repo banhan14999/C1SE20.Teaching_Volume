@@ -43,6 +43,7 @@ function SelectForm(props) {
       onChange={props.setSelectedOption}
       isMulti={props.isMulti}
       defaultValue={props.defaultValue}
+      defaultInputValue=""
     />
   );
 }

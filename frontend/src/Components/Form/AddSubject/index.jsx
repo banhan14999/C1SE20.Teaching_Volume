@@ -253,7 +253,7 @@ function AddSubject(props) {
                           label: data[0].Type,
                           value: data[0].Type,
                         }
-                      : typeId
+                      : param.id && typeId
                   }
                 ></SelectForm>
               </div>

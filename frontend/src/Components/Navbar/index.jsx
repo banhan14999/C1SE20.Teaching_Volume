@@ -1,12 +1,13 @@
 import { useSelector } from "react-redux";
-import { FcBusinessman } from "react-icons/fc";
+import { FcBusinessman, FcApproval } from "react-icons/fc";
 import { BsCalendarDate } from "react-icons/bs";
-import { AiOutlineLogout, AiOutlineUserAdd } from "react-icons/ai";
+import { AiOutlineLogout, AiOutlineUserAdd ,AiOutlineFolderView} from "react-icons/ai";
 import { SiWebpack, SiGoogleclassroom, SiManageiq } from "react-icons/si";
 import { MdSubject, MdManageAccounts, MdAssignmentInd } from "react-icons/md";
 import { RiVoiceRecognitionFill } from "react-icons/ri";
-import { GiManacles } from "react-icons/gi";
+import { GiManacles, GiNetworkBars } from "react-icons/gi";
 import { Outlet, useNavigate } from "react-router-dom";
+
 import Tippy from "@tippyjs/react";
 import classNames from "classnames/bind";
 import styles from "./nav.module.scss";
@@ -29,6 +30,11 @@ function Nav() {
     "Manager User": <MdManageAccounts />,
     "Manager Subject": <SiManageiq />,
     "Manager Class": <GiManacles />,
+
+    "Manager Year": <GiManacles />,
+    "View Table": <AiOutlineFolderView />,
+    "Manager Workload": <GiNetworkBars />,
+    "Approval": <FcApproval />,
   };
   const Head = JSON.parse(localStorage.getItem("Head"));
   const Admin = JSON.parse(localStorage.getItem("Admin"));
