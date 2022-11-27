@@ -33,19 +33,34 @@ class VolumeController extends Controller
     public function getAllSemTotalByDean($year)
     {
         $faculty = auth()->user()['IdFaculty'];
-        $totalVols  = DB::table('totalvolume')
-        ->join('users', 'totalvolume.IdLecturer', '=', 'users.IdLecturer')
+        $totalVols  = DB::table('totalvolume', 'temp')
+        ->join('users', 'temp.IdLecturer', '=', 'users.IdLecturer')
         ->where([
             ['IdFaculty', '=', $faculty],
             ['Year', '=', $year],
             ['Status', '=', 'Approved'],
         ])
-        ->groupBy('totalvolume.IdLecturer')
+        ->whereRaw("Exists (
+            SELECT IdLecturer from totalvolume WHERE Semester = '1' AND IdLecturer = temp.IdLecturer
+            INTERSECT
+            SELECT IdLecturer from totalvolume WHERE Semester = '2' ANd IdLecturer = temp.IdLecturer
+            INTERSECT
+            SELECT IdLecturer from totalvolume WHERE Semester = 'Hè' And IdLecturer = temp.IdLecturer
+        )")
+        ->orderBy('temp.IdLecturer')
         ->get();
-        return response()->json([
-            'status' => 200,
-            'totalVols' => $totalVols,
-        ]);
+
+        if(! $totalVols->isEmpty()) {
+            return response()->json([
+                'status' => 200,
+                'totalVols' => $totalVols,
+            ]);
+        }
+        else {
+            return response()->json([
+                'status' => false,
+            ]);
+        }
     }
 
     //get all total volume by head
