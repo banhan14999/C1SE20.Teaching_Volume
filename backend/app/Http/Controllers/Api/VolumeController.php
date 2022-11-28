@@ -59,6 +59,7 @@ class VolumeController extends Controller
         else {
             return response()->json([
                 'status' => false,
+                'totalVols' => [],
             ]);
         }
     }
@@ -98,6 +99,7 @@ class VolumeController extends Controller
         if($totalVolume->isEmpty()){
             return response()->json([
                 'status' => false,
+                'totalVolume' => [],
             ]);
         }
         else{        
