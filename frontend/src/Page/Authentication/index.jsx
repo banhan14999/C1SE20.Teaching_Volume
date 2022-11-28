@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect} from "react";
 import { default as Button } from "../../Components/Button";
 import MyCaptcha from "../../Components/Captcha";
 import bg from "../../Assets/img/bg.jpg";
@@ -8,7 +8,6 @@ import logoform from "../../Assets/img/logo_dtu_while.png";
 import { ApiTeachingVolume } from "../../apis/axios";
 import axios from "axios";
 import styles from "./authen.module.scss"
-
 const cx = classNames.bind(styles)
 
 function Authentication() {

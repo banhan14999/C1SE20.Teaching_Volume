@@ -68,7 +68,7 @@ useEffect(() => {
     ApiTeachingVolume.Get("/subject/all")
       .then((res) => {
         const arr = res.subjects.map((value) => {
-          return { value: value.IdSubject, label: value.SubjectName };
+          return { value: value.IdSubject, label: value.Letter +" "+value.Number };
         });
         setSubject([...arr]);
       });
@@ -89,16 +89,22 @@ useEffect(() => {
    })
     }
   }, []);
-  useLayoutEffect(()=>{
-    if (lecturer && lecturer.value && semester && semester.value && year && year.value) {
-       ApiTeachingVolume.Get(
-         `/class/lecturer/${lecturer.value}/semester/${semester.value}/year/${year.value}`
-       )
-      .then((res) => {
-         setclasslecturer([...res.classes]);
+  useLayoutEffect(() => {
+    if (
+      lecturer &&
+      lecturer.value &&
+      semester &&
+      semester.value &&
+      year &&
+      year.value
+    ) {
+      ApiTeachingVolume.Get(
+        `/class/lecturer/${lecturer.value}/semester/${semester.value}/year/${year.value}`
+      ).then((res) => {
+        setclasslecturer([...res.classes]);
       });
     }
-  },[lecturer,semester,year])
+  }, [lecturer, classSubject,semester, year]);
 
   useLayoutEffect(() => {
     if (classSubject && classSubject.value && semester && semester.value && year && year.value) {
@@ -109,7 +115,7 @@ useEffect(() => {
           setClassroom([...res.classes]);
         });
     }
-  }, [classSubject, semester, year]);
+  }, [classSubject,lecturer, semester, year]);
 
   function handleSave(){
     let arr = []

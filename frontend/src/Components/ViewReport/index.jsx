@@ -23,20 +23,36 @@ function ViewReport() {
      { value: "4", label: "Full" },
    ];
    function handleprint(e) {
-     printJS({
-       printable: "print",
-       targetStyles: [
-         "width:1123px !important",
-         "display:flex !important",
-         "justify-content: center !important",
-       ],
-       type: "html",
-       maxWidth: 1123,
-       scanStyles: true,
-       style:
-         "td, th {border: 1px solid;} table {width:100%;border-collapse: collapse !important; display:block !important;} .MuiTableFooter-root {display:none !important;} #printsig {width:1123px !important;display:flex !important;margin:0 auto !important;justify-content:space-around !important;}}",
-     });
-   }
+    if (semester.value!== "4"){
+      printJS({
+        printable: "print",
+        targetStyles: [
+          "width:1123px !important",
+          "display:flex !important",
+          "justify-content: center !important",
+        ],
+        type: "html",
+        maxWidth: 1123,
+        scanStyles: true,
+        style:
+          "td, th {border: 1px solid; text-align:center;} table {width:21cm;border-collapse: collapse !important; display:block !important;} .MuiTableFooter-root {display:none !important;} #printsig {width:1123px !important;display:flex !important;justify-content:space-around !important; margin-top:60px !important;} #print{width:100vw !important; display:flex !important; align-items: center !important; flex-direction: column !important;}}",
+      });
+    }
+   else {
+    printJS({
+      printable: "print",
+      targetStyles: [
+        "width:1123px !important",
+        "display:flex !important",
+        "justify-content: center !important",
+      ],
+      type: "html",
+      maxWidth: 1123,
+      scanStyles: true,
+      style:
+        "td, th {border: 1px solid; text-align:center;} table {width:21cm !important;border-collapse: collapse !important; display:block !important;} .MuiTableFooter-root {display:none !important;} #printsig {width:100vw !important; display:flex !important;justify-content:space-around !important;}}",
+    });
+   }}
     return (
       <div>
         <div className={cx("option")}>

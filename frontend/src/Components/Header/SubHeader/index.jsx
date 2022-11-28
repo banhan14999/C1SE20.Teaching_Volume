@@ -37,18 +37,18 @@ if (seconds < 10) {
  const s = String(seconds);
    return (
      <div className={`${cx("datetime")}`}>
-       <div>
-         <span className="-mr-7p">{h[0]}</span>
-         <span className="ml-1p">{h[1]}</span>
-       </div>
-       <div>
-         <span className="-mr-4p">{m[0]}</span>
+       {/* <div> */}
+         <span className="ml-[4px]">{h[0]}</span>
+         <span>{h[1]}</span>
+       {/* </div>
+       <div> */}
+         <span className="ml-[30px]">{m[0]}</span>
          <span>{m[1]}</span>
-       </div>
-       <div className="-mr-1">
-         <span className="-mr-7p">{s[0]}</span>
+       {/* </div> */}
+       {/* <div className="-mr-1"> */}
+         <span className="ml-[32px]">{s[0]}</span>
          <span>{s[1]}</span>
-       </div>
+       {/* </div> */}
      </div>
    );
  }
@@ -63,10 +63,13 @@ if (seconds < 10) {
   }, [dates]);
   return (
     <div className={cx("subheader")}>
-      <div className={cx("time")}>
-        {time}
+      <div className="w-[40%] h-[180px]">
+
       </div>
-      <div className={cx("date")}>{date()}</div>
+      <div className="w-[60%] h-[180px] mt-[28px]">
+        <div className={cx("time")}>{time}</div>
+        <div className={cx("date")}>{date()}</div>
+      </div>
     </div>
   );
 }

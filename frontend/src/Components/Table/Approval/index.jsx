@@ -110,6 +110,7 @@ function Approval() {
         }/year/${year.value}`
       )
         .then((res) => {
+          console.log(res);
           if (res.status === 200 && res.totalVols && res.totalVols.length > 0) {
             const arr = res.totalVols.map((value) => {
               return createData(
@@ -125,6 +126,7 @@ function Approval() {
           } else {
             setContinues(false);
             setFormsmount(false);
+            alert("Hiện tại học kì này không có lớp")
           }
         })
         .catch((err) => {

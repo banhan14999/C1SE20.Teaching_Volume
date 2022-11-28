@@ -144,7 +144,7 @@ function ViewSemester({ year, semester, label }) {
 
   React.useEffect(() => {
     if (year && semester)
-      ApiTeachingVolume.Get(
+       ApiTeachingVolume.Get(
         `volume/totalByDean/sem/${semester}/year/${year}`
       ).then((req) => {
         const arr = req.totalVols.map((e, index) => {
@@ -214,8 +214,8 @@ function ViewSemester({ year, semester, label }) {
 
   return (
     <div id="print" className="m-auto">
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 700 }} aria-label="spanning table">
+      <TableContainer component={Paper} className="w-[1123px]">
+        <Table aria-label="spanning table">
           <TableHead>
             <TableRow>
               <StyledTableCell rowSpan={2}>STT</StyledTableCell>
@@ -340,7 +340,7 @@ function ViewSemester({ year, semester, label }) {
           </TableFooter>
         </Table>
       </TableContainer>
-      <div id="printsig" className="w-full justify-around text-center hidden">
+      <div id="printsig" className="w-[1123px] justify-around text-center hidden">
         <div>
           <h2>TP. PHÒNG ĐÀO TẠO ĐẠI HỌC & SAU ĐẠI HỌC</h2>
         </div>

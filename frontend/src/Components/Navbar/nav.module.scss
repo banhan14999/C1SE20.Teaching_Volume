@@ -5,7 +5,7 @@
 }
 .nav_sitemap{
   background: url("../../Assets/img/bg-welcome.png") no-repeat left top;
-  height: 54px;
+  // height: 54px;
   width: 100%
 }
 .container_heading {
@@ -24,7 +24,7 @@
 
 .sitemap {
   background: url("../../Assets/img/bg-sitemap.png") no-repeat right top;
-  height: auto;
+  height: 54px;
   padding-right: 30px;
   padding-left: 17px;
   font-weight: 500;
@@ -50,7 +50,6 @@
     width: 100%;
   }
   .container{
-    background-size: contain;
     width: 100%;
     margin-left: 0;
   }
@@ -59,15 +58,13 @@
   }
   .sitemap {
     background-size: contain;
-    height: 54px;
+    height: auto;
     padding-left: 0;
     margin-left: 235px;
 
   }
   .container_heading {
-     width: 177px;
-    height: 45px;
-    line-height: 45px;
+    //  width: 177px;
 
   }
 }
