@@ -67,7 +67,7 @@ class ClassController extends Controller
 
         //check 
         $messages  = [
-            'Grade.unique' => 'This class of subject all ready taken in this semester and year',
+            'Grade.unique' => 'This class of subject all ready taken in this year',
         ];
         $validator = Validator::make($request->all(),[
             'Grade' => [
