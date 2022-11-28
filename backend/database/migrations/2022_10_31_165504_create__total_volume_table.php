@@ -27,8 +27,9 @@ return new class extends Migration
             $table->decimal('TimeScientificVolume', 10, 2);
             $table->decimal('TotalVolume', 10, 2);
             $table->string('Status', '100');
-            $table->primary(['IdLecturer', 'Year', 'Semester'],'PK_Lec_Year_Sem');
+            //$table->primary(['IdLecturer', 'Year', 'Semester'],'PK_Lec_Year_Sem');
             $table->timestamps();
+            $table->foreign('IdLecturer')->references('IdLecturer')->on('users');
         });
     }
 

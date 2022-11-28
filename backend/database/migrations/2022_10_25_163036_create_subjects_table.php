@@ -21,7 +21,7 @@ return new class extends Migration
             $table->tinyInteger('Credit',false,true);
             $table->string('Type',20);
             $table->timestamps();
-            $table->unique(['Letter','Number']);
+            //$table->unique(['Letter','Number']);
         });
     }
 
