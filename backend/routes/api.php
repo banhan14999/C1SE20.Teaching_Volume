@@ -136,7 +136,7 @@ Route::middleware(['auth:sanctum'])->group(function(){
     Route::controller(VolumeController::class)->group(function() {
         Route::prefix('volume')->group(function() {
             Route::get('checkExist/sem/{sem}/year/{year}', 'checkExist');
-            Route::get('fulltotalByDean/year/{year}', 'getAllSemTotalByDean');
+            Route::get('fulltotalByDean/year/{year}', 'dashboardForAll');
             Route::get('totalByDean/sem/{sem}/year/{year}', 'getAllTotalByDean');
             Route::get('totalByHead/sem/{sem}/year/{year}', 'getAllTotalByHead');
             Route::get('selfTotalDetail/idLecture/{id}/sem/{sem}/year/{year}', 'getTotalDetail');

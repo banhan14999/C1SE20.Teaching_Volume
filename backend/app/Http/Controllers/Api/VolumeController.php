@@ -496,4 +496,73 @@ class VolumeController extends Controller
             'message' => 'Updated Successfully',
         ]);
     }
+
+    //Lấy ra tổng khối lượng 2 kỳ cho trưởng khoa
+    private static function getVolumeData($year, $sem, $status)
+    {
+        $data = Total::select('IdLecturer')
+        ->where([
+            ['Year', '=', $year],
+            ['Semester', '=', $sem],
+            ['Status', '=', $status],
+        ])
+        ->get();
+        return $data;
+    }
+
+    //chuyển collection object array -> collection array
+    private static function convertColObjToArray($collection)
+    {
+        $array = collect([]);
+        $collection->each(function ($item, $key) use (&$array) {
+            return $array->push($item['IdLecturer']);
+        });
+        return $array;
+    }
+
+    //intersect các dl suy ra dữ liệu tồn tại
+    private static function intersect($year)
+    {
+        $status = 'Approved';
+        
+        //get ra collection object
+        $idLec1 = self::getVolumeData($year, '1', $status);
+        $idLec2 = self::getVolumeData($year, '2', $status);
+        $idLecSum = self::getVolumeData($year, 'Hè', $status);
+        
+        //chuyển về collection array
+        $idLec1 = self::convertColObjToArray($idLec1);
+        $idLec2 = self::convertColObjToArray($idLec2);
+        $idLecSum = self::convertColObjToArray($idLecSum);
+
+        $intersect = $idLec1->intersect($idLec2->intersect($idLecSum));
+
+        return $intersect->toArray();
+    }
+
+    //Thực hiện query
+    public function dashboardForAll($year)
+    {
+        $lecIn = self::intersect($year);
+        $faculty = auth()->user()['IdFaculty'];
+        $totalVols = Total::join('users', 'totalvolume.IdLecturer', '=', 'users.IdLecturer')
+                    ->where([
+                        ['IdFaculty', '=', $faculty],
+                        ['Year', '=', $year],
+                    ])
+                    ->whereIn('totalvolume.IdLecturer', $lecIn)
+                    ->get();
+        if(! $totalVols->isEmpty()) {
+            return response()->json([
+                'status' => 200,
+                'totalVols' => $totalVols,
+            ]);
+        }
+        else {
+            return response()->json([
+                'status' => false,
+                'totalVols' => [],
+            ]);
+        }
+    }
 }
