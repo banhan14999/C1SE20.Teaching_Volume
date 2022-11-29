@@ -145,7 +145,7 @@ class UserController extends Controller
         ]);
     }
 
-    public static function getLecturerByDepartmentAndFaculty($idFaculty, $idDepartment)
+    public function getLecturerByDepartmentAndFaculty($idFaculty, $idDepartment)
     {
         $lecturers = DB::table('users')
                         ->where([
@@ -154,6 +154,9 @@ class UserController extends Controller
                         ])
                         ->get();
         //$user = auth()->user();
-        return $lecturers;
+        return response()->json([
+            'status' => 200,
+            'lecturers' => $lecturers,
+        ]);
     }
 }
