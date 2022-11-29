@@ -48,13 +48,13 @@ const iduserf = JSON.parse(sessionStorage.getItem("iduser"));
   const { data } = updateData;
   const Faculty = [{ value: "CMU-SE", label: "CMU-SE" }];
   const Departmentop = [
-    { value: "SE", label: "Software Enginner" },
+    { value: "SE", label: "Software Engineer" },
     { value: "NS", label: "Network Security" },
     { value: "MIS", label: "Management Information System" },
   ];
 
   const Role = [
-    { value: "3", label: "Head" },
+    { value: "3", label: "Head Of Department" },
     { value: "4", label: "Lecturer" },
     { value: "2", label: "Dean" },
   ];
@@ -78,10 +78,10 @@ const iduserf = JSON.parse(sessionStorage.getItem("iduser"));
         };
        ApiTeachingVolume.Update("/user/update/", id, obj)
          .then(function (response) {
-           alert("Update Done");
+           alert("Cập Nhật Thành Công");
          })
          .catch(function (error) {
-           alert("Update That bai");
+           alert("Cập Nhật Thất Bại");
          });
      }else{
        let checkValInput = true
@@ -108,7 +108,7 @@ const iduserf = JSON.parse(sessionStorage.getItem("iduser"));
         setCheck(true)
         ApiTeachingVolume.Post("/user/add", obj)
          .then((res) => {
-           alert("Add Done");
+           alert("Thêm Thành Công!!!");
            setValuesForm({
              username: "",
              password: "",
@@ -121,7 +121,7 @@ const iduserf = JSON.parse(sessionStorage.getItem("iduser"));
            });
          })
          .catch(() => {
-           alert("Add That bai");
+           alert("Thêm Không Thành Công");
          });
      }
      }
@@ -197,7 +197,7 @@ useEffect(() => {
       <div className={cx("form")}>
         <div className={cx("line")}>
           <h2 className="text-xl font-semibold">
-            {props.title || "User Infomation"}
+            {props.title || "User Information"}
           </h2>
         </div>
         <div className="p-5">

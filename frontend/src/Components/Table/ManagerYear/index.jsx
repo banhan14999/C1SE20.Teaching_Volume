@@ -46,17 +46,14 @@ function handleDelete(e){
       ) : (
         <div className="container">
           <div className="text-center text-[20px] font-[600] line mb-[20px] text-red-700">
-            Manager Year
+            Manage Year
           </div>
           <TableContainer component={Paper}>
             <Table size="medium" aria-label="a dense table">
               <TableHead>
                 <TableRow style={{}}>
-                  <StyledTableCell align="center">ID</StyledTableCell>
                   <StyledTableCell align="center">Start</StyledTableCell>
                   <StyledTableCell align="center">Finish</StyledTableCell>
-                  <StyledTableCell align="center">Created Add</StyledTableCell>
-                  <StyledTableCell align="center">Updated Add</StyledTableCell>
                   <StyledTableCell align="center" colSpan={2}>
                     Action
                   </StyledTableCell>
@@ -68,13 +65,8 @@ function handleDelete(e){
                     key={row.Id}
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   >
-                    <StyledTableCell align="center" component="th" scope="row">
-                      {row.Id}
-                    </StyledTableCell>
-                    <StyledTableCell>{row.Start}</StyledTableCell>
-                    <StyledTableCell>{row.Finish}</StyledTableCell>
-                    <StyledTableCell>{row.CreatedAdd}</StyledTableCell>
-                    <StyledTableCell>{row.UpdatedAdd}</StyledTableCell>
+                    <StyledTableCell align="center">{row.Start}</StyledTableCell>
+                    <StyledTableCell align="center">{row.Finish}</StyledTableCell>
                     <StyledTableCell align="center">
                       <div
                         className="flex justify-center cursor-pointer"

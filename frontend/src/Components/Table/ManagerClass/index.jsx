@@ -86,7 +86,7 @@ useEffect(() => {
         .map((value) => {
           return createData(
             value.IdClass,
-            value.Letter + " " + value.Number,
+            value.Letter + " " + value.Number + " " + value.Grade,
             value.SubjectName,
             value.NumberOfStudent,
             value.TypeClass,
@@ -138,7 +138,7 @@ useEffect(() => {
             </div>
           </div>}
           <div className="text-center text-[20px] font-[600] line mb-[20px] text-red-700">
-            Manager Class
+            Manage Class
           </div>
           <TableContainer component={Paper}>
             <Table size="medium" aria-label="a dense table">

@@ -69,7 +69,7 @@ function clickDelete(e) {
       ) : (
         <div className="container">
           <div className="text-center text-[20px] font-[600] line mb-[20px] text-red-700">
-            Manager Users
+            Manage Users
           </div>
           <TableContainer component={Paper}>
             <Table size="medium" aria-label="a dense table">
@@ -80,9 +80,7 @@ function clickDelete(e) {
                   <StyledTableCell align="center">Faculty</StyledTableCell>
                   <StyledTableCell align="center">Department</StyledTableCell>
                   <StyledTableCell align="center">Role</StyledTableCell>
-                  <StyledTableCell align="center" >
-                    Action
-                  </StyledTableCell>
+                  <StyledTableCell align="center">Action</StyledTableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -94,14 +92,14 @@ function clickDelete(e) {
                     <StyledTableCell align="center" component="th" scope="row">
                       {row.IdLecturer}
                     </StyledTableCell>
-                    <StyledTableCell>{row.FullName}</StyledTableCell>
-                    <StyledTableCell>{row.School}</StyledTableCell>
-                    <StyledTableCell>{row.Department}</StyledTableCell>
-                    <StyledTableCell>{row.Role}</StyledTableCell>
+                    <StyledTableCell >{row.FullName}</StyledTableCell>
+                    <StyledTableCell  align="center">{row.School}</StyledTableCell>
+                    <StyledTableCell  align="center">{row.Department}</StyledTableCell>
+                    <StyledTableCell align="center">{row.Role}</StyledTableCell>
                     <StyledTableCell align="center">
                       <div className="flex justify-around items-center">
                         <div
-                          className="flex justify-center  cursor-pointer "
+                          className="flex justify-center items-center cursor-pointer "
                           onClick={handleUpdate}
                           data-update={row.Id}
                         >
@@ -110,9 +108,10 @@ function clickDelete(e) {
                             className="pointer-events-none"
                             fontSize={14}
                           ></BiEdit>
+                          Update
                         </div>
                         <div
-                          className="cursor-pointer"
+                          className="cursor-pointer flex items-center justify-center"
                           onClick={clickDelete}
                           data-delete={row.Id}
                         >
@@ -121,6 +120,7 @@ function clickDelete(e) {
                             className="pointer-events-none"
                             fontSize={16}
                           ></AiFillCloseCircle>
+                          Delete
                         </div>
                       </div>
                     </StyledTableCell>

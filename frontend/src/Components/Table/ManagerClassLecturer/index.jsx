@@ -24,7 +24,7 @@ function ManagerClassLecturer(props) {
   return (
     <div className="container">
       <div className="text-center text-[20px] font-[600] line mb-[20px] text-red-700">
-        Manager Class Lecturer
+        Manage Class Lecturer
       </div>
       <TableContainer component={Paper}>
         <Table size="medium" aria-label="a dense table">

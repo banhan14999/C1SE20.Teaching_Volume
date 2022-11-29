@@ -30,7 +30,6 @@ function WorkVolume() {
    ];
   return (
     <div>
-
       <div className={cx("option")}>
         <div className="flex pt-[107px] justify-around">
           <span className="w-[30%] ml-[50px]">
@@ -46,7 +45,6 @@ function WorkVolume() {
           Tiếp tục
         </Button>
       </div>
-
       {mclass && <ManagerClassLecturer></ManagerClassLecturer>}
     </div>
   );
