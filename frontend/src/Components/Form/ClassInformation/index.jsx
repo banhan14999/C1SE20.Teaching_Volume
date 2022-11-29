@@ -84,10 +84,10 @@ const idclass = JSON.parse(sessionStorage.getItem("idclass"));
      const check = ApiTeachingVolume.Update(`/class/update/`, param.id, obj);
      check
        .then(function (response) {
-         alert("Update Done");
+         alert("Cập Nhật Thành Công");
        })
        .catch(function (error) {
-         alert("Update That bai");
+         alert("Cập Nhật Thất Bại");
        });
    } else {
      let checkValInput = true;
@@ -115,7 +115,7 @@ const idclass = JSON.parse(sessionStorage.getItem("idclass"));
        //  setCheck(true);
         ApiTeachingVolume.Post("/class/add", obj)
          .then((res) => {
-           alert("Add Done");
+           alert("Thêm Thành Công!!!");
            setValuesForm({
              grade: "",
              credit: "",
@@ -125,7 +125,7 @@ const idclass = JSON.parse(sessionStorage.getItem("idclass"));
            });
          })
          .catch(() => {
-           alert("Add That bai");
+           alert("Thêm Không Thành Công");
          });
      }
    }
@@ -199,7 +199,7 @@ const idclass = JSON.parse(sessionStorage.getItem("idclass"));
         <div className={cx("form")}>
           <div className={cx("line")}>
             <h2 className="text-xl font-semibold">
-              {props.title || "Class Infomation"}
+              {props.title || "Class Information"}
             </h2>
           </div>
           <div className="p-5">
@@ -255,11 +255,12 @@ const idclass = JSON.parse(sessionStorage.getItem("idclass"));
                   options={subjectOptions}
                   setSelectedOption={setSubject}
                   defaultValue={
-                    props.btn && data && data.length > 0
-                      && {
-                          label: data[0].Year,
-                          value: data[0].Year,
-                        }
+                    props.btn &&
+                    data &&
+                    data.length > 0 && {
+                      label: data[0].Year,
+                      value: data[0].Year,
+                    }
                   }
                   isDisabled={props.btn ? true : false}
                 ></SelectForm>

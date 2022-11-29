@@ -260,10 +260,10 @@ function ViewSemester({ year, semester, label }) {
               <TableRow key={row.id}>
                 <StyledTableCell>{row.id}</StyledTableCell>
                 <StyledTableCell align="center">{row.mAGV}</StyledTableCell>
-                <StyledTableCell align="center" style={{ borderRight: "none" }}>
+                <StyledTableCell style={{ borderRight: "none" }}>
                   {row.firtName}
                 </StyledTableCell>
-                <StyledTableCell align="center" style={{ borderLeft: "none" }}>
+                <StyledTableCell style={{ borderLeft: "none" }}>
                   {row.lastName}
                 </StyledTableCell>
                 <StyledTableCell align="center">{row.Teaching}</StyledTableCell>
@@ -287,7 +287,7 @@ function ViewSemester({ year, semester, label }) {
               </TableRow>
             ))}
             <TableRow>
-              <StyledTableCell colSpan={4}>Total</StyledTableCell>
+              <StyledTableCell align="center" colSpan={4}>Tổng: </StyledTableCell>
               <StyledTableCell align="center">
                 {total.TeachingVolume.toFixed(2) || 0}
               </StyledTableCell>
@@ -349,12 +349,12 @@ function ViewSemester({ year, semester, label }) {
         </div>
         <div>
           <h2>HIỆU TRƯỞNG/ VIỆN TRƯỞNG</h2>
-          <p>(kí và ghi rõ họ và tên)</p>
+          <p>(kí và ghi rõ họ tên)</p>
         </div>
         <div>
           <p>Đà Nẵng,Ngày..... Tháng..... Năm 20... </p>
-          <h2>HIỆU TRƯỞNG/ VIỆN TRƯỞNG</h2>
-          <p>(kí và ghi rõ họ và tên)</p>
+          <h2>TRƯỞNG KHOA</h2>
+          <p>(kí và ghi rõ họ tên)</p>
         </div>
       </div>
     </div>

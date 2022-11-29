@@ -65,7 +65,7 @@ function ManagerSubject() {
         <AddSubject btn="Update" title="Updata Subject"></AddSubject>:
         ( <div className={`container`}>
           <div className="text-center text-[20px] font-[600] line mb-[20px] text-red-700">
-            Manager Subject
+            Manage Subject
           </div>
           <TableContainer component={Paper}>
             <Table size="small" aria-label="Manager Subject Table">

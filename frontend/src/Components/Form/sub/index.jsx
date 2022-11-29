@@ -242,7 +242,7 @@ function FormSubject({ year, semester, theoryClass, exams, others, btn,title,idL
   }
   return (
     <div className={cx("form")}>
-      <p className="text-[25px] text-center mb-3">{title}</p>
+      <p className="text-[25px] text-center mb-3">{title && (title.id+" "+title.fullName)}</p>
       <div className={cx("nav_form")}>
         <ul onClick={handleClick}>
           <li className={`${form === "Teaching Volume" && "!bg-red-800"}`}>

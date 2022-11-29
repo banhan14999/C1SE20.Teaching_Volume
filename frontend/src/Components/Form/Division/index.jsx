@@ -53,7 +53,7 @@ useEffect(() => {
   const hocki = [
     { value: "1", label: "Học Kỳ I" },
     { value: "2", label: "Học Kỳ II" },
-    { value: "3", label: "Học Hè" },
+    { value: "Hè", label: "Học Hè" },
   ];
   
   function handleContinue() {
@@ -61,14 +61,14 @@ useEffect(() => {
       localStorage.setItem("Division",JSON.stringify({year:year.value,semester:semester.value}))
       setContinues(true);
     }else {
-      alert("vui long chon nam hoc")
+      alert("Vui Lòng Chọn Năm Học")
     }
   }
   useEffect(() => {
     ApiTeachingVolume.Get("/subject/all")
       .then((res) => {
         const arr = res.subjects.map((value) => {
-          return { value: value.IdSubject, label: value.Letter +" "+value.Number };
+          return { value: value.IdSubject, label: value.SubjectName };
         });
         setSubject([...arr]);
       });
@@ -140,10 +140,10 @@ useEffect(() => {
     };
     ApiTeachingVolume.Put("/class/doDivisionClasses", datas)
       .then((req) => {
-        alert("Thanh cong");
+        alert("Cập Nhật Thành Công!!!");
       })
       .catch((err) => {
-        alert("that bai");
+        alert("Cập Nhật Không Thành Công");
       });
   }
 
@@ -210,7 +210,7 @@ useEffect(() => {
       <div className="text-center mb-3">
         {continues === false && (
           <Button width="200px" bgcolor="#950B0B" onClick={handleContinue}>
-            Tiếp tục
+            Continue
           </Button>
         )}
       </div>
@@ -220,13 +220,13 @@ useEffect(() => {
             <SelectForm
               class="w-[46%] ml-[20px]"
               options={lec}
-              placeholder="Chọn Khanh"
+              placeholder="Chọn Giảng Viên"
               setSelectedOption={setLecturer}
             ></SelectForm>
             <SelectForm
               class="w-[46%] mr-[20px]"
               options={subject}
-              placeholder="Chọn Lop"
+              placeholder="Chọn Môn Học"
               setSelectedOption={setClassSubject}
             ></SelectForm>
           </div>
@@ -275,7 +275,7 @@ useEffect(() => {
               width="20%"
               onClick={handleSave}
             >
-              Lưu
+              Save
             </Button>
           </div>
         </div>

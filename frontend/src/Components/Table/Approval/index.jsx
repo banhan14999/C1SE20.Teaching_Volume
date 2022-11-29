@@ -20,7 +20,7 @@ const cx = classNames.bind(styles);
 function Approval() {
   const [continues, setContinues] = useState(false);
   const [dataApproval, setDataApproval] = useState([]);
-  const [approvalID, setApprovalID] = useState();
+  const [approvalID, setApprovalID] = useState({});
   const [year, setYear] = useState(null);
   const [semester, setSemester] = useState(null);
   const [formsmount, setFormsmount] = useState(false);
@@ -37,9 +37,10 @@ function Approval() {
     { value: "Hè", label: "Học Hè" },
   ];
   function data(id) {
+    console.log(id);
     if (semester && year && semester.value && year.value) {
       ApiTeachingVolume.Get(
-        `volume/selfTotalDetail/idLecture/${id}/sem/${semester.value}/year/${year.value}`
+        `volume/selfTotalDetail/idLecture/${id.id}/sem/${semester.value}/year/${year.value}`
       ).then((req) => {
         const theory = req.grades.map((e, index) => {
           return {
@@ -92,7 +93,7 @@ function Approval() {
       });
      
     }
-    setApprovalID(id); 
+    setApprovalID((prev)=>{return {...prev,...id}}); 
   }
   function createData(code, fullname, title, status) {
     return { code, fullname, title, status };
@@ -113,7 +114,7 @@ function Approval() {
             const arr = res.totalVols.map((value) => {
               return createData(
                 value.IdLecturer,
-                value.LastName + " " + value.FirstName,
+                value.FirstName + " " + value.LastName,
                 "Volume Form",
                 value.Status
               );
@@ -136,7 +137,8 @@ function Approval() {
 
   function hanldeDetail(e) {
     const id = e.target.parentElement.dataset.id;
-    data(id);
+    const fullName = e.target.parentElement.dataset.fullname;
+    data({ id, fullName});
     setFormsmount(true);
   }
   function hanldeAccept(e) {
@@ -152,7 +154,7 @@ function Approval() {
             const arr = res.totalVols.map((value) => {
               return createData(
                 value.IdLecturer,
-                value.LastName + " " + value.FirstName,
+                 value.FirstName+" "+ value.LastName  ,
                 "Volume Form",
                 value.Status
               );
@@ -179,7 +181,7 @@ function Approval() {
             const arr = res.totalVols.map((value) => {
               return createData(
                 value.IdLecturer,
-                value.LastName + " " + value.FirstName,
+                value.FirstName + " " + value.LastName,
                 "Volume Form",
                 value.Status
               );
@@ -270,11 +272,13 @@ function Approval() {
                         <p
                           className="flex justify-around items-center "
                           data-id={row.code}
+                          data-fullname={row.fullname}
                         >
                           <GrClear
                             className="text-[16px] cursor-pointer"
                             onClick={hanldeUndo}
                             data-id={row.code}
+                            data-fullname={row.fullname}
                           />
                         </p>
                       )}
@@ -282,24 +286,28 @@ function Approval() {
                         <p
                           className="flex  items-center justify-around w-[66%]"
                           data-id={row.code}
+                          data-fullname={row.fullname}
                         >
                           <AiFillCheckCircle
                             className="text-green-600 text-[16px] cursor-pointer"
                             onClick={hanldeAccept}
                             data-id={row.code}
+                            data-fullname={row.fullname}
                           />
                           <GrClear
                             className="text-[16px] cursor-pointer"
                             onClick={hanldeUndo}
                             data-id={row.code}
+                            data-fullname={row.fullname}
                           />
                         </p>
                       )}
-                      <p data-id={row.code}>
+                      <p data-id={row.code} data-fullname={row.fullname}>
                         <TbListDetails
                           className="text-orange-600 text-[16px] cursor-pointer"
                           onClick={hanldeDetail}
                           data-id={row.code}
+                          data-fullname={row.fullname}
                         />
                       </p>
                     </div>

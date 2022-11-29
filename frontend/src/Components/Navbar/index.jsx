@@ -64,7 +64,11 @@ function HandleLogout(){
 }
   return (
     <div className={cx("container")}>
-      <div className={`flex justify-between select-none relative ${cx("nav_sitemap")}`}>
+      <div
+        className={`flex justify-between select-none relative ${cx(
+          "nav_sitemap"
+        )}`}
+      >
         <div className="flex items-center">
           <div
             className={`${cx(
@@ -76,30 +80,30 @@ function HandleLogout(){
           </div>
           <div className={`${cx("sitemap")}`}>
             <span className="mr-2">{IconForm[form]}</span>
-            <span >{update || form}</span>
+            <span>{update || form}</span>
           </div>
         </div>
         <Tippy
           content={
             <span className="bg-gray-300 px-[15px] py-[2px] block mt-[-18px] border-1 border-gray-600">
-              Thoát
+              Exit
             </span>
           }
           delay={300}
           placement="bottom"
         >
           {/* <Link to="/authentication" className="flex items-center"> */}
-            <div
-              className={`flex items-center cursor-pointer pr-[15px]  ${cx(
-                "out"
-              )}`}
-              onClick={HandleLogout}
-            >
-              <AiOutlineLogout
-                className={`${cx("logout")} text-slate-600 text-2xl mr-1`}
-              ></AiOutlineLogout>
-              <p className="font-light">Thoát</p>
-            </div>
+          <div
+            className={`flex items-center cursor-pointer pr-[15px]  ${cx(
+              "out"
+            )}`}
+            onClick={HandleLogout}
+          >
+            <AiOutlineLogout
+              className={`${cx("logout")} text-slate-600 text-2xl mr-1`}
+            ></AiOutlineLogout>
+            <p className="font-light">Exit</p>
+          </div>
           {/* </Link> */}
         </Tippy>
       </div>

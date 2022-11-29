@@ -52,13 +52,13 @@ const navigate = useNavigate()
         };
         ApiTeachingVolume.Post("/year/add", obj)
           .then((res) => {
-            alert("Add Done");
+            alert("Thêm Thành Công!!!");
             setValuesForm({
               start: ""
             });
           })
           .catch(() => {
-            alert("Add That bai");
+            alert("Thêm Không Thành Công");
           });
       }
     }
@@ -68,7 +68,7 @@ const navigate = useNavigate()
       <div className={cx("form")}>
         <div className={cx("line")}>
           <h2 className="text-xl font-semibold">
-            {props.title || "Year Infomation"}
+            {props.title || "Year Information"}
           </h2>
         </div>
         <div className="p-5">
@@ -109,7 +109,7 @@ const navigate = useNavigate()
                 size="large"
                 onClick={clickCancel}
               >
-                {param && param.id ? "Cancel": "Reset"}
+                {param && param.id ? "Cancel" : "Reset"}
               </Button>
             </div>
           </form>

@@ -391,8 +391,11 @@ function ViewTable({year,semester}) {
   return (
     <div className="container">
       <div className={`${cx("tableview")}`} id="print" ref={reftableview}>
-        <h1 className="text-center font-bold text-[30px] text-red-800 leading-[80px]">
-          Manager Workload
+        <h1
+          className="text-center font-bold text-[30px] text-red-800 leading-[80px]"
+          id="workload"
+        >
+          Manage Workload
         </h1>
         <TableContainer
           component={Paper}
@@ -517,16 +520,10 @@ function ViewTable({year,semester}) {
                     align="left"
                     style={{ borderRight: "none" }}
                     className={cx("tablecell")}
+                    colSpan={2}
                   >
-                    {row.firtName1 || 0}
+                    {row.firtName1 + " "+row.lastName1 || 0}
                   </StyledTableCell>
-                  <StyledTableCell
-                    align="center"
-                    style={{ borderLeft: "none" }}
-                  >
-                    {row.lastName1 || 0}
-                  </StyledTableCell>
-
                   <StyledTableCell align="center">
                     {row.Teaching1}
                   </StyledTableCell>
@@ -648,7 +645,9 @@ function ViewTable({year,semester}) {
                 </TableRow>
               ))}
               <TableRow>
-                <StyledTableCell colSpan={4}>Total</StyledTableCell>
+                <StyledTableCell colSpan={4} align="center">
+                  Tổng:
+                </StyledTableCell>
                 <StyledTableCell align="center">
                   {total.Teaching1.toFixed(2) || 0}
                 </StyledTableCell>
@@ -798,12 +797,12 @@ function ViewTable({year,semester}) {
           </div>
           <div>
             <h2>HIỆU TRƯỞNG/ VIỆN TRƯỞNG</h2>
-            <p>(kí và ghi rõ họ và tên)</p>
+            <p>(Ký và ghi rõ họ tên)</p>
           </div>
           <div>
             <p>Đà Nẵng,Ngày..... Tháng..... Năm 20... </p>
-            <h2>HIỆU TRƯỞNG/ VIỆN TRƯỞNG</h2>
-            <p>(kí và ghi rõ họ và tên)</p>
+            <h2>TRƯỞNG KHOA</h2>
+            <p>(Ký và ghi rõ họ tên)</p>
           </div>
         </div>
       </div>

@@ -57,11 +57,11 @@ function AddSubject(props) {
      const check = ApiTeachingVolume.Update("/subject/update/", id, obj);
      check
        .then(function (response) {
-          alert("Update Done");
+          alert("Cập Nhật Thành Công!!!");
           
        })
        .catch(function (error) {
-          alert("Update That bai", error);
+          alert("Cập Nhật Thất Bại", error);
        });
       
    }else{
@@ -88,7 +88,7 @@ function AddSubject(props) {
         if (res && res.data && res.data.message && res.data.message.letter) {
           alert(res.data.message.letter[0]);
         } else if (res && res.data && res.data.status === 201) {
-          alert("Add Done");
+          alert("Thêm Thành Công!!!");
           setValuesForm({
             letter: "",
             number: "",
@@ -99,7 +99,7 @@ function AddSubject(props) {
         }
       })
       .catch((err)=>{
-         alert("Add That bai");
+         alert("Thêm Không Thành Công");
       })
      }
    }
@@ -159,7 +159,7 @@ function AddSubject(props) {
       <div className={cx("form")}>
         <div className={cx("line")}>
           <h2 className="text-xl font-semibold">
-            {props.title || "Add Subject"}
+            {props.title || "Subject Information"}
           </h2>
         </div>
         <div className="p-5">
@@ -272,7 +272,7 @@ function AddSubject(props) {
                 size="large"
                 onClick={clickCancel}
               >
-                {param && param.id ? "Cancle" : "Reset"}
+                {param && param.id ? "Cancel" : "Reset"}
               </Button>
             </div>
           </form>
