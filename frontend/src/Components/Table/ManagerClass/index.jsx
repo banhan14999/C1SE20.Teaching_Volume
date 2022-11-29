@@ -113,7 +113,7 @@ useEffect(() => {
                 <SelectForm
                   options={opt}
                   placeholder="Chọn năm học"
-                  height="30px w-full"
+                  height="34px"
                   setSelectedOption={setYear}
                   defaultValue={
                     years && years.year && selectValue(years.year, opt)
@@ -124,7 +124,7 @@ useEffect(() => {
                 <SelectForm
                   options={hocki}
                   placeholder="Chọn học kì"
-                  height="30px w-full"
+                  height="34px"
                   setSelectedOption={setSemester}
                   defaultValue={
                     years &&

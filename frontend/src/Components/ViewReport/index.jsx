@@ -19,7 +19,7 @@ function ViewReport() {
    const hocki = [
      { value: "1", label: "Học Kỳ I" },
      { value: "2", label: "Học Kỳ II" },
-     { value: "3", label: "Học Hè" },
+     { value: "Hè", label: "Học Hè" },
      { value: "4", label: "Full" },
    ];
    function handleprint(e) {
@@ -50,7 +50,7 @@ function ViewReport() {
       maxWidth: 1123,
       scanStyles: true,
       style:
-        "td, th {border: 1px solid; text-align:center;} table {width:21cm !important;border-collapse: collapse !important; display:block !important;} .MuiTableFooter-root {display:none !important;} #printsig {width:100vw !important; display:flex !important;justify-content:space-around !important;}}",
+        "td, th {border: 1px solid; text-align:center; font-size:9px} table {width:21cm !important;border-collapse: collapse !important; display:block !important;} .MuiTableFooter-root {display:none !important;} #printsig {width:100vw !important; display:flex !important;justify-content:space-around !important;}}",
     });
    }}
     return (
@@ -61,7 +61,7 @@ function ViewReport() {
               <SelectForm
                 options={opt}
                 placeholder="Chọn năm học"
-                height="30px"
+                height="34px"
                 setSelectedOption={setYear}
               ></SelectForm>
             </span>
@@ -69,7 +69,7 @@ function ViewReport() {
               <SelectForm
                 options={hocki}
                 placeholder="Chọn học kì"
-                height="30px"
+                height="34px"
                 setSelectedOption={setSemester}
               ></SelectForm>
             </span>

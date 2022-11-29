@@ -34,14 +34,13 @@ function Approval() {
   const hocki = [
     { value: "1", label: "Học Kỳ I" },
     { value: "2", label: "Học Kỳ II" },
-    { value: "3", label: "Học Hè" },
+    { value: "Hè", label: "Học Hè" },
   ];
   function data(id) {
     if (semester && year && semester.value && year.value) {
       ApiTeachingVolume.Get(
         `volume/selfTotalDetail/idLecture/${id}/sem/${semester.value}/year/${year.value}`
       ).then((req) => {
-        console.log(req);
         const theory = req.grades.map((e, index) => {
           return {
             stt: index + 1,
@@ -110,7 +109,6 @@ function Approval() {
         }/year/${year.value}`
       )
         .then((res) => {
-          console.log(res);
           if (res.status === 200 && res.totalVols && res.totalVols.length > 0) {
             const arr = res.totalVols.map((value) => {
               return createData(
@@ -201,7 +199,7 @@ function Approval() {
             <SelectForm
               options={opt}
               placeholder="Chọn năm học"
-              height="30px"
+              height="34px"
               setSelectedOption={setYear}
             ></SelectForm>
           </span>
@@ -209,7 +207,7 @@ function Approval() {
             <SelectForm
               options={hocki}
               placeholder="Chọn học kì"
-              height="30px"
+              height="34px"
               setSelectedOption={setSemester}
             ></SelectForm>
           </span>

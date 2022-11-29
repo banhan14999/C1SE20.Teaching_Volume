@@ -79,14 +79,14 @@ useEffect(() => {
      ApiTeachingVolume.Get(
       `/user/faculty/${department.IdFaculty}/department/${department.IdDepartment}`
     ).then((res) => {
-      const arr = res.map((value) => {
+      const arr = res.lecturers.map((value) => {
         return {
           value: value.IdLecturer,
           label: value.LastName + " " + value.FirstName,
         };
       });
       setLec([...arr]);
-   })
+    })
     }
   }, []);
   useLayoutEffect(() => {
@@ -193,7 +193,7 @@ useEffect(() => {
             <SelectForm
               options={opt}
               placeholder="Chọn năm học"
-              height="30px w-full"
+              height="34px"
               setSelectedOption={setYear}
             ></SelectForm>
           </span>
@@ -201,7 +201,7 @@ useEffect(() => {
             <SelectForm
               options={hocki}
               placeholder="Chọn học kì"
-              height="30px w-full"
+              height="34px"
               setSelectedOption={setSemester}
             ></SelectForm>
           </span>

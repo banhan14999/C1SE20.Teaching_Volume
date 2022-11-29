@@ -35,7 +35,7 @@ function ManagerWorkload() {
     const hocki = [
       { value: "1", label: "Học Kỳ I" },
       { value: "2", label: "Học Kỳ II" },
-      { value: "3", label: "Học Hè" },
+      { value: "Hè", label: "Học Hè" },
     ];
       function createOther(activities, examMonitor, advisor, scientific) {
         return { activities, examMonitor, advisor, scientific };
@@ -140,7 +140,7 @@ function ManagerWorkload() {
             <SelectForm
               options={opt}
               placeholder="Chọn năm học"
-              height="30px w-full"
+              height="34px"
               setSelectedOption={setYear}
             ></SelectForm>
           </span>
@@ -148,7 +148,7 @@ function ManagerWorkload() {
             <SelectForm
               options={hocki}
               placeholder="Chọn học kì"
-              height="30px w-full"
+              height="34px"
               setSelectedOption={setSemester}
             ></SelectForm>
           </span>

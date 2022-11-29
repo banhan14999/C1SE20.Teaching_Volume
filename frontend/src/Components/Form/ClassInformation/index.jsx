@@ -56,7 +56,7 @@ const idclass = JSON.parse(sessionStorage.getItem("idclass"));
   const semesterOptions = [
     { value: "1", label: "Học Kỳ I" },
     { value: "2", label: "Học Kỳ II" },
-    { value: "3", label: "Học Hè" },
+    { value: "Hè", label: "Học Hè" },
   ];
 
  const typeOptions = [

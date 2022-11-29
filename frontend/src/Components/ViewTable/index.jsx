@@ -19,14 +19,48 @@ import Box from "@mui/material/Box";
 import classNames from "classnames/bind";
 import  StyledTableCell from "../StyledTableCell";
 import styles from "./viewtable.module.scss";
-import { useRef,useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import { ApiTeachingVolume } from "../../apis/axios";
 const cx = classNames.bind(styles);
 
 function ViewTable({year,semester}) {
   const reftableview= useRef()
   const [workload,setWorkload]= React.useState([])
-  
+   const [total, setTotal] = useState({
+     Teaching1: 0,
+     guide1: 0,
+     gradingPaper1: 0,
+     examQuestions1: 0,
+     examSupervisor1: 0,
+     facultyActivities1: 0,
+     academicAdvisor1: 0,
+     total1: 0,
+     Teaching2: 0,
+     guide2: 0,
+     gradingPaper2: 0,
+     examQuestions2: 0,
+     examSupervisor2: 0,
+     facultyActivities2: 0,
+     academicAdvisor2: 0,
+     total2: 0,
+     Teaching3: 0,
+     guide3: 0,
+     gradingPaper3: 0,
+     examQuestions3: 0,
+     examSupervisor3: 0,
+     academicAdvisor3: 0,
+     total3: 0,
+     Teaching: 0,
+     guide: 0,
+     gradingPaper: 0,
+     examQuestions: 0,
+     examSupervisor: 0,
+     facultyActivities: 0,
+     academicAdvisor: 0,
+     totalvolume: 0,
+     TimeScientificVolume:0,
+     
+   });
   function TablePaginationActions(props) {
     const theme = useTheme();
     const { count, page, rowsPerPage, onPageChange } = props;
@@ -96,7 +130,7 @@ function ViewTable({year,semester}) {
     rowsPerPage: PropTypes.number.isRequired,
   };
   function createRow(
-    id1,
+    id,
     mAGV1,
     firtName1,
     lastName1,
@@ -107,10 +141,29 @@ function ViewTable({year,semester}) {
     examSupervisor1,
     facultyActivities1,
     academicAdvisor1,
-    total1
+    total1,
+    Teaching2,
+    guide2,
+    gradingPaper2,
+    examQuestions2,
+    examSupervisor2,
+    facultyActivities2,
+    academicAdvisor2,
+    total2,
+    Teaching3,
+    guide3,
+    gradingPaper3,
+    examQuestions3,
+    examSupervisor3,
+    academicAdvisor3,
+    total3,
+    obj,
+    TimeScientificVolume1,
+    TimeScientificVolume2,
+    TimeScientificVolume3
   ) {
     return {
-      id1,
+      id,
       mAGV1,
       firtName1,
       lastName1,
@@ -122,21 +175,203 @@ function ViewTable({year,semester}) {
       facultyActivities1,
       academicAdvisor1,
       total1,
+      Teaching2,
+      guide2,
+      gradingPaper2,
+      examQuestions2,
+      examSupervisor2,
+      facultyActivities2,
+      academicAdvisor2,
+      total2,
+      Teaching3,
+      guide3,
+      gradingPaper3,
+      examQuestions3,
+      examSupervisor3,
+      academicAdvisor3,
+      total3,
+      ...(obj || 0),
+      TimeScientificVolume1,
+      TimeScientificVolume2,
+      TimeScientificVolume3,
     };
   }
+  function sumTotalVolumn(arr){
+     const sum = arr.reduce(
+       (arr1, obj) => {
+         return {
+           ...arr1,
+           Teaching: arr1["Teaching"] + Number(obj["TeachingVolume"]),
+           guide: arr1["guide"] + Number(obj["ProjectVolume"]),
+           gradingPaper: arr1["gradingPaper"] + Number(obj["GradingVolume"]),
+           examQuestions:
+             arr1["examQuestions"] + Number(obj["ExamMonitorVolume"]),
+           examSupervisor: arr1["examSupervisor"] + Number(obj["ExamVolume"]),
+           facultyActivities:
+             arr1["facultyActivities"] + Number(obj["ActivitiesVolume"]),
+           academicAdvisor:
+             arr1["academicAdvisor"] + Number(obj["AdvisorVolume"]),
+           total: arr1["total"] + Number(obj["TotalVolume"]),
+           TimeScientificVolume: arr1["TimeScientificVolume"] + Number(obj["TimeScientificVolume"]),
+         };
+       },
+       {
+         Teaching: 0,
+         guide: 0,
+         gradingPaper: 0,
+         examQuestions: 0,
+         examSupervisor: 0,
+         facultyActivities: 0,
+         academicAdvisor: 0,
+         total: 0,
+         TimeScientificVolume:0
+       }
+     );
+     return sum
+  }
  useEffect(()=>{
-      if(semester&&year){
-        ApiTeachingVolume.Get(`volume/totalByDean/sem/${semester}/year/${year}`)
-      .then(req=>{
-      const arr =   req.totalVols.map((e)=>{
-          return createRow(e.id, e.IdLecturer,e.FirstName,e.LastName,e.TeachingVolume,0,e.GradingVolume,e.ExamVolume,e.ExamMonitorVolume,e.ActivitiesVolume,e.AdvisorVolume,e.TotalVolume);
-        })
-        setWorkload([...arr])
-      })
+      if(year){
+        ApiTeachingVolume.Get(`volume/fulltotalByDean/year/${year}`).then(
+          (res) => {
+            const arr = res.totalVols.map((e,index) => {
+              console.log(e);
+              return createRow(
+                index,
+                e[0].IdLecturer,
+                e[0].FirstName,
+                e[0].LastName,
+                e[0].TeachingVolume,
+                e[0].ProjectVolume,
+                e[0].GradingVolume,
+                e[0].ExamMonitorVolume,
+                e[0].ExamVolume,
+                e[0].ActivitiesVolume,
+                e[0].AdvisorVolume,
+                e[0].TotalVolume,
+                e[1].TeachingVolume,
+                e[1].ProjectVolume,
+                e[1].GradingVolume,
+                e[1].ExamMonitorVolume,
+                e[1].ExamVolume,
+                e[1].ActivitiesVolume,
+                e[1].AdvisorVolume,
+                e[1].TotalVolume,
+                e[2].TeachingVolume,
+                e[2].ProjectVolume,
+                e[2].GradingVolume,
+                e[2].ExamMonitorVolume,
+                e[2].ExamVolume,
+                e[2].AdvisorVolume,
+                e[2].TotalVolume,
+                sumTotalVolumn(e),
+                e[0].TimeScientificVolume,
+                e[1].TimeScientificVolume,
+                e[2].TimeScientificVolume
+              );
+            });
+            const totalvolumes = arr.reduce(
+              (arr1, obj) => {
+                return {
+                  ...arr1,
+                  Teaching1: arr1["Teaching1"] + Number(obj["Teaching1"]),
+                  guide1: arr1["guide1"] + Number(obj["guide1"]),
+                  gradingPaper1:
+                    arr1["gradingPaper1"] + Number(obj["gradingPaper1"]),
+                  examQuestions1:
+                    arr1["examQuestions1"] + Number(obj["examQuestions1"]),
+                  examSupervisor1:
+                    arr1["examSupervisor1"] + Number(obj["examSupervisor1"]),
+                  facultyActivities1:
+                    arr1["facultyActivities1"] +
+                    Number(obj["facultyActivities1"]),
+                  academicAdvisor1:
+                    arr1["academicAdvisor1"] + Number(obj["academicAdvisor1"]),
+                  total1: arr1["total1"] + Number(obj["total1"]),
+
+                  Teaching2: arr1["Teaching2"] + Number(obj["Teaching2"]),
+                  guide2: arr1["guide2"] + Number(obj["guide2"]),
+                  gradingPaper2:
+                    arr1["gradingPaper2"] + Number(obj["gradingPaper2"]),
+                  examQuestions2:
+                    arr1["examQuestions2"] + Number(obj["examQuestions2"]),
+                  examSupervisor2:
+                    arr1["examSupervisor2"] + Number(obj["examSupervisor2"]),
+                  facultyActivities2:
+                    arr1["facultyActivities2"] +
+                    Number(obj["facultyActivities2"]),
+                  academicAdvisor2:
+                    arr1["academicAdvisor2"] + Number(obj["academicAdvisor2"]),
+                  total2: arr1["total2"] + Number(obj["total2"]),
+
+                  Teaching3: arr1["Teaching3"] + Number(obj["Teaching3"]),
+                  guide3: arr1["guide3"] + Number(obj["guide3"]),
+                  gradingPaper3:
+                    arr1["gradingPaper3"] + Number(obj["gradingPaper3"]),
+                  examQuestions3:
+                    arr1["examQuestions3"] + Number(obj["examQuestions3"]),
+                  examSupervisor3:
+                    arr1["examSupervisor3"] + Number(obj["examSupervisor3"]),
+                  academicAdvisor3:
+                    arr1["academicAdvisor3"] + Number(obj["academicAdvisor3"]),
+                  total3: arr1["total3"] + Number(obj["total3"]),
+                  Teaching: arr1["Teaching"] + Number(obj["Teaching"]),
+                  guide: arr1["guide"] + Number(obj["guide"]),
+                  gradingPaper:
+                    arr1["gradingPaper"] + Number(obj["gradingPaper"]),
+                  examQuestions:
+                    arr1["examQuestions"] + Number(obj["examQuestions"]),
+                  examSupervisor:
+                    arr1["examSupervisor"] + Number(obj["examSupervisor"]),
+                  facultyActivities:
+                    arr1["facultyActivities"] +
+                    Number(obj["facultyActivities"]),
+                  academicAdvisor:
+                    arr1["academicAdvisor"] + Number(obj["academicAdvisor"]),
+                  totalvolume: arr1["totalvolume"] + Number(obj["total"]),
+                  TimeScientificVolume: arr1["TimeScientificVolume"]+Number(obj["TimeScientificVolume1"])+Number(obj["TimeScientificVolume2"])+Number(obj["TimeScientificVolume3"]),
+                };
+              },
+              {
+                Teaching1: 0,
+                guide1: 0,
+                gradingPaper1: 0,
+                examQuestions1: 0,
+                examSupervisor1: 0,
+                facultyActivities1: 0,
+                academicAdvisor1: 0,
+                total1: 0,
+                Teaching2: 0,
+                guide2: 0,
+                gradingPaper2: 0,
+                examQuestions2: 0,
+                examSupervisor2: 0,
+                facultyActivities2: 0,
+                academicAdvisor2: 0,
+                total2: 0,
+                Teaching3: 0,
+                guide3: 0,
+                gradingPaper3: 0,
+                examQuestions3: 0,
+                examSupervisor3: 0,
+                total3: 0,
+                academicAdvisor3: 0,
+                Teaching: 0,
+                guide: 0,
+                gradingPaper: 0,
+                examQuestions: 0,
+                examSupervisor: 0,
+                facultyActivities: 0,
+                academicAdvisor: 0,
+                totalvolume: 0,
+                TimeScientificVolume:0
+              }
+            );
+            setWorkload([...arr]);
+             setTotal(totalvolumes);
+          }
+        );
       }
- },[semester,year])
-
-
+ },[year])
 
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -272,42 +507,46 @@ function ViewTable({year,semester}) {
                     page * rowsPerPage + rowsPerPage
                   )
                 : workload
-              ).map((row) => (
-                <TableRow key={row.id1}>
-                  <StyledTableCell align="center">{row.id1}</StyledTableCell>
-                  <StyledTableCell align="left">{row.mAGV1}</StyledTableCell>
+              ).map((row, index) => (
+                <TableRow key={row.mAGV1}>
+                  <StyledTableCell align="center">{index + 1}</StyledTableCell>
+                  <StyledTableCell align="left">
+                    {row.mAGV1 || 0}
+                  </StyledTableCell>
                   <StyledTableCell
                     align="left"
                     style={{ borderRight: "none" }}
                     className={cx("tablecell")}
                   >
-                    {row.firtName1}
+                    {row.firtName1 || 0}
                   </StyledTableCell>
                   <StyledTableCell
                     align="center"
                     style={{ borderLeft: "none" }}
                   >
-                    {row.lastName1}
+                    {row.lastName1 || 0}
                   </StyledTableCell>
 
                   <StyledTableCell align="center">
                     {row.Teaching1}
                   </StyledTableCell>
-                  <StyledTableCell align="center">{row.guide1}</StyledTableCell>
                   <StyledTableCell align="center">
-                    {row.gradingPaper1}
+                    {row.guide1 || 0}
                   </StyledTableCell>
                   <StyledTableCell align="center">
-                    {row.examQuestions1}
+                    {row.gradingPaper1 || 0}
                   </StyledTableCell>
                   <StyledTableCell align="center">
-                    {row.examSupervisor1}
+                    {row.examQuestions1 || 0}
                   </StyledTableCell>
                   <StyledTableCell align="center">
-                    {row.facultyActivities1}
+                    {row.examSupervisor1 || 0}
                   </StyledTableCell>
                   <StyledTableCell align="center">
-                    {row.academicAdvisor1}
+                    {row.facultyActivities1 || 0}
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
+                    {row.academicAdvisor1 || 0}
                   </StyledTableCell>
                   <StyledTableCell
                     align="center"
@@ -317,151 +556,213 @@ function ViewTable({year,semester}) {
                   </StyledTableCell>
 
                   <StyledTableCell align="center">
-                    {row.Teaching}
-                  </StyledTableCell>
-                  <StyledTableCell align="center">{row.guide}</StyledTableCell>
-                  <StyledTableCell align="center">
-                    {row.gradingPaper}
+                    {row.Teaching2 || 0}
                   </StyledTableCell>
                   <StyledTableCell align="center">
-                    {row.examQuestions}
+                    {row.guide || 0}
                   </StyledTableCell>
                   <StyledTableCell align="center">
-                    {row.examSupervisor}
+                    {row.gradingPaper2 || 0}
                   </StyledTableCell>
                   <StyledTableCell align="center">
-                    {row.facultyActivities}
+                    {row.examQuestions2 || 0}
                   </StyledTableCell>
                   <StyledTableCell align="center">
-                    {row.academicAdvisor}
+                    {row.examSupervisor2}
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
+                    {row.facultyActivities2 || 0}
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
+                    {row.academicAdvisor2 || 0}
                   </StyledTableCell>
                   <StyledTableCell
                     align="center"
                     style={{ backgroundColor: "rgba(223,208,168,0.5)" }}
                   >
-                    {row.total}
+                    {row.total2 || 0}
                   </StyledTableCell>
 
                   <StyledTableCell align="center">
-                    {row.Teaching}
-                  </StyledTableCell>
-                  <StyledTableCell align="center">{row.guide}</StyledTableCell>
-                  <StyledTableCell align="center">
-                    {row.gradingPaper}
+                    {row.Teaching3 || 0}
                   </StyledTableCell>
                   <StyledTableCell align="center">
-                    {row.examQuestions}
+                    {row.guide3 || 0}
                   </StyledTableCell>
                   <StyledTableCell align="center">
-                    {row.examSupervisor}
+                    {row.gradingPaper3}
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
+                    {row.examQuestions3 || 0}
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
+                    {row.examSupervisor3 || 0}
                   </StyledTableCell>
                   <StyledTableCell
                     align="center"
                     style={{ backgroundColor: "rgba(223,208,168,0.5)" }}
                   >
-                    {row.facultyActivities}
+                    {row.total3 || 0}
                   </StyledTableCell>
                   <StyledTableCell
                     align="center"
                     style={{ backgroundColor: "rgba(128,121,214,0.5)" }}
                   >
-                    {row.academicAdvisor}
+                    {row.academicAdvisor3 || 0}
                   </StyledTableCell>
-                  <StyledTableCell align="center">{row.total}</StyledTableCell>
+                  <StyledTableCell align="center">
+                    {row.Teaching || 0}
+                  </StyledTableCell>
 
                   <StyledTableCell align="center">
-                    {row.Teaching}
-                  </StyledTableCell>
-                  <StyledTableCell align="center">{row.guide}</StyledTableCell>
-                  <StyledTableCell align="center">
-                    {row.gradingPaper}
+                    {row.guide || 0}
                   </StyledTableCell>
                   <StyledTableCell align="center">
-                    {row.examQuestions}
+                    {row.gradingPaper || 0}
                   </StyledTableCell>
                   <StyledTableCell align="center">
-                    {row.examSupervisor}
+                    {row.examQuestions || 0}
                   </StyledTableCell>
-                  <StyledTableCell align="center">{row.total}</StyledTableCell>
+                  <StyledTableCell align="center">
+                    {row.examSupervisor || 0}
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
+                    {row.facultyActivities || 0}
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
+                    {row.academicAdvisor || 0}
+                  </StyledTableCell>
 
                   <StyledTableCell
                     align="center"
                     style={{ backgroundColor: "rgba(195,232,17,0.7)" }}
                   >
-                    {row.total}
+                    {row.TimeScientificVolume}
                   </StyledTableCell>
                   <StyledTableCell
                     align="center"
                     style={{ backgroundColor: "rgba(128,121,214,0.5)" }}
                   >
-                    {row.total}
+                    {row.total || 0}
                   </StyledTableCell>
                 </TableRow>
               ))}
               <TableRow>
                 <StyledTableCell colSpan={4}>Total</StyledTableCell>
-                <StyledTableCell align="center">123</StyledTableCell>
-                <StyledTableCell align="center">123</StyledTableCell>
-                <StyledTableCell align="center">123</StyledTableCell>
-                <StyledTableCell align="center">123</StyledTableCell>
-                <StyledTableCell align="center">123</StyledTableCell>
-                <StyledTableCell align="center">234</StyledTableCell>
-                <StyledTableCell align="center">234</StyledTableCell>
-                <StyledTableCell
-                  align="center"
-                  style={{ backgroundColor: "rgba(223,208,168,0.5)" }}
-                >
-                  234
+                <StyledTableCell align="center">
+                  {total.Teaching1.toFixed(2) || 0}
                 </StyledTableCell>
-                <StyledTableCell align="center">123</StyledTableCell>
-                <StyledTableCell align="center">123</StyledTableCell>
-                <StyledTableCell align="center">123</StyledTableCell>
-                <StyledTableCell align="center">123</StyledTableCell>
-                <StyledTableCell align="center">123</StyledTableCell>
-                <StyledTableCell align="center">234</StyledTableCell>
-                <StyledTableCell align="center">234</StyledTableCell>
-                <StyledTableCell
-                  align="center"
-                  style={{ backgroundColor: "rgba(223,208,168,0.5)" }}
-                >
-                  234
+                <StyledTableCell align="center">
+                  {total.guide1.toFixed(2) || 0}
                 </StyledTableCell>
-                <StyledTableCell align="center">123</StyledTableCell>
-                <StyledTableCell align="center">123</StyledTableCell>
-                <StyledTableCell align="center">123</StyledTableCell>
-                <StyledTableCell align="center">123</StyledTableCell>
-                <StyledTableCell align="center">123</StyledTableCell>
+                <StyledTableCell align="center">
+                  {total.gradingPaper1.toFixed(2) || 0}
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  {total.examQuestions1.toFixed(2) || 0}
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  {total.examSupervisor1.toFixed(2) || 0}
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  {total.facultyActivities1.toFixed(2) || 0}
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  {total.academicAdvisor1.toFixed(2) || 0}
+                </StyledTableCell>
                 <StyledTableCell
                   align="center"
                   style={{ backgroundColor: "rgba(223,208,168,0.5)" }}
                 >
-                  234
+                  {total.total1.toFixed(2) || 0}
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  {total.Teaching2.toFixed(2) || 0}
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  {total.guide2.toFixed(2) || 0}
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  {total.gradingPaper2.toFixed(2) || 0}
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  {total.examQuestions2.toFixed(2) || 0}
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  {total.examSupervisor2.toFixed(2) || 0}
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  {total.facultyActivities2.toFixed(2) || 0}
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  {total.academicAdvisor2.toFixed(2) || 0}
+                </StyledTableCell>
+                <StyledTableCell
+                  align="center"
+                  style={{ backgroundColor: "rgba(223,208,168,0.5)" }}
+                >
+                  {total.total2.toFixed(2) || 0}
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  {total.Teaching3.toFixed(2) || 0}
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  {total.guide3.toFixed(2) || 0}
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  {total.gradingPaper3.toFixed(2) || 0}
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  {total.examQuestions3.toFixed(2) || 0}
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  {total.examSupervisor3.toFixed(2) || 0}
+                </StyledTableCell>
+                <StyledTableCell
+                  align="center"
+                  style={{ backgroundColor: "rgba(223,208,168,0.5)" }}
+                >
+                  {total.total3.toFixed(2) || 0}
                 </StyledTableCell>
                 <StyledTableCell
                   align="center"
                   style={{ backgroundColor: "rgba(128,121,214,0.5)" }}
                 >
-                  234
+                  {total.academicAdvisor3.toFixed(2) || 0}
                 </StyledTableCell>
-                <StyledTableCell align="center">234</StyledTableCell>
-                <StyledTableCell align="center">123</StyledTableCell>
-                <StyledTableCell align="center">123</StyledTableCell>
-                <StyledTableCell align="center">123</StyledTableCell>
-                <StyledTableCell align="center">234</StyledTableCell>
-                <StyledTableCell align="center">234</StyledTableCell>
-                <StyledTableCell align="center">234</StyledTableCell>
+                <StyledTableCell align="center">
+                  {total.Teaching.toFixed(2) || 0}
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  {total.guide.toFixed(2) || 0}
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  {total.gradingPaper.toFixed(2) || 0}
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  {total.examQuestions.toFixed(2) || 0}
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  {total.examSupervisor.toFixed(2) || 0}
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  {total.facultyActivities.toFixed(2) || 0}
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  {total.academicAdvisor.toFixed(2) || 0}
+                </StyledTableCell>
 
                 <StyledTableCell
                   align="center"
                   style={{ backgroundColor: "rgba(195,232,17,0.7)" }}
                 >
-                  234
+                  {total.TimeScientificVolume.toFixed(2) || 0}
                 </StyledTableCell>
                 <StyledTableCell
                   align="center"
                   style={{ backgroundColor: "rgba(128,121,214,0.5)" }}
                 >
-                  234
+                  {total.totalvolume.toFixed(2) || 0}
                 </StyledTableCell>
               </TableRow>
               {emptyRows > 0 && (

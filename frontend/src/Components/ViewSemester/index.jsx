@@ -289,28 +289,28 @@ function ViewSemester({ year, semester, label }) {
             <TableRow>
               <StyledTableCell colSpan={4}>Total</StyledTableCell>
               <StyledTableCell align="center">
-                {total.TeachingVolume || 0}
+                {total.TeachingVolume.toFixed(2) || 0}
               </StyledTableCell>
               <StyledTableCell align="center">
-                {total.ProjectVolume}
+                {total.ProjectVolume.toFixed(2) || 0}
               </StyledTableCell>
               <StyledTableCell align="center">
-                {total.GradingVolume || 0}
+                {total.GradingVolume.toFixed(2) || 0}
               </StyledTableCell>
               <StyledTableCell align="center">
-                {total.ExamMonitorVolume || 0}
+                {total.ExamMonitorVolume.toFixed(2) || 0}
               </StyledTableCell>
               <StyledTableCell align="center">
-                {total.ExamVolume || 0}
+                {total.ExamVolume.toFixed(2) || 0}
               </StyledTableCell>
               <StyledTableCell align="center">
-                {total.ActivitiesVolume || 0}
+                {total.ActivitiesVolume.toFixed(2) || 0}
               </StyledTableCell>
               <StyledTableCell align="center">
-                {total.AdvisorVolume || 0}
+                {total.AdvisorVolume.toFixed(2) || 0}
               </StyledTableCell>
               <StyledTableCell align="center">
-                {total.TotalVolume || 0}
+                {total.TotalVolume.toFixed(2) || 0}
               </StyledTableCell>
             </TableRow>
             {emptyRows > 0 && (
@@ -340,7 +340,10 @@ function ViewSemester({ year, semester, label }) {
           </TableFooter>
         </Table>
       </TableContainer>
-      <div id="printsig" className="w-[1123px] justify-around text-center hidden">
+      <div
+        id="printsig"
+        className="w-[1123px] justify-around text-center hidden"
+      >
         <div>
           <h2>TP. PHÒNG ĐÀO TẠO ĐẠI HỌC & SAU ĐẠI HỌC</h2>
         </div>

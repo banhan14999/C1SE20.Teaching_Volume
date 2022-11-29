@@ -162,7 +162,6 @@ useEffect(() => {
       const arr = subjects.filter((e) => {
         return e.id === Number(param.id);
       });
-      console.log(arr);
        if (arr.length > 0){
          sessionStorage.setItem(
            "iduser",

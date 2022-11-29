@@ -26,7 +26,7 @@ function WorkVolume() {
    const hocki = [
      { value: "1", label: "Học Kỳ I" },
      { value: "2", label: "Học Kỳ II" },
-     { value: "3", label: "Học Hè" },
+     { value: "Hè", label: "Học Hè" },
    ];
   return (
     <div>
@@ -34,10 +34,10 @@ function WorkVolume() {
       <div className={cx("option")}>
         <div className="flex pt-[107px] justify-around">
           <span className="w-[30%] ml-[50px]">
-            <SelectForm options={options} height="30px"></SelectForm>
+            <SelectForm options={options} height="34px"></SelectForm>
           </span>
           <span className="w-[30%] ml-[-30px]">
-            <SelectForm options={hocki} height="30px"></SelectForm>
+            <SelectForm options={hocki} height="34px"></SelectForm>
           </span>
         </div>
       </div>

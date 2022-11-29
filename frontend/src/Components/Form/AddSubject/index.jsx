@@ -83,7 +83,6 @@ function AddSubject(props) {
          credit: parseInt(valuesForm.credit),
          type: (type && type.value) || (typeId && typeId.value),
        };
-       console.log(obj);
       ApiTeachingVolume.Post("/subject/add", obj)
       .then((res)=>{
         if (res && res.data && res.data.message && res.data.message.letter) {
