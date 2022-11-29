@@ -552,6 +552,8 @@ class VolumeController extends Controller
                     ])
                     ->whereIn('totalvolume.IdLecturer', $lecIn)
                     ->get();
+        //biến thành array theo từng gianrg vieen
+        $totalVols = $totalVols->split($totalVols->count()/3);
         if(! $totalVols->isEmpty()) {
             return response()->json([
                 'status' => 200,
