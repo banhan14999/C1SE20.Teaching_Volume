@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdateUserRequest;
+use App\Models\Classes;
 use App\Models\TokenUser;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -137,6 +138,7 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
+        Classes::where('IdLecturer', '=', $id)->update(['IdLecturer' => null]);
         $user = User::find($id);
         $user->delete();
         return response()->json([

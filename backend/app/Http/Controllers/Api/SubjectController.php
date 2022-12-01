@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Subjects\AddSubjectRequest;
+use App\Models\Classes;
 use App\Models\Subject;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -159,6 +160,8 @@ class SubjectController extends Controller
      */
     public function destroy($id)
     {
+        $classes = Classes::where('IdSubject', '=', $id);
+        $classes->delete();
         $subject = Subject::find($id);
         $subject->delete();
         return response()->json([
