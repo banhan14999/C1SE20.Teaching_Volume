@@ -5,6 +5,7 @@ import SubHeader from "../../Components/Header/SubHeader";
 import Footer from "../../Components/Footer";
 import NavLeft from "../../Components/Navbar";
 import { Navigate } from "react-router-dom";
+// import FloatBox from "../../Components/FloatBox";
 const cx = classNames.bind(styles);
 
 function Home() {
@@ -20,7 +21,9 @@ function Home() {
           <SubHeader />
         </div>
       </header>
-      <div className="max-w-[984px] m-auto">
+      <div className={`max-w-[984px] m-auto ${cx("navleft")}`}>
+        {/* <FloatBox></FloatBox> */}
+
         <NavLeft></NavLeft>
       </div>
       <Footer></Footer>

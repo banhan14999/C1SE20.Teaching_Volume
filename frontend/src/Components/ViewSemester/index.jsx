@@ -144,7 +144,7 @@ function ViewSemester({ year, semester, label }) {
 
   React.useEffect(() => {
     if (year && semester)
-      ApiTeachingVolume.Get(
+       ApiTeachingVolume.Get(
         `volume/totalByDean/sem/${semester}/year/${year}`
       ).then((req) => {
         const arr = req.totalVols.map((e, index) => {
@@ -213,145 +213,155 @@ function ViewSemester({ year, semester, label }) {
   }
 
   return (
-    <div id="print" className="m-auto">
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 700 }} aria-label="spanning table">
-          <TableHead>
-            <TableRow>
-              <StyledTableCell rowSpan={2}>STT</StyledTableCell>
-              <StyledTableCell align="center" rowSpan={2}>
-                MA GIANG VIEN (MYDTU)
-              </StyledTableCell>
-              <StyledTableCell
-                align="center"
-                width="200px"
-                rowSpan={2}
-                colSpan={2}
-              >
-                HỌ VÀ TÊN
-              </StyledTableCell>
-              <StyledTableCell align="center" colSpan={10}>
-                HỌC KÌ{" "}
-                {semester === "1"
-                  ? "I"
-                  : semester === "2"
-                  ? "II"
-                  : semester === "3"
-                  ? "HÈ"
-                  : label}
-              </StyledTableCell>
-            </TableRow>
-            <TableRow>
-              <StyledTableCell align="center">GIẢNG DẠY</StyledTableCell>
-              <StyledTableCell align="center">HƯỚNG DẪN</StyledTableCell>
-              <StyledTableCell align="center">CHẤM BÀI</StyledTableCell>
-              <StyledTableCell align="center">ĐỀ THI</StyledTableCell>
-              <StyledTableCell align="center">COI THI</StyledTableCell>
-              <StyledTableCell align="center">SINH HOẠT KHOA</StyledTableCell>
-              <StyledTableCell align="center">CỐ VẤN HT</StyledTableCell>
-              <StyledTableCell align="center">TỔNG HỌC KÌ I</StyledTableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {(rowsPerPage > 0
-              ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              : rows
-            ).map((row) => (
-              <TableRow key={row.id}>
-                <StyledTableCell>{row.id}</StyledTableCell>
-                <StyledTableCell align="center">{row.mAGV}</StyledTableCell>
-                <StyledTableCell align="center" style={{ borderRight: "none" }}>
-                  {row.firtName}
+    <div id="print">
+      <div className="w-full mx-auto">
+        <TableContainer component={Paper}>
+          <Table aria-label="spanning table">
+            <TableHead>
+              <TableRow>
+                <StyledTableCell rowSpan={2}>STT</StyledTableCell>
+                <StyledTableCell align="center" rowSpan={2}>
+                  MA GIANG VIEN (MYDTU)
                 </StyledTableCell>
-                <StyledTableCell align="center" style={{ borderLeft: "none" }}>
-                  {row.lastName}
+                <StyledTableCell
+                  align="center"
+                  width="200px"
+                  rowSpan={2}
+                  colSpan={2}
+                >
+                  HỌ VÀ TÊN
                 </StyledTableCell>
-                <StyledTableCell align="center">{row.Teaching}</StyledTableCell>
-                <StyledTableCell align="center">{row.guide}</StyledTableCell>
-                <StyledTableCell align="center">
-                  {row.gradingPaper}
+                <StyledTableCell align="center" colSpan={10}>
+                  HỌC KÌ{" "}
+                  {semester === "1"
+                    ? "I"
+                    : semester === "2"
+                    ? "II"
+                    : semester === "3"
+                    ? "HÈ"
+                    : label}
                 </StyledTableCell>
-                <StyledTableCell align="center">
-                  {row.examQuestions}
-                </StyledTableCell>
-                <StyledTableCell align="center">
-                  {row.examSupervisor}
-                </StyledTableCell>
-                <StyledTableCell align="center">
-                  {row.facultyActivities}
-                </StyledTableCell>
-                <StyledTableCell align="center">
-                  {row.academicAdvisor}
-                </StyledTableCell>
-                <StyledTableCell align="center">{row.total}</StyledTableCell>
               </TableRow>
-            ))}
-            <TableRow>
-              <StyledTableCell colSpan={4}>Total</StyledTableCell>
-              <StyledTableCell align="center">
-                {total.TeachingVolume || 0}
-              </StyledTableCell>
-              <StyledTableCell align="center">
-                {total.ProjectVolume}
-              </StyledTableCell>
-              <StyledTableCell align="center">
-                {total.GradingVolume || 0}
-              </StyledTableCell>
-              <StyledTableCell align="center">
-                {total.ExamMonitorVolume || 0}
-              </StyledTableCell>
-              <StyledTableCell align="center">
-                {total.ExamVolume || 0}
-              </StyledTableCell>
-              <StyledTableCell align="center">
-                {total.ActivitiesVolume || 0}
-              </StyledTableCell>
-              <StyledTableCell align="center">
-                {total.AdvisorVolume || 0}
-              </StyledTableCell>
-              <StyledTableCell align="center">
-                {total.TotalVolume || 0}
-              </StyledTableCell>
-            </TableRow>
-            {emptyRows > 0 && (
-              <TableRow style={{ height: 53 * emptyRows }}>
-                <TableCell colSpan={6} />
+              <TableRow>
+                <StyledTableCell align="center">GIẢNG DẠY</StyledTableCell>
+                <StyledTableCell align="center">HƯỚNG DẪN</StyledTableCell>
+                <StyledTableCell align="center">CHẤM BÀI</StyledTableCell>
+                <StyledTableCell align="center">ĐỀ THI</StyledTableCell>
+                <StyledTableCell align="center">COI THI</StyledTableCell>
+                <StyledTableCell align="center">SINH HOẠT KHOA</StyledTableCell>
+                <StyledTableCell align="center">CỐ VẤN HT</StyledTableCell>
+                <StyledTableCell align="center">TỔNG HỌC KÌ I</StyledTableCell>
               </TableRow>
-            )}
-          </TableBody>
-          <TableFooter>
-            <TableRow>
-              <TablePagination
-                rowsPerPageOptions={[5, 10, 25, { label: "All", value: -1 }]}
-                count={rows.length}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                SelectProps={{
-                  inputProps: {
-                    "aria-label": "rows per page",
-                  },
-                  native: true,
-                }}
-                onPageChange={handleChangePage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-                ActionsComponent={TablePaginationActions}
-              />
-            </TableRow>
-          </TableFooter>
-        </Table>
-      </TableContainer>
-      <div id="printsig" className="w-full justify-around text-center hidden">
-        <div>
-          <h2>TP. PHÒNG ĐÀO TẠO ĐẠI HỌC & SAU ĐẠI HỌC</h2>
-        </div>
-        <div>
-          <h2>HIỆU TRƯỞNG/ VIỆN TRƯỞNG</h2>
-          <p>(kí và ghi rõ họ và tên)</p>
-        </div>
-        <div>
-          <p>Đà Nẵng,Ngày..... Tháng..... Năm 20... </p>
-          <h2>HIỆU TRƯỞNG/ VIỆN TRƯỞNG</h2>
-          <p>(kí và ghi rõ họ và tên)</p>
+            </TableHead>
+            <TableBody>
+              {(rowsPerPage > 0
+                ? rows.slice(
+                    page * rowsPerPage,
+                    page * rowsPerPage + rowsPerPage
+                  )
+                : rows
+              ).map((row) => (
+                <TableRow key={row.id}>
+                  <StyledTableCell align="center">{row.id}</StyledTableCell>
+                  <StyledTableCell align="center">{row.mAGV}</StyledTableCell>
+                  <StyledTableCell colSpan={2}>
+                    {row.firtName + " " + row.lastName}
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
+                    {row.Teaching}
+                  </StyledTableCell>
+                  <StyledTableCell align="center">{row.guide}</StyledTableCell>
+                  <StyledTableCell align="center">
+                    {row.gradingPaper}
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
+                    {row.examQuestions}
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
+                    {row.examSupervisor}
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
+                    {row.facultyActivities}
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
+                    {row.academicAdvisor}
+                  </StyledTableCell>
+                  <StyledTableCell align="center">{row.total}</StyledTableCell>
+                </TableRow>
+              ))}
+              <TableRow>
+                <StyledTableCell align="center" colSpan={4}>
+                  Tổng:{" "}
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  {total.TeachingVolume.toFixed(2) || 0}
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  {total.ProjectVolume.toFixed(2) || 0}
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  {total.GradingVolume.toFixed(2) || 0}
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  {total.ExamMonitorVolume.toFixed(2) || 0}
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  {total.ExamVolume.toFixed(2) || 0}
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  {total.ActivitiesVolume.toFixed(2) || 0}
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  {total.AdvisorVolume.toFixed(2) || 0}
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  {total.TotalVolume.toFixed(2) || 0}
+                </StyledTableCell>
+              </TableRow>
+              {emptyRows > 0 && (
+                <TableRow style={{ height: 53 * emptyRows }}>
+                  <TableCell colSpan={6} />
+                </TableRow>
+              )}
+            </TableBody>
+            <TableFooter>
+              <TableRow>
+                <TablePagination
+                  rowsPerPageOptions={[5, 10, 25, { label: "All", value: -1 }]}
+                  count={rows.length}
+                  rowsPerPage={rowsPerPage}
+                  page={page}
+                  SelectProps={{
+                    inputProps: {
+                      "aria-label": "rows per page",
+                    },
+                    native: true,
+                  }}
+                  onPageChange={handleChangePage}
+                  onRowsPerPageChange={handleChangeRowsPerPage}
+                  ActionsComponent={TablePaginationActions}
+                />
+              </TableRow>
+            </TableFooter>
+          </Table>
+        </TableContainer>
+        <div
+          id="printsig"
+          className="w-[1123px] justify-around text-center hidden"
+        >
+          <div>
+            <h2>TP. PHÒNG ĐÀO TẠO ĐẠI HỌC & SAU ĐẠI HỌC</h2>
+            <p>&nbsp;</p>
+          </div>
+          <div>
+            <h2>HIỆU TRƯỞNG/ VIỆN TRƯỞNG</h2>
+            <p>(kí và ghi rõ họ tên)</p>
+          </div>
+          <div>
+            <p>Đà Nẵng,Ngày..... Tháng..... Năm 20... </p>
+            <h2>TRƯỞNG KHOA</h2>
+            <p>(kí và ghi rõ họ tên)</p>
+          </div>
         </div>
       </div>
     </div>

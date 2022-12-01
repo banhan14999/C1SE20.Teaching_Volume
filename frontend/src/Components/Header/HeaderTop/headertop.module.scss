@@ -1,11 +1,12 @@
 .header {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   max-width: 984px;
   position: relative;
   left: 50%;
   transform: translateX(-50%);
   user-select: none;
+  height: 57px;
 }
 
 .header-logo {
@@ -15,39 +16,113 @@
   max-width: 120px;
   margin-left: 21px;
 }
-
+.nav {
+  margin-left: 20px;
+  height: 53px;
+}
 .header-logo img {
   display: block;
   text-align: center;
 }
 .topmenu {
   height: 100%;
-  margin-top: 5px;
-  margin-right: 5px;
+  margin-top: 3px;
 }
 .nav li {
   cursor: pointer;
-  height: 100%;
+  height: 53px;
+  line-height: 53px;
   display: inline-block;
-  border-bottom: 2px solid transparent;
+  background: url("../../../Assets/img/menu-item-line.jpg") no-repeat right bottom;
    &:hover {
-    background-color: rgba(112, 10, 10, 0.5);
-
+    background-color: #c10000;
+        border-bottom: red solid 1px
   }
 }
 .nav li a {
   display: block;
-  font-size: 16px;
+  font-size: 12px;
   font-weight: 600;
   height: 100%;
   width: 100%;
   color: #fff;
-  padding: 13px 12px;
- 
+  padding: 0px 10px;
 }
-
-@media only screen and (min-width: 800px) {
-  .header {
-    width: 770px;
+@media only screen and (max-width:984px) {
+  .header{
+    max-width: 100%;
+     align-items: center;
+    justify-content: space-between;
   }
+}
+@media only screen and (max-width:768px) {
+  .header{
+    max-width: 100%;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .header-logo {
+    max-width: 15%;
+  }
+  .nav{
+    height: 45px;
+  }
+  .nav li a {
+  font-size: 12px;
+  }
+}
+@media only screen and (max-width:700px) {
+  .header{height: 45px;
+  }
+  .header-logo {
+    max-width: 65px;
+  }
+  .nav{
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+  }
+  .nav li a {
+  font-size: 10px;
+  }
+}
+@media only screen and (max-width: 600px) {
+  .header{
+    max-width: 100%;
+    align-items: center;
+    height: 40px;
+    justify-content: space-between;
+  }
+  .header-logo {
+    max-width: 15%;
+  }
+  .nav img {
+    width: 10px;
+    height: 10px;
+  }
+  .topmenu {
+      height: auto;
+      margin-top: 5px;
+      margin-right: 0px;
+    }
+    .nav li a {
+      font-size: 0.7rem;
+      font-weight: 500;
+      display: flex;
+    }
+    .nav {
+      height: 40px;
+    }
+    .nav li {
+      height: 40px;
+    }
+    .nav li a {
+    padding: 13px 5px;
+    }
+    .nav li a div {
+      flex-wrap: nowrap;
+    }
+    .nav li a div span {
+      width: 90%;
+    }
 }

@@ -28,7 +28,9 @@ return new class extends Migration
             $table->tinyInteger('TimeTeaching',false,true);
             $table->string('Unit',20);
             $table->timestamps();
-            $table->unique(['Year', 'Semester', 'IdSubject', 'Grade']);
+            //$table->unique(['Year', 'Semester', 'IdSubject', 'Grade']);
+            $table->foreign('IdSubject')->references('IdSubject')->on('subjects');
+            $table->foreign('IdLecturer')->references('IdLecturer')->on('users');
         });
     }
 

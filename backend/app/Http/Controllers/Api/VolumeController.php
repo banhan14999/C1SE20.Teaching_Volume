@@ -20,12 +20,48 @@ class VolumeController extends Controller
                           ['IdFaculty', '=', $faculty],
                           ['Semester', '=', $semester],
                           ['Year', '=', $year],
+                          ['Status', '=', 'Approved'],
                       ])
                       ->get();
         return response()->json([
             'status' => 200,
             'totalVols' => $totalVols,
         ]);
+    }
+    
+    //get full volume by dean
+    public function getAllSemTotalByDean($year)
+    {
+        $faculty = auth()->user()['IdFaculty'];
+        $totalVols  = DB::table('totalvolume', 'temp')
+        ->join('users', 'temp.IdLecturer', '=', 'users.IdLecturer')
+        ->where([
+            ['IdFaculty', '=', $faculty],
+            ['Year', '=', $year],
+            ['Status', '=', 'Approved'],
+        ])
+        ->whereRaw("Exists (
+            SELECT IdLecturer from totalvolume WHERE Semester = '1' AND IdLecturer = temp.IdLecturer
+            INTERSECT
+            SELECT IdLecturer from totalvolume WHERE Semester = '2' ANd IdLecturer = temp.IdLecturer
+            INTERSECT
+            SELECT IdLecturer from totalvolume WHERE Semester = 'Hè' And IdLecturer = temp.IdLecturer
+        )")
+        ->orderBy('temp.IdLecturer')
+        ->get();
+
+        if(! $totalVols->isEmpty()) {
+            return response()->json([
+                'status' => 200,
+                'totalVols' => $totalVols,
+            ]);
+        }
+        else {
+            return response()->json([
+                'status' => false,
+                'totalVols' => [],
+            ]);
+        }
     }
 
     //get all total volume by head
@@ -63,6 +99,7 @@ class VolumeController extends Controller
         if($totalVolume->isEmpty()){
             return response()->json([
                 'status' => false,
+                'totalVolume' => [],
             ]);
         }
         else{        
@@ -79,7 +116,7 @@ class VolumeController extends Controller
         $teachingVol = 0.00;
         if(! empty($teaching)) {
             foreach($teaching as $teach) {
-                $teachingVol = round($teach['classCoefficient'] * $teach['subjectCoefficient'] * $teach['timeTeaching'], 2); 
+                $teachingVol += round($teach['classCoefficient'] * $teach['subjectCoefficient'] * $teach['timeTeaching'], 2); 
             }
         }
         return $teachingVol;
@@ -90,7 +127,7 @@ class VolumeController extends Controller
         $projectVol = 0.00;
         if(! empty($projects)) {
             foreach($projects as $project) {
-                $projectVol = round($project['subjectCoefficient'] * $project['numberOfStudent'], 2);
+                $projectVol += round($project['subjectCoefficient'] * $project['numberOfStudent'], 2);
             }
         }
         return $projectVol;
@@ -101,7 +138,7 @@ class VolumeController extends Controller
         $gradingVol = 0.00;
         if(! empty($grading)) {
             foreach($grading as $grade) {
-                $gradingVol = round($grade['coefficientGrade'] * $grade['numberGE']);
+                $gradingVol += round($grade['coefficientGrade'] * $grade['numberGE']);
             }
         }
         return $gradingVol;
@@ -112,7 +149,7 @@ class VolumeController extends Controller
         $examVol = 0.00;
         if(! empty($exams)) {
             foreach($exams as $exam) {
-                $examVol = round($exam['coefficientExam'] * $exam['numberGE'], 2);
+                $examVol += round($exam['coefficientExam'] * $exam['numberGE'], 2);
             }
         }
         return $examVol;
@@ -458,5 +495,76 @@ class VolumeController extends Controller
             'status' => 200,
             'message' => 'Updated Successfully',
         ]);
+    }
+
+    //Lấy ra tổng khối lượng 2 kỳ cho trưởng khoa
+    private static function getVolumeData($year, $sem, $status)
+    {
+        $data = Total::select('IdLecturer')
+        ->where([
+            ['Year', '=', $year],
+            ['Semester', '=', $sem],
+            ['Status', '=', $status],
+        ])
+        ->get();
+        return $data;
+    }
+
+    //chuyển collection object array -> collection array
+    private static function convertColObjToArray($collection)
+    {
+        $array = collect([]);
+        $collection->each(function ($item, $key) use (&$array) {
+            return $array->push($item['IdLecturer']);
+        });
+        return $array;
+    }
+
+    //intersect các dl suy ra dữ liệu tồn tại
+    private static function intersect($year)
+    {
+        $status = 'Approved';
+        
+        //get ra collection object
+        $idLec1 = self::getVolumeData($year, '1', $status);
+        $idLec2 = self::getVolumeData($year, '2', $status);
+        $idLecSum = self::getVolumeData($year, 'Hè', $status);
+        
+        //chuyển về collection array
+        $idLec1 = self::convertColObjToArray($idLec1);
+        $idLec2 = self::convertColObjToArray($idLec2);
+        $idLecSum = self::convertColObjToArray($idLecSum);
+
+        $intersect = $idLec1->intersect($idLec2->intersect($idLecSum));
+
+        return $intersect->toArray();
+    }
+
+    //Thực hiện query
+    public function dashboardForAll($year)
+    {
+        $lecIn = self::intersect($year);
+        $faculty = auth()->user()['IdFaculty'];
+        $totalVols = Total::join('users', 'totalvolume.IdLecturer', '=', 'users.IdLecturer')
+                    ->where([
+                        ['IdFaculty', '=', $faculty],
+                        ['Year', '=', $year],
+                    ])
+                    ->whereIn('totalvolume.IdLecturer', $lecIn)
+                    ->get();
+        //biến thành array theo từng gianrg vieen
+        $totalVols = $totalVols->split($totalVols->count()/3);
+        if(! $totalVols->isEmpty()) {
+            return response()->json([
+                'status' => 200,
+                'totalVols' => $totalVols,
+            ]);
+        }
+        else {
+            return response()->json([
+                'status' => false,
+                'totalVols' => [],
+            ]);
+        }
     }
 }

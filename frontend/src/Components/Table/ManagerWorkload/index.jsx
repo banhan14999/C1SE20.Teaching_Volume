@@ -12,7 +12,7 @@ import styles from "./workload.module.scss"
 import classNames from "classnames/bind";
 import SelectForm from "../../SelectForm";
 import {TbListDetails} from "react-icons/tb"
-
+import {BiEdit} from "react-icons/bi"
 const cx = classNames.bind(styles)
 
 function ManagerWorkload() {
@@ -35,7 +35,7 @@ function ManagerWorkload() {
     const hocki = [
       { value: "1", label: "Học Kỳ I" },
       { value: "2", label: "Học Kỳ II" },
-      { value: "3", label: "Học Hè" },
+      { value: "Hè", label: "Học Hè" },
     ];
       function createOther(activities, examMonitor, advisor, scientific) {
         return { activities, examMonitor, advisor, scientific };
@@ -45,7 +45,7 @@ function ManagerWorkload() {
       ApiTeachingVolume.Get(
         `volume/selfTotalDetail/idLecture/${idlecturer}/sem/${semester.value}/year/${year.value}`
       ).then((req) => {
-        const theory = req.theoryClass.map((e, index) => {
+        const theory = req.grades.map((e, index) => {
           return {
             stt: index + 1,
             letter: e.Letter,
@@ -53,11 +53,11 @@ function ManagerWorkload() {
             subject: e.SubjectName,
             type: e.Type,
             semester: e.Semester,
-            time: e.TimeTeaching,
+            time: e.Time,
             unit: e.Unit,
-            numberGE: e.NumberOfStudent,
-            coefficient: e.Coefficient,
-            coefficientGrade: e.Coefficient,
+            numberGE: e.NumberGE,
+            coefficient: e.CoefficientGradeExam,
+            coefficientGrade: e.CoefficientGradeExam,
             idSubject: e.IdSubject,
           };
         });
@@ -72,7 +72,7 @@ function ManagerWorkload() {
             semester: e.Semester,
             time: e.Time,
             unit: e.Unit,
-            numberGE: e.numberGE,
+            numberGE: e.NumberGE,
             coefficient: e.CoefficientGradeExam,
             coefficientExam: e.CoefficientGradeExam,
             idSubject: e.IdSubject,
@@ -133,14 +133,14 @@ function ManagerWorkload() {
     }
   }, [semester , year ]);
   return (
-    <>
+    <div className="container">
       <div className={cx("option")}>
         <div className="flex pt-[14.3%] justify-around">
           <span className="w-[30%] ml-[50px] z-10">
             <SelectForm
               options={opt}
               placeholder="Chọn năm học"
-              height="30px w-full"
+              height="34px"
               setSelectedOption={setYear}
             ></SelectForm>
           </span>
@@ -148,7 +148,7 @@ function ManagerWorkload() {
             <SelectForm
               options={hocki}
               placeholder="Chọn học kì"
-              height="30px w-full"
+              height="34px"
               setSelectedOption={setSemester}
             ></SelectForm>
           </span>
@@ -202,14 +202,39 @@ function ManagerWorkload() {
                     <StyledTableCell>{row.advisor}</StyledTableCell>
                     <StyledTableCell>{row.timeScientific}</StyledTableCell>
                     <StyledTableCell>{row.total}</StyledTableCell>
-                    <StyledTableCell>{row.status}</StyledTableCell>
+                    <StyledTableCell
+                      style={{
+                        color:
+                          row.status === "Decline"
+                            ? "red"
+                            : row.status === "Waiting"
+                            ? "greenyellow"
+                            : "green",
+                        fontWeight: 700,
+                      }}
+                    >
+                      <div className="flex justify-between items-center">
+                        <p
+                          style={{
+                            backgroundColor:
+                              row.status === "Decline"
+                                ? "red"
+                                : row.status === "Waiting"
+                                ? "yellow"
+                                : "green",
+                          }}
+                          className="w-[10px] h-[10px] rounded-[50%] mr-1"
+                        ></p>
+                        {row.status}
+                      </div>
+                    </StyledTableCell>
                     <StyledTableCell>
                       {row.status === "Decline" ? (
                         <p
                           className="flex justify-around items-center cursor-pointer"
                           onClick={handleupdate}
                         >
-                          <TbListDetails />
+                          <BiEdit />
                           Update
                         </p>
                       ) : (
@@ -229,7 +254,7 @@ function ManagerWorkload() {
           </TableContainer>
         </div>
       )}
-    </>
+    </div>
   );
 }
 

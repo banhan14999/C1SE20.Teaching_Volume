@@ -4,7 +4,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import {GrUpdate} from "react-icons/gr"
+import { BiEdit } from "react-icons/bi";
 import StyledTableCell from "../../../StyledTableCell";
 function Other(props) {
   return (
@@ -17,7 +17,9 @@ function Other(props) {
               <StyledTableCell align="center">Exam Monitor</StyledTableCell>
               <StyledTableCell align="center">Advisor</StyledTableCell>
               <StyledTableCell align="center">Time Scientific</StyledTableCell>
-              <StyledTableCell align="center">Action</StyledTableCell>
+              {props.btn !== "view" && (
+                <StyledTableCell align="center">Action</StyledTableCell>
+              )}
             </TableRow>
           </TableHead>
           <TableBody>
@@ -39,15 +41,17 @@ function Other(props) {
                   <StyledTableCell align="center">
                     {row.scientific}
                   </StyledTableCell>
-                  <StyledTableCell>
-                    <div
-                      className="flex items-center cursor-pointer"
-                      onClick={props.onClick}
-                    >
-                      <GrUpdate className="mr-2 pointer-events-none"></GrUpdate>
-                      <div className="pointer-events-none">Update</div>
-                    </div>
-                  </StyledTableCell>
+                  {props.btn !== "view" && (
+                    <StyledTableCell align="center">
+                      <div
+                        className="flex items-center cursor-pointer justify-center"
+                        onClick={props.onClick}
+                      >
+                        <BiEdit className="mr-1 pointer-events-none"></BiEdit>
+                        <div className="pointer-events-none">Update</div>
+                      </div>
+                    </StyledTableCell>
+                  )}
                 </TableRow>
               ))}
           </TableBody>

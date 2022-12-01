@@ -16,6 +16,7 @@ import Division from "../Components/Form/Division";
 import ManagerYear from "../Components/Table/ManagerYear";
 import ViewReport from "../Components/ViewReport";
 import FormSubject from "../Components/Form/sub";
+import FloatBox from "../Components/FloatBox";
 export const publicRouters = [
   { path: "/authentication", component: Authentication },
   {
@@ -24,28 +25,27 @@ export const publicRouters = [
     chidren: [
       { path: "InfoWebpart", component: InfoWebpart },
       { path: "addnewuser", component: AddUser },
-      { path: "manageruser", component: ManagerUser },
-      { path: "manageruser/:id", component: ManagerUser },
+      { path: "manageuser", component: ManagerUser },
+      { path: "manageuser/:id", component: ManagerUser },
       { path: "addnewsubject", component: AddSubject },
-      { path: "managersubject", component: ManagerSubject },
-      { path: "managersubject/:id", component: ManagerSubject },
+      { path: "managesubject", component: ManagerSubject },
+      { path: "managesubject/:id", component: ManagerSubject },
       { path: "addnewclass", component: ClassInformation },
-      { path: "managerclass", component: ManagerClass },
-      { path: "managerclass/:id", component: ManagerClass },
+      { path: "manageclass", component: ManagerClass },
+      { path: "manageclass/:id", component: ManagerClass },
       { path: "approval", component: Approval },
-      { path: "managerworkload", component: ManagerWorkload },
-      { path: "managerworkload/:id", component: ManagerWorkload },
+      { path: "manageworkload", component: ManagerWorkload },
+      { path: "manageworkload/:id", component: ManagerWorkload },
       { path: "permission", component: Permission },
       { path: "division", component: Division },
-      { path: "manageryear", component: ManagerYear },
-      { path: "manageryear/:id", component: ManagerYear },
+      { path: "manageyear", component: ManagerYear },
+      { path: "manageyear/:id", component: ManagerYear },
       { path: "addnewyear", component: AddYear },
-      { path: "manageryear/:id", component: ManagerYear },
       { path: "viewtable", component: ViewReport },
       { path: "subject", component: FormSubject },
     ],
   },
-  { path: "*", component: NotFound },
+  { path: "*", component: FloatBox },
 ];
 export const privateRouters = [  
 ];

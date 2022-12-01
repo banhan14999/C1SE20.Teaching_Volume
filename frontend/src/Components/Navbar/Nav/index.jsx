@@ -72,7 +72,7 @@ function NavLeft() {
 
   return (
     // width : 223px
-    <div className="w-[23.21%] mr-[12px] min-h-[420px] bg-[#E5E5E5] ">
+    <div className="w-[23.21%] mr-[8px] min-h-[420px] bg-[#E5E5E5] ">
       <ul className={`${cx("nav_left")}`}>
         {Admin && (
           <li>
@@ -90,7 +90,7 @@ function NavLeft() {
               </li>
               <li className="flex">
                 <AiFillCaretRight className="mr-1"></AiFillCaretRight>
-                <p>Manager Year</p>
+                <p>Manage Year</p>
               </li>
             </ul>
           </li>
@@ -102,7 +102,7 @@ function NavLeft() {
                 "item"
               )} flex pl-4 items-center font-medium text-[14px] select-none `}
             >
-              Dash
+              Dashboard
             </p>
             <ul className={`${cx("nav_left_item")} text-[14px] `}>
               <li className="flex">
@@ -124,11 +124,11 @@ function NavLeft() {
             <ul className={`${cx("nav_left_item")} text-[14px] `}>
               <li className="flex">
                 <AiFillCaretRight className="mr-1"></AiFillCaretRight>
-                <p>Add new User</p>
+                <p>Add New User</p>
               </li>
               <li className="flex">
                 <AiFillCaretRight className="mr-1"></AiFillCaretRight>
-                <p>Manager User</p>
+                <p>Manage User</p>
               </li>
             </ul>
           </li>
@@ -146,11 +146,11 @@ function NavLeft() {
             <ul className={`${cx("nav_left_item")} text-[14px] `}>
               <li className="flex">
                 <AiFillCaretRight className="mr-1"></AiFillCaretRight>
-                <p>Add new Subject</p>
+                <p>Add New Subject</p>
               </li>
               <li className="flex">
                 <AiFillCaretRight className="mr-1"></AiFillCaretRight>
-                <p>Manager Subject</p>
+                <p>Manage Subject</p>
               </li>
             </ul>
           </li>
@@ -173,7 +173,7 @@ function NavLeft() {
                 </li>
                 <li className="flex">
                   <AiFillCaretRight className="mr-1"></AiFillCaretRight>
-                  <p>Manager Class</p>
+                  <p>Manage Class</p>
                 </li>
               </ul>
             )}
@@ -185,7 +185,7 @@ function NavLeft() {
                 </li>}
                {(Head|| Dean || Lecturer) ?<li className="flex">
                   <AiFillCaretRight className="mr-1"></AiFillCaretRight>
-                  <p>Manager Class</p>
+                  <p>Manage Class</p>
                 </li>:<></>}
               </ul>
             ):<></>}
@@ -226,7 +226,7 @@ function NavLeft() {
               </li>}
               <li className="flex">
                 <AiFillCaretRight className="mr-1"></AiFillCaretRight>
-                <p>Manager Workload</p>
+                <p>Manage Workload</p>
               </li>
             </ul>
           </li>

@@ -1,18 +1,25 @@
 .container {
-  background: url("../../Assets/img/bg-welcome.png") no-repeat left top;
   width: 962px;
   margin: auto;
   margin-left: 17px;
 }
+.nav_sitemap{
+  background: url("../../Assets/img/bg-welcome.png") no-repeat left top;
+  // height: 54px;
+  width: 100%
+}
 .container_heading {
-  
   padding-left: 15px;
   color: #fff;
   font-weight: 700;
   height: 53px;
-  width: 220px;
+  width: 222px;
   font-size: 14px;
   line-height: 53px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
 }
 
 .sitemap {
@@ -25,6 +32,8 @@
   color: #c10000;
   display: flex;
   align-items: center;
+  margin-left: 222px;
+
 }
 
 .out {
@@ -33,5 +42,43 @@
   }
   &:hover .logout{
     color: #950b0b ;
+  }
+}
+
+@media only screen and (max-width:984px) {
+  .navleft {
+    width: 100%;
+  }
+  .container{
+    width: 100%;
+    margin-left: 0;
+  }
+  .outlet {
+    width: 76%;
+  }
+  .sitemap {
+    background-size: contain;
+    height: auto;
+    padding-left: 0;
+    margin-left: 235px;
+
+  }
+  .container_heading {
+    //  width: 177px;
+
+  }
+}
+@media only screen and (max-width:600px) {
+  .sitemap {
+    height: 35px;
+    padding-left: 0;
+    margin-left: 150px;
+  }
+  .container_heading {
+     width: 150px;
+       height: 33px;
+      line-height: 33px;
+      padding-left: 0;
+
   }
 }

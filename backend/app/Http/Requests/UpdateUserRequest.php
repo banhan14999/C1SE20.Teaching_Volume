@@ -30,7 +30,7 @@ class UpdateUserRequest extends FormRequest
             'idlecturer'=>[
                 'required',
                 'max:10',
-                Rule::unique('users')->ignore('id'),
+                //Rule::unique('users')->ignore('id'),
             ]
         ];
     }

@@ -10,6 +10,8 @@ use App\Models\Subject;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class ClassController extends Controller
 {
@@ -29,17 +31,9 @@ class ClassController extends Controller
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(AddClassRequest $request)
+    //use for add new and update class
+    private static function getClassCoefficient($numberOfStudent)
     {
-        $idClass = $request->Year . $request->Semester . $request->IdSubject . $request->Grade;
-        //Class coefficient
-        $numberOfStudent = $request->NumberOfStudent;
         if($numberOfStudent <= 61){
             $classCoefficient = 1;
         }elseif($numberOfStudent <= 76){
@@ -59,33 +53,91 @@ class ClassController extends Controller
         }else{
             $classCoefficient = 1.4; //Tạm thời
         }
+        return $classCoefficient;
+    }
 
-        //Time_teaching
-        if($request->Type === 'LAB' || $request->Type === 'PRJ' || $request->Type === 'INT'){
-            $timeTeaching = 30 * $request->Credit;
-        }else{
-            $timeTeaching = 15 * $request->Credit;
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(AddClassRequest $request)
+    {
+
+        //check 
+        $messages  = [
+            'Grade.unique' => 'This class of subject all ready taken in this year',
+        ];
+        $validator = Validator::make($request->all(),[
+            'Grade' => [
+                Rule::unique('classes')->where(function($query) use ($request) {
+                    return $query->where('Year', $request->Year)
+                                 ->where('Semester', $request->Semester)
+                                 ->where('Grade', $request->Grade)
+                                 ->where('IdSubject', $request->IdSubject);
+                }),
+            ]
+        ], $messages);
+        
+        if($validator->fails()) {
+            return response()->json([
+                'status' => 422,
+                'message' => $validator->errors(),
+            ]);
         }
+        else {
+            $idClass = $request->Year . $request->Semester . $request->IdSubject . $request->Grade;
+            //Class coefficient
+            $numberOfStudent = $request->NumberOfStudent;
+            $classCoefficient = self::getClassCoefficient($numberOfStudent);
+            // if($numberOfStudent <= 61){
+            //     $classCoefficient = 1;
+            // }elseif($numberOfStudent <= 76){
+            //     $classCoefficient = 1.05;
+            // }elseif($numberOfStudent <= 91){
+            //     $classCoefficient = 1.1;
+            // }elseif($numberOfStudent <= 106){
+            //     $classCoefficient = 1.15;
+            // }elseif($numberOfStudent <= 121){
+            //     $classCoefficient = 1.2;
+            // }elseif($numberOfStudent <= 141){
+            //     $classCoefficient = 1.25;
+            // }elseif($numberOfStudent <= 161){
+            //     $classCoefficient = 1.3;
+            // }elseif($numberOfStudent <= 181){
+            //     $classCoefficient = 1.35;
+            // }else{
+            //     $classCoefficient = 1.4; //Tạm thời
+            // }
 
-        Classes::create([
-            'IdClass'            => $idClass,
-            'Year'               => $request->Year,
-            'Semester'           => $request->Semester,
-            'Grade'              => $request->Grade,
-            'IdSubject'          => $request->IdSubject,
-            'TypeClass'          => $request->Type,
-            'CreditClass'        => $request->Credit,
-            'NumberOfStudent'    => $request->NumberOfStudent,
-            'Coefficient'        => $classCoefficient,
-            'SubjectCoefficient' => $request->SubjectCoefficient,
-            'TimeTeaching'       => $timeTeaching,
-            'Unit'               => $request->Unit,
-        ]);
+            //Time_teaching
+            if($request->Type === 'LAB' || $request->Type === 'PRJ' || $request->Type === 'INT'){
+                $timeTeaching = 30 * $request->Credit;
+            }else{
+                $timeTeaching = 15 * $request->Credit;
+            }
 
-        return response()->json([
-            'status' => 200,
-            'message' => 'Class Created Successfully',
-        ]);
+            Classes::create([
+                'IdClass'            => $idClass,
+                'Year'               => $request->Year,
+                'Semester'           => $request->Semester,
+                'Grade'              => $request->Grade,
+                'IdSubject'          => $request->IdSubject,
+                'TypeClass'          => $request->Type,
+                'CreditClass'        => $request->Credit,
+                'NumberOfStudent'    => $request->NumberOfStudent,
+                'Coefficient'        => $classCoefficient,
+                'SubjectCoefficient' => $request->SubjectCoefficient,
+                'TimeTeaching'       => $timeTeaching,
+                'Unit'               => $request->Unit,
+            ]);
+
+            return response()->json([
+                'status' => 200,
+                'message' => 'Class Created Successfully',
+            ]);
+        }
     }
 
     /**
@@ -115,25 +167,26 @@ class ClassController extends Controller
         $class = Classes::find($id);
         //Class coefficient
         $numberOfStudent = $request->NumberOfStudent;
-        if($numberOfStudent <= 61){
-            $classCoefficient = 1;
-        }elseif($numberOfStudent <= 76){
-            $classCoefficient = 1.05;
-        }elseif($numberOfStudent <= 91){
-            $classCoefficient = 1.1;
-        }elseif($numberOfStudent <= 106){
-            $classCoefficient = 1.15;
-        }elseif($numberOfStudent <= 121){
-            $classCoefficient = 1.2;
-        }elseif($numberOfStudent <= 141){
-            $classCoefficient = 1.25;
-        }elseif($numberOfStudent <= 161){
-            $classCoefficient = 1.3;
-        }elseif($numberOfStudent <= 181){
-            $classCoefficient = 1.35;
-        }else{
-            $classCoefficient = 1.4; //Tạm thời
-        }
+        $classCoefficient = self::getClassCoefficient($numberOfStudent);
+        // if($numberOfStudent <= 61){
+        //     $classCoefficient = 1;
+        // }elseif($numberOfStudent <= 76){
+        //     $classCoefficient = 1.05;
+        // }elseif($numberOfStudent <= 91){
+        //     $classCoefficient = 1.1;
+        // }elseif($numberOfStudent <= 106){
+        //     $classCoefficient = 1.15;
+        // }elseif($numberOfStudent <= 121){
+        //     $classCoefficient = 1.2;
+        // }elseif($numberOfStudent <= 141){
+        //     $classCoefficient = 1.25;
+        // }elseif($numberOfStudent <= 161){
+        //     $classCoefficient = 1.3;
+        // }elseif($numberOfStudent <= 181){
+        //     $classCoefficient = 1.35;
+        // }else{
+        //     $classCoefficient = 1.4; //Tạm thời
+        // }
 
         //Time_teaching
         if($request->Type === 'LAB' || $request->Type === 'PRJ' || $request->Type === 'INT'){

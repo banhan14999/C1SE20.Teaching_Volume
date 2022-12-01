@@ -17,26 +17,45 @@ function ViewReport() {
      { value: "2024", label: "2024-2025" },
    ];
    const hocki = [
-     { value: "1", label: "Học Kỳ I" },
-     { value: "2", label: "Học Kỳ II" },
-     { value: "3", label: "Học Hè" },
-     { value: "4", label: "Full" },
+     { value: "1", label: "Học kỳ I" },
+     { value: "2", label: "Học kỳ II" },
+     { value: "Hè", label: "Học hè" },
+     { value: "4", label: "Cả năm" },
    ];
    function handleprint(e) {
-     printJS({
-       printable: "print",
-       targetStyles: [
-         "width:1123px !important",
-         "display:flex !important",
-         "justify-content: center !important",
-       ],
-       type: "html",
-       maxWidth: 1123,
-       scanStyles: true,
-       style:
-         "table, td, th {border: 1px solid;} table {width:100%;border-collapse: collapse !important; display:block !important;} .MuiTableFooter-root {display:none !important;} #printsig {width:1123px !important;display:flex !important;margin:0 auto !important;justify-content:space-around !important;}}",
-     });
-   }
+    if (semester.value!== "4"){
+      
+      printJS({
+        header: `<h1 style="text-align:center; width:1754px;">BẢNG TỔNG HỢP KẾ HOẠCH KHỐI LƯỢNG ĐÀO TẠO ĐẠI HỌC <br/>NĂM HỌC: ${year.label}<br/>${semester.label}</h1>`,
+        printable: "print",
+        targetStyles: [
+          "width:1754px !important",
+          "display:flex !important",
+          "justify-content: center !important",
+        ],
+        type: "html",
+        maxWidth: 1754,
+        scanStyles: true,
+        style:
+          "td, th {border: 1px solid; text-align:center;} td{width:9.1111% !important;} table {width:1754px !important; border-collapse: collapse !important; display:block !important;} .MuiTableFooter-root {display:none !important;} #printsig {width:1754px !important; display:flex !important;justify-content:space-around !important;align-items: flex-end;}}",
+      });
+    }
+   else {
+    printJS({
+      header: `<h1 style="text-align:center; width:1754px;">BẢNG TỔNG HỢP KẾ HOẠCH KHỐI LƯỢNG ĐÀO TẠO ĐẠI HỌC <br/>NĂM HỌC: ${year.label}</h1>`,
+      printable: "print",
+      targetStyles: [
+        // "width:1123px !important",
+        "display:flex !important",
+        "justify-content: center !important",
+      ],
+      type: "html",
+      maxWidth: 1623,
+      scanStyles: true,
+      style:
+        "td, th {border: 1px solid; text-align:center; font-size:6px !important; color:black !important;} th{font-weight:500;} table {width:1754px !important;border-collapse: collapse !important; display:block !important;} .MuiTableFooter-root {display:none !important;} #printsig {width:1754px !important; display:flex !important;justify-content:space-around !important;align-items: flex-end;} #workload{display:none !important;}}",
+    });
+   }}
     return (
       <div>
         <div className={cx("option")}>
@@ -45,7 +64,7 @@ function ViewReport() {
               <SelectForm
                 options={opt}
                 placeholder="Chọn năm học"
-                height="30px"
+                height="34px"
                 setSelectedOption={setYear}
               ></SelectForm>
             </span>
@@ -53,19 +72,19 @@ function ViewReport() {
               <SelectForm
                 options={hocki}
                 placeholder="Chọn học kì"
-                height="30px"
+                height="34px"
                 setSelectedOption={setSemester}
               ></SelectForm>
             </span>
           </div>
         </div>
         {year && semester && (
-          <div className="flex  justify-end  mb-[10px] ">
+          <div className="flex justify-end items-center mb-[10px]">
             <span
               className="cursor-pointer text-[22px] flex items-center"
               onClick={handleprint}
             >
-              <AiFillPrinter />
+            <AiFillPrinter />
               Print
             </span>
           </div>

@@ -6,9 +6,9 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { MdAutoDelete } from "react-icons/md";
-import { GrUpdate } from "react-icons/gr";
+import { BiEdit } from "react-icons/bi";
 import { useDispatch } from "react-redux";
-
+import FloatBox from "../../FloatBox"
 import StyledTableCell from "../../StyledTableCell";
 import AddSubject from "../../Form/AddSubject";
 import { SetUpdate, DataUpdate } from "../../../Redux/Actions/index";
@@ -21,15 +21,21 @@ function ManagerSubject() {
   const dispath = useDispatch();
   const [sub, setSub] = useState([]);
 
+ const [confirm, setConfirm] = useState(false);
+ const [idDelete, setIdDelete] = useState();
+
   function click(e) {
     const Subject_id = e.target.attributes[1].nodeValue 
+   setConfirm(true);
+   setIdDelete(Subject_id);
+  }
+  function handleClickConfirm(Subject_id) {
     ApiTeachingVolume.Delete("/subject/delete/", Subject_id);
     const arr = sub.filter((value) => {
       return value.Subject_id !== parseInt(Subject_id);
     });
     setSub(arr);
   }
-
   function createData(Code, Subject, Credit, Type, Subject_id) {
     return { Code, Subject, Credit, Type, Subject_id };
   }
@@ -61,11 +67,12 @@ function ManagerSubject() {
   
   return (
     <div>
-       {param.id ?
-        <AddSubject btn="Update" title="Updata Subject"></AddSubject>:
-        ( <div className={`container`}>
+      {param.id ? (
+        <AddSubject btn="Update" title="Updata Subject"></AddSubject>
+      ) : (
+        <div className={`container`}>
           <div className="text-center text-[20px] font-[600] line mb-[20px] text-red-700">
-            Manager Subject
+            Manage Subject
           </div>
           <TableContainer component={Paper}>
             <Table size="small" aria-label="Manager Subject Table">
@@ -101,11 +108,11 @@ function ManagerSubject() {
                           sub_id={row.Subject_id}
                           onClick={handleUpdate}
                         >
-                          <GrUpdate
+                          <BiEdit
                             color="#0a7a0a"
                             className="mr-[2px]"
                             fontSize={12}
-                          ></GrUpdate>
+                          ></BiEdit>
                           <span>Update</span>
                         </div>
                         <div
@@ -127,10 +134,18 @@ function ManagerSubject() {
               </TableBody>
             </Table>
           </TableContainer>
-        </div>)
-      }
+          {confirm && (
+            <FloatBox
+              handleClickConfirm={() => {
+                handleClickConfirm(idDelete);
+              }}
+              setConfirm={setConfirm}
+            />
+          )}
+        </div>
+      )}
     </div>
-  )
+  );
 }
 
 export default ManagerSubject;

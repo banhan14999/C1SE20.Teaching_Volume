@@ -4,10 +4,13 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdateUserRequest;
+use App\Models\Classes;
 use App\Models\TokenUser;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
@@ -104,7 +107,13 @@ class UserController extends Controller
         // $user->IdDepartment = $request->input('iddepartment');
         // $user->IdRole       = $request->input('idrole');
         // $user->update();
-       
+        
+        Validator::make($request->all(),[
+            'idLecturer' => [
+                Rule::unique('users')->ignore($id, 'id'),
+            ]
+        ]);
+
         DB::table("users")
             ->where('id', '=', $id)
             ->update([
@@ -129,10 +138,16 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        
+        Classes::where('IdLecturer', '=', $id)->update(['IdLecturer' => null]);
+        $user = User::find($id);
+        $user->delete();
+        return response()->json([
+            'status'    => 204,
+            'message'   => 'User Deleted Successfully!',
+        ]);
     }
 
-    public static function getLecturerByDepartmentAndFaculty($idFaculty, $idDepartment)
+    public function getLecturerByDepartmentAndFaculty($idFaculty, $idDepartment)
     {
         $lecturers = DB::table('users')
                         ->where([
@@ -141,6 +156,9 @@ class UserController extends Controller
                         ])
                         ->get();
         //$user = auth()->user();
-        return $lecturers;
+        return response()->json([
+            'status' => 200,
+            'lecturers' => $lecturers,
+        ]);
     }
 }

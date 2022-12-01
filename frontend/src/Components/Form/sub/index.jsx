@@ -10,6 +10,8 @@ import Button from "../../Button";
 import OtherDetail from "./Form/OtherDetail";
 import ExamDetail from "./Form/LearnDetail";
 import { ApiTeachingVolume } from "../../../apis/axios";
+import FloatBox from "../../FloatBox";
+
 const cx = classNames.bind(styles);
 function FormSubject({ year, semester, theoryClass, exams, others, btn,title,idLec }) {
   const [count, setCount] = useState(1);
@@ -23,7 +25,6 @@ function FormSubject({ year, semester, theoryClass, exams, others, btn,title,idL
   const [pros, setPros] = useState([]);
   const [valueOther, setValueOther] = useState([createOther(0, 0, 0, 0)]);
   const [teachingapi, setTeachingApi] = useState([]);
-
   function createTeaching(
     stt,
     letter,
@@ -78,9 +79,11 @@ function FormSubject({ year, semester, theoryClass, exams, others, btn,title,idL
   }
 
   useEffect(() => {
-    if (idLecturer && semester && year) {
+    if ( semester && year && (idLecturer || idLec)) {
       ApiTeachingVolume.Get(
-        `/class/theoryClass/${idLecturer}/semester/${semester}/year/${year}`
+        `/class/theoryClass/${
+          idLec || idLecturer
+        }/semester/${semester}/year/${year}`
       ).then((req) => {
         const arr = req.classes.map((value, index) => {
           return createTeaching(
@@ -99,7 +102,9 @@ function FormSubject({ year, semester, theoryClass, exams, others, btn,title,idL
         setTeaching([...arr]);
       });
       ApiTeachingVolume.Get(
-        `/class/realityClass/${idLecturer}/semester/${semester}/year/${year}`
+        `/class/realityClass/${
+          idLec || idLecturer
+        }/semester/${semester}/year/${year}`
       ).then((req) => {
         const arr = req.classes.map((value, index) => {
           return createProject(
@@ -129,7 +134,7 @@ function FormSubject({ year, semester, theoryClass, exams, others, btn,title,idL
         setPros([...arrs]);
       });
     }
-  }, [idLecturer, semester, year]);
+  }, [idLec,idLecturer, semester, year]);
   useEffect(() => {
     const arr = teaching.reduce((arr, value) => {
       return [
@@ -160,10 +165,10 @@ function FormSubject({ year, semester, theoryClass, exams, others, btn,title,idL
     "Teaching Volume": <TeachingVolume rows={teaching} />,
     "Project Volume": <ProjectVolume rows={projects} />,
     "Grading Volume": (
-      <GradingVolume rows={ Grading } setGrading={setGrading} btn={btn}/>
+      <GradingVolume rows={Grading} setGrading={setGrading} btn={btn} />
     ),
-    "Exam Volume": <ExamVolume rows={  examvo} setExamvo={setExamvo} btn={btn}/>,
-    Other: <Other rows={ valueOther} onClick={handleAdd} />,
+    "Exam Volume": <ExamVolume rows={examvo} setExamvo={setExamvo} btn={btn} />,
+    Other: <Other rows={valueOther} onClick={handleAdd} btn={btn} />,
   };
   useEffect(() => {
    if(btn){
@@ -195,6 +200,28 @@ function FormSubject({ year, semester, theoryClass, exams, others, btn,title,idL
     count === 5 && setForm("Other");
   }, [count]);
 
+ const [confirm, setConfirm] = useState(false);
+function handleClickConfirm(){
+    const obj = {
+      data: {
+        idLecturer: idLec || idLecturer,
+        year: Number(year),
+        semester: semester,
+        teaching: teachingapi,
+        project: pros,
+        grading: Grading,
+        exam: examvo,
+        other: valueOther[0] || (btn && others[0]),
+      },
+    };
+    ApiTeachingVolume.Put("/volume/update", obj)
+      .then((res) => {
+        alert("Thanh cong");
+      })
+      .catch((err) => {
+        alert("loi");
+      });
+}
   function handleSubmitForm() {
     if(btn === "btn"){
       const obj = {
@@ -217,30 +244,14 @@ function FormSubject({ year, semester, theoryClass, exams, others, btn,title,idL
           alert("loi");
         });
     }else if(btn==="update"){
-      const obj = {
-        data: {
-          idLecturer: idLec || idLecturer,
-          year: Number(year),
-          semester: semester,
-          teaching: teachingapi,
-          project: pros,
-          grading: theoryClass || Grading,
-          exam: exams || examvo,
-          other: (btn && others[0]) || valueOther[0],
-        },
-      };
-      ApiTeachingVolume.Put("/volume/update", obj)
-        .then((res) => {
-          alert("Thanh cong");
-        })
-        .catch((err) => {
-          alert("loi");
-        });
+      setConfirm(true)
     }
   }
   return (
     <div className={cx("form")}>
-      <h2 className="text-[25px] text-center mb-3">{title}</h2>
+      <p className="text-[25px] text-center mb-3">
+        {title && title.id + " " + title.fullName}
+      </p>
       <div className={cx("nav_form")}>
         <ul onClick={handleClick}>
           <li className={`${form === "Teaching Volume" && "!bg-red-800"}`}>
@@ -266,7 +277,9 @@ function FormSubject({ year, semester, theoryClass, exams, others, btn,title,idL
           form !== "Project Volume" &&
           form !== "Other" ? (
             <p className="w-[150px]" onClick={handleAdd} data-add={form}>
-              <Button width="100%">Add</Button>
+              <Button width="100%" bgcolor="#D82C2C" weight={500}>
+                Add
+              </Button>
             </p>
           ) : (
             <></>
@@ -276,8 +289,9 @@ function FormSubject({ year, semester, theoryClass, exams, others, btn,title,idL
           {form !== "Teaching Volume" && (
             <Button
               width="150px"
-              bgcolor="red"
+              bgcolor="#D82C2C"
               class="mr-3"
+              weight={500}
               onClick={handlePrev}
             >
               Prev
@@ -288,8 +302,9 @@ function FormSubject({ year, semester, theoryClass, exams, others, btn,title,idL
           {form !== "Other" && (
             <Button
               width="150px"
-              bgcolor="red"
+              bgcolor="#D82C2C"
               class="ml-3"
+              weight={500}
               onClick={handleNext}
             >
               Next
@@ -298,8 +313,9 @@ function FormSubject({ year, semester, theoryClass, exams, others, btn,title,idL
           {btn !== "view" && form === "Other" && (
             <Button
               width="150px"
-              bgcolor="red"
+              bgcolor="#D82C2C"
               class="ml-3"
+              weight={500}
               onClick={handleSubmitForm}
             >
               submit
@@ -328,6 +344,15 @@ function FormSubject({ year, semester, theoryClass, exams, others, btn,title,idL
           setGrading={setGrading}
           Semester={semester}
           length={Grading}
+        />
+      )}
+      {confirm && (
+        <FloatBox
+          Title="cập nhật"
+          handleClickConfirm={() => {
+            handleClickConfirm();
+          }}
+          setConfirm={setConfirm}
         />
       )}
     </div>

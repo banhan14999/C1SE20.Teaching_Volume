@@ -35,7 +35,7 @@ function ExamVolume({ rows, setExamvo,btn }) {
               <StyledTableCell align="center">Unit</StyledTableCell>
               <StyledTableCell align="center">Number</StyledTableCell>
               <StyledTableCell align="center">Coefficient</StyledTableCell>
-              {btn !== "btn" && (
+              {btn !== "view" && (
                 <StyledTableCell align="center">Action</StyledTableCell>
               )}
             </TableRow>
@@ -63,15 +63,15 @@ function ExamVolume({ rows, setExamvo,btn }) {
                 <StyledTableCell align="center">
                   {row.coefficient}
                 </StyledTableCell>
-                {btn !== "btn" && (
+                {btn !== "view" && (
                   <StyledTableCell align="center">
-                      <div
-                        onClick={handleRemove}
-                        data-list={row.stt}
-                        className="cursor-pointer"
-                      >
-                        <CgPlayListRemove className="text-[20px] text-[blue] text-center pointer-events-none" />
-                      </div>
+                    <div
+                      onClick={handleRemove}
+                      data-list={row.stt}
+                      className="cursor-pointer flex justify-center items-center"
+                    >
+                      <CgPlayListRemove className="text-[20px] text-[blue] text-center pointer-events-none" />
+                    </div>
                   </StyledTableCell>
                 )}
               </TableRow>

@@ -5,7 +5,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { AiFillCloseCircle } from "react-icons/ai";
-import { GrUpdate } from "react-icons/gr";
+import { BiEdit } from "react-icons/bi";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate,useParams } from "react-router-dom";
@@ -14,20 +14,26 @@ import AddUser from "../../Form/AddUser";
 import { SetUpdate } from "../../../Redux/Actions/index";
 import { ApiTeachingVolume } from "../../../apis/axios";
 import { DataUpdate } from "../../../Redux/Actions/index";
-
+import FloatBox from "../../FloatBox";
 function ManagerUser() {
   const param = useParams();
   const navigate = useNavigate();
   const dispath = useDispatch();
   const [user,setUser] = useState([])
+  const [confirm,setConfirm] = useState(false)
+  const [idDelete,setIdDelete] = useState()
   function createData(Id,IdLecturer, FullName, School, Department, Role) {
     return { Id,IdLecturer, FullName, School, Department, Role };
   }
 function clickDelete(e) {
-  const user_id = e.target.dataset.delete
-  ApiTeachingVolume.Delete("/user/delete/", user_id);
+ const user_id = e.target.dataset.delete;
+  setConfirm(true)
+  setIdDelete(user_id);
+}
+function handleClickConfirm(idDelete) {
+  ApiTeachingVolume.Delete("/user/delete/", idDelete);
   const arr = user.filter((value) => {
-    return value.Id !== Number(user_id);
+    return value.Id !== Number(idDelete);
   });
   setUser(arr);
 }
@@ -69,7 +75,7 @@ function clickDelete(e) {
       ) : (
         <div className="container">
           <div className="text-center text-[20px] font-[600] line mb-[20px] text-red-700">
-            Manager Users
+            Manage Users
           </div>
           <TableContainer component={Paper}>
             <Table size="medium" aria-label="a dense table">
@@ -80,9 +86,7 @@ function clickDelete(e) {
                   <StyledTableCell align="center">Faculty</StyledTableCell>
                   <StyledTableCell align="center">Department</StyledTableCell>
                   <StyledTableCell align="center">Role</StyledTableCell>
-                  <StyledTableCell align="center" colSpan={2}>
-                    Action
-                  </StyledTableCell>
+                  <StyledTableCell align="center">Action</StyledTableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -95,33 +99,39 @@ function clickDelete(e) {
                       {row.IdLecturer}
                     </StyledTableCell>
                     <StyledTableCell>{row.FullName}</StyledTableCell>
-                    <StyledTableCell>{row.School}</StyledTableCell>
-                    <StyledTableCell>{row.Department}</StyledTableCell>
-                    <StyledTableCell>{row.Role}</StyledTableCell>
                     <StyledTableCell align="center">
-                      <div
-                        className="flex justify-center  cursor-pointer "
-                        onClick={handleUpdate}
-                        data-update={row.Id}
-                      >
-                        <GrUpdate
-                          color="#0a7a0a"
-                          className="pointer-events-none"
-                          fontSize={14}
-                        ></GrUpdate>
-                      </div>
+                      {row.School}
                     </StyledTableCell>
                     <StyledTableCell align="center">
-                      <div
-                        className="cursor-pointer"
-                        onClick={clickDelete}
-                        data-delete={row.Id}
-                      >
-                        <AiFillCloseCircle
-                          color="#eb4f04"
-                          className="pointer-events-none"
-                          fontSize={16}
-                        ></AiFillCloseCircle>
+                      {row.Department}
+                    </StyledTableCell>
+                    <StyledTableCell align="center">{row.Role}</StyledTableCell>
+                    <StyledTableCell align="center">
+                      <div className="flex justify-around items-center">
+                        <div
+                          className="flex justify-center items-center cursor-pointer "
+                          onClick={handleUpdate}
+                          data-update={row.Id}
+                        >
+                          <BiEdit
+                            color="#0a7a0a"
+                            className="pointer-events-none"
+                            fontSize={14}
+                          ></BiEdit>
+                          Update
+                        </div>
+                        <div
+                          className="cursor-pointer flex items-center justify-center"
+                          onClick={clickDelete}
+                          data-delete={row.Id}
+                        >
+                          <AiFillCloseCircle
+                            color="#eb4f04"
+                            className="pointer-events-none"
+                            fontSize={16}
+                          ></AiFillCloseCircle>
+                          Delete
+                        </div>
                       </div>
                     </StyledTableCell>
                   </TableRow>
@@ -129,6 +139,12 @@ function clickDelete(e) {
               </TableBody>
             </Table>
           </TableContainer>
+          {confirm && (
+            <FloatBox
+              handleClickConfirm={() => {handleClickConfirm(idDelete)}}
+              setConfirm={setConfirm}
+            />
+          )}
         </div>
       )}
     </div>
