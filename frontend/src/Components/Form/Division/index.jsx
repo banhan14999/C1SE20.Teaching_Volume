@@ -39,7 +39,7 @@ useEffect(() => {
       items: (lecturer && [...classlecturer]) || [],
     },
     [uuidv4()]: {
-      title: classSubject && classSubject.label,
+      title: classSubject && classSubject.title,
       items: (classSubject && [...classroom]) || [],
     },
   });
@@ -60,7 +60,7 @@ useEffect(() => {
     if(year!==null && semester !==null){
       localStorage.setItem("Division",JSON.stringify({year:year.value,semester:semester.value}))
       setContinues(true);
-    }else {
+    }else { 
       alert("Vui Lòng Chọn Năm Học")
     }
   }
@@ -68,7 +68,12 @@ useEffect(() => {
     ApiTeachingVolume.Get("/subject/all")
       .then((res) => {
         const arr = res.subjects.map((value) => {
-          return { value: value.IdSubject, label: value.SubjectName };
+          console.log(value);
+          return {
+            value: value.IdSubject,
+            label: value.SubjectName,
+            title: value.Letter + " " + value.Number,
+          };
         });
         setSubject([...arr]);
       });
@@ -238,6 +243,7 @@ useEffect(() => {
             <div className={`${cx("Container")}`}>
               <div className={`${cx("TaskColumnStyles")}`}>
                 {Object.entries(columns).map(([columnId, column], index) => {
+                  console.log(column);
                   return (
                     <Droppable key={columnId} droppableId={columnId}>
                       {(provided, snapshot) => (

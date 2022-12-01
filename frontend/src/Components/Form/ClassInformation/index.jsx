@@ -3,9 +3,11 @@ import { ApiTeachingVolume } from "../../../apis/axios";
 import styles from "./classInformationform.module.scss";
 import SelectForm from "../../SelectForm";
 import { default as Button} from "../../Button";
-import {useState,useEffect} from "react"
+import {useState,useEffect, useRef} from "react"
 import { useSelector } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
+import FloatBox from "../../FloatBox";
+
 const cx = classNames.bind(styles)
 
 function ClassInformation(props) {
@@ -14,7 +16,13 @@ const [semester, setSemester] = useState();
 const [type, setType] = useState();
 const [subjectOptions, setSubjectOptions] = useState([]);
 const [subject,setSubject] = useState()
-  const param = useParams()
+const param = useParams()
+const refSelectYear = useRef()
+const refSelectSemester = useRef();
+const refSelectType = useRef();
+const refSelectSubject = useRef();
+
+
 const [valuesForm, setValuesForm] = useState({
   grade: "",
   credit: "",
@@ -29,6 +37,10 @@ const idclass = JSON.parse(sessionStorage.getItem("idclass"));
     if (param && param.id) {
       navigate(-1);
     } else {
+      refSelectYear.current.clearValue();
+      refSelectSemester.current.clearValue();
+      refSelectType.current.clearValue();
+      refSelectSubject.current.clearValue();
       setValuesForm({
         grade: "",
         credit: "",
@@ -69,26 +81,39 @@ const idclass = JSON.parse(sessionStorage.getItem("idclass"));
 
   const updateData = useSelector((data) => data.dtupdate);
   const { data } = updateData;
+  const [confirm, setConfirm] = useState(false);
+  function handleClickConfirm(){
+ const obj = {
+   Year:
+     (year && Number(year.value)) ||
+     (data && data.length > 0 && data[0].Year) ||
+     (idclass && idclass.Year),
+   Semester:
+     (semester && semester.value) ||
+     (data && data.length > 0 && data[0].Semester) ||
+     (idclass && idclass.Semester),
+   Grade: valuesForm.grade,
+   Type:
+     (type && type.value) ||
+     (data && data.length > 0 && data[0].TypeClass) ||
+     (idclass && idclass.Type.value),
+   Credit: Number(valuesForm.credit),
+   NumberOfStudent: Number(valuesForm.numberOfStudent),
+   SubjectCoefficient: valuesForm.subjectCoefficient,
+   Unit: valuesForm.unit,
+ };
+ApiTeachingVolume.Update(`/class/update/`, param.id, obj)
+   .then(function (response) {
+     alert("Cập Nhật Thành Công");
+     navigate(-1);
+   })
+   .catch(function (error) {
+     alert("Cập Nhật Thất Bại");
+   });
+  }
  function handleAdd(){
    if (props.btn || param.id ) {
-     const obj = {
-       Year: (year && Number(year.value)) || (data && data.length>0 && data[0].Year) || (idclass && idclass.Year),
-       Semester: (semester && semester.value) || (data && data.length>0 && data[0].Semester) || (idclass && idclass.Semester),
-       Grade: valuesForm.grade,
-       Type: (type && type.value) || (data && data.length>0 &&data[0].TypeClass) ||(idclass && idclass.Type.value),
-       Credit: Number(valuesForm.credit),
-       NumberOfStudent: Number(valuesForm.numberOfStudent),
-       SubjectCoefficient: valuesForm.subjectCoefficient,
-       Unit: valuesForm.unit,
-     };
-     const check = ApiTeachingVolume.Update(`/class/update/`, param.id, obj);
-     check
-       .then(function (response) {
-         alert("Cập Nhật Thành Công");
-       })
-       .catch(function (error) {
-         alert("Cập Nhật Thất Bại");
-       });
+    setConfirm(true);
    } else {
      let checkValInput = true;
      for (let key in valuesForm) {
@@ -112,10 +137,13 @@ const idclass = JSON.parse(sessionStorage.getItem("idclass"));
          SubjectCoefficient: valuesForm.subjectCoefficient,
          Unit: valuesForm.unit,
        };
-       //  setCheck(true);
         ApiTeachingVolume.Post("/class/add", obj)
          .then((res) => {
            alert("Thêm Thành Công!!!");
+           refSelectYear.current.clearValue();
+           refSelectSemester.current.clearValue();
+           refSelectType.current.clearValue();
+           refSelectSubject.current.clearValue();
            setValuesForm({
              grade: "",
              credit: "",
@@ -209,36 +237,58 @@ const idclass = JSON.parse(sessionStorage.getItem("idclass"));
                   Year
                 </label>
                 <span className="text-lg font-bold">:</span>
-                <SelectForm
-                  placeholder="Year"
-                  class="w-1/2"
-                  options={yearOptions}
-                  setSelectedOption={setYear}
-                  defaultValue={
-                    props.btn && data && data.length > 0
-                      ? YearValue(data[0].Year)[0]
-                      : idclass && YearValue(idclass.Year)[0]
-                  }
-                  isDisabled={props.btn ? true : false}
-                ></SelectForm>
+                <p className={`w-1/2 ${props.btn ? "hidden" : "block"}`}>
+                  <SelectForm
+                    placeholder="Year"
+                    class="w-full"
+                    refSelect={refSelectYear}
+                    options={yearOptions}
+                    setSelectedOption={setYear}
+                    defaultValue={
+                      props.btn &&
+                      data &&
+                      data.length > 0 &&
+                      YearValue(data[0].Year)[0]
+                    }
+                    isDisabled={props.btn ? true : false}
+                  ></SelectForm>
+                </p>
+                {props.btn && (
+                  <p className="w-1/2 font-bold text-[18px]">
+                    {data &&
+                      data.length > 0 &&
+                      YearValue(data[0].Year)[0].value}
+                  </p>
+                )}
               </div>
               <div className="w-full flex justify-between mt-2">
                 <label htmlFor="" className="w-[30%]">
                   Semester
                 </label>
                 <span className="text-lg font-bold">:</span>
-                <SelectForm
-                  placeholder="Semester"
-                  class="w-1/2"
-                  options={semesterOptions}
-                  setSelectedOption={setSemester}
-                  defaultValue={
-                    props.btn && data && data.length > 0
-                      ? semesterValue(data[0].Semester)[0]
-                      : idclass && semesterValue(idclass.Semester)[0]
-                  }
-                  isDisabled={props.btn ? true : false}
-                ></SelectForm>
+                <p className={`w-1/2 ${props.btn ? "hidden" : "block"}`}>
+                  <SelectForm
+                    placeholder="Semester"
+                    refSelect={refSelectSemester}
+                    class="w-full"
+                    options={semesterOptions}
+                    setSelectedOption={setSemester}
+                    defaultValue={
+                      props.btn &&
+                      data &&
+                      data.length > 0 &&
+                      semesterValue(data[0].Semester)[0]
+                    }
+                    isDisabled={props.btn ? true : false}
+                  ></SelectForm>
+                </p>
+                {props.btn && (
+                  <p className="w-1/2 font-bold text-[18px]">
+                    {data &&
+                      data.length > 0 &&
+                      semesterValue(data[0].Semester)[0].label}
+                  </p>
+                )}
               </div>
               <div
                 className={`w-full flex justify-between mt-2 ${
@@ -251,6 +301,7 @@ const idclass = JSON.parse(sessionStorage.getItem("idclass"));
                 <span className="text-lg font-bold">:</span>
                 <SelectForm
                   placeholder="Subject"
+                  refSelect={refSelectSubject}
                   class="w-1/2"
                   options={subjectOptions}
                   setSelectedOption={setSubject}
@@ -270,105 +321,148 @@ const idclass = JSON.parse(sessionStorage.getItem("idclass"));
                   Grade
                 </label>
                 <span className="text-lg font-bold">:</span>
-                <input
-                  placeholder="Grade"
-                  className="w-1/2 input"
-                  value={valuesForm.grade || ""}
-                  onChange={(e) => {
-                    setValuesForm({ ...valuesForm, grade: e.target.value });
-                  }}
-                  disabled={props.btn ? true : false}
-                ></input>
+                <p className={`w-1/2 ${props.btn ? "hidden" : "block"}`}>
+                  <input
+                    placeholder="Grade"
+                    className="w-full input"
+                    value={valuesForm.grade || ""}
+                    onChange={(e) => {
+                      setValuesForm({ ...valuesForm, grade: e.target.value });
+                    }}
+                    disabled={props.btn ? true : false}
+                  ></input>
+                </p>
+                {props.btn && (
+                  <p className="w-1/2 font-bold text-[18px]">
+                    {data && data.length > 0 && data[0].Grade}
+                  </p>
+                )}
               </div>
               <div className="w-full flex justify-between mt-2">
                 <label htmlFor="" className="w-[30%]">
                   Credit
                 </label>
                 <span className="text-lg font-bold">:</span>
-                <input
-                  placeholder="Credit"
-                  className="w-1/2 input"
-                  value={valuesForm.credit || ""}
-                  onChange={(e) => {
-                    setValuesForm({
-                      ...valuesForm,
-                      credit: e.target.value,
-                    });
-                  }}
-                  disabled={props.btn ? true : false}
-                ></input>
+                <p className={`w-1/2 ${props.btn ? "hidden" : "block"}`}>
+                  <input
+                    placeholder="Credit"
+                    className="w-full input"
+                    value={valuesForm.credit || ""}
+                    onChange={(e) => {
+                      setValuesForm({
+                        ...valuesForm,
+                        credit: e.target.value,
+                      });
+                    }}
+                    disabled={props.btn ? true : false}
+                  ></input>
+                </p>
+                {props.btn && (
+                  <p className="w-1/2 font-bold text-[18px]">
+                    {data && data.length > 0 && data[0].Credit}
+                  </p>
+                )}
               </div>
               <div className="w-full flex justify-between mt-2">
                 <label htmlFor="" className="w-[30%]">
                   Type
                 </label>
                 <span className="text-lg font-bold">:</span>
-                <SelectForm
-                  placeholder="Type"
-                  class="w-1/2"
-                  options={typeOptions}
-                  setSelectedOption={setType}
-                  defaultValue={
-                    props.btn && data && data.length > 0
-                      ? {
-                          value: data[0].TypeClass,
-                          label: data[0].TypeClass,
-                        }
-                      : idclass && idclass.Type
-                  }
-                  isDisabled={props.btn ? true : false}
-                ></SelectForm>
+                <p className={`w-1/2 ${props.btn ? "hidden" : "block"}`}>
+                  <SelectForm
+                    placeholder="Type"
+                    refSelect={refSelectType}
+                    class="w-full"
+                    options={typeOptions}
+                    setSelectedOption={setType}
+                    defaultValue={
+                      props.btn &&
+                      data &&
+                      data.length > 0 && {
+                        value: data[0].TypeClass,
+                        label: data[0].TypeClass,
+                      }
+                    }
+                    isDisabled={props.btn ? true : false}
+                  ></SelectForm>
+                </p>
+                {props.btn && (
+                  <p className="w-1/2 font-bold text-[18px]">
+                    {data && data.length > 0 && data[0].TypeClass}
+                  </p>
+                )}
               </div>
               <div className="w-full flex justify-between mt-2">
                 <label htmlFor="" className="w-[30%]">
                   Number Of Student
                 </label>
                 <span className="text-lg font-bold">:</span>
-                <input
-                  placeholder="Number Of Student"
-                  className="w-1/2 input"
-                  disabled={props.title ? true : false}
-                  value={valuesForm.numberOfStudent || ""}
-                  onChange={(e) => {
-                    setValuesForm({
-                      ...valuesForm,
-                      numberOfStudent: e.target.value,
-                    });
-                  }}
-                ></input>
+                <p className={`w-1/2 ${props.title ? "hidden" : "block"}`}>
+                  <input
+                    placeholder="Number Of Student"
+                    className="w-full input"
+                    disabled={props.title ? true : false}
+                    value={valuesForm.numberOfStudent || ""}
+                    onChange={(e) => {
+                      setValuesForm({
+                        ...valuesForm,
+                        numberOfStudent: e.target.value,
+                      });
+                    }}
+                  ></input>
+                </p>
+                {props.title === "Detail class" && (
+                  <p className="w-1/2 font-bold text-[18px]">
+                    {data && data.length > 0 && data[0].NumberOfStudent}
+                  </p>
+                )}
               </div>
               <div className="w-full flex justify-between mt-2">
                 <label htmlFor="" className="w-[30%]">
                   Subject Coefficient
                 </label>
                 <span className="text-lg font-bold">:</span>
-                <input
-                  placeholder="Subject Coefficient"
-                  className="w-1/2 input"
-                  disabled={props.title ? true : false}
-                  value={valuesForm.subjectCoefficient || ""}
-                  onChange={(e) => {
-                    setValuesForm({
-                      ...valuesForm,
-                      subjectCoefficient: e.target.value,
-                    });
-                  }}
-                ></input>
+                <p className={`w-1/2 ${props.title ? "hidden" : "block"}`}>
+                  <input
+                    placeholder="Subject Coefficient"
+                    className="w-full input"
+                    disabled={props.title ? true : false}
+                    value={valuesForm.subjectCoefficient || ""}
+                    onChange={(e) => {
+                      setValuesForm({
+                        ...valuesForm,
+                        subjectCoefficient: e.target.value,
+                      });
+                    }}
+                  ></input>
+                </p>
+                {props.title === "Detail class" && (
+                  <p className="w-1/2 font-bold text-[18px]">
+                    {data && data.length > 0 && data[0].SubjectCoefficient}
+                  </p>
+                )}
               </div>
               <div className="w-full flex justify-between mt-2">
                 <label htmlFor="" className="w-[30%]">
                   Unit
                 </label>
                 <span className="text-lg font-bold">:</span>
-                <input
-                  placeholder="Unit"
-                  className="w-1/2 input"
-                  value={valuesForm.unit || ""}
-                  onChange={(e) => {
-                    setValuesForm({ ...valuesForm, unit: e.target.value });
-                  }}
-                  disabled={props.btn ? true : false}
-                ></input>
+                <p className={`w-1/2 ${props.btn ? "hidden" : "block"}`}>
+                  <input
+                    placeholder="Unit"
+                    className="w-full input"
+                    value={valuesForm.unit || ""}
+                    onChange={(e) => {
+                      setValuesForm({ ...valuesForm, unit: e.target.value });
+                    }}
+                    disabled={props.btn ? true : false}
+                  ></input>
+                </p>
+                {props.btn && (
+                  <p className="w-1/2 font-bold text-[18px]">
+                    {data && data.length > 0 && data[0].Unit}
+                  </p>
+                )}
               </div>
               <div className="flex justify-around mt-[20px]">
                 {!props.title && (
@@ -393,6 +487,15 @@ const idclass = JSON.parse(sessionStorage.getItem("idclass"));
             </form>
           </div>
         </div>
+        {confirm && (
+          <FloatBox
+            Title="cập nhật"
+            handleClickConfirm={() => {
+              handleClickConfirm();
+            }}
+            setConfirm={setConfirm}
+          />
+        )}
       </div>
     );
 }

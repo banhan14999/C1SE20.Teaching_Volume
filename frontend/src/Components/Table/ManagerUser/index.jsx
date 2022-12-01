@@ -14,20 +14,26 @@ import AddUser from "../../Form/AddUser";
 import { SetUpdate } from "../../../Redux/Actions/index";
 import { ApiTeachingVolume } from "../../../apis/axios";
 import { DataUpdate } from "../../../Redux/Actions/index";
-
+import FloatBox from "../../FloatBox";
 function ManagerUser() {
   const param = useParams();
   const navigate = useNavigate();
   const dispath = useDispatch();
   const [user,setUser] = useState([])
+  const [confirm,setConfirm] = useState(false)
+  const [idDelete,setIdDelete] = useState()
   function createData(Id,IdLecturer, FullName, School, Department, Role) {
     return { Id,IdLecturer, FullName, School, Department, Role };
   }
 function clickDelete(e) {
-  const user_id = e.target.dataset.delete
-  ApiTeachingVolume.Delete("/user/delete/", user_id);
+ const user_id = e.target.dataset.delete;
+  setConfirm(true)
+  setIdDelete(user_id);
+}
+function handleClickConfirm(idDelete) {
+  ApiTeachingVolume.Delete("/user/delete/", idDelete);
   const arr = user.filter((value) => {
-    return value.Id !== Number(user_id);
+    return value.Id !== Number(idDelete);
   });
   setUser(arr);
 }
@@ -92,9 +98,13 @@ function clickDelete(e) {
                     <StyledTableCell align="center" component="th" scope="row">
                       {row.IdLecturer}
                     </StyledTableCell>
-                    <StyledTableCell >{row.FullName}</StyledTableCell>
-                    <StyledTableCell  align="center">{row.School}</StyledTableCell>
-                    <StyledTableCell  align="center">{row.Department}</StyledTableCell>
+                    <StyledTableCell>{row.FullName}</StyledTableCell>
+                    <StyledTableCell align="center">
+                      {row.School}
+                    </StyledTableCell>
+                    <StyledTableCell align="center">
+                      {row.Department}
+                    </StyledTableCell>
                     <StyledTableCell align="center">{row.Role}</StyledTableCell>
                     <StyledTableCell align="center">
                       <div className="flex justify-around items-center">
@@ -129,6 +139,12 @@ function clickDelete(e) {
               </TableBody>
             </Table>
           </TableContainer>
+          {confirm && (
+            <FloatBox
+              handleClickConfirm={() => {handleClickConfirm(idDelete)}}
+              setConfirm={setConfirm}
+            />
+          )}
         </div>
       )}
     </div>

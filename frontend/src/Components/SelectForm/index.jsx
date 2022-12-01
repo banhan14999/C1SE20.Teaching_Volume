@@ -35,6 +35,7 @@ function SelectForm(props) {
 
   return (
     <Select
+      ref={props.refSelect}
       className={`${props.class}`}
       options={props.options}
       placeholder={props.placeholder}
@@ -42,8 +43,8 @@ function SelectForm(props) {
       isDisabled={props.isDisabled}
       onChange={props.setSelectedOption}
       isMulti={props.isMulti}
+      isClearable={props.clearable}
       defaultValue={props.defaultValue}
-      defaultInputValue=""
     />
   );
 }

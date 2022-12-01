@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import classNames from "classnames/bind";
 import SelectForm from "../../SelectForm";
@@ -6,6 +6,9 @@ import { default as Button } from "../../Button";
 import styles from "./adduser.module.scss";
 import { ApiTeachingVolume } from "../../../apis/axios";
 import {useNavigate, useParams} from "react-router-dom"
+import FloatBox from "../../FloatBox"
+
+
 const cx = classNames.bind(styles);
 
 function AddUser(props) {
@@ -15,21 +18,55 @@ function AddUser(props) {
   const [department, setDepartment] = useState();
   const navigate = useNavigate()
   const param = useParams()
-const iduserf = JSON.parse(sessionStorage.getItem("iduser")); 
-
+  const iduserf = JSON.parse(sessionStorage.getItem("iduser")); 
+  const refSelectIdFaculty = useRef();
+  const refSelectIdDepartment = useRef();
+  const refSelectIdRole = useRef();
+  const [confirm, setConfirm] = useState(false);
+  function handleClickConfirm(e){
+          const id = param.id;
+          const obj = {
+            idlecturer: valuesForm.idlecturer,
+            firstname: valuesForm.firstname,
+            lastname: valuesForm.lastname,
+            idfaculty:
+              (faculty && faculty.value) ||
+              (data.length > 0 && data[0].School) ||
+              valuesForm.idfaculty.value,
+            iddepartment:
+              (department && department.value) ||
+              (data.length > 0 && data[0].Department) ||
+              valuesForm.iddepartment.value,
+            idrole:
+              (roles && roles.value) ||
+              (data.length > 0 && Number(roleValue(data[0].Role)[0].value)) ||
+              Number(roleValue(iduserf.idrole)[0].value),
+          };
+          ApiTeachingVolume.Update("/user/update/", id, obj)
+            .then(function (response) {
+              alert("Cập Nhật Thành Công");
+              navigate(-1);
+            })
+            .catch(function (error) {
+              alert("Cập Nhật Thất Bại");
+            });
+  }
   function clickCancel(){
     if(param && param.id){
       navigate(-1);
     }else{
+      refSelectIdFaculty.current.clearValue();
+      refSelectIdDepartment.current.clearValue();
+      refSelectIdRole.current.clearValue();
       setValuesForm({
         username: "",
         password: "",
         idlecturer: "",
         firstname: "",
         lastname: "",
-        idfaculty: { value: "", label: "" },
-        iddepartment: { value: "", label: "" },
-        idrole: { value: "", label: "" },
+        idfaculty: { value: " ", label: " " },
+        iddepartment: { value: " ", label: " " },
+        idrole: { value: " ", label: " " },
       });
     }
   }
@@ -66,35 +103,21 @@ const iduserf = JSON.parse(sessionStorage.getItem("iduser"));
   }
   
   function clickAddUser(){
-     if (props.btn || param.id) {
-       const id = param.id
-        const obj = {
-          idlecturer: valuesForm.idlecturer,
-          firstname: valuesForm.firstname,
-          lastname: valuesForm.lastname,
-          idfaculty: (faculty && faculty.value) ||( data.length > 0 && data[0].School )|| valuesForm.idfaculty.value,
-          iddepartment: (department && department.value) ||  (data.length > 0 && data[0].Department) || valuesForm.iddepartment.value,
-          idrole: (roles && roles.value) ||  (data.length > 0 && Number(roleValue(data[0].Role)[0].value) ) || Number(roleValue(iduserf.idrole)[0].value),
-        };
-       ApiTeachingVolume.Update("/user/update/", id, obj)
-         .then(function (response) {
-           alert("Cập Nhật Thành Công");
-         })
-         .catch(function (error) {
-           alert("Cập Nhật Thất Bại");
-         });
-     }else{
-       let checkValInput = true
-       for (let key in valuesForm) {
-         if (valuesForm.hasOwnProperty(key)) {
-           if (valuesForm[key] === "") {
-             checkValInput = false;
-           }
-         }
-       }
-       if (!checkValInput) {
-       alert("Vui lòng nhập đầy đủ các trường!");
-     } else{
+    if (props.btn || param.id) {
+      setConfirm(true);
+    } else {
+      let checkValInput = true;
+      for (let key in valuesForm) {
+        if (valuesForm.hasOwnProperty(key)) {
+          console.log(key, valuesForm[key]);
+          if (valuesForm[key] === "") {
+            checkValInput = false;
+          }
+        }
+      }
+      if (!checkValInput) {
+        alert("Vui lòng nhập đầy đủ các trường!");
+      } else {
         const obj = {
           username: valuesForm.username,
           password: valuesForm.password,
@@ -105,26 +128,32 @@ const iduserf = JSON.parse(sessionStorage.getItem("iduser"));
           iddepartment: department && department.value,
           idrole: roles && roles.value,
         };
-        setCheck(true)
+        setCheck(true);
         ApiTeachingVolume.Post("/user/add", obj)
-         .then((res) => {
-           alert("Thêm Thành Công!!!");
-           setValuesForm({
-             username: "",
-             password: "",
-             idlecturer: "",
-             firstname: "",
-             lastname: "",
-             idfaculty:{ value: "", label: "" },
-            iddepartment:{ value: "", label: "" },
-            idrole:{ value: "", label: "" },
-           });
-         })
-         .catch(() => {
-           alert("Thêm Không Thành Công");
-         });
-     }
-     }
+          .then((res) => {
+            alert("Thêm Thành Công!!!");
+            setValuesForm({
+              username: "",
+              password: "",
+              idlecturer: "",
+              firstname: "",
+              lastname: "",
+              idfaculty: { value: "", label: "" },
+              iddepartment: { value: "", label: "" },
+              idrole: { value: "", label: "" },
+            });
+            refSelectIdFaculty.current.clearValue();
+            refSelectIdDepartment.current.clearValue();
+            refSelectIdRole.current.clearValue();
+            setCheck(false);
+          })
+          .catch((err) => {
+            if (err.response) {
+              alert("Thêm Không Thành Công :" + err.response.data.message);
+            }
+          });
+      }
+    }
   }
  useEffect(() => {
    if (props.btn && data && data.length > 0) {
@@ -304,6 +333,7 @@ useEffect(() => {
               <div className="flex w-[50%] relative items-center">
                 <SelectForm
                   placeholder="Faculty"
+                  refSelect={refSelectIdFaculty}
                   class="w-full"
                   options={Faculty}
                   setSelectedOption={setFaculty}
@@ -327,6 +357,7 @@ useEffect(() => {
                 <SelectForm
                   placeholder="Department"
                   class="w-full"
+                  refSelect={refSelectIdDepartment}
                   options={Departmentop}
                   setSelectedOption={setDepartment}
                   defaultValue={
@@ -349,6 +380,7 @@ useEffect(() => {
                 <SelectForm
                   placeholder="Role"
                   class="w-full"
+                  refSelect={refSelectIdRole}
                   options={Role}
                   setSelectedOption={setRole}
                   defaultValue={
@@ -380,6 +412,15 @@ useEffect(() => {
           </form>
         </div>
       </div>
+      {confirm && (
+        <FloatBox
+          Title="cập nhật"
+          handleClickConfirm={() => {
+            handleClickConfirm();
+          }}
+          setConfirm={setConfirm}
+        />
+      )}
     </div>
   );
 }

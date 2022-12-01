@@ -11,18 +11,24 @@ import StyledTableCell from "../../StyledTableCell";
 import { ApiTeachingVolume } from "../../../apis/axios";
 import { useState } from "react";
 import {FcDeleteRow} from "react-icons/fc"
-
+import FloatBox from "../../FloatBox";
 function ManagerYear(props) {
   const [year,setYear]= useState([])
+    const [confirm, setConfirm] = useState(false);
+    const [idDelete, setIdDelete] = useState();
 const param = useParams();
   function createData(Id, Start, Finish, CreatedAdd, UpdatedAdd) {
     return { Id, Start, Finish, CreatedAdd, UpdatedAdd };
   }
 function handleDelete(e){
   const yearid = e.target.dataset.delete;
-    ApiTeachingVolume.Delete(`/year/delete/${yearid}`)
-    const arr = year.filter((value) => value.Start !== Number(yearid));
-    setYear([...arr])
+    setConfirm(true);
+    setIdDelete(yearid);
+}
+function handleClickConfirm(yearid) {
+   ApiTeachingVolume.Delete(`/year/delete/${yearid}`);
+   const arr = year.filter((value) => value.Start !== Number(yearid));
+   setYear([...arr]);
 }
   useEffect(()=>{
     ApiTeachingVolume.Get("/year/all")
@@ -65,8 +71,12 @@ function handleDelete(e){
                     key={row.Id}
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   >
-                    <StyledTableCell align="center">{row.Start}</StyledTableCell>
-                    <StyledTableCell align="center">{row.Finish}</StyledTableCell>
+                    <StyledTableCell align="center">
+                      {row.Start}
+                    </StyledTableCell>
+                    <StyledTableCell align="center">
+                      {row.Finish}
+                    </StyledTableCell>
                     <StyledTableCell align="center">
                       <div
                         className="flex justify-center cursor-pointer"
@@ -85,6 +95,14 @@ function handleDelete(e){
               </TableBody>
             </Table>
           </TableContainer>
+          {confirm && (
+            <FloatBox
+              handleClickConfirm={() => {
+                handleClickConfirm(idDelete);
+              }}
+              setConfirm={setConfirm}
+            />
+          )}
         </div>
       )}
     </div>

@@ -234,7 +234,6 @@ function ViewTable({year,semester}) {
         ApiTeachingVolume.Get(`volume/fulltotalByDean/year/${year}`).then(
           (res) => {
             const arr = res.totalVols.map((e,index) => {
-              console.log(e);
               return createRow(
                 index,
                 e[0].IdLecturer,
@@ -413,10 +412,10 @@ function ViewTable({year,semester}) {
                   STT
                 </StyledTableCell>
                 <StyledTableCell align="center" rowSpan={2}>
-                  MA GIANG VIEN (MYDTU)
+                  MA GIANG VIEN
                 </StyledTableCell>
                 <StyledTableCell align="center" rowSpan={3} colSpan={2}>
-                  HỌ VÀ TÊN
+                  HỌ&nbsp;VÀ TÊN
                 </StyledTableCell>
                 <StyledTableCell align="center" colSpan={8}>
                   HỌC KÌ I
@@ -522,7 +521,7 @@ function ViewTable({year,semester}) {
                     className={cx("tablecell")}
                     colSpan={2}
                   >
-                    {row.firtName1 + " "+row.lastName1 || 0}
+                    {row.firtName1 + " " + row.lastName1 || 0}
                   </StyledTableCell>
                   <StyledTableCell align="center">
                     {row.Teaching1}
@@ -791,9 +790,13 @@ function ViewTable({year,semester}) {
             </TableFooter>
           </Table>
         </TableContainer>
-        <div id="printsig" className="w-full justify-around text-center hidden">
+        <div
+          id="printsig"
+          className="w-[1123px] justify-around text-center hidden"
+        >
           <div>
             <h2>TP. PHÒNG ĐÀO TẠO ĐẠI HỌC & SAU ĐẠI HỌC</h2>
+            <p>&nbsp;</p>
           </div>
           <div>
             <h2>HIỆU TRƯỞNG/ VIỆN TRƯỞNG</h2>

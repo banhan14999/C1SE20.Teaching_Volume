@@ -5,7 +5,7 @@ import { styled } from "@mui/material/styles";
   {
    return {
      [`&.${tableCellClasses.head}`]: {
-       fontSize: 16,
+       fontSize: 14,
        fontWeight: "bold",
        border: (props.hiden && "none") || "0.6px solid black !important",
      },

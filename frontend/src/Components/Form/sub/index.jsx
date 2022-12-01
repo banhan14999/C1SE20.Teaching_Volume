@@ -242,7 +242,9 @@ function FormSubject({ year, semester, theoryClass, exams, others, btn,title,idL
   }
   return (
     <div className={cx("form")}>
-      <p className="text-[25px] text-center mb-3">{title && (title.id+" "+title.fullName)}</p>
+      <p className="text-[25px] text-center mb-3">
+        {title && title.id + " " + title.fullName}
+      </p>
       <div className={cx("nav_form")}>
         <ul onClick={handleClick}>
           <li className={`${form === "Teaching Volume" && "!bg-red-800"}`}>
@@ -278,7 +280,7 @@ function FormSubject({ year, semester, theoryClass, exams, others, btn,title,idL
           {form !== "Teaching Volume" && (
             <Button
               width="150px"
-              bgcolor="red"
+              bgcolor="#D82C2C"
               class="mr-3"
               onClick={handlePrev}
             >
@@ -290,7 +292,7 @@ function FormSubject({ year, semester, theoryClass, exams, others, btn,title,idL
           {form !== "Other" && (
             <Button
               width="150px"
-              bgcolor="red"
+              bgcolor="#D82C2C"
               class="ml-3"
               onClick={handleNext}
             >
@@ -300,7 +302,7 @@ function FormSubject({ year, semester, theoryClass, exams, others, btn,title,idL
           {btn !== "view" && form === "Other" && (
             <Button
               width="150px"
-              bgcolor="red"
+              bgcolor="#D82C2C"
               class="ml-3"
               onClick={handleSubmitForm}
             >

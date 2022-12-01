@@ -26,34 +26,34 @@ function ViewReport() {
     if (semester.value!== "4"){
       
       printJS({
-        header: `<h1 style="text-align:center; width:100vw;">BẢNG TỔNG HỢP KẾ HOẠCH KHỐI LƯỢNG ĐÀO TẠO ĐẠI HỌC <br/>NĂM HỌC: ${year.label}<br/>${semester.label}</h1>`,
+        header: `<h1 style="text-align:center; width:1754px;">BẢNG TỔNG HỢP KẾ HOẠCH KHỐI LƯỢNG ĐÀO TẠO ĐẠI HỌC <br/>NĂM HỌC: ${year.label}<br/>${semester.label}</h1>`,
         printable: "print",
         targetStyles: [
-          "width:1123px !important",
+          "width:1754px !important",
           "display:flex !important",
           "justify-content: center !important",
         ],
         type: "html",
-        maxWidth: 1123,
+        maxWidth: 1754,
         scanStyles: true,
         style:
-          "td, th {border: 1px solid; text-align:center;} table {width:21cm;border-collapse: collapse !important; display:block !important;} .MuiTableFooter-root {display:none !important;} #printsig {width:1123px !important;display:flex !important;justify-content:space-around !important; margin-top:200px !important;} #print{width:100vw !important; display:flex !important; align-items: center !important; flex-direction: column !important;}}",
+          "td, th {border: 1px solid; text-align:center;} td{width:9.1111% !important;} table {width:1754px !important; border-collapse: collapse !important; display:block !important;} .MuiTableFooter-root {display:none !important;} #printsig {width:1754px !important; display:flex !important;justify-content:space-around !important;align-items: flex-end;}}",
       });
     }
    else {
     printJS({
-      header: `<h1 style="text-align:center; width:2000px;">BẢNG TỔNG HỢP KẾ HOẠCH KHỐI LƯỢNG ĐÀO TẠO ĐẠI HỌC <br/>NĂM HỌC: ${year.label}</h1>`,
+      header: `<h1 style="text-align:center; width:1754px;">BẢNG TỔNG HỢP KẾ HOẠCH KHỐI LƯỢNG ĐÀO TẠO ĐẠI HỌC <br/>NĂM HỌC: ${year.label}</h1>`,
       printable: "print",
       targetStyles: [
-        "width:1123px !important",
+        // "width:1123px !important",
         "display:flex !important",
         "justify-content: center !important",
       ],
       type: "html",
-      maxWidth: 1123,
+      maxWidth: 1623,
       scanStyles: true,
       style:
-        "td, th {border: 1px solid; text-align:center; font-size:9px} table {width:21cm !important;border-collapse: collapse !important; display:block !important;} .MuiTableFooter-root {display:none !important;} #printsig {width:100vw !important; display:flex !important;justify-content:space-around !important;} #workload{display:none !important;}}",
+        "td, th {border: 1px solid; text-align:center; font-size:6px !important; color:black !important;} th{font-weight:500;} table {width:1754px !important;border-collapse: collapse !important; display:block !important;} .MuiTableFooter-root {display:none !important;} #printsig {width:1754px !important; display:flex !important;justify-content:space-around !important;align-items: flex-end;} #workload{display:none !important;}}",
     });
    }}
     return (
@@ -79,12 +79,12 @@ function ViewReport() {
           </div>
         </div>
         {year && semester && (
-          <div className="flex  justify-end  mb-[10px] ">
+          <div className="flex justify-end items-center mb-[10px]">
             <span
               className="cursor-pointer text-[22px] flex items-center"
               onClick={handleprint}
             >
-              <AiFillPrinter />
+            <AiFillPrinter />
               Print
             </span>
           </div>

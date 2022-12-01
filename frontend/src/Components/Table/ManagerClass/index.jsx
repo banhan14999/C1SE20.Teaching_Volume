@@ -16,6 +16,10 @@ import { ApiTeachingVolume } from "../../../apis/axios";
 import { DataUpdate } from "../../../Redux/Actions/index";
 import SelectForm from "../../SelectForm";
 import {BiEdit} from "react-icons/bi"
+import { TiDeleteOutline } from "react-icons/ti";
+import FloatBox from "../../FloatBox";
+
+
 const cx = classNames.bind(styles);
 function ManagerClass(props) {
   const param = useParams();
@@ -26,6 +30,7 @@ function ManagerClass(props) {
   const [classad, setClassAd] = useState([]);
   const [title, setTitle] = useState("");
 
+ 
   const [data, setData] = useState([]);
   const opt = [
     { value: "2022", label: "2021-2022" },
@@ -50,16 +55,30 @@ function selectValue(s,arr) {
     dispath(DataUpdate(arr));
     navigate(classid);
   };
-  function handleDelete(e) {
-    const classid = e.target.dataset.delete;
-    if(e.target.textContent === "Detail"){
-        // dispath(SetUpdate("Detail"));
-        setTitle("Detail class")
-        dispath(DataUpdate(data));
-        navigate(classid);
+  function handleDetail(e) {
+    const classid = e.target.dataset.detail;
+    if (e.target.textContent === "Detail") {
+      // dispath(SetUpdate("Detail"));
+      setTitle("Detail class");
+      dispath(DataUpdate(data));
+      navigate(classid);
     }
   }
-  
+    const [confirm, setConfirm] = useState(false);
+    const [idDelete, setIdDelete] = useState();
+  function handleDelete(e){
+    const classid = e.target.dataset.delete;
+   setConfirm(true);
+   setIdDelete(classid);
+  }
+
+  function handleClickConfirm(classid) {
+    ApiTeachingVolume.Delete("/class/delete/", classid);
+    const arr = classad.filter((value) => {
+      return value.ClassID !== classid;
+    });
+    setClassAd(arr);
+  }
   function createData(ClassID,ClassName,Subject,Student,Type,Credit,Coefficient,Action) {
     return {ClassID, ClassName,Subject,Student,Type,Credit,Coefficient,Action};
   }
@@ -77,8 +96,9 @@ const idlec = JSON.parse(localStorage.getItem("IdLecturer"));
 const ad = JSON.parse(localStorage.getItem("Admin"));
 
 useEffect(() => {
-  if ((semester && semester.value && year && year.value)|| ad) {
-    const str = !ad &&
+  if ((semester && semester.value && year && year.value) || ad) {
+    const str =
+      !ad &&
       `class/lecturer/${idlec}/semester/${semester.value}/year/${year.value}`;
     ApiTeachingVolume.Get(str || "class/all").then((req) => {
       setData([...req.classes]);
@@ -100,43 +120,45 @@ useEffect(() => {
       setClassAd([...arr]);
     });
   }
-}, [year, semester, ad, idlec]);
+}, [year, semester, ad, idlec, param.id]);
   return (
     <div>
       {param.id ? (
         <ClassInformation btn="Update" disabled={true} title={title} />
       ) : (
         <div className="container">
-          {!ad && <div className={cx("option")}>
-            <div className="flex pt-[14%] justify-around">
-              <span className="w-[30%] ml-[50px]">
-                <SelectForm
-                  options={opt}
-                  placeholder="Chọn năm học"
-                  height="34px"
-                  setSelectedOption={setYear}
-                  defaultValue={
-                    years && years.year && selectValue(years.year, opt)
-                  }
-                ></SelectForm>
-              </span>
-              <span className="w-[30%] ml-[-30px]">
-                <SelectForm
-                  options={hocki}
-                  placeholder="Chọn học kì"
-                  height="34px"
-                  setSelectedOption={setSemester}
-                  defaultValue={
-                    years &&
-                    years.semester &&
-                    years &&
-                    years.year &&
-                    selectValue(years.semester, hocki)
-                  }
-                ></SelectForm>
-              </span>
+          {!ad && (
+            <div className={cx("option")}>
+              <div className="flex pt-[14%] justify-around">
+                <span className="w-[30%] ml-[50px]">
+                  <SelectForm
+                    options={opt}
+                    placeholder="Chọn năm học"
+                    height="34px"
+                    setSelectedOption={setYear}
+                    defaultValue={
+                      years && years.year && selectValue(years.year, opt)
+                    }
+                  ></SelectForm>
+                </span>
+                <span className="w-[30%] ml-[-30px]">
+                  <SelectForm
+                    options={hocki}
+                    placeholder="Chọn học kì"
+                    height="34px"
+                    setSelectedOption={setSemester}
+                    defaultValue={
+                      years &&
+                      years.semester &&
+                      years &&
+                      years.year &&
+                      selectValue(years.semester, hocki)
+                    }
+                  ></SelectForm>
+                </span>
+              </div>
             </div>
-          </div>}
+          )}
           <div className="text-center text-[20px] font-[600] line mb-[20px] text-red-700">
             Manage Class
           </div>
@@ -188,18 +210,36 @@ useEffect(() => {
                       </div>
                       <div
                         className="flex items-center cursor-pointer"
-                        data-delete={row.ClassID}
-                        onClick={handleDelete}
+                        data-detail={row.ClassID}
+                        onClick={handleDetail}
                       >
                         <TbListDetails className="mr-2 pointer-events-none"></TbListDetails>
                         <div className="pointer-events-none">Detail</div>
                       </div>
+                      {ad && (
+                        <div
+                          className="flex items-center cursor-pointer"
+                          data-delete={row.ClassID}
+                          onClick={handleDelete}
+                        >
+                          <TiDeleteOutline className="mr-2 pointer-events-none"></TiDeleteOutline>
+                          <div className="pointer-events-none">Delete</div>
+                        </div>
+                      )}
                     </StyledTableCell>
                   </TableRow>
                 ))}
               </TableBody>
             </Table>
           </TableContainer>
+          {confirm && (
+            <FloatBox
+              handleClickConfirm={() => {
+                handleClickConfirm(idDelete);
+              }}
+              setConfirm={setConfirm}
+            />
+          )}
         </div>
       )}
     </div>

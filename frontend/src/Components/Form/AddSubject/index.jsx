@@ -1,13 +1,16 @@
 import { useSelector } from "react-redux";
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import classNames from "classnames/bind";
 import {useParams,useNavigate} from "react-router-dom"
 import SelectForm from "../../SelectForm";
 import styles from "./addsubject.module.scss";
 import { default as Button } from "../../Button";
 import { ApiTeachingVolume } from "../../../apis/axios";
+import FloatBox from "../../FloatBox";
+
 const cx = classNames.bind(styles);
 function AddSubject(props) {
+  const refSelectType = useRef()
   const typeId = JSON.parse(sessionStorage.getItem("type"));
   const param = useParams()
   const navigate = useNavigate()
@@ -15,7 +18,7 @@ function AddSubject(props) {
       if (param && param.id) {
         navigate(-1);
       } else {
-        sessionStorage.setItem("type", JSON.stringify({ label: "", value: "" }))
+        refSelectType.current.clearValue();
         setValuesForm({
           letter: "",
           number: "",
@@ -43,27 +46,32 @@ function AddSubject(props) {
     { value: "DEM", label: "DEM" },
     { value: "DIS", label: "DIS" },
   ];
-  
+  const [confirm, setConfirm] = useState(false);
+  function handleClickConfirm(){
+    const id = (data && data.length > 0 && data[0].Subject_id) || param.id;
+    const obj = {
+      letter: valuesForm.letter,
+      number: parseInt(valuesForm.number),
+      subject_name: valuesForm.subject_name,
+      credit: parseInt(valuesForm.credit),
+      type:
+        (type && type.value) ||
+        (data && data.length > 0 && data[0].Type) ||
+        (typeId && typeId.value),
+    };
+    const check = ApiTeachingVolume.Update("/subject/update/", id, obj);
+    check
+      .then(function (response) {
+        alert("Cập Nhật Thành Công!!!");
+        navigate(-1);
+      })
+      .catch(function (error) {
+        alert("Cập Nhật Thất Bại", error);
+      });
+  }
   function handleClickAdd() {
    if(props.btn || param.id){
-      const id = (data && data.length>0&& data[0].Subject_id) || param.id;
-       const obj = {
-         letter: valuesForm.letter,
-         number: parseInt(valuesForm.number),
-         subject_name: valuesForm.subject_name,
-         credit: parseInt(valuesForm.credit),
-         type: (type && type.value) || (data && data.length >0 && data[0].Type) || (typeId && typeId.value),
-       };
-     const check = ApiTeachingVolume.Update("/subject/update/", id, obj);
-     check
-       .then(function (response) {
-          alert("Cập Nhật Thành Công!!!");
-          
-       })
-       .catch(function (error) {
-          alert("Cập Nhật Thất Bại", error);
-       });
-      
+    setConfirm(true);
    }else{
      let checkValInput = true
      for (let key in valuesForm) {
@@ -89,6 +97,7 @@ function AddSubject(props) {
           alert(res.data.message.letter[0]);
         } else if (res && res.data && res.data.status === 201) {
           alert("Thêm Thành Công!!!");
+          refSelectType.current.clearValue();
           setValuesForm({
             letter: "",
             number: "",
@@ -99,7 +108,9 @@ function AddSubject(props) {
         }
       })
       .catch((err)=>{
-         alert("Thêm Không Thành Công");
+          if (err.response) {
+            alert("Thêm Không Thành Công :" + err.response.data.message);
+          }
       })
      }
    }
@@ -244,6 +255,7 @@ function AddSubject(props) {
                 <SelectForm
                   placeholder="Type"
                   class=" w-full"
+                  refSelect={refSelectType}
                   options={options}
                   setSelectedOption={setType}
                   defaultValue={
@@ -278,6 +290,15 @@ function AddSubject(props) {
           </form>
         </div>
       </div>
+      {confirm && (
+        <FloatBox
+          Title="cập nhật"
+          handleClickConfirm={() => {
+            handleClickConfirm();
+          }}
+          setConfirm={setConfirm}
+        />
+      )}
     </div>
   );
 }

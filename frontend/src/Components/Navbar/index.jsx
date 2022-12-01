@@ -27,13 +27,13 @@ function Nav() {
     Division: <MdAssignmentInd />,
     Permission: <RiVoiceRecognitionFill />,
     "Add New Class": <SiGoogleclassroom />,
-    "Manager User": <MdManageAccounts />,
-    "Manager Subject": <SiManageiq />,
-    "Manager Class": <GiManacles />,
+    "Manage User": <MdManageAccounts />,
+    "Manage Subject": <SiManageiq />,
+    "Manage Class": <GiManacles />,
 
-    "Manager Year": <GiManacles />,
+    "Manage Year": <GiManacles />,
     "View Table": <AiOutlineFolderView />,
-    "Manager Workload": <GiNetworkBars />,
+    "Manage Workload": <GiNetworkBars />,
     "Approval": <FcApproval />,
   };
   const Head = JSON.parse(localStorage.getItem("Head"));
