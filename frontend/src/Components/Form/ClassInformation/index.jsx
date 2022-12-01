@@ -253,11 +253,11 @@ ApiTeachingVolume.Update(`/class/update/`, param.id, obj)
                     isDisabled={props.btn ? true : false}
                   ></SelectForm>
                 </p>
-                {props.btn && (
+                {param.id && (
                   <p className="w-1/2 font-bold text-[18px]">
-                    {data &&
-                      data.length > 0 &&
-                      YearValue(data[0].Year)[0].value}
+                    {data && data.length > 0
+                      ? YearValue(data[0].Year)[0].value
+                      : idclass && idclass.Year}
                   </p>
                 )}
               </div>
@@ -282,11 +282,11 @@ ApiTeachingVolume.Update(`/class/update/`, param.id, obj)
                     isDisabled={props.btn ? true : false}
                   ></SelectForm>
                 </p>
-                {props.btn && (
+                {param.id && (
                   <p className="w-1/2 font-bold text-[18px]">
-                    {data &&
-                      data.length > 0 &&
-                      semesterValue(data[0].Semester)[0].label}
+                    {data && data.length > 0
+                      ? semesterValue(data[0].Semester)[0].label
+                      : idclass && idclass.Semester}
                   </p>
                 )}
               </div>
@@ -332,9 +332,9 @@ ApiTeachingVolume.Update(`/class/update/`, param.id, obj)
                     disabled={props.btn ? true : false}
                   ></input>
                 </p>
-                {props.btn && (
+                {param.id && (
                   <p className="w-1/2 font-bold text-[18px]">
-                    {data && data.length > 0 && data[0].Grade}
+                    {data && data.length > 0 ? data[0].Grade:valuesForm.grade}
                   </p>
                 )}
               </div>
@@ -357,9 +357,11 @@ ApiTeachingVolume.Update(`/class/update/`, param.id, obj)
                     disabled={props.btn ? true : false}
                   ></input>
                 </p>
-                {props.btn && (
+                {param.id && (
                   <p className="w-1/2 font-bold text-[18px]">
-                    {data && data.length > 0 && data[0].Credit}
+                    {data && data.length > 0
+                      ? data[0].Credit
+                      : valuesForm.credit}
                   </p>
                 )}
               </div>
@@ -388,7 +390,9 @@ ApiTeachingVolume.Update(`/class/update/`, param.id, obj)
                 </p>
                 {props.btn && (
                   <p className="w-1/2 font-bold text-[18px]">
-                    {data && data.length > 0 && data[0].TypeClass}
+                    {data && data.length > 0
+                      ? data[0].TypeClass
+                      : idclass && idclass.Type.value}
                   </p>
                 )}
               </div>
@@ -458,9 +462,9 @@ ApiTeachingVolume.Update(`/class/update/`, param.id, obj)
                     disabled={props.btn ? true : false}
                   ></input>
                 </p>
-                {props.btn && (
+                {param.id && (
                   <p className="w-1/2 font-bold text-[18px]">
-                    {data && data.length > 0 && data[0].Unit}
+                    {data && data.length > 0 ? data[0].Unit: valuesForm.unit}
                   </p>
                 )}
               </div>

@@ -18,7 +18,7 @@ function FloatBox({ setConfirm, handleClickConfirm, Title }) {
         <span
           className={`${cx("close")}`}
           onClick={(e) => {
-            refModal.current.style.display = "none";
+            setConfirm(false);
           }}
         >
           ×

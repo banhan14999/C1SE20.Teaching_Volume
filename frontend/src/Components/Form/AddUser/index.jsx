@@ -23,7 +23,7 @@ function AddUser(props) {
   const refSelectIdDepartment = useRef();
   const refSelectIdRole = useRef();
   const [confirm, setConfirm] = useState(false);
-  function handleClickConfirm(e){
+  function handleClickConfirm(){
           const id = param.id;
           const obj = {
             idlecturer: valuesForm.idlecturer,
