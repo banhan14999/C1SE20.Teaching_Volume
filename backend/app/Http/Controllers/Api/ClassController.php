@@ -130,7 +130,8 @@ class ClassController extends Controller
                 'Coefficient'        => $classCoefficient,
                 'SubjectCoefficient' => $request->SubjectCoefficient,
                 'TimeTeaching'       => $timeTeaching,
-                'Unit'               => $request->Unit,
+                //'Unit'               => $request->Unit,
+                'Unit'               => 'SV',
             ]);
 
             return response()->json([
