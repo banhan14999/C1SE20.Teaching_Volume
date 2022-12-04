@@ -251,7 +251,9 @@ function handleClickConfirm(){
   return (
     <div className={cx("form")}>
       <p className="text-[25px] text-center mb-3">
-        {title && title.id + " " + title.fullName}
+        Lecturer Code: {title && title.id}
+        <br />
+        Full Name: {title && title.fullName}
       </p>
       <div className={cx("nav_form")}>
         <ul onClick={handleClick}>
