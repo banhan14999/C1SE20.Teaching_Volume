@@ -137,19 +137,39 @@ class SubjectController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $subject                 = Subject::find($id);
-        $subject->Letter         = $request->input('letter');
-        $subject->Number         = $request->input('number');
-        $subject->SubjectName    = $request->input('subject_name');
-        $subject->Credit         = $request->input('credit');
-        $subject->Type           = $request->input('type');
-        //$subject->updated_at     = date('Y-m-d H:i:s');
-        $subject->update();
+        $messages  = [
+            'letter.unique' => 'letter with this number is already taken!!',
+        ];
+        $validator = Validator::make($request->all(),[
+            'letter' => [
+                'required',
+                'max:10',
+                Rule::unique('subjects')->where(function($query) use ($request) {
+                    return $query->where('Letter', $request->letter)
+                                 ->where('Number', $request->number);
+                }),
+            ]
+        ], $messages);
+        if($validator->fails()) {
+            return response()->json([
+                'message' => $validator->errors(),
+            ]);
+        }
+        else {
+            $subject                 = Subject::find($id);
+            $subject->Letter         = $request->input('letter');
+            $subject->Number         = $request->input('number');
+            $subject->SubjectName    = $request->input('subject_name');
+            $subject->Credit         = $request->input('credit');
+            $subject->Type           = $request->input('type');
+            //$subject->updated_at     = date('Y-m-d H:i:s');
+            $subject->update();
 
-        return response()->json([
-            'status'    => 200,
-            'message'   => 'Subject Updated Successfully!',
-        ]);
+            return response()->json([
+                'status'    => 200,
+                'message'   => 'Subject Updated Successfully!',
+            ]);
+        }
     }
 
     /**
@@ -160,8 +180,8 @@ class SubjectController extends Controller
      */
     public function destroy($id)
     {
-        $classes = Classes::where('IdSubject', '=', $id);
-        $classes->delete();
+        // $classes = Classes::where('IdSubject', '=', $id);
+        // $classes->delete();
         $subject = Subject::find($id);
         $subject->delete();
         return response()->json([

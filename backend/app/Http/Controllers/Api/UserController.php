@@ -107,14 +107,22 @@ class UserController extends Controller
         // $user->IdDepartment = $request->input('iddepartment');
         // $user->IdRole       = $request->input('idrole');
         // $user->update();
-        
-        Validator::make($request->all(),[
+        $messages  = [
+            'idLecturer.unique' => 'The idLecturer is already taken!!',
+        ];
+        $validator = Validator::make($request->all(),[
             'idLecturer' => [
-                Rule::unique('users')->ignore($id, 'id'),
+                Rule::unique('users', 'IdLecturer')->ignore($id, 'id'),
             ]
-        ]);
+        ], $messages);
 
-        DB::table("users")
+        if($validator->fails()) {
+            return response()->json([
+                'message' => $validator->errors(),
+            ]);
+        }
+        else {
+            DB::table("users")
             ->where('id', '=', $id)
             ->update([
                 'IdLecturer'   => $request->input('idlecturer'),
@@ -124,10 +132,12 @@ class UserController extends Controller
                 'IdDepartment' => $request->input('iddepartment'),
                 'IdRole'       => $request->input('idrole'),
             ]);
-        return response()->json([
-            'status' => 200,
-            'message' => 'Updated successfully',
-        ]);
+            return response()->json([
+                'status' => 200,
+                'message' => 'Updated successfully',
+            ]);
+        }
+        
     }
 
     /**
@@ -138,7 +148,7 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        Classes::where('IdLecturer', '=', $id)->update(['IdLecturer' => null]);
+        // Classes::where('IdLecturer', '=', $id)->update(['IdLecturer' => null]);
         $user = User::find($id);
         $user->delete();
         return response()->json([
