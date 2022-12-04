@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Subjects\AddSubjectRequest;
+use App\Http\Requests\Subjects\UpdateSubjectRequest;
 use App\Models\Classes;
 use App\Models\Subject;
 use Illuminate\Http\Request;
@@ -135,7 +136,7 @@ class SubjectController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateSubjectRequest $request, $id)
     {
         $messages  = [
             'letter.unique' => 'letter with this number is already taken!!',
@@ -150,6 +151,7 @@ class SubjectController extends Controller
                 }),
             ]
         ], $messages);
+
         if($validator->fails()) {
             return response()->json([
                 'message' => $validator->errors(),
@@ -180,8 +182,8 @@ class SubjectController extends Controller
      */
     public function destroy($id)
     {
-        // $classes = Classes::where('IdSubject', '=', $id);
-        // $classes->delete();
+        $classes = Classes::where('IdSubject', '=', $id);
+        $classes->delete();
         $subject = Subject::find($id);
         $subject->delete();
         return response()->json([
