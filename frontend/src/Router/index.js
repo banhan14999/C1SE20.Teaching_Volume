@@ -16,7 +16,6 @@ import Division from "../Components/Form/Division";
 import ManagerYear from "../Components/Table/ManagerYear";
 import ViewReport from "../Components/ViewReport";
 import FormSubject from "../Components/Form/sub";
-import FloatBox from "../Components/FloatBox";
 export const publicRouters = [
   { path: "/authentication", component: Authentication },
   {
@@ -45,7 +44,7 @@ export const publicRouters = [
       { path: "subject", component: FormSubject },
     ],
   },
-  { path: "*", component: FloatBox },
+  { path: "*", component: NotFound },
 ];
 export const privateRouters = [  
 ];
