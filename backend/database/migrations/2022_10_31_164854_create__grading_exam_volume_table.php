@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('GradingExamVolume', function (Blueprint $table) {
+        Schema::create('gradingexamvolume', function (Blueprint $table) {
             $table->integer('Year', false, true);
             $table->string('Semester',10);
             $table->string('IdLecturer',20);
