@@ -27,8 +27,16 @@ return new class extends Migration
             $table->string("CategoryVolume", 20);
             $table->timestamps();
             //$table->primary(['Year', 'Semester', 'IdLecturer', 'IdSubject', 'Time', 'CategoryVolume'], 'PK_LEC_YEAR_SEM_SUB_TIME');
-            $table->foreign('IdLecturer')->references('IdLecturer')->on('users');
-            $table->foreign('IdSubject')->references('IdSubject')->on('subjects');
+            $table->foreign('IdLecturer')
+                  ->references('IdLecturer')
+                  ->on('users')
+                  ->cascadeOnUpdate()
+                  ->cascadeOnDelete();
+            $table->foreign('IdSubject')
+                  ->references('IdSubject')
+                  ->on('subjects')
+                  ->cascadeOnUpdate()
+                  ->cascadeOnDelete();
         });
     }
 
