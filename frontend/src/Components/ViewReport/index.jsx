@@ -53,7 +53,7 @@ function ViewReport() {
       maxWidth: 1623,
       scanStyles: true,
       style:
-        "td, th {border: 1px solid; text-align:center; font-size:6px !important; color:black !important;} th{font-weight:500;} table {width:1754px !important;border-collapse: collapse !important; display:block !important;} .MuiTableFooter-root {display:none !important;} #printsig {width:1754px !important; display:flex !important;justify-content:space-around !important;align-items: flex-end;} #workload{display:none !important;}}",
+        "td, th {border: 1px solid; text-align:center; font-size:7px !important; color:black !important;} th{font-weight:500;} table {width:1754px !important;border-collapse: collapse !important; display:block !important;} .MuiTableFooter-root {display:none !important;} #printsig {width:1754px !important; display:flex !important;justify-content:space-around !important;align-items: flex-end;} #workload{display:none !important;}}",
     });
    }}
     return (
