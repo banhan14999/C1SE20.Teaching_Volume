@@ -87,7 +87,7 @@ useEffect(() => {
       const arr = res.lecturers.map((value) => {
         return {
           value: value.IdLecturer,
-          label: value.LastName + " " + value.FirstName,
+          label:  value.FirstName+ " "+value.LastName,
         };
       });
       setLec([...arr]);
@@ -243,7 +243,6 @@ useEffect(() => {
             <div className={`${cx("Container")}`}>
               <div className={`${cx("TaskColumnStyles")}`}>
                 {Object.entries(columns).map(([columnId, column], index) => {
-                  console.log(column);
                   return (
                     <Droppable key={columnId} droppableId={columnId}>
                       {(provided, snapshot) => (

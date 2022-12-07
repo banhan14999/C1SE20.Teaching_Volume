@@ -19,7 +19,7 @@ function ViewReport() {
    const hocki = [
      { value: "1", label: "Học kỳ I" },
      { value: "2", label: "Học kỳ II" },
-     { value: "Hè", label: "Học hè" },
+     { value: "Hè", label: "Học kỳ hè" },
      { value: "4", label: "Cả năm" },
    ];
    function handleprint(e) {
@@ -53,7 +53,7 @@ function ViewReport() {
       maxWidth: 1623,
       scanStyles: true,
       style:
-        "td, th {border: 1px solid; text-align:center; font-size:6px !important; color:black !important;} th{font-weight:500;} table {width:1754px !important;border-collapse: collapse !important; display:block !important;} .MuiTableFooter-root {display:none !important;} #printsig {width:1754px !important; display:flex !important;justify-content:space-around !important;align-items: flex-end;} #workload{display:none !important;}}",
+        "td, th {border: 1px solid; text-align:center; font-size:7px !important; color:black !important;} th{font-weight:500;} table {width:1754px !important;border-collapse: collapse !important; display:block !important;} .MuiTableFooter-root {display:none !important;} #printsig {width:1754px !important; display:flex !important;justify-content:space-around !important;align-items: flex-end;} #workload{display:none !important;}}",
     });
    }}
     return (
@@ -102,7 +102,7 @@ function ViewReport() {
               year={year.value}
               semester={semester.value}
               label={year.label}
-            ></ViewTable>
+            ></ViewTable> 
           )
         )}
       </div>

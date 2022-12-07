@@ -7,13 +7,13 @@ import { MdSubject, MdManageAccounts, MdAssignmentInd } from "react-icons/md";
 import { RiVoiceRecognitionFill } from "react-icons/ri";
 import { GiManacles, GiNetworkBars } from "react-icons/gi";
 import { Outlet, useNavigate } from "react-router-dom";
-
 import Tippy from "@tippyjs/react";
 import classNames from "classnames/bind";
 import styles from "./nav.module.scss";
 import NavLeft from "./Nav";
 import axios from "axios";
-
+import React from "react";
+import Loading from "../Loading"
 const cx = classNames.bind(styles);
 
 function Nav() {
@@ -92,7 +92,6 @@ function HandleLogout(){
           delay={300}
           placement="bottom"
         >
-          {/* <Link to="/authentication" className="flex items-center"> */}
           <div
             className={`flex items-center cursor-pointer pr-[15px]  ${cx(
               "out"
@@ -104,12 +103,14 @@ function HandleLogout(){
             ></AiOutlineLogout>
             <p className="font-light">Exit</p>
           </div>
-          {/* </Link> */}
         </Tippy>
       </div>
       <div className="flex border-r-[1px] border-[#D5D5D5] border-solid">
         <NavLeft></NavLeft>
         <div className={`w-[726px] mb-3 ${cx("outlet")}`}>
+          {/* <React.Suspense fallback={<Loading></Loading>}>
+            <Autlet></Autlet>
+          </React.Suspense> */}
           <Outlet></Outlet>
         </div>
       </div>

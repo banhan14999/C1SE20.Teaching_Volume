@@ -8,12 +8,13 @@ import Paper from "@mui/material/Paper";
 import { MdAutoDelete } from "react-icons/md";
 import { BiEdit } from "react-icons/bi";
 import { useDispatch } from "react-redux";
+import { useNavigate,useParams } from "react-router-dom";
+
 import FloatBox from "../../FloatBox"
 import StyledTableCell from "../../StyledTableCell";
 import AddSubject from "../../Form/AddSubject";
-import { SetUpdate, DataUpdate } from "../../../Redux/Actions/index";
+import { DataUpdate } from "../../../Redux/Actions/index";
 import { ApiTeachingVolume } from "../../../apis/axios";
-import { useNavigate,useParams } from "react-router-dom";
 
 function ManagerSubject() {
   const param = useParams()
@@ -25,11 +26,13 @@ function ManagerSubject() {
  const [idDelete, setIdDelete] = useState();
 
   function click(e) {
+    // confirm trước khi xóa
     const Subject_id = e.target.attributes[1].nodeValue 
    setConfirm(true);
    setIdDelete(Subject_id);
   }
   function handleClickConfirm(Subject_id) {
+    // xóa
     ApiTeachingVolume.Delete("/subject/delete/", Subject_id);
     const arr = sub.filter((value) => {
       return value.Subject_id !== parseInt(Subject_id);
@@ -41,7 +44,7 @@ function ManagerSubject() {
   }
 
   const handleUpdate = (e) => {
-    dispath(SetUpdate("Update subject"));
+    // đẩy dữ liệu qua component add subject
     const Subject_id = e.target.parentElement.attributes[1].nodeValue;
     let arr = sub.filter((value) => value.Subject_id === parseInt(Subject_id));
     arr[0]["Subject_id"] = Subject_id;
@@ -50,6 +53,7 @@ function ManagerSubject() {
   };
 
   useEffect(() => {
+    // get all subject
     const subjectData = ApiTeachingVolume.Get("/subject/all");
     subjectData.then((data) => {
       const subjects = data.subjects.map((value) => {
