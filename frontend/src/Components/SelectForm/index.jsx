@@ -1,4 +1,5 @@
 import Select from "react-select";
+import React, { Component }  from 'react';
 function SelectForm(props) {
   const customStyles = {
     option: (provided, state) => ({

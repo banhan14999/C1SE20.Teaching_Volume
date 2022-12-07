@@ -1,4 +1,5 @@
 import {Link} from "react-router-dom"
+import React, { Component }  from 'react';
 function NotFound() {
     return (
       <section className="bg-white dark:bg-gray-900 h-[100vh]">

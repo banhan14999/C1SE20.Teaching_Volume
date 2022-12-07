@@ -7,6 +7,7 @@ import { MdSubject, MdManageAccounts, MdAssignmentInd } from "react-icons/md";
 import { RiVoiceRecognitionFill } from "react-icons/ri";
 import { GiManacles, GiNetworkBars } from "react-icons/gi";
 import { Outlet, useNavigate } from "react-router-dom";
+import React, { Component }  from 'react';
 
 import Tippy from "@tippyjs/react";
 import classNames from "classnames/bind";

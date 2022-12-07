@@ -2,7 +2,7 @@ import { useEffect, useLayoutEffect, useState } from "react";
 import classNames from "classnames/bind";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { v4 as uuidv4 } from "uuid";
-
+import React, { Component }  from 'react';
 import Button from "../../Button";
 import styles from "./division.module.scss";
 import SelectForm from "../../SelectForm";

@@ -14,7 +14,7 @@ import StyledTableCell from "../../StyledTableCell";
 import { ApiTeachingVolume } from "../../../apis/axios";
 import FormSubject from "../../Form/sub";
 import { GrClear } from "react-icons/gr";
-
+import React, { Component }  from 'react';
 const cx = classNames.bind(styles);
 
 function Approval() {

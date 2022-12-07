@@ -6,7 +6,7 @@ import SelectForm from "../SelectForm";
 import { useState } from "react";
 import printJS from "print-js";
 import { AiFillPrinter } from "react-icons/ai";
-
+import React, { Component }  from 'react';
  const cx = classNames.bind(styles)
 function ViewReport() {
     const [year, setYear] = useState(null);

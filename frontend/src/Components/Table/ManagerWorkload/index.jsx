@@ -13,6 +13,7 @@ import classNames from "classnames/bind";
 import SelectForm from "../../SelectForm";
 import {TbListDetails} from "react-icons/tb"
 import {BiEdit} from "react-icons/bi"
+import React, { Component }  from 'react';
 const cx = classNames.bind(styles)
 
 function ManagerWorkload() {

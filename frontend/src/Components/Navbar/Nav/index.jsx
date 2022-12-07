@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { AiFillCaretRight } from "react-icons/ai";
 import classNames from "classnames/bind";
 import { useNavigate } from "react-router-dom";
-
+import React, { Component }  from 'react';
 import styles from "./nav.module.scss";
 import { ShowForm } from "../../../Redux/Actions/index";
 import { SetUpdate } from "../../../Redux/Actions/index";

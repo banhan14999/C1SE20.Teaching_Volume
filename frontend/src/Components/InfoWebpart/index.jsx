@@ -1,5 +1,5 @@
 import classNames from "classnames/bind";
-
+import React, { Component }  from 'react';
 import styles from "./infowebpart.module.scss";
 
 const cx = classNames.bind(styles);

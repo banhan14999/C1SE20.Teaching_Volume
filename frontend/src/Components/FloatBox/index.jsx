@@ -3,6 +3,7 @@ import { useRef } from "react";
 import styles from "./foatbox.module.scss"
 import Button from "../Button"
 import {IoNotificationsCircleOutline} from "react-icons/io5"
+import React, { Component }  from 'react';
 const cx= classNames.bind(styles)
 
 function FloatBox({ setConfirm, handleClickConfirm, Title }) {

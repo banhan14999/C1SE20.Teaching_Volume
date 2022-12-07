@@ -15,6 +15,7 @@ import { SetUpdate } from "../../../Redux/Actions/index";
 import { ApiTeachingVolume } from "../../../apis/axios";
 import { DataUpdate } from "../../../Redux/Actions/index";
 import FloatBox from "../../FloatBox";
+import React, { Component }  from 'react';
 function ManagerUser() {
   const param = useParams();
   const navigate = useNavigate();

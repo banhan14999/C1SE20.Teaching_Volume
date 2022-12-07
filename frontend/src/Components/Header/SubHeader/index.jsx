@@ -1,5 +1,6 @@
 import classNames from "classnames/bind";
 import { useEffect, useState } from "react";
+import React, { Component }  from 'react';
 
 import styles from "./subheader.module.scss";
 

@@ -1,5 +1,5 @@
 import classNames from "classnames/bind";
-
+import React, { Component }  from 'react';
 import styles from "./footer.module.scss";
 import footer from "../../Assets/img/bg-footer.png";
 

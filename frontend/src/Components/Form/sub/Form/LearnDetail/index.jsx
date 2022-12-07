@@ -4,6 +4,7 @@ import Button from "../../../../Button";
 import SelectForm from "../../../../SelectForm";
 import { useEffect, useState } from "react";
 import { ApiTeachingVolume } from "../../../../../apis/axios";
+import React, { Component }  from 'react';
 const cx = classNames.bind(styles);
 function ExamDetail({ setRenderAdd, setGrading, setExamvo, Semester, length,title }) {
   const [subject, setSubject] = useState();

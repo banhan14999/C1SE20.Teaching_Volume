@@ -2,6 +2,7 @@ import Captcha from "captcha-image";
 import classNames from "classnames/bind";
 import { forwardRef, Fragment} from "react";
 import styles from "./captcha.module.scss";
+import React, { Component }  from 'react';
 const cx = classNames.bind(styles);
 let captchaImage = new Captcha(
   "25px Arial",

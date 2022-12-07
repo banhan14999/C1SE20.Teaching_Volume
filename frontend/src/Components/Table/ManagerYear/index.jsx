@@ -12,6 +12,7 @@ import { ApiTeachingVolume } from "../../../apis/axios";
 import { useState } from "react";
 import {FcDeleteRow} from "react-icons/fc"
 import FloatBox from "../../FloatBox";
+import React, { Component }  from 'react';
 function ManagerYear(props) {
   const [year,setYear]= useState([])
     const [confirm, setConfirm] = useState(false);
