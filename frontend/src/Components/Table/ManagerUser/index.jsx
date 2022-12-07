@@ -8,66 +8,74 @@ import { AiFillCloseCircle } from "react-icons/ai";
 import { BiEdit } from "react-icons/bi";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { useNavigate,useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+
 import StyledTableCell from "../../StyledTableCell";
 import AddUser from "../../Form/AddUser";
-import { SetUpdate } from "../../../Redux/Actions/index";
 import { ApiTeachingVolume } from "../../../apis/axios";
 import { DataUpdate } from "../../../Redux/Actions/index";
 import FloatBox from "../../FloatBox";
+
 function ManagerUser() {
+  const [user, setUser] = useState([]);
+  const [confirm, setConfirm] = useState(false);
+  const [idDelete, setIdDelete] = useState();
+
   const param = useParams();
   const navigate = useNavigate();
   const dispath = useDispatch();
-  const [user,setUser] = useState([])
-  const [confirm,setConfirm] = useState(false)
-  const [idDelete,setIdDelete] = useState()
-  function createData(Id,IdLecturer, FullName, School, Department, Role) {
-    return { Id,IdLecturer, FullName, School, Department, Role };
+
+  function createData(Id, IdLecturer, FullName, School, Department, Role) {
+    return { Id, IdLecturer, FullName, School, Department, Role };
   }
-function clickDelete(e) {
- const user_id = e.target.dataset.delete;
-  setConfirm(true)
-  setIdDelete(user_id);
-}
-function handleClickConfirm(idDelete) {
-  ApiTeachingVolume.Delete("/user/delete/", idDelete);
-  const arr = user.filter((value) => {
-    return value.Id !== Number(idDelete);
-  });
-  setUser(arr);
-}
-  const handleUpdate = (e) => {
-    dispath(SetUpdate("Update user"));
+  function clickDelete(e) {
+    // confirm trước khi xóa
+    const user_id = e.target.dataset.delete;
+    setConfirm(true);
+    setIdDelete(user_id);
+  }
+
+  function handleClickConfirm(idDelete) {
+    // xóa dữ liệu
+    ApiTeachingVolume.Delete("/user/delete/", idDelete);
+    const arr = user.filter((value) => {
+      return value.Id !== Number(idDelete);
+    });
+    setUser(arr);
+  }
+  function handleUpdate(e) {
+    // update và truyền dữ liệu qua component add
     const user_id = e.target.dataset.update;
     let arr = user.filter((value) => value.Id === Number(user_id));
+    // đẩy dữ liệu bằng redux
     dispath(DataUpdate(arr));
     navigate(user_id);
-  };
+  }
   useEffect(() => {
-      ApiTeachingVolume.Get("user/all").then((res) => {
-        const arr = res.users
-          .map((value) => {
-            if (value.IdRole !== 1) {
-              return createData(
-                value.id,
-                value.IdLecturer,
-                value.FirstName + " " + value.LastName,
-                value.IdFaculty,
-                value.IdDepartment,
-                value.IdRole
-              );
-            } else {
-              return false;
-            }
-          })
-          .filter((value) => {
-            return value;
-          });
-        setUser([...arr]);
-      });
+    // get all users
+    ApiTeachingVolume.Get("user/all").then((res) => {
+      const arr = res.users
+        .map((value) => {
+          if (value.IdRole !== 1) {
+            return createData(
+              value.id,
+              value.IdLecturer,
+              value.FirstName + " " + value.LastName,
+              value.IdFaculty,
+              value.IdDepartment,
+              value.IdRole
+            );
+          } else {
+            return false;
+          }
+        })
+        .filter((value) => {
+          return value;
+        });
+      setUser([...arr]);
+    });
   }, [param.id]);
-  
+
   return (
     <div>
       {param.id ? (
@@ -141,7 +149,9 @@ function handleClickConfirm(idDelete) {
           </TableContainer>
           {confirm && (
             <FloatBox
-              handleClickConfirm={() => {handleClickConfirm(idDelete)}}
+              handleClickConfirm={() => {
+                handleClickConfirm(idDelete);
+              }}
               setConfirm={setConfirm}
             />
           )}
