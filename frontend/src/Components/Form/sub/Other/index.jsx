@@ -5,6 +5,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { BiEdit } from "react-icons/bi";
+import React, { Component }  from 'react';
 import StyledTableCell from "../../../StyledTableCell";
 import React, { Component }  from 'react';
 function Other(props) {

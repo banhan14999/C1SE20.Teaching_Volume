@@ -7,6 +7,10 @@ import { useState } from "react";
 import printJS from "print-js";
 import { AiFillPrinter } from "react-icons/ai";
 import React, { Component }  from 'react';
+<<<<<<< HEAD
+=======
+
+>>>>>>> c873db7170f7ba1bd51d43f6a64eeb592f7001af
  const cx = classNames.bind(styles)
 function ViewReport() {
     const [year, setYear] = useState(null);

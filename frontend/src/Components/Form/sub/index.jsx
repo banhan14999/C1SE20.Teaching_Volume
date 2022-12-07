@@ -12,6 +12,10 @@ import ExamDetail from "./Form/LearnDetail";
 import { ApiTeachingVolume } from "../../../apis/axios";
 import FloatBox from "../../FloatBox";
 import React, { Component }  from 'react';
+<<<<<<< HEAD
+=======
+
+>>>>>>> c873db7170f7ba1bd51d43f6a64eeb592f7001af
 const cx = classNames.bind(styles);
 function FormSubject({ year, semester, theoryClass, exams, others, btn,title,idLec }) {
   console.log(title);

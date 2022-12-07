@@ -8,6 +8,10 @@ import { ApiTeachingVolume } from "../../../apis/axios";
 import {useNavigate, useParams} from "react-router-dom"
 import FloatBox from "../../FloatBox"
 import React, { Component }  from 'react';
+<<<<<<< HEAD
+=======
+
+>>>>>>> c873db7170f7ba1bd51d43f6a64eeb592f7001af
 
 const cx = classNames.bind(styles);
 

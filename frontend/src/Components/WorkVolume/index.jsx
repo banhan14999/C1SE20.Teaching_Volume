@@ -5,6 +5,7 @@ import classNames from "classnames/bind";
 import ManagerClassLecturer from "../Table/ManagerClassLecturer";
 import Button from "../Button"
 import SelectForm from "../SelectForm";
+import React, { Component }  from 'react';
 import styles from "./workvolume.module.scss";
 
 const cx = classNames.bind(styles);

@@ -1,5 +1,6 @@
 import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import { styled } from "@mui/material/styles";
+import React, { Component }  from 'react';
 
  const StyledTableCell = styled(TableCell)((props) => 
   {

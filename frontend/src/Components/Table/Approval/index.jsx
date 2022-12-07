@@ -15,6 +15,10 @@ import { ApiTeachingVolume } from "../../../apis/axios";
 import FormSubject from "../../Form/sub";
 import { GrClear } from "react-icons/gr";
 import React, { Component }  from 'react';
+<<<<<<< HEAD
+=======
+
+>>>>>>> c873db7170f7ba1bd51d43f6a64eeb592f7001af
 const cx = classNames.bind(styles);
 
 function Approval() {

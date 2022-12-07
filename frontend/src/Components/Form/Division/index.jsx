@@ -8,6 +8,7 @@ import styles from "./division.module.scss";
 import SelectForm from "../../SelectForm";
 import TaskCard from "./card";
 import { ApiTeachingVolume } from "../../../apis/axios";
+import React, { Component }  from 'react';
 const cx = classNames.bind(styles);
 function Division() {
   const [continues, setContinues] = useState(false);

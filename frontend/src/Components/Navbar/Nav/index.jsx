@@ -4,6 +4,10 @@ import { AiFillCaretRight } from "react-icons/ai";
 import classNames from "classnames/bind";
 import { useNavigate } from "react-router-dom";
 import React, { Component }  from 'react';
+<<<<<<< HEAD
+=======
+
+>>>>>>> c873db7170f7ba1bd51d43f6a64eeb592f7001af
 import styles from "./nav.module.scss";
 import { ShowForm } from "../../../Redux/Actions/index";
 import { SetUpdate } from "../../../Redux/Actions/index";
