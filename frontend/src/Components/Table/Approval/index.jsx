@@ -34,7 +34,7 @@ function Approval() {
   const hocki = [
     { value: "1", label: "Học Kỳ I" },
     { value: "2", label: "Học Kỳ II" },
-    { value: "Hè", label: "Học Hè" },
+    { value: "Hè", label: "Học Kỳ Hè" },
   ];
   function data(id) {
     console.log(id);

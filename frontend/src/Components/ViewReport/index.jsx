@@ -19,7 +19,7 @@ function ViewReport() {
    const hocki = [
      { value: "1", label: "Học kỳ I" },
      { value: "2", label: "Học kỳ II" },
-     { value: "Hè", label: "Học hè" },
+     { value: "Hè", label: "Học kỳ hè" },
      { value: "4", label: "Cả năm" },
    ];
    function handleprint(e) {
@@ -102,7 +102,7 @@ function ViewReport() {
               year={year.value}
               semester={semester.value}
               label={year.label}
-            ></ViewTable>
+            ></ViewTable> 
           )
         )}
       </div>

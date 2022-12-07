@@ -16,6 +16,7 @@ const [semester, setSemester] = useState();
 const [type, setType] = useState();
 const [subjectOptions, setSubjectOptions] = useState([]);
 const [subject,setSubject] = useState()
+const [check,setCheck] = useState(false)
 const param = useParams()
 const refSelectYear = useRef()
 const refSelectSemester = useRef();
@@ -123,6 +124,7 @@ ApiTeachingVolume.Update(`/class/update/`, param.id, obj)
          }
        }
      }
+     checkValInput && (!year || !semester || !subject || !type) && (checkValInput = false);
      if (!checkValInput) {
        alert("Vui lòng nhập đầy đủ các trường!");
      } else if (checkValInput) {
@@ -137,8 +139,10 @@ ApiTeachingVolume.Update(`/class/update/`, param.id, obj)
          SubjectCoefficient: valuesForm.subjectCoefficient,
          Unit: valuesForm.unit,
        };
+       setCheck(true)
         ApiTeachingVolume.Post("/class/add", obj)
          .then((res) => {
+          setCheck(false)
            alert("Thêm Thành Công!!!");
            refSelectYear.current.clearValue();
            refSelectSemester.current.clearValue();
@@ -334,7 +338,7 @@ ApiTeachingVolume.Update(`/class/update/`, param.id, obj)
                 </p>
                 {param.id && (
                   <p className="w-1/2 font-bold text-[18px]">
-                    {data && data.length > 0 ? data[0].Grade:valuesForm.grade}
+                    {data && data.length > 0 ? data[0].Grade : valuesForm.grade}
                   </p>
                 )}
               </div>
@@ -365,6 +369,13 @@ ApiTeachingVolume.Update(`/class/update/`, param.id, obj)
                   </p>
                 )}
               </div>
+              {check &&
+                (valuesForm.credit.length !== 1 ||
+                  isNaN(valuesForm.credit * 1)) && (
+                  <div className="text-right text-red-800 leading-[10px] mt-1">
+                    credit 1-4
+                  </div>
+                )}
               <div className="w-full flex justify-between mt-2">
                 <label htmlFor="" className="w-[30%]">
                   Type
@@ -446,7 +457,7 @@ ApiTeachingVolume.Update(`/class/update/`, param.id, obj)
                   </p>
                 )}
               </div>
-              <div className="w-full flex justify-between mt-2">
+              <div className="w-full  justify-between mt-2 hidden">
                 <label htmlFor="" className="w-[30%]">
                   Unit
                 </label>
@@ -464,7 +475,7 @@ ApiTeachingVolume.Update(`/class/update/`, param.id, obj)
                 </p>
                 {param.id && (
                   <p className="w-1/2 font-bold text-[18px]">
-                    {data && data.length > 0 ? data[0].Unit: valuesForm.unit}
+                    {data && data.length > 0 ? data[0].Unit : valuesForm.unit}
                   </p>
                 )}
               </div>

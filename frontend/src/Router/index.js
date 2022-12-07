@@ -24,8 +24,8 @@ export const publicRouters = [
     chidren: [
       { path: "InfoWebpart", component: InfoWebpart },
       { path: "addnewuser", component: AddUser },
-      { path: "manageuser", component: ManagerUser },
-      { path: "manageuser/:id", component: ManagerUser },
+      { path: "manageusers", component: ManagerUser },
+      { path: "manageusers/:id", component: ManagerUser },
       { path: "addnewsubject", component: AddSubject },
       { path: "managesubject", component: ManagerSubject },
       { path: "managesubject/:id", component: ManagerSubject },

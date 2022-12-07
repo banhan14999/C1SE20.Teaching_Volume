@@ -19,6 +19,7 @@ import Box from "@mui/material/Box";
 import PropTypes from "prop-types";
 import { ApiTeachingVolume } from "../../apis/axios";
 import { useState } from "react";
+import Loading from "../Loading";
 
 function ViewSemester({ year, semester, label }) {
   const [rows, setRows] = useState([]);
@@ -214,7 +215,7 @@ function ViewSemester({ year, semester, label }) {
 
   return (
     <div id="print">
-      <div className="w-full mx-auto">
+      {rows.length>0 ? <div className="w-full mx-auto">
         <TableContainer component={Paper}>
           <Table aria-label="spanning table">
             <TableHead>
@@ -237,7 +238,7 @@ function ViewSemester({ year, semester, label }) {
                     ? "I"
                     : semester === "2"
                     ? "II"
-                    : semester === "3"
+                    : semester === "Hè"
                     ? "HÈ"
                     : label}
                 </StyledTableCell>
@@ -250,7 +251,16 @@ function ViewSemester({ year, semester, label }) {
                 <StyledTableCell align="center">COI THI</StyledTableCell>
                 <StyledTableCell align="center">SINH HOẠT KHOA</StyledTableCell>
                 <StyledTableCell align="center">CỐ VẤN HT</StyledTableCell>
-                <StyledTableCell align="center">TỔNG HỌC KÌ I</StyledTableCell>
+                <StyledTableCell align="center">
+                  TỔNG HỌC KÌ{" "}
+                  {semester === "1"
+                    ? "I"
+                    : semester === "2"
+                    ? "II"
+                    : semester === "Hè"
+                    ? "HÈ"
+                    : label}
+                </StyledTableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -363,7 +373,7 @@ function ViewSemester({ year, semester, label }) {
             <p>(kí và ghi rõ họ tên)</p>
           </div>
         </div>
-      </div>
+      </div>: <Loading/>}
     </div>
   );
 }

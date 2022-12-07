@@ -128,7 +128,7 @@ function NavLeft() {
               </li>
               <li className="flex">
                 <AiFillCaretRight className="mr-1"></AiFillCaretRight>
-                <p>Manage User</p>
+                <p>Manage Users</p>
               </li>
             </ul>
           </li>
