@@ -1,5 +1,5 @@
 import { Button } from "@mui/material";
-
+import React, { Component }  from 'react';
 function Buttons(props) {
   return (
     <Button

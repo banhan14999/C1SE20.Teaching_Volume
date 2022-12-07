@@ -7,6 +7,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import {Link} from "react-router-dom"
 import { GrUpdate } from "react-icons/gr";
+import React, { Component }  from 'react';
 
 import StyledTableCell from "../../StyledTableCell"
 

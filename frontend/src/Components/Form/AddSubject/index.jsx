@@ -7,6 +7,7 @@ import styles from "./addsubject.module.scss";
 import { default as Button } from "../../Button";
 import { ApiTeachingVolume } from "../../../apis/axios";
 import FloatBox from "../../FloatBox";
+import React, { Component }  from 'react';
 
 const cx = classNames.bind(styles);
 function AddSubject(props) {

@@ -11,6 +11,7 @@ import OtherDetail from "./Form/OtherDetail";
 import ExamDetail from "./Form/LearnDetail";
 import { ApiTeachingVolume } from "../../../apis/axios";
 import FloatBox from "../../FloatBox";
+import React, { Component }  from 'react';
 
 const cx = classNames.bind(styles);
 function FormSubject({ year, semester, theoryClass, exams, others, btn,title,idLec }) {

@@ -4,6 +4,7 @@ import { useState } from "react";
 import styles from "./addyear.module.scss";
 import { ApiTeachingVolume } from "../../../apis/axios";
 import { useParams,useNavigate } from "react-router-dom";
+import React, { Component }  from 'react';
 
 const cx = classNames.bind(styles);
 

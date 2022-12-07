@@ -14,6 +14,7 @@ import AddSubject from "../../Form/AddSubject";
 import { SetUpdate, DataUpdate } from "../../../Redux/Actions/index";
 import { ApiTeachingVolume } from "../../../apis/axios";
 import { useNavigate,useParams } from "react-router-dom";
+import React, { Component }  from 'react';
 
 function ManagerSubject() {
   const param = useParams()

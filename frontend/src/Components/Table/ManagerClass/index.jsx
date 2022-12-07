@@ -18,6 +18,7 @@ import SelectForm from "../../SelectForm";
 import {BiEdit} from "react-icons/bi"
 import { TiDeleteOutline } from "react-icons/ti";
 import FloatBox from "../../FloatBox";
+import React, { Component }  from 'react';
 
 
 const cx = classNames.bind(styles);

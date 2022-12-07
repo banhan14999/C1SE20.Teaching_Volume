@@ -8,6 +8,7 @@ import logoform from "../../Assets/img/logo_dtu_while.png";
 import { ApiTeachingVolume } from "../../apis/axios";
 import axios from "axios";
 import styles from "./authen.module.scss"
+import React, { Component }  from 'react';
 const cx = classNames.bind(styles)
 
 function Authentication() {

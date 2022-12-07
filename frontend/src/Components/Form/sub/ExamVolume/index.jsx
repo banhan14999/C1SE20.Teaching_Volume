@@ -6,6 +6,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import StyledTableCell from "../../../StyledTableCell";
 import { CgPlayListRemove } from "react-icons/cg";
+import React, { Component }  from 'react';
 
 function ExamVolume({ rows, setExamvo,btn }) {
   function handleRemove(e) {

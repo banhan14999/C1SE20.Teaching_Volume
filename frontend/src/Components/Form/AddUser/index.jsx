@@ -7,6 +7,7 @@ import styles from "./adduser.module.scss";
 import { ApiTeachingVolume } from "../../../apis/axios";
 import {useNavigate, useParams} from "react-router-dom"
 import FloatBox from "../../FloatBox"
+import React, { Component }  from 'react';
 
 
 const cx = classNames.bind(styles);

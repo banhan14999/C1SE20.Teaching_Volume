@@ -5,6 +5,7 @@ import SubHeader from "../../Components/Header/SubHeader";
 import Footer from "../../Components/Footer";
 import NavLeft from "../../Components/Navbar";
 import { Navigate } from "react-router-dom";
+import React, { Component }  from 'react';
 // import FloatBox from "../../Components/FloatBox";
 const cx = classNames.bind(styles);
 

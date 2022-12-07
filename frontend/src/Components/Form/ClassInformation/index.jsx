@@ -7,6 +7,7 @@ import {useState,useEffect, useRef} from "react"
 import { useSelector } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
 import FloatBox from "../../FloatBox";
+import React, { Component }  from 'react';
 
 const cx = classNames.bind(styles)
 

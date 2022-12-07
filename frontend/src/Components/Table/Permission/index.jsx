@@ -9,6 +9,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { default as Button } from "../../Button";
 import StyledTableCell from '../../StyledTableCell';
+//import React, { Component }  from 'react';
 function Permission() {
 // const StyledTableCell = styled(TableCell)(({ theme }) => ({
 //   [`&.${tableCellClasses.head}`]: {
