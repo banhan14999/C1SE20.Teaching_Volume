@@ -21,6 +21,7 @@ import  StyledTableCell from "../StyledTableCell";
 import styles from "./viewtable.module.scss";
 import { useRef, useEffect, useState } from "react";
 import { ApiTeachingVolume } from "../../apis/axios";
+import Loading from "../Loading";
 const cx = classNames.bind(styles);
 
 function ViewTable({year,semester}) {
@@ -233,6 +234,7 @@ function ViewTable({year,semester}) {
       if(year){
         ApiTeachingVolume.Get(`volume/fulltotalByDean/year/${year}`).then(
           (res) => {
+            console.log(res.totalVols);
             const arr = res.totalVols.map((e,index) => {
               return createRow(
                 index,
@@ -371,7 +373,6 @@ function ViewTable({year,semester}) {
         );
       }
  },[year])
-
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
@@ -389,6 +390,7 @@ function ViewTable({year,semester}) {
   };
   return (
     <div className="container">
+      {workload.length>0?
       <div className={`${cx("tableview")}`} id="print" ref={reftableview}>
         <h1
           className="text-center font-bold text-[30px] text-red-800 leading-[80px]"
@@ -423,10 +425,10 @@ function ViewTable({year,semester}) {
                 <StyledTableCell align="center" colSpan={8}>
                   HỌC KÌ II
                 </StyledTableCell>
-                <StyledTableCell align="center" colSpan={7}>
+                <StyledTableCell align="center" colSpan={6}>
                   HỌC KÌ HÈ 2020-2021
                 </StyledTableCell>
-                <StyledTableCell align="center" colSpan={7}>
+                <StyledTableCell align="center" colSpan={8}>
                   NĂM HỌC 2021-2022
                 </StyledTableCell>
                 <StyledTableCell
@@ -524,7 +526,7 @@ function ViewTable({year,semester}) {
                     {row.firtName1 + " " + row.lastName1 || 0}
                   </StyledTableCell>
                   <StyledTableCell align="center">
-                    {row.Teaching1}
+                    {row.Teaching1 || 0}
                   </StyledTableCell>
                   <StyledTableCell align="center">
                     {row.guide1 || 0}
@@ -548,14 +550,14 @@ function ViewTable({year,semester}) {
                     align="center"
                     style={{ backgroundColor: "rgba(223,208,168,0.5)" }}
                   >
-                    {row.total1}
+                    {row.total1 || 0}
                   </StyledTableCell>
 
                   <StyledTableCell align="center">
                     {row.Teaching2 || 0}
                   </StyledTableCell>
                   <StyledTableCell align="center">
-                    {row.guide || 0}
+                    {row.guide2 || 0}
                   </StyledTableCell>
                   <StyledTableCell align="center">
                     {row.gradingPaper2 || 0}
@@ -564,7 +566,7 @@ function ViewTable({year,semester}) {
                     {row.examQuestions2 || 0}
                   </StyledTableCell>
                   <StyledTableCell align="center">
-                    {row.examSupervisor2}
+                    {row.examSupervisor2 || 0}
                   </StyledTableCell>
                   <StyledTableCell align="center">
                     {row.facultyActivities2 || 0}
@@ -586,7 +588,7 @@ function ViewTable({year,semester}) {
                     {row.guide3 || 0}
                   </StyledTableCell>
                   <StyledTableCell align="center">
-                    {row.gradingPaper3}
+                    {row.gradingPaper3 || 0}
                   </StyledTableCell>
                   <StyledTableCell align="center">
                     {row.examQuestions3 || 0}
@@ -604,42 +606,42 @@ function ViewTable({year,semester}) {
                     align="center"
                     style={{ backgroundColor: "rgba(128,121,214,0.5)" }}
                   >
-                    {row.academicAdvisor3 || 0}
+                    {row.Teaching.toFixed(2) || 0}
                   </StyledTableCell>
                   <StyledTableCell align="center">
-                    {row.Teaching || 0}
+                    {row.Teaching.toFixed(2) || 0}
                   </StyledTableCell>
 
                   <StyledTableCell align="center">
-                    {row.guide || 0}
+                    {row.guide.toFixed(2) || 0}
                   </StyledTableCell>
                   <StyledTableCell align="center">
-                    {row.gradingPaper || 0}
+                    {row.gradingPaper.toFixed(2) || 0}
                   </StyledTableCell>
                   <StyledTableCell align="center">
-                    {row.examQuestions || 0}
+                    {row.examQuestions.toFixed(2) || 0}
                   </StyledTableCell>
                   <StyledTableCell align="center">
-                    {row.examSupervisor || 0}
+                    {row.examSupervisor.toFixed(2) || 0}
                   </StyledTableCell>
                   <StyledTableCell align="center">
-                    {row.facultyActivities || 0}
+                    {row.facultyActivities.toFixed(2) || 0}
                   </StyledTableCell>
                   <StyledTableCell align="center">
-                    {row.academicAdvisor || 0}
+                    {row.academicAdvisor.toFixed(2) || 0}
                   </StyledTableCell>
 
                   <StyledTableCell
                     align="center"
                     style={{ backgroundColor: "rgba(195,232,17,0.7)" }}
                   >
-                    {row.TimeScientificVolume}
+                    {row.TimeScientificVolume.toFixed(2) || 0}
                   </StyledTableCell>
                   <StyledTableCell
                     align="center"
                     style={{ backgroundColor: "rgba(128,121,214,0.5)" }}
                   >
-                    {row.total || 0}
+                    {row.total.toFixed(2) || 0}
                   </StyledTableCell>
                 </TableRow>
               ))}
@@ -726,7 +728,7 @@ function ViewTable({year,semester}) {
                   align="center"
                   style={{ backgroundColor: "rgba(128,121,214,0.5)" }}
                 >
-                  {total.academicAdvisor3.toFixed(2) || 0}
+                  {total.Teaching.toFixed(2) || 0}
                 </StyledTableCell>
                 <StyledTableCell align="center">
                   {total.Teaching.toFixed(2) || 0}
@@ -808,7 +810,7 @@ function ViewTable({year,semester}) {
             <p>(Ký và ghi rõ họ tên)</p>
           </div>
         </div>
-      </div>
+      </div> :<Loading/>}
     </div>
   );
 }

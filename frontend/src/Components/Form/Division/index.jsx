@@ -87,7 +87,7 @@ useEffect(() => {
       const arr = res.lecturers.map((value) => {
         return {
           value: value.IdLecturer,
-          label: value.LastName + " " + value.FirstName,
+          label:  value.FirstName+ " "+value.LastName,
         };
       });
       setLec([...arr]);

@@ -83,7 +83,7 @@ function FormSubject({ year, semester, theoryClass, exams, others, btn,title,idL
     if ( semester && year && (idLecturer || idLec)) {
       ApiTeachingVolume.Get(
         `/class/theoryClass/${
-          idLec.id || idLecturer
+         (idLec && idLec.id) || idLecturer
         }/semester/${semester}/year/${year}`
       ).then((req) => {
         const arr = req.classes.map((value, index) => {
@@ -104,7 +104,7 @@ function FormSubject({ year, semester, theoryClass, exams, others, btn,title,idL
       });
       ApiTeachingVolume.Get(
         `/class/realityClass/${
-          idLec.id || idLecturer
+          (idLec && idLec.id) || idLecturer
         }/semester/${semester}/year/${year}`
       ).then((req) => {
         const arr = req.classes.map((value, index) => {
@@ -251,9 +251,9 @@ function handleClickConfirm(){
   return (
     <div className={cx("form")}>
       <p className="text-[25px] text-center mb-3">
-        Lecturer Code: {title && title.id}
+        {title && "Lecturer Code: " + title.id}
         <br />
-        Full Name: {title && title.fullName}
+        {title && "Full Name: " + title.fullName}
       </p>
       <div className={cx("nav_form")}>
         <ul onClick={handleClick}>

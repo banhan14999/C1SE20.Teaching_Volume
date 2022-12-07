@@ -71,7 +71,7 @@ function handleClickConfirm(idDelete) {
   return (
     <div>
       {param.id ? (
-        <AddUser hide="hidden" btn="Update" title="Updata User"></AddUser>
+        <AddUser hide="hidden" btn="Update" title="Update User"></AddUser>
       ) : (
         <div className="container">
           <div className="text-center text-[20px] font-[600] line mb-[20px] text-red-700">

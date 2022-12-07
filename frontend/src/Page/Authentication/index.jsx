@@ -53,7 +53,7 @@ function Authentication() {
                   })
                 );
                 setCheckLogin(true);
-                navigate("/home/infowebpart");
+                navigate("/home/infowebpart");  
               } else {
                 setCheckLogin(false);
                 inputPassValue.current.value = "";

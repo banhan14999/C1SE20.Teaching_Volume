@@ -18,10 +18,11 @@ import SelectForm from "../../SelectForm";
 import {BiEdit} from "react-icons/bi"
 import { TiDeleteOutline } from "react-icons/ti";
 import FloatBox from "../../FloatBox";
-
+import Loading from "../../Loading"
+import { useRef } from "react";
 
 const cx = classNames.bind(styles);
-function ManagerClass(props) {
+function ManagerClass() {
   const param = useParams();
   const [year, setYear] = useState(null);
   const [semester, setSemester] = useState(null);
@@ -29,7 +30,7 @@ function ManagerClass(props) {
   const dispath = useDispatch();
   const [classad, setClassAd] = useState([]);
   const [title, setTitle] = useState("");
-
+  const refCheckloading = useRef()
  
   const [data, setData] = useState([]);
   const opt = [
@@ -40,7 +41,7 @@ function ManagerClass(props) {
   const hocki = [
     { value: "1", label: "Học Kỳ I" },
     { value: "2", label: "Học Kỳ II" },
-    { value: "3", label: "Học Hè" },
+    { value: "3", label: "Học Kỳ Hè" },
   ];
 function selectValue(s,arr) {
   return arr.filter((value) => {
@@ -91,7 +92,7 @@ useEffect(() => {
     );
   }
 }, [semester,year]);
-const years = JSON.parse(localStorage.getItem("year"));
+// const years = JSON.parse(localStorage.getItem("year"));
 const idlec = JSON.parse(localStorage.getItem("IdLecturer"));
 const ad = JSON.parse(localStorage.getItem("Admin"));
 
@@ -136,24 +137,24 @@ useEffect(() => {
                     placeholder="Chọn năm học"
                     height="34px"
                     setSelectedOption={setYear}
-                    defaultValue={
-                      years && years.year && selectValue(years.year, opt)
-                    }
+                    // defaultValue={
+                    //   years && years.year && selectValue(years.year, opt)
+                    // }
                   ></SelectForm>
                 </span>
                 <span className="w-[30%] ml-[-30px]">
                   <SelectForm
                     options={hocki}
-                    placeholder="Chọn học kì"
+                    placeholder="Chọn học kỳ"
                     height="34px"
                     setSelectedOption={setSemester}
-                    defaultValue={
-                      years &&
-                      years.semester &&
-                      years &&
-                      years.year &&
-                      selectValue(years.semester, hocki)
-                    }
+                    // defaultValue={
+                    // years &&
+                    // years.semester &&
+                    // years &&
+                    // years.year &&
+                    // selectValue(years.semester, hocki)
+                    // }
                   ></SelectForm>
                 </span>
               </div>
@@ -162,76 +163,88 @@ useEffect(() => {
           <div className="text-center text-[20px] font-[600] line mb-[20px] text-red-700">
             Manage Class
           </div>
-          <TableContainer component={Paper}>
-            <Table size="medium" aria-label="a dense table">
-              <TableHead>
-                <TableRow>
-                  <StyledTableCell align="center">ClassName</StyledTableCell>
-                  <StyledTableCell align="center">Subject</StyledTableCell>
-                  <StyledTableCell align="center">Student</StyledTableCell>
-                  <StyledTableCell align="center">Type</StyledTableCell>
-                  <StyledTableCell align="center">Credit</StyledTableCell>
-                  <StyledTableCell align="center">
-                    Subject Coefficient
-                  </StyledTableCell>
-                  <StyledTableCell align="center">Action</StyledTableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {classad.map((row) => (
-                  <TableRow
-                    key={row.ClassID}
-                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                  >
-                    <StyledTableCell align="center" component="th" scope="row">
-                      {row.ClassName}
-                    </StyledTableCell>
+          {classad.length > 0 ? (
+            <TableContainer component={Paper}>
+              <Table size="medium" aria-label="a dense table">
+                <TableHead>
+                  <TableRow>
+                    <StyledTableCell align="center">ClassName</StyledTableCell>
+                    <StyledTableCell align="center">Subject</StyledTableCell>
+                    <StyledTableCell align="center">Student</StyledTableCell>
+                    <StyledTableCell align="center">Type</StyledTableCell>
+                    <StyledTableCell align="center">Credit</StyledTableCell>
                     <StyledTableCell align="center">
-                      {row.Subject}
+                      Subject Coefficient
                     </StyledTableCell>
-                    <StyledTableCell align="center">
-                      {row.Student}
-                    </StyledTableCell>
-                    <StyledTableCell align="center">{row.Type}</StyledTableCell>
-                    <StyledTableCell align="center">
-                      {row.Credit}
-                    </StyledTableCell>
-                    <StyledTableCell align="center">
-                      {row.Coefficient}
-                    </StyledTableCell>
-                    <StyledTableCell>
-                      <div
-                        className="flex items-center cursor-pointer"
-                        data-update={row.ClassID}
-                        onClick={handleUpdate}
+                    <StyledTableCell align="center">Action</StyledTableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {classad.map((row) => (
+                    <TableRow
+                      key={row.ClassID}
+                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                    >
+                      <StyledTableCell
+                        align="center"
+                        component="th"
+                        scope="row"
                       >
-                        <BiEdit className="mr-2 pointer-events-none"></BiEdit>
-                        <div className="pointer-events-none">Update</div>
-                      </div>
-                      <div
-                        className="flex items-center cursor-pointer"
-                        data-detail={row.ClassID}
-                        onClick={handleDetail}
-                      >
-                        <TbListDetails className="mr-2 pointer-events-none"></TbListDetails>
-                        <div className="pointer-events-none">Detail</div>
-                      </div>
-                      {ad && (
+                        {row.ClassName}
+                      </StyledTableCell>
+                      <StyledTableCell align="center">
+                        {row.Subject}
+                      </StyledTableCell>
+                      <StyledTableCell align="center">
+                        {row.Student}
+                      </StyledTableCell>
+                      <StyledTableCell align="center">
+                        {row.Type}
+                      </StyledTableCell>
+                      <StyledTableCell align="center">
+                        {row.Credit}
+                      </StyledTableCell>
+                      <StyledTableCell align="center">
+                        {row.Coefficient}
+                      </StyledTableCell>
+                      <StyledTableCell>
                         <div
                           className="flex items-center cursor-pointer"
-                          data-delete={row.ClassID}
-                          onClick={handleDelete}
+                          data-update={row.ClassID}
+                          onClick={handleUpdate}
                         >
-                          <TiDeleteOutline className="mr-2 pointer-events-none"></TiDeleteOutline>
-                          <div className="pointer-events-none">Delete</div>
+                          <BiEdit className="mr-2 pointer-events-none"></BiEdit>
+                          <div className="pointer-events-none">Update</div>
                         </div>
-                      )}
-                    </StyledTableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
+                        <div
+                          className="flex items-center cursor-pointer"
+                          data-detail={row.ClassID}
+                          onClick={handleDetail}
+                        >
+                          <TbListDetails className="mr-2 pointer-events-none"></TbListDetails>
+                          <div className="pointer-events-none">Detail</div>
+                        </div>
+                        {ad && (
+                          <div
+                            className="flex items-center cursor-pointer"
+                            data-delete={row.ClassID}
+                            onClick={handleDelete}
+                          >
+                            <TiDeleteOutline className="mr-2 pointer-events-none"></TiDeleteOutline>
+                            <div className="pointer-events-none">Delete</div>
+                          </div>
+                        )}
+                      </StyledTableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          ) : (
+            <div ref={refCheckloading}>
+              <Loading />
+            </div>
+          )}
           {confirm && (
             <FloatBox
               handleClickConfirm={() => {

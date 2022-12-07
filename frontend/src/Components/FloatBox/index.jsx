@@ -31,7 +31,7 @@ function FloatBox({ setConfirm, handleClickConfirm, Title }) {
             ></IoNotificationsCircleOutline>
           </p>
           <h3 className="text-center font-medium text-[24px] h-10 leading-10 mb-3">
-            Bạn có muốn {Title || "xóa"} không!!!
+            Bạn có muốn {Title || "xóa"} không?
           </h3>
           <p className="flex justify-around">
             <Button
