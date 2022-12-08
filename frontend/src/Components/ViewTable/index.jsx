@@ -373,6 +373,7 @@ function ViewTable({year,semester}) {
         );
       }
  },[year])
+ 
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 

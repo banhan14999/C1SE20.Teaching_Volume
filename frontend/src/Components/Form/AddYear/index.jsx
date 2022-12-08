@@ -8,6 +8,7 @@ import { useParams,useNavigate } from "react-router-dom";
 const cx = classNames.bind(styles);
 
 function AddYear(props) {
+  const [check, setCheck] = useState(false)
 const param = useParams()
 const navigate = useNavigate()
   const [valuesForm, setValuesForm] = useState({
@@ -22,6 +23,7 @@ const navigate = useNavigate()
         });
       }
     }
+     const date = new Date();
  function handleAdd(e){
     if (props.btn) {
       // const obj = {
@@ -47,19 +49,22 @@ const navigate = useNavigate()
       if (!checkValInput) {
         alert("Vui lòng nhập đầy đủ các trường!");
       } else if (checkValInput) {
+        setCheck(true);
         const obj = {
           start: valuesForm.start,
         };
-        ApiTeachingVolume.Post("/year/add", obj)
-          .then((res) => {
-            alert("Thêm Thành Công!!!");
-            setValuesForm({
-              start: ""
+        (Number(obj.start) >= date.getFullYear() + 1) && Number(obj.start) <= date.getFullYear() + 3 &&
+          ApiTeachingVolume.Post("/year/add", obj)
+            .then((res) => {
+              alert("Thêm Thành Công!!!");
+              setCheck(false)
+              setValuesForm({
+                start: "",
+              });
+            })
+            .catch(() => {
+              alert("Thêm Không Thành Công");
             });
-          })
-          .catch(() => {
-            alert("Thêm Không Thành Công");
-          });
       }
     }
  }
@@ -89,11 +94,21 @@ const navigate = useNavigate()
                 placeholder="Start"
                 className="w-1/2 input"
                 value={valuesForm.start}
-                onChange={(e) =>
-                  setValuesForm({ ...valuesForm, start: e.target.value })
-                }
+                onChange={(e) => {
+                  setValuesForm({ ...valuesForm, start: e.target.value });
+                  setCheck(false);
+                }}
               ></input>
             </div>
+            {check &&
+             ( Number(valuesForm.start) < date.getFullYear() + 1 ||
+              Number(valuesForm.start) > date.getFullYear() + 4) && (
+                <div
+                  className={`text-right text-red-800 leading-[10px] mt-1 ${props.hide}`}
+                >
+                  Nhap qua nam hien tai
+                </div>
+              )}
             <div className="flex justify-around mt-[20px]">
               <Button
                 bgcolor="#950b0b"
