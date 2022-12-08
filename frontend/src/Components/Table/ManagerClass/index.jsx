@@ -18,7 +18,17 @@ import SelectForm from "../../SelectForm";
 import { BiEdit } from "react-icons/bi";
 import { TiDeleteOutline } from "react-icons/ti";
 import FloatBox from "../../FloatBox";
-
+import PropTypes from "prop-types";
+import { useTheme } from "@mui/material/styles";
+import TableFooter from "@mui/material/TableFooter";
+import IconButton from "@mui/material/IconButton";
+import FirstPageIcon from "@mui/icons-material/FirstPage";
+import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
+import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
+import LastPageIcon from "@mui/icons-material/LastPage";
+import TablePagination from "@mui/material/TablePagination";
+import TableCell from "@mui/material/TableCell";
+import Box from "@mui/material/Box";
 const cx = classNames.bind(styles);
 function ManagerClass() {
   const [year, setYear] = useState(null);
@@ -82,21 +92,23 @@ function ManagerClass() {
     ClassID,
     ClassName,
     Subject,
+    Year,
+    Semester,
     Student,
     Type,
     Credit,
-    Coefficient,
-    Action
+    Coefficient
   ) {
     return {
       ClassID,
       ClassName,
       Subject,
+      Year,
+      Semester,
       Student,
       Type,
       Credit,
-      Coefficient,
-      Action,
+      Coefficient
     };
   }
 
@@ -125,6 +137,8 @@ function ManagerClass() {
               value.IdClass,
               value.Letter + " " + value.Number + " " + value.Grade,
               value.SubjectName,
+              value.Year,
+              value.Semester,
               value.NumberOfStudent,
               value.TypeClass,
               value.CreditClass,
@@ -138,6 +152,91 @@ function ManagerClass() {
       });
     }
   }, [year, semester, ad, idlec, param.id]);
+
+
+  function TablePaginationActions(props) {
+    const theme = useTheme();
+    const { count, page, rowsPerPage, onPageChange } = props;
+
+    const handleFirstPageButtonClick = (event) => {
+      onPageChange(event, 0);
+    };
+
+    const handleBackButtonClick = (event) => {
+      onPageChange(event, page - 1);
+    };
+
+    const handleNextButtonClick = (event) => {
+      onPageChange(event, page + 1);
+    };
+
+    const handleLastPageButtonClick = (event) => {
+      onPageChange(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
+    };
+
+    return (
+      <Box sx={{ flexShrink: 0, ml: 2.5 }}>
+        <IconButton
+          onClick={handleFirstPageButtonClick}
+          disabled={page === 0}
+          aria-label="first page"
+        >
+          {theme.direction === "rtl" ? <LastPageIcon /> : <FirstPageIcon />}
+        </IconButton>
+        <IconButton
+          onClick={handleBackButtonClick}
+          disabled={page === 0}
+          aria-label="previous page"
+        >
+          {theme.direction === "rtl" ? (
+            <KeyboardArrowRight />
+          ) : (
+            <KeyboardArrowLeft />
+          )}
+        </IconButton>
+        <IconButton
+          onClick={handleNextButtonClick}
+          disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+          aria-label="next page"
+        >
+          {theme.direction === "rtl" ? (
+            <KeyboardArrowLeft />
+          ) : (
+            <KeyboardArrowRight />
+          )}
+        </IconButton>
+        <IconButton
+          onClick={handleLastPageButtonClick}
+          disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+          aria-label="last page"
+        >
+          {theme.direction === "rtl" ? <FirstPageIcon /> : <LastPageIcon />}
+        </IconButton>
+      </Box>
+    );
+  }
+
+  TablePaginationActions.propTypes = {
+    count: PropTypes.number.isRequired,
+    onPageChange: PropTypes.func.isRequired,
+    page: PropTypes.number.isRequired,
+    rowsPerPage: PropTypes.number.isRequired,
+  };
+ const [page, setPage] = useState(0);
+ const [rowsPerPage, setRowsPerPage] = useState(5);
+
+ // Avoid a layout jump when reaching the last page with empty rows.
+ const emptyRows =
+   page > 0 ? Math.max(0, (1 + page) * rowsPerPage - classad.length) : 0;
+
+ const handleChangePage = (event, newPage) => {
+   setPage(newPage);
+ };
+
+ const handleChangeRowsPerPage = (event) => {
+   setRowsPerPage(parseInt(event.target.value, 10));
+   setPage(0);
+ };
   return (
     <div>
       {param.id ? (
@@ -189,6 +288,8 @@ function ManagerClass() {
                         ClassName
                       </StyledTableCell>
                       <StyledTableCell align="center">Subject</StyledTableCell>
+                      <StyledTableCell align="center">Year</StyledTableCell>
+                      <StyledTableCell align="center">Semester</StyledTableCell>
                       <StyledTableCell align="center">Student</StyledTableCell>
                       <StyledTableCell align="center">Type</StyledTableCell>
                       <StyledTableCell align="center">Credit</StyledTableCell>
@@ -199,7 +300,13 @@ function ManagerClass() {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {classad.map((row) => (
+                    {(rowsPerPage > 0
+                      ? classad.slice(
+                          page * rowsPerPage,
+                          page * rowsPerPage + rowsPerPage
+                        )
+                      : classad
+                    ).map((row) => (
                       <TableRow
                         key={row.ClassID}
                         sx={{
@@ -215,6 +322,12 @@ function ManagerClass() {
                         </StyledTableCell>
                         <StyledTableCell align="center">
                           {row.Subject}
+                        </StyledTableCell>
+                        <StyledTableCell align="center">
+                          {row.Year}
+                        </StyledTableCell>
+                        <StyledTableCell align="center">
+                          {row.Semester}
                         </StyledTableCell>
                         <StyledTableCell align="center">
                           {row.Student}
@@ -258,7 +371,37 @@ function ManagerClass() {
                         </StyledTableCell>
                       </TableRow>
                     ))}
+                    {emptyRows > 0 && (
+                      <TableRow style={{ height: 53 * emptyRows }}>
+                        <TableCell colSpan={6} />
+                      </TableRow>
+                    )}
                   </TableBody>
+                  <TableFooter>
+                    <TableRow>
+                      <TablePagination
+                        rowsPerPageOptions={[
+                          5,
+                          10,
+                          25,
+                          { label: "All", value: -1 },
+                        ]}
+                        colSpan={3}
+                        count={classad.length}
+                        rowsPerPage={rowsPerPage}
+                        page={page}
+                        SelectProps={{
+                          inputProps: {
+                            "aria-label": "rows per page",
+                          },
+                          native: true,
+                        }}
+                        onPageChange={handleChangePage}
+                        onRowsPerPageChange={handleChangeRowsPerPage}
+                        ActionsComponent={TablePaginationActions}
+                      />
+                    </TableRow>
+                  </TableFooter>
                 </Table>
               </TableContainer>
             </>
