@@ -29,7 +29,11 @@ return new class extends Migration
             $table->string('Status', '100');
             //$table->primary(['IdLecturer', 'Year', 'Semester'],'PK_Lec_Year_Sem');
             $table->timestamps();
-            $table->foreign('IdLecturer')->references('IdLecturer')->on('users');
+            $table->foreign('IdLecturer')
+                  ->references('IdLecturer')
+                  ->on('users')
+                  ->cascadeOnDelete()
+                  ->cascadeOnUpdate();
         });
     }
 

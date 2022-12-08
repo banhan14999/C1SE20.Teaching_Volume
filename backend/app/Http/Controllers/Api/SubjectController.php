@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Subjects\AddSubjectRequest;
+use App\Http\Requests\Subjects\UpdateSubjectRequest;
 use App\Models\Classes;
 use App\Models\Subject;
 use Illuminate\Http\Request;
@@ -135,21 +136,42 @@ class SubjectController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateSubjectRequest $request, $id)
     {
-        $subject                 = Subject::find($id);
-        $subject->Letter         = $request->input('letter');
-        $subject->Number         = $request->input('number');
-        $subject->SubjectName    = $request->input('subject_name');
-        $subject->Credit         = $request->input('credit');
-        $subject->Type           = $request->input('type');
-        //$subject->updated_at     = date('Y-m-d H:i:s');
-        $subject->update();
+        $messages  = [
+            'letter.unique' => 'letter with this number is already taken!!',
+        ];
+        $validator = Validator::make($request->all(),[
+            'letter' => [
+                'required',
+                'max:10',
+                Rule::unique('subjects')->where(function($query) use ($request) {
+                    return $query->where('Letter', $request->letter)
+                                 ->where('Number', $request->number);
+                }),
+            ]
+        ], $messages);
 
-        return response()->json([
-            'status'    => 200,
-            'message'   => 'Subject Updated Successfully!',
-        ]);
+        if($validator->fails()) {
+            return response()->json([
+                'message' => $validator->errors(),
+            ]);
+        }
+        else {
+            $subject                 = Subject::find($id);
+            $subject->Letter         = $request->input('letter');
+            $subject->Number         = $request->input('number');
+            $subject->SubjectName    = $request->input('subject_name');
+            $subject->Credit         = $request->input('credit');
+            $subject->Type           = $request->input('type');
+            //$subject->updated_at     = date('Y-m-d H:i:s');
+            $subject->update();
+
+            return response()->json([
+                'status'    => 200,
+                'message'   => 'Subject Updated Successfully!',
+            ]);
+        }
     }
 
     /**

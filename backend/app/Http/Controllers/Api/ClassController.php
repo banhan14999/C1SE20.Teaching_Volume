@@ -24,6 +24,8 @@ class ClassController extends Controller
     {
         $classes = DB::table('classes')
                   ->join('subjects', 'classes.IdSubject', '=', 'subjects.IdSubject')
+                  ->orderByDesc('Year')
+                  ->orderByDesc('Semester')
                   ->get();
         return response()->json([
             'status' => 200,
@@ -87,7 +89,8 @@ class ClassController extends Controller
             ]);
         }
         else {
-            $idClass = $request->Year . $request->Semester . $request->IdSubject . $request->Grade;
+            $semester = ($request->Semester === 'Hè') ? 3 : $request->Semester;
+            $idClass = $request->Year . $semester . $request->IdSubject . $request->Grade;
             //Class coefficient
             $numberOfStudent = $request->NumberOfStudent;
             $classCoefficient = self::getClassCoefficient($numberOfStudent);
@@ -130,7 +133,8 @@ class ClassController extends Controller
                 'Coefficient'        => $classCoefficient,
                 'SubjectCoefficient' => $request->SubjectCoefficient,
                 'TimeTeaching'       => $timeTeaching,
-                'Unit'               => $request->Unit,
+                //'Unit'               => $request->Unit,
+                'Unit'               => 'SV',
             ]);
 
             return response()->json([

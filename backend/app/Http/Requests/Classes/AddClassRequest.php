@@ -32,7 +32,7 @@ class AddClassRequest extends FormRequest
             'Credit' => 'required|min:1',
             'NumberOfStudent' => 'required|min:1',
             'SubjectCoefficient' => 'required|min:1',
-            'Unit' => 'required'
+            //'Unit' => 'required'
         ];
     }
 }

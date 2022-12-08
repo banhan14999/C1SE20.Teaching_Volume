@@ -29,8 +29,16 @@ return new class extends Migration
             $table->string('Unit',20);
             $table->timestamps();
             //$table->unique(['Year', 'Semester', 'IdSubject', 'Grade']);
-            $table->foreign('IdSubject')->references('IdSubject')->on('subjects');
-            $table->foreign('IdLecturer')->references('IdLecturer')->on('users');
+            $table->foreign('IdSubject')
+                  ->references('IdSubject')
+                  ->on('subjects')
+                  ->cascadeOnUpdate()
+                  ->cascadeOnDelete();
+            $table->foreign('IdLecturer')
+                  ->references('IdLecturer')
+                  ->on('users')
+                  ->cascadeOnUpdate()
+                  ->nullOnDelete();
         });
     }
 
