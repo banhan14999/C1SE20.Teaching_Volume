@@ -108,7 +108,8 @@ function ClassInformation(props) {
       }
     }
     if (checkValInput){
-      obj.NumberOfStudent > 0 &&
+       Number(obj.NumberOfStudent) > 0 &&
+        Number(obj.SubjectCoefficient) > 0 &&
         ApiTeachingVolume.Update(`/class/update/`, param.id, obj)
           .then(function (response) {
             alert("Cập Nhật Thành Công");
@@ -150,8 +151,7 @@ function ClassInformation(props) {
           Type: (type && type.value) || (idclass && idclass.Type.value),
           Credit: Number(valuesForm.credit),
           NumberOfStudent: Number(valuesForm.numberOfStudent),
-          SubjectCoefficient: valuesForm.subjectCoefficient,
-          Unit:"de"
+          SubjectCoefficient: valuesForm.subjectCoefficient
         };
         setCheck(true);
         Number(isNaN(obj.Grade.split("")[0] * 1)) &&
