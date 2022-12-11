@@ -15,8 +15,20 @@ function OtherDetail({ setRenderAdd, setValueOther }) {
     setRenderAdd(false);
   }
   function handleAdd() {
-    setValueOther([{...valueForm}]);
-    setRenderAdd(false);
+    let checkValInput = true;
+    for (let key in valueForm) {
+      if (valueForm.hasOwnProperty(key)) {
+        if (valueForm[key] === "") {
+          checkValInput = false;
+        }
+      }
+    }
+    if(checkValInput){
+      setValueOther([{...valueForm}]);
+      setRenderAdd(false);
+    }else {
+      alert("Vui lòng nhập đầy đủ các trường!");
+    }
   }
 
   return (
@@ -34,6 +46,7 @@ function OtherDetail({ setRenderAdd, setValueOther }) {
             <div className="flex w-[55%] relative items-center">
               <input
                 placeholder="Activities"
+                type="number"
                 className={`w-full input ${cx("input")} `}
                 value={valueForm.activities || ""}
                 onChange={(e) => {
@@ -52,6 +65,7 @@ function OtherDetail({ setRenderAdd, setValueOther }) {
             <span className="text-lg font-bold">:</span>
             <div className="flex w-[55%] relative items-center">
               <input
+                type="number"
                 placeholder="Exam monitor"
                 className={`w-full input ${cx("input")} `}
                 value={valueForm.examMonitor || ""}
@@ -71,6 +85,7 @@ function OtherDetail({ setRenderAdd, setValueOther }) {
             <span className="text-lg font-bold">:</span>
             <div className="flex w-[55%] relative items-center">
               <input
+                type="number"
                 placeholder="Advisor"
                 className={`w-full input ${cx("input")} `}
                 value={valueForm.advisor || ""}
@@ -90,6 +105,7 @@ function OtherDetail({ setRenderAdd, setValueOther }) {
             <span className="text-lg font-bold">:</span>
             <div className="flex w-[55%] relative items-center">
               <input
+                type="number"
                 placeholder="Time Scientific"
                 className={`w-full input ${cx("input")} `}
                 value={valueForm.scientific || ""}

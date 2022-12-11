@@ -14,7 +14,6 @@ import FloatBox from "../../FloatBox";
 
 const cx = classNames.bind(styles);
 function FormSubject({ year, semester, theoryClass, exams, others, btn,title,idLec }) {
-  console.log(title);
   const [count, setCount] = useState(1);
   const [form, setForm] = useState("Teaching Volume");
   const [renderAdd, setRenderAdd] = useState(false);

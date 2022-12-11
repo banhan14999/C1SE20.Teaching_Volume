@@ -11,7 +11,7 @@ function Other(props) {
     <div>
       <TableContainer component={Paper}>
         <Table size="medium" aria-label="a dense table">
-          <TableHead>
+          <TableHead style={{ backgroundColor: "#afafaf" }}>
             <TableRow>
               <StyledTableCell align="center">Activities</StyledTableCell>
               <StyledTableCell align="center">Exam Monitor</StyledTableCell>

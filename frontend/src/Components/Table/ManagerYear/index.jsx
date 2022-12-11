@@ -57,7 +57,7 @@ function handleClickConfirm(yearid) {
           <TableContainer component={Paper}>
             <Table size="medium" aria-label="a dense table">
               <TableHead>
-                <TableRow style={{}}>
+                <TableRow style={{ backgroundColor: "#afafaf" }}>
                   <StyledTableCell align="center">Start</StyledTableCell>
                   <StyledTableCell align="center">Finish</StyledTableCell>
                   <StyledTableCell align="center" colSpan={2}>
@@ -82,6 +82,7 @@ function handleClickConfirm(yearid) {
                         className="flex justify-center cursor-pointer"
                         data-delete={row.Start}
                         onClick={handleDelete}
+                        title="Delete"
                       >
                         <FcDeleteRow
                           color="#eb4f04"

@@ -2,14 +2,15 @@ import classNames from "classnames/bind";
 import styles from "./exam.module.scss";
 import Button from "../../../../Button";
 import SelectForm from "../../../../SelectForm";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ApiTeachingVolume } from "../../../../../apis/axios";
 const cx = classNames.bind(styles);
 function ExamDetail({ setRenderAdd, setGrading, setExamvo, Semester, length,title }) {
-  const [subject, setSubject] = useState();
-  const [type, setType] = useState();
+  const [subject, setSubject] = useState("");
+  const [type, setType] = useState("");
   const [subjectop, setSubjectop] = useState([]);
-
+  const refSelectType = useRef()
+  const refSelectSubject = useRef()
   const typeOptions = [
     { value: "LEC", label: "LEC" },
     { value: "LAB", label: "LAB" },
@@ -26,20 +27,19 @@ function ExamDetail({ setRenderAdd, setGrading, setExamvo, Semester, length,titl
   }
   function handleAdd() {
     if (setGrading) {
-      if (subject && subject.value && type && type.value) {
         const obj = {
-          credit: exam.credit,
-          subject: subject.label,
-          type: type.value,
+          // credit: exam.credit,
+          subject: subject.label|| "",
+          type: type.value || "",
           time: Number(exam.time),
           numberGE: Number(exam.number),
           coefficientGrade: Number(exam.coefficient),
           idSubject: subject.id,
         };
         let checkValInput = true;
-        for (let key in exam) {
-          if (exam.hasOwnProperty(key)) {
-            if (exam[key] === "") {
+        for (let key in obj) {
+          if (obj.hasOwnProperty(key)) {
+            if (obj[key] === "") {
               checkValInput = false;
             }
           }
@@ -52,6 +52,8 @@ function ExamDetail({ setRenderAdd, setGrading, setExamvo, Semester, length,titl
             number: "",
             coefficient: "",
           });
+           refSelectSubject.current.clearValue();
+           refSelectType.current.clearValue();
           setGrading((prev) => [
             ...prev,
             {
@@ -68,22 +70,21 @@ function ExamDetail({ setRenderAdd, setGrading, setExamvo, Semester, length,titl
             },
           ]);
         }
-      }
+      
     } else if (setExamvo) {
-      if (subject && subject.value && type && type.value) {
         const obj = {
-          credit: exam.credit,
-          subject: subject.label,
-          type: type.value,
+          // credit: exam.credit,
+          subject: subject.label || "",
+          type: type.value || "",
           time: Number(exam.time),
           numberGE: Number(exam.number),
           coefficientExam: Number(exam.coefficient),
           idSubject: subject.id,
         };
         let checkValInput = true;
-        for (let key in exam) {
-          if (exam.hasOwnProperty(key)) {
-            if (exam[key] === "") {
+        for (let key in obj) {
+          if (obj.hasOwnProperty(key)) {
+            if (obj[key] === "") {
               checkValInput = false;
             }
           }
@@ -96,6 +97,8 @@ function ExamDetail({ setRenderAdd, setGrading, setExamvo, Semester, length,titl
             number: "",
             coefficient: "",
           });
+          refSelectSubject.current.clearValue();
+          refSelectType.current.clearValue();
           setExamvo((prev) => [
             ...prev,
             {
@@ -113,7 +116,7 @@ function ExamDetail({ setRenderAdd, setGrading, setExamvo, Semester, length,titl
           ]);
         }
       }
-    }
+    
   }
   useEffect(() => {
     ApiTeachingVolume.Get("subject/all").then((req) => {
@@ -129,7 +132,7 @@ function ExamDetail({ setRenderAdd, setGrading, setExamvo, Semester, length,titl
   return (
     <div className={cx("form")}>
       <div className={cx("line")}>
-        <h2 className="text-xl font-semibold">{title||"Exam Detail"}</h2>
+        <h2 className="text-xl font-semibold">{title || "Exam Detail"}</h2>
       </div>
       <div className="p-5">
         <form action="">
@@ -143,6 +146,7 @@ function ExamDetail({ setRenderAdd, setGrading, setExamvo, Semester, length,titl
                 class="w-full"
                 placeholder="Subject"
                 options={subjectop}
+                refSelect={refSelectSubject}
                 setSelectedOption={setSubject}
               />
             </div>
@@ -155,6 +159,7 @@ function ExamDetail({ setRenderAdd, setGrading, setExamvo, Semester, length,titl
             <div className="flex w-[55%] relative items-center">
               <SelectForm
                 class="w-full"
+                refSelect={refSelectType}
                 placeholder="Type"
                 options={typeOptions}
                 setSelectedOption={setType}
@@ -169,6 +174,7 @@ function ExamDetail({ setRenderAdd, setGrading, setExamvo, Semester, length,titl
             <div className="flex w-[55%] relative items-center">
               <input
                 placeholder="Time"
+                type="number"
                 className={`w-full input ${cx("input")} `}
                 value={exam.time}
                 onChange={(e) => {
@@ -185,6 +191,7 @@ function ExamDetail({ setRenderAdd, setGrading, setExamvo, Semester, length,titl
             <div className="flex w-[55%] relative items-center">
               <input
                 placeholder="Number"
+                type="number"
                 className={`w-full input ${cx("input")} `}
                 value={exam.number}
                 onChange={(e) => {
@@ -201,6 +208,7 @@ function ExamDetail({ setRenderAdd, setGrading, setExamvo, Semester, length,titl
             <div className="flex w-[55%] relative items-center">
               <input
                 placeholder="Coefficient"
+                type="number"
                 className={`w-full input ${cx("input")} `}
                 value={exam.coefficient}
                 onChange={(e) => {

@@ -282,7 +282,7 @@ function ManagerClass() {
               </div>
               <TableContainer component={Paper}>
                 <Table size="medium" aria-label="a dense table">
-                  <TableHead>
+                  <TableHead style={{ backgroundColor: "#afafaf" }}>
                     <TableRow>
                       <StyledTableCell align="center">
                         ClassName
@@ -343,7 +343,7 @@ function ManagerClass() {
                         </StyledTableCell>
                         <StyledTableCell>
                           <div
-                            className="flex items-center cursor-pointer"
+                            className="flex items-center cursor-pointer "
                             data-update={row.ClassID}
                             onClick={handleUpdate}
                           >
