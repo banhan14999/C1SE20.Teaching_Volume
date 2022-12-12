@@ -1,17 +1,16 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { publicRouters } from "./Router";
-function App() { 
+function App() {
   return (
     <BrowserRouter>
-      <Routes> 
+     <Routes> 
           {publicRouters.map((e) => {
           if(e.chidren){
               return (
-                <Route exact  key={e.path} path={e.path} element={<e.component />}>
+             <Route  key={e.path} path={e.path}  element={<e.component />}>
                   {e.chidren.map((c) => {
                     return (
                       <Route
-                        exact
                         key={c.path}
                         path={c.path}
                         element={<c.component />}
@@ -22,7 +21,7 @@ function App() {
               );
           }
           else{ 
-            return (<Route key={e.path} path={e.path} element={<e.component />}></Route>);}
+            return (<Route key={e.path} path={e.path} element={<e.component />}></Route>)}
           })}
       </Routes>
     </BrowserRouter>

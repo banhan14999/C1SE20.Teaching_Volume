@@ -149,6 +149,7 @@ function clickCancel() {
        }
      }
    }
+   
    if (checkValInput) {
      setCheck(true);
      // xét điều kiện và update

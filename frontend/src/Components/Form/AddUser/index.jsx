@@ -166,6 +166,7 @@ function AddUser(props) {
         }
       }
     }
+    setCheck(true);
     if (checkValInput) {
       // kiểm tra IDlecturer nằm từ 0-9 gồm 10 kí tự
       const DTUID = obj.idlecturer
