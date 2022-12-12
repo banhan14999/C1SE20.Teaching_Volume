@@ -68,7 +68,6 @@ useEffect(() => {
     ApiTeachingVolume.Get("/subject/all")
       .then((res) => {
         const arr = res.subjects.map((value) => {
-          console.log(value);
           return {
             value: value.IdSubject,
             label: value.SubjectName,
