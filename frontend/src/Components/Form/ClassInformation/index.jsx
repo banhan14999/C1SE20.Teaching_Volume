@@ -108,6 +108,7 @@ function ClassInformation(props) {
         }
       }
     }
+    setCheck(true);
     if (checkValInput) {
       Number(obj.NumberOfStudent) > 0 &&
         Number(obj.NumberOfStudent) < 101 &&
@@ -274,7 +275,6 @@ function ClassInformation(props) {
       });
     }
   }, [param.id]);
-
   return (
     <div className="container">
       <div className={cx("form")}>
@@ -495,8 +495,8 @@ function ClassInformation(props) {
               )}
             </div>
             {check &&
-              (Number(valuesForm.numberOfStudent) < 1 ||
-                Number(valuesForm.numberOfStudent) > 100) && (
+              (valuesForm.numberOfStudent < 1 ||
+                valuesForm.numberOfStudent > 100) && (
                 <div className="text-right text-red-800 leading-[10px] mt-1">
                   Number lớn hơn không
                 </div>
@@ -529,7 +529,7 @@ function ClassInformation(props) {
                 </p>
               )}
             </div>
-            {check && Number(valuesForm.subjectCoefficient) < 1 && (
+            {check && Number(valuesForm.subjectCoefficient) < 0 && (
               <div className="text-right text-red-800 leading-[10px] mt-1">
                 Number lớn hơn không
               </div>
