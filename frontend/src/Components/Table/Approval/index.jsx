@@ -218,7 +218,7 @@ function Approval() {
       {continues && (
         <TableContainer component={Paper}>
           <Table size="medium" aria-label="a dense table">
-            <TableHead>
+            <TableHead style={{ backgroundColor: "#afafaf" }}>
               <TableRow>
                 <StyledTableCell align="center">Lecturer code</StyledTableCell>
                 <StyledTableCell align="center">Full Name</StyledTableCell>

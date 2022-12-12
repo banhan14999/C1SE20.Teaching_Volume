@@ -168,7 +168,7 @@ function ManagerWorkload() {
         <div>
           <TableContainer component={Paper}>
             <Table size="medium" aria-label="a dense table">
-              <TableHead>
+              <TableHead style={{ backgroundColor: "#afafaf" }}>
                 <TableRow style={{}}>
                   <StyledTableCell align="center">Teaching</StyledTableCell>
                   <StyledTableCell align="center">Grading</StyledTableCell>
@@ -194,16 +194,32 @@ function ManagerWorkload() {
                     <StyledTableCell align="center" component="th" scope="row">
                       {row.teaching}
                     </StyledTableCell>
-                    <StyledTableCell>{row.grading}</StyledTableCell>
-                    <StyledTableCell>{row.project}</StyledTableCell>
-                    <StyledTableCell>{row.exam}</StyledTableCell>
-                    <StyledTableCell>{row.activities}</StyledTableCell>
-                    <StyledTableCell>{row.examMonitor}</StyledTableCell>
-                    <StyledTableCell>{row.advisor}</StyledTableCell>
-                    <StyledTableCell>{row.timeScientific}</StyledTableCell>
-                    <StyledTableCell>{row.total}</StyledTableCell>
+                    <StyledTableCell align="center">
+                      {row.grading}
+                    </StyledTableCell>
+                    <StyledTableCell align="center">
+                      {row.project}
+                    </StyledTableCell>
+                    <StyledTableCell align="center">{row.exam}</StyledTableCell>
+                    <StyledTableCell align="center">
+                      {row.activities}
+                    </StyledTableCell>
+                    <StyledTableCell align="center">
+                      {row.examMonitor}
+                    </StyledTableCell>
+                    <StyledTableCell align="center">
+                      {row.advisor}
+                    </StyledTableCell>
+                    <StyledTableCell align="center">
+                      {row.timeScientific}
+                    </StyledTableCell>
+                    <StyledTableCell align="center">
+                      {row.total}
+                    </StyledTableCell>
                     <StyledTableCell
+                      align="center"
                       style={{
+                        backgroundColor: "#fff0c2",
                         color:
                           row.status === "Decline"
                             ? "red"
@@ -213,18 +229,17 @@ function ManagerWorkload() {
                         fontWeight: 700,
                       }}
                     >
-                      <div className="flex justify-between items-center">
-                        <p
-                          style={{
-                            backgroundColor:
-                              row.status === "Decline"
-                                ? "red"
-                                : row.status === "Waiting"
-                                ? "yellow"
-                                : "green",
-                          }}
-                          className="w-[10px] h-[10px] rounded-[50%] mr-1"
-                        ></p>
+                      <div
+                        style={{
+                          color:
+                            row.status === "Decline"
+                              ? "#c62828"
+                              : row.status === "Waiting"
+                              ? "#a68b00"
+                              : "#388e3c",
+                        }}
+                        className="flex justify-between items-center"
+                      >
                         {row.status}
                       </div>
                     </StyledTableCell>

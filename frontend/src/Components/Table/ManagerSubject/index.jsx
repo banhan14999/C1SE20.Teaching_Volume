@@ -177,9 +177,9 @@ function ManagerSubject() {
           </div>
           <TableContainer component={Paper}>
             <Table size="small" aria-label="Manager Subject Table">
-              <TableHead>
-                <TableRow style={{}}>
-                  <StyledTableCell align="center">Code</StyledTableCell>
+              <TableHead style={{ backgroundColor: "#afafaf" }}>
+                <TableRow>
+                  <StyledTableCell align="center"> Code </StyledTableCell>
                   <StyledTableCell align="center">Subject</StyledTableCell>
                   <StyledTableCell align="center">Credit</StyledTableCell>
                   <StyledTableCell align="center">Type</StyledTableCell>
@@ -253,7 +253,6 @@ function ManagerSubject() {
                       25,
                       { label: "All", value: -1 },
                     ]}
-                    colSpan={3}
                     count={sub.length}
                     rowsPerPage={rowsPerPage}
                     page={page}

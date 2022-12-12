@@ -12,6 +12,7 @@ const cx = classNames.bind(styles);
 
 function ClassInformation(props) {
   const [year, setYear] = useState();
+  const [duplicate, setDuplicate] = useState(false);
   const [semester, setSemester] = useState();
   const [type, setType] = useState();
   const [subjectOptions, setSubjectOptions] = useState([]);
@@ -44,7 +45,7 @@ function ClassInformation(props) {
         grade: "",
         credit: "",
         numberOfStudent: "",
-        subjectCoefficient: ""
+        subjectCoefficient: "",
       });
     }
   }
@@ -107,8 +108,9 @@ function ClassInformation(props) {
         }
       }
     }
-    if (checkValInput){
-       Number(obj.NumberOfStudent) > 0 &&
+    if (checkValInput) {
+      Number(obj.NumberOfStudent) > 0 &&
+        Number(obj.NumberOfStudent) < 101 &&
         Number(obj.SubjectCoefficient) > 0 &&
         ApiTeachingVolume.Update(`/class/update/`, param.id, obj)
           .then(function (response) {
@@ -118,8 +120,8 @@ function ClassInformation(props) {
           .catch(function (error) {
             alert("Cập Nhật Thất Bại");
           });
-    }else{
-        alert("Vui lòng nhập đầy đủ các trường!");
+    } else {
+      alert("Vui lòng nhập đầy đủ các trường!");
     }
   }
 
@@ -135,7 +137,6 @@ function ClassInformation(props) {
           }
         }
       }
-      console.log(valuesForm);
       checkValInput &&
         (!year || !semester || !subject || !type) &&
         (checkValInput = false);
@@ -151,7 +152,7 @@ function ClassInformation(props) {
           Type: (type && type.value) || (idclass && idclass.Type.value),
           Credit: Number(valuesForm.credit),
           NumberOfStudent: Number(valuesForm.numberOfStudent),
-          SubjectCoefficient: valuesForm.subjectCoefficient
+          SubjectCoefficient: valuesForm.subjectCoefficient,
         };
         setCheck(true);
         Number(isNaN(obj.Grade.split("")[0] * 1)) &&
@@ -160,25 +161,35 @@ function ClassInformation(props) {
               Number(obj.Credit) > 0 &&
               Number(obj.Credit) < 5)) &&
           Number(obj.NumberOfStudent) > 0 &&
+          Number(valuesForm.numberOfStudent) < 101 &&
           Number(obj.SubjectCoefficient) > 0 &&
-        ApiTeachingVolume.Post("/class/add", obj)
-          .then((res) => {
-            setCheck(false);
-            alert("Thêm Thành Công!!!");
-            refSelectYear.current.clearValue();
-            refSelectSemester.current.clearValue();
-            refSelectType.current.clearValue();
-            refSelectSubject.current.clearValue();
-            setValuesForm({
-              grade: "",
-              credit: "",
-              numberOfStudent: "",
-              subjectCoefficient: ""
+          ApiTeachingVolume.Post("/class/add", obj)
+            .then((res) => {
+              setCheck(false);
+              if (
+                res &&
+                res.data &&
+                res.data.message &&
+                res.data.message.Grade
+              ) {
+                setDuplicate(true);
+              } else if (res && res.data && res.status === 200) {
+                alert("Thêm Thành Công!!!");
+                refSelectYear.current.clearValue();
+                refSelectSemester.current.clearValue();
+                refSelectType.current.clearValue();
+                refSelectSubject.current.clearValue();
+                setValuesForm({
+                  grade: "",
+                  credit: "",
+                  numberOfStudent: "",
+                  subjectCoefficient: "",
+                });
+              }
+            })
+            .catch(() => {
+              alert("Thêm Không Thành Công");
             });
-          })
-          .catch(() => {
-            alert("Thêm Không Thành Công");
-          });
       }
     }
   }
@@ -187,7 +198,7 @@ function ClassInformation(props) {
       const sub = data.subjects.reduce(
         (arr, value) => [
           ...arr,
-          { value: value.IdSubject, label: value.Letter },
+          { value: value.IdSubject, label: value.SubjectName },
         ],
         []
       );
@@ -223,7 +234,7 @@ function ClassInformation(props) {
       Credit,
       Type,
       NumberOfStudent,
-      SubjectCoefficient
+      SubjectCoefficient,
     };
   }
   useEffect(() => {
@@ -256,7 +267,7 @@ function ClassInformation(props) {
               grade: classes[0].Grade,
               credit: classes[0].Credit,
               numberOfStudent: classes[0].NumberOfStudent,
-              subjectCoefficient: classes[0].SubjectCoefficient
+              subjectCoefficient: classes[0].SubjectCoefficient,
             };
           });
         }
@@ -371,6 +382,7 @@ function ClassInformation(props) {
                   onChange={(e) => {
                     setValuesForm({ ...valuesForm, grade: e.target.value });
                     setCheck(false);
+                    setDuplicate(false);
                   }}
                   disabled={props.btn ? true : false}
                 ></input>
@@ -381,7 +393,7 @@ function ClassInformation(props) {
                 </p>
               )}
             </div>
-            {check && !isNaN(valuesForm.grade.split("")[0]*1) && (
+            {check && !isNaN(valuesForm.grade.split("")[0] * 1) && (
               <div className="text-right text-red-800 leading-[10px] mt-1">
                 kí tự đầu tiên là chữ
               </div>
@@ -403,6 +415,7 @@ function ClassInformation(props) {
                       credit: e.target.value,
                     });
                     setCheck(false);
+                    setDuplicate(false);
                   }}
                   disabled={props.btn ? true : false}
                 ></input>
@@ -471,6 +484,7 @@ function ClassInformation(props) {
                       numberOfStudent: e.target.value,
                     });
                     setCheck(false);
+                    setDuplicate(false);
                   }}
                 ></input>
               </p>
@@ -480,11 +494,13 @@ function ClassInformation(props) {
                 </p>
               )}
             </div>
-            {check && Number(valuesForm.numberOfStudent) < 1 && (
-              <div className="text-right text-red-800 leading-[10px] mt-1">
-                Number lớn hơn không
-              </div>
-            )}
+            {check &&
+              (Number(valuesForm.numberOfStudent) < 1 ||
+                Number(valuesForm.numberOfStudent) > 100) && (
+                <div className="text-right text-red-800 leading-[10px] mt-1">
+                  Number lớn hơn không
+                </div>
+              )}
             <div className="w-full flex justify-between mt-2">
               <label htmlFor="" className="w-[30%]">
                 Subject Coefficient
@@ -503,6 +519,7 @@ function ClassInformation(props) {
                       subjectCoefficient: e.target.value,
                     });
                     setCheck(false);
+                    setDuplicate(false);
                   }}
                 ></input>
               </p>
@@ -539,6 +556,11 @@ function ClassInformation(props) {
                 </p>
               )}
             </div> */}
+            {duplicate && (
+              <div className="text-right text-red-800 leading-[10px] mt-1">
+                Lớp học của môn học đã tồn tại
+              </div>
+            )}
             <div className="flex justify-around mt-[20px]">
               {!props.title && (
                 <Button

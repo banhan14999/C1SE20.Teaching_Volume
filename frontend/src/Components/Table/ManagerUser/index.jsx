@@ -183,8 +183,8 @@ function ManagerUser() {
           </div>
           <TableContainer component={Paper}>
             <Table size="medium" aria-label="a dense table">
-              <TableHead>
-                <TableRow style={{}}>
+              <TableHead style={{ backgroundColor: "#afafaf" }}>
+                <TableRow>
                   <StyledTableCell align="center">DTU-ID</StyledTableCell>
                   <StyledTableCell align="center">Full Name</StyledTableCell>
                   <StyledTableCell align="center">Faculty</StyledTableCell>
@@ -195,12 +195,12 @@ function ManagerUser() {
               </TableHead>
               <TableBody>
                 {(rowsPerPage > 0
-                      ? user.slice(
-                          page * rowsPerPage,
-                          page * rowsPerPage + rowsPerPage
-                        )
-                      : user
-                    ).map((row) => (
+                  ? user.slice(
+                      page * rowsPerPage,
+                      page * rowsPerPage + rowsPerPage
+                    )
+                  : user
+                ).map((row) => (
                   <TableRow
                     key={row.Id}
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -219,7 +219,7 @@ function ManagerUser() {
                     <StyledTableCell align="center">
                       <div className="flex justify-around items-center">
                         <div
-                          className="flex justify-center items-center cursor-pointer "
+                          className="flex justify-center items-center cursor-pointer hover:text-black "
                           onClick={handleUpdate}
                           data-update={row.Id}
                         >
@@ -231,7 +231,7 @@ function ManagerUser() {
                           Update
                         </div>
                         <div
-                          className="cursor-pointer flex items-center justify-center"
+                          className="cursor-pointer flex items-center justify-center hover:text-black"
                           onClick={clickDelete}
                           data-delete={row.Id}
                         >

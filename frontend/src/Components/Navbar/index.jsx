@@ -13,7 +13,6 @@ import styles from "./nav.module.scss";
 import NavLeft from "./Nav";
 import axios from "axios";
 import React from "react";
-import Loading from "../Loading"
 const cx = classNames.bind(styles);
 
 function Nav() {
@@ -89,7 +88,7 @@ function HandleLogout(){
               Exit
             </span>
           }
-          delay={300}
+          delay={100}
           placement="bottom"
         >
           <div
