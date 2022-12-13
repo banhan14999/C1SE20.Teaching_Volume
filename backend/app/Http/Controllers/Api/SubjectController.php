@@ -145,9 +145,10 @@ class SubjectController extends Controller
             'letter' => [
                 'required',
                 'max:10',
-                Rule::unique('subjects')->where(function($query) use ($request) {
+                Rule::unique('subjects')->where(function($query) use ($request, $id) {
                     return $query->where('Letter', $request->letter)
-                                 ->where('Number', $request->number);
+                                 ->where('Number', $request->number)
+                                 ->where('IdSubject', '<>', $id);
                 }),
             ]
         ], $messages);
