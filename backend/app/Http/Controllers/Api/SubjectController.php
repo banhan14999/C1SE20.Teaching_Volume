@@ -205,8 +205,9 @@ class SubjectController extends Controller
     }
 
     //API cho ra đề thi và chấm bài thi
-    public function getSubjectByLec($idLec, $semester, $year)
+    public function getSubjectByLec($semester, $year)
     {
+        $idLec = auth()->user()['IdLecturer'];
         $subjects = DB::table('subjects')
                   ->select('subjects.IdSubject', 'Letter', 'Number', 'SubjectName')
                   ->leftJoin('classes', 'subjects.IdSubject', '=', 'classes.IdSubject')
