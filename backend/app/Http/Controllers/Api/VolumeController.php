@@ -23,6 +23,7 @@ class VolumeController extends Controller
                           ['Status', '=', 'Approved'],
                       ])
                       ->get();
+        if($totalVols->isEmpty()) $totalVols = [];
         return response()->json([
             'status' => 200,
             'totalVols' => $totalVols,
@@ -524,11 +525,11 @@ class VolumeController extends Controller
     private static function intersect($year)
     {
         $status = 'Approved';
-        
+        $yearSum = $year - 1;
         //get ra collection object
         $idLec1 = self::getVolumeData($year, '1', $status);
         $idLec2 = self::getVolumeData($year, '2', $status);
-        $idLecSum = self::getVolumeData($year, 'Hè', $status);
+        $idLecSum = self::getVolumeData($yearSum, 'Hè', $status);
         
         //chuyển về collection array
         $idLec1 = self::convertColObjToArray($idLec1);
@@ -550,7 +551,15 @@ class VolumeController extends Controller
                         ['IdFaculty', '=', $faculty],
                         ['Year', '=', $year],
                     ])
+                    ->whereIn('Semester', ['1', '2'])
                     ->whereIn('totalvolume.IdLecturer', $lecIn)
+                    ->orWhere([
+                        ['Year', '=', $year-1],
+                        ['Semester', '=', 'Hè']
+                    ])
+                    ->orderBy('totalvolume.IdLecturer')
+                    ->orderBy('Year', 'DESC')
+                    ->orderBy('Semester')
                     ->get();
         //biến thành array theo từng gianrg vieen
         $totalVols = $totalVols->split($totalVols->count()/3);
