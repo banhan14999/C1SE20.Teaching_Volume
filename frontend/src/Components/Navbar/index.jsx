@@ -19,17 +19,16 @@ function Nav() {
   const navigate = useNavigate();
 
   const IconForm = {
-    "Add new User": <AiOutlineUserAdd />,
-    "Add new Subject": <MdSubject />,
+    "Add New User": <AiOutlineUserAdd />,
+    "Add New Subject": <MdSubject />,
     "Info webpart": <SiWebpack />,
     "Add New Year": <BsCalendarDate />,
     Division: <MdAssignmentInd />,
     Permission: <RiVoiceRecognitionFill />,
     "Add New Class": <SiGoogleclassroom />,
-    "Manage User": <MdManageAccounts />,
+    "Manage Users": <MdManageAccounts />,
     "Manage Subject": <SiManageiq />,
     "Manage Class": <GiManacles />,
-
     "Manage Year": <GiManacles />,
     "View Table": <AiOutlineFolderView />,
     "Manage Workload": <GiNetworkBars />,

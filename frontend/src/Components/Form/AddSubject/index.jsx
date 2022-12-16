@@ -151,6 +151,7 @@ function clickCancel() {
    }
    
    if (checkValInput) {
+    console.log(obj);
      setCheck(true);
      // xét điều kiện và update
      obj.letter.length < 8 &&

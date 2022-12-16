@@ -9,6 +9,7 @@ function ExamDetail({ setRenderAdd, setGrading, setExamvo, Semester, length,titl
   const [subject, setSubject] = useState("");
   const [type, setType] = useState("");
   const [subjectop, setSubjectop] = useState([]);
+
   const refSelectType = useRef()
   const refSelectSubject = useRef()
   const typeOptions = [
@@ -25,6 +26,8 @@ function ExamDetail({ setRenderAdd, setGrading, setExamvo, Semester, length,titl
   function handleCancle() {
     setRenderAdd(false);
   }
+
+
   function handleAdd() {
     if (setGrading) {
         const obj = {
@@ -69,6 +72,9 @@ function ExamDetail({ setRenderAdd, setGrading, setExamvo, Semester, length,titl
               coefficient: Number(exam.coefficient),
             },
           ]);
+          setSubjectop([...subjectop.filter((value) => {
+            return subject.label !== value.label;
+          })])
         }
       
     } else if (setExamvo) {

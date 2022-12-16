@@ -222,7 +222,7 @@ function AddUser(props) {
   useEffect(() => {
     // hiển thị dữ liệu khi có data update
     if (props.btn && data && data.length > 0) {
-      const id = data[0].Id;
+      const id = data[0].IdLecturer;
       const firstname = data[0].FullName.slice(
         0,
         data[0].FullName.indexOf(" ")
