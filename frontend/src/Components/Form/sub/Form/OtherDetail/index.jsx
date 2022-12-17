@@ -5,6 +5,7 @@ import { useState } from "react";
 
 const cx = classNames.bind(styles);
 function OtherDetail({ setRenderAdd, setValueOther }) {
+  const [check,setCheck] = useState(false)
  const [valueForm, setValueForm] = useState({
    activities: "",
    examMonitor: "",
@@ -23,9 +24,16 @@ function OtherDetail({ setRenderAdd, setValueOther }) {
         }
       }
     }
+      setCheck(true);
     if(checkValInput){
-      setValueOther([{...valueForm}]);
-      setRenderAdd(false);
+      if (
+        valueForm.activities > 0 &&
+        valueForm.advisor > 0 &&
+        valueForm.examMonitor > 0 &&
+        valueForm.scientific > 0
+      ){
+        setValueOther([{ ...valueForm }]); setRenderAdd(false);
+      }
     }else {
       alert("Vui lòng nhập đầy đủ các trường!");
     }
@@ -54,10 +62,16 @@ function OtherDetail({ setRenderAdd, setValueOther }) {
                     ...valueForm,
                     activities: Number(e.target.value),
                   });
+                  setCheck(false);
                 }}
               ></input>
             </div>
           </div>
+          {check && valueForm.activities < 0 && (
+            <div className="text-right text-red-800 leading-[10px] mt-1">
+              Activities lớn hơn 0
+            </div>
+          )}
           <div className="w-full flex justify-between mt-2">
             <label htmlFor="" className="w-[30%]">
               Exam monitor
@@ -70,6 +84,7 @@ function OtherDetail({ setRenderAdd, setValueOther }) {
                 className={`w-full input ${cx("input")} `}
                 value={valueForm.examMonitor || ""}
                 onChange={(e) => {
+                  setCheck(false);
                   setValueForm({
                     ...valueForm,
                     examMonitor: Number(e.target.value),
@@ -78,6 +93,11 @@ function OtherDetail({ setRenderAdd, setValueOther }) {
               ></input>
             </div>
           </div>
+          {check && valueForm.examMonitor < 0 && (
+            <div className="text-right text-red-800 leading-[10px] mt-1">
+              Exam monitor lớn hơn 0
+            </div>
+          )}
           <div className="w-full flex justify-between mt-2">
             <label htmlFor="" className="w-[30%]">
               Advisor
@@ -90,6 +110,7 @@ function OtherDetail({ setRenderAdd, setValueOther }) {
                 className={`w-full input ${cx("input")} `}
                 value={valueForm.advisor || ""}
                 onChange={(e) => {
+                  setCheck(false);
                   setValueForm({
                     ...valueForm,
                     advisor: Number(e.target.value),
@@ -98,6 +119,11 @@ function OtherDetail({ setRenderAdd, setValueOther }) {
               ></input>
             </div>
           </div>
+          {check && valueForm.advisor < 0 && (
+            <div className="text-right text-red-800 leading-[10px] mt-1">
+              Advisor lớn hơn 0
+            </div>
+          )}
           <div className="w-full flex justify-between mt-2">
             <label htmlFor="" className="w-[30%]">
               Time Scientific
@@ -110,6 +136,7 @@ function OtherDetail({ setRenderAdd, setValueOther }) {
                 className={`w-full input ${cx("input")} `}
                 value={valueForm.scientific || ""}
                 onChange={(e) => {
+                  setCheck(false);
                   setValueForm({
                     ...valueForm,
                     scientific: Number(e.target.value),
@@ -118,7 +145,11 @@ function OtherDetail({ setRenderAdd, setValueOther }) {
               ></input>
             </div>
           </div>
-
+          {check && valueForm.scientific < 0 && (
+            <div className="text-right text-red-800 leading-[10px] mt-1">
+              Time Scientific lớn hơn 0
+            </div>
+          )}
           <div className="flex justify-around mt-[20px]">
             <Button
               bgcolor="#950b0b"
