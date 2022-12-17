@@ -50,9 +50,10 @@ function ExamDetail({ setRenderAdd, setGrading, setExamvo, Semester, length,titl
         }
         checkValInput && setCheck(true);
         if (!checkValInput) {
-          alert("Vui lòng nhập đầy đủ các trường!");
+          alert("Vui lòng nhập đầy đủ các trường và lớn hơn 0!");
         } else {
            if(obj.time>0 && obj.numberGE >0 && obj.coefficientGrade >0){
+            setCheck(false);
              setExam({
                time: "",
                number: "",
@@ -101,9 +102,10 @@ function ExamDetail({ setRenderAdd, setGrading, setExamvo, Semester, length,titl
         }
         checkValInput && setCheck(true);
         if (!checkValInput) {
-          alert("Vui lòng nhập đầy đủ các trường!");
+          alert("Vui lòng nhập đầy đủ các trường và lớn hơn 0!");
         } else {
           if(obj.time>0 && obj.numberGE >0 && obj.coefficientExam >0){
+            setCheck(false)
             setExam({
               time: "",
               number: "",
