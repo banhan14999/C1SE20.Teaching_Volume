@@ -9,6 +9,7 @@ function ExamDetail({ setRenderAdd, setGrading, setExamvo, Semester, length,titl
   const [subject, setSubject] = useState("");
   const [type, setType] = useState("");
   const [subjectop, setSubjectop] = useState([]);
+  const[ check,setCheck] = useState(false)
 
   const refSelectType = useRef()
   const refSelectSubject = useRef()
@@ -32,94 +33,100 @@ function ExamDetail({ setRenderAdd, setGrading, setExamvo, Semester, length,titl
     if (setGrading) {
         const obj = {
           // credit: exam.credit,
-          subject: subject.label|| "",
-          type: type.value || "",
+          subject: (subject && subject.label) || "",
+          type: (type && type.value) || "",
           time: Number(exam.time),
           numberGE: Number(exam.number),
           coefficientGrade: Number(exam.coefficient),
-          idSubject: subject.id,
+          idSubject: subject && subject.id,
         };
         let checkValInput = true;
         for (let key in obj) {
           if (obj.hasOwnProperty(key)) {
-            if (obj[key] === "") {
+            if (obj[key] === "" || obj[key] ===0) {
               checkValInput = false;
             }
           }
         }
+        setCheck(true)
         if (!checkValInput) {
           alert("Vui lòng nhập đầy đủ các trường!");
         } else {
-          setExam({
-            time: "",
-            number: "",
-            coefficient: "",
-          });
-           refSelectSubject.current.clearValue();
-           refSelectType.current.clearValue();
-          setGrading((prev) => [
-            ...prev,
-            {
-              ...obj,
-              stt: length.length + 1,
-              letter: subject.value.slice(0, subject.value.indexOf(" ")),
-              numbercode: subject.value.slice(
-                subject.value.indexOf(" ") + 1,
-                subject.value.length
-              ),
-              semester: Semester,
-              unit: "Bài",
-              coefficient: Number(exam.coefficient),
-            },
-          ]);
-          setSubjectop([...subjectop.filter((value) => {
-            return subject.label !== value.label;
-          })])
+           if(obj.time>0 && obj.numberGE >0 && obj.coefficientGrade >0){
+             setExam({
+               time: "",
+               number: "",
+               coefficient: "",
+             });
+              refSelectSubject.current.clearValue();
+              refSelectType.current.clearValue();
+             setGrading((prev) => [
+               ...prev,
+               {
+                 ...obj,
+                 stt: length.length + 1,
+                 letter: subject.value.slice(0, subject.value.indexOf(" ")),
+                 numbercode: subject.value.slice(
+                 subject.value.indexOf(" ") + 1,
+                 subject.value.length
+                 ),
+                 semester: Semester,
+                 unit: "Bài",
+                 coefficient: Number(exam.coefficient),
+               },
+             ]);
+             setSubjectop([...subjectop.filter((value) => {
+               return subject.label !== value.label;
+             })])
+           }
         }
       
     } else if (setExamvo) {
         const obj = {
           // credit: exam.credit,
-          subject: subject.label || "",
-          type: type.value || "",
+          subject: (subject && subject.label) || "",
+          type: (type && type.value) || "",
           time: Number(exam.time),
           numberGE: Number(exam.number),
           coefficientExam: Number(exam.coefficient),
-          idSubject: subject.id,
+          idSubject: subject && subject.id,
         };
         let checkValInput = true;
         for (let key in obj) {
           if (obj.hasOwnProperty(key)) {
-            if (obj[key] === "") {
+            if (obj[key] === "" || obj[key]===0) {
               checkValInput = false;
             }
           }
         }
+        setCheck(true)
         if (!checkValInput) {
           alert("Vui lòng nhập đầy đủ các trường!");
         } else {
-          setExam({
-            time: "",
-            number: "",
-            coefficient: "",
-          });
-          refSelectSubject.current.clearValue();
-          refSelectType.current.clearValue();
-          setExamvo((prev) => [
-            ...prev,
-            {
-              ...obj,
-              stt: length.length + 1,
-              letter: subject.value.slice(0, subject.value.indexOf(" ")),
-              numbercode: subject.value.slice(
-                subject.value.indexOf(" ") + 1,
-                subject.value.length
-              ),
-              semester: Semester,
-              unit: "Đề",
-              coefficient: exam.coefficient,
-            },
-          ]);
+          if(obj.time>0 && obj.numberGE >0 && obj.coefficientExam >0){
+            setExam({
+              time: "",
+              number: "",
+              coefficient: "",
+            });
+            refSelectSubject.current.clearValue();
+            refSelectType.current.clearValue();
+            setExamvo((prev) => [
+              ...prev,
+              {
+                ...obj,
+                stt: length.length + 1,
+                letter: subject.value.slice(0, subject.value.indexOf(" ")),
+                numbercode: subject.value.slice(
+                  subject.value.indexOf(" ") + 1,
+                  subject.value.length
+                ),
+                semester: Semester,
+                unit: "Đề",
+                coefficient: exam.coefficient,
+              },
+            ]);
+          }
         }
       }
     
@@ -184,11 +191,17 @@ function ExamDetail({ setRenderAdd, setGrading, setExamvo, Semester, length,titl
                 className={`w-full input ${cx("input")} `}
                 value={exam.time}
                 onChange={(e) => {
+                  setCheck(false);
                   setExam({ ...exam, time: e.target.value });
                 }}
               ></input>
             </div>
           </div>
+          {check && exam.time <= 1 && (
+            <div className="text-right text-red-800 leading-[10px] mt-1">
+              Time lớn hơn 1
+            </div>
+          )}
           <div className="w-full flex justify-between mt-2">
             <label htmlFor="" className="w-[30%]">
               Number
@@ -201,11 +214,17 @@ function ExamDetail({ setRenderAdd, setGrading, setExamvo, Semester, length,titl
                 className={`w-full input ${cx("input")} `}
                 value={exam.number}
                 onChange={(e) => {
+                  setCheck(false);
                   setExam({ ...exam, number: e.target.value });
                 }}
               ></input>
             </div>
           </div>
+          {check && exam.number < 0 && (
+            <div className="text-right text-red-800 leading-[10px] mt-1">
+              Number lớn hơn 0
+            </div>
+          )}
           <div className="w-full flex justify-between mt-2">
             <label htmlFor="" className="w-[30%]">
               Coefficient
@@ -218,11 +237,17 @@ function ExamDetail({ setRenderAdd, setGrading, setExamvo, Semester, length,titl
                 className={`w-full input ${cx("input")} `}
                 value={exam.coefficient}
                 onChange={(e) => {
+                  setCheck(false);
                   setExam({ ...exam, coefficient: e.target.value });
                 }}
               ></input>
             </div>
           </div>
+          {check && exam.coefficient < 0 && (
+            <div className="text-right text-red-800 leading-[10px] mt-1">
+              Coefficient lớn hơn 0
+            </div>
+          )}
           <div className="flex justify-around mt-[20px]">
             <Button
               bgcolor="#950b0b"
