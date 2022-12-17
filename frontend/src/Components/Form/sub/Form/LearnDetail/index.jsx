@@ -48,7 +48,7 @@ function ExamDetail({ setRenderAdd, setGrading, setExamvo, Semester, length,titl
             }
           }
         }
-        setCheck(true)
+        checkValInput && setCheck(true);
         if (!checkValInput) {
           alert("Vui lòng nhập đầy đủ các trường!");
         } else {
@@ -99,7 +99,7 @@ function ExamDetail({ setRenderAdd, setGrading, setExamvo, Semester, length,titl
             }
           }
         }
-        setCheck(true)
+        checkValInput && setCheck(true);
         if (!checkValInput) {
           alert("Vui lòng nhập đầy đủ các trường!");
         } else {
@@ -197,7 +197,7 @@ function ExamDetail({ setRenderAdd, setGrading, setExamvo, Semester, length,titl
               ></input>
             </div>
           </div>
-          {check && exam.time <= 1 && (
+          {check && exam.time <=1 && (
             <div className="text-right text-red-800 leading-[10px] mt-1">
               Time lớn hơn 1
             </div>
