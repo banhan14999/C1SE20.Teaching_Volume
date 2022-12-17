@@ -169,7 +169,7 @@ function ManagerSubject() {
   return (
     <div>
       {param.id ? (
-        <AddSubject btn="Update" title="Updata Subject"></AddSubject>
+        <AddSubject btn="Update" title="Update Subject"></AddSubject>
       ) : (
         <div className={`container`}>
           <div className="text-center text-[20px] font-[600] line mb-[20px] text-red-700">

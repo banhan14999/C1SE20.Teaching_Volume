@@ -166,7 +166,7 @@ function ClassInformation(props) {
           Number(obj.SubjectCoefficient) > 0 &&
           ApiTeachingVolume.Post("/class/add", obj)
             .then((res) => {
-              setCheck(false);
+                setCheck(false);
               if (
                 res &&
                 res.data &&
@@ -431,7 +431,7 @@ function ClassInformation(props) {
                 (!isNaN(valuesForm.credit * 1) &&
                   (Number(valuesForm.credit) <= 0 ||
                     Number(valuesForm.credit) >= 5))) && (
-                <div className="text-right text-red-800 leading-[10px] mt-1">
+                <div className={`text-right text-red-800 leading-[10px] mt-1 `}>
                   credit 1-4
                 </div>
               )}
@@ -494,13 +494,13 @@ function ClassInformation(props) {
                 </p>
               )}
             </div>
-            {check &&
-              (valuesForm.numberOfStudent < 1 ||
-                valuesForm.numberOfStudent > 100) && (
-                <div className="text-right text-red-800 leading-[10px] mt-1">
-                  Number lớn hơn không
-                </div>
-              )}
+            { (check &&
+                (valuesForm.numberOfStudent < 1 ||
+                  valuesForm.numberOfStudent > 100) && (
+                  <div className="text-right text-red-800 leading-[10px] mt-1">
+                    Number lớn hơn không
+                  </div>
+                ))}
             <div className="w-full flex justify-between mt-2">
               <label htmlFor="" className="w-[30%]">
                 Subject Coefficient
@@ -530,10 +530,10 @@ function ClassInformation(props) {
               )}
             </div>
             {check && Number(valuesForm.subjectCoefficient) < 0 && (
-              <div className="text-right text-red-800 leading-[10px] mt-1">
-                Number lớn hơn không
-              </div>
-            )}
+                <div className="text-right text-red-800 leading-[10px] mt-1">
+                  Number lớn hơn không
+                </div>
+              )}
             {/* <div className="w-full  justify-between mt-2 hidden">
               <label htmlFor="" className="w-[30%]">
                 Unit
