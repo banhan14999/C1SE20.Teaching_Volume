@@ -19,7 +19,6 @@ import Box from "@mui/material/Box";
 import PropTypes from "prop-types";
 import { ApiTeachingVolume } from "../../apis/axios";
 import { useState } from "react";
-import Loading from "../Loading";
 
 function ViewSemester({ year, semester, label }) {
   const [rows, setRows] = useState([]);
@@ -215,7 +214,6 @@ function ViewSemester({ year, semester, label }) {
 
   return (
     <div id="print">
-      {rows.length > 0 ? (
         <div className="w-full mx-auto">
           <TableContainer component={Paper}>
             <Table aria-label="spanning table">
@@ -386,9 +384,6 @@ function ViewSemester({ year, semester, label }) {
             </div>
           </div>
         </div>
-      ) : (
-        <Loading />
-      )}
     </div>
   );
 }

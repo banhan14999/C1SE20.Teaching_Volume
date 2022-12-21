@@ -22,7 +22,7 @@ function Home() {
     const headurl = [
       "/home/approval",
       "/home/manageworkload",
-      "/home/division",
+      "/home/divide",
       "/home/manageclass",
       "/home/infowebpart",
     ];

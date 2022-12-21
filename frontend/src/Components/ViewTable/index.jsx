@@ -21,47 +21,45 @@ import  StyledTableCell from "../StyledTableCell";
 import styles from "./viewtable.module.scss";
 import { useRef, useEffect, useState } from "react";
 import { ApiTeachingVolume } from "../../apis/axios";
-import Loading from "../Loading";
 const cx = classNames.bind(styles);
 
-function ViewTable({year,semester}) {
-  const reftableview= useRef()
-  const [workload,setWorkload]= React.useState([])
-   const [total, setTotal] = useState({
-     Teaching1: 0,
-     guide1: 0,
-     gradingPaper1: 0,
-     examQuestions1: 0,
-     examSupervisor1: 0,
-     facultyActivities1: 0,
-     academicAdvisor1: 0,
-     total1: 0,
-     Teaching2: 0,
-     guide2: 0,
-     gradingPaper2: 0,
-     examQuestions2: 0,
-     examSupervisor2: 0,
-     facultyActivities2: 0,
-     academicAdvisor2: 0,
-     total2: 0,
-     Teaching3: 0,
-     guide3: 0,
-     gradingPaper3: 0,
-     examQuestions3: 0,
-     examSupervisor3: 0,
-     academicAdvisor3: 0,
-     total3: 0,
-     Teaching: 0,
-     guide: 0,
-     gradingPaper: 0,
-     examQuestions: 0,
-     examSupervisor: 0,
-     facultyActivities: 0,
-     academicAdvisor: 0,
-     totalvolume: 0,
-     TimeScientificVolume:0,
-     
-   });
+function ViewTable({ year, semester, yearLabel }) {
+  const reftableview = useRef();
+  const [workload, setWorkload] = React.useState([]);
+  const [total, setTotal] = useState({
+    Teaching1: 0,
+    guide1: 0,
+    gradingPaper1: 0,
+    examQuestions1: 0,
+    examSupervisor1: 0,
+    facultyActivities1: 0,
+    academicAdvisor1: 0,
+    total1: 0,
+    Teaching2: 0,
+    guide2: 0,
+    gradingPaper2: 0,
+    examQuestions2: 0,
+    examSupervisor2: 0,
+    facultyActivities2: 0,
+    academicAdvisor2: 0,
+    total2: 0,
+    Teaching3: 0,
+    guide3: 0,
+    gradingPaper3: 0,
+    examQuestions3: 0,
+    examSupervisor3: 0,
+    academicAdvisor3: 0,
+    total3: 0,
+    Teaching: 0,
+    guide: 0,
+    gradingPaper: 0,
+    examQuestions: 0,
+    examSupervisor: 0,
+    facultyActivities: 0,
+    academicAdvisor: 0,
+    totalvolume: 0,
+    TimeScientificVolume: 0,
+  });
   function TablePaginationActions(props) {
     const theme = useTheme();
     const { count, page, rowsPerPage, onPageChange } = props;
@@ -197,183 +195,187 @@ function ViewTable({year,semester}) {
       TimeScientificVolume3,
     };
   }
-  function sumTotalVolumn(arr){
-     const sum = arr.reduce(
-       (arr1, obj) => {
-         return {
-           ...arr1,
-           Teaching: arr1["Teaching"] + Number(obj["TeachingVolume"]),
-           guide: arr1["guide"] + Number(obj["ProjectVolume"]),
-           gradingPaper: arr1["gradingPaper"] + Number(obj["GradingVolume"]),
-           examQuestions:
-             arr1["examQuestions"] + Number(obj["ExamMonitorVolume"]),
-           examSupervisor: arr1["examSupervisor"] + Number(obj["ExamVolume"]),
-           facultyActivities:
-             arr1["facultyActivities"] + Number(obj["ActivitiesVolume"]),
-           academicAdvisor:
-             arr1["academicAdvisor"] + Number(obj["AdvisorVolume"]),
-           total: arr1["total"] + Number(obj["TotalVolume"]),
-           TimeScientificVolume: arr1["TimeScientificVolume"] + Number(obj["TimeScientificVolume"]),
-         };
-       },
-       {
-         Teaching: 0,
-         guide: 0,
-         gradingPaper: 0,
-         examQuestions: 0,
-         examSupervisor: 0,
-         facultyActivities: 0,
-         academicAdvisor: 0,
-         total: 0,
-         TimeScientificVolume:0
-       }
-     );
-     return sum
-  }
- useEffect(()=>{
-      if(year){
-        ApiTeachingVolume.Get(`volume/fulltotalByDean/year/${year}`).then(
-          (res) => {
-            console.log(res.totalVols);
-            const arr = res.totalVols.map((e,index) => {
-              return createRow(
-                index,
-                e[0].IdLecturer,
-                e[0].FirstName,
-                e[0].LastName,
-                e[0].TeachingVolume,
-                e[0].ProjectVolume,
-                e[0].GradingVolume,
-                e[0].ExamMonitorVolume,
-                e[0].ExamVolume,
-                e[0].ActivitiesVolume,
-                e[0].AdvisorVolume,
-                e[0].TotalVolume,
-                e[1].TeachingVolume,
-                e[1].ProjectVolume,
-                e[1].GradingVolume,
-                e[1].ExamMonitorVolume,
-                e[1].ExamVolume,
-                e[1].ActivitiesVolume,
-                e[1].AdvisorVolume,
-                e[1].TotalVolume,
-                e[2].TeachingVolume,
-                e[2].ProjectVolume,
-                e[2].GradingVolume,
-                e[2].ExamMonitorVolume,
-                e[2].ExamVolume,
-                e[2].AdvisorVolume,
-                e[2].TotalVolume,
-                sumTotalVolumn(e),
-                e[0].TimeScientificVolume,
-                e[1].TimeScientificVolume,
-                e[2].TimeScientificVolume
-              );
-            });
-            const totalvolumes = arr.reduce(
-              (arr1, obj) => {
-                return {
-                  ...arr1,
-                  Teaching1: arr1["Teaching1"] + Number(obj["Teaching1"]),
-                  guide1: arr1["guide1"] + Number(obj["guide1"]),
-                  gradingPaper1:
-                    arr1["gradingPaper1"] + Number(obj["gradingPaper1"]),
-                  examQuestions1:
-                    arr1["examQuestions1"] + Number(obj["examQuestions1"]),
-                  examSupervisor1:
-                    arr1["examSupervisor1"] + Number(obj["examSupervisor1"]),
-                  facultyActivities1:
-                    arr1["facultyActivities1"] +
-                    Number(obj["facultyActivities1"]),
-                  academicAdvisor1:
-                    arr1["academicAdvisor1"] + Number(obj["academicAdvisor1"]),
-                  total1: arr1["total1"] + Number(obj["total1"]),
-
-                  Teaching2: arr1["Teaching2"] + Number(obj["Teaching2"]),
-                  guide2: arr1["guide2"] + Number(obj["guide2"]),
-                  gradingPaper2:
-                    arr1["gradingPaper2"] + Number(obj["gradingPaper2"]),
-                  examQuestions2:
-                    arr1["examQuestions2"] + Number(obj["examQuestions2"]),
-                  examSupervisor2:
-                    arr1["examSupervisor2"] + Number(obj["examSupervisor2"]),
-                  facultyActivities2:
-                    arr1["facultyActivities2"] +
-                    Number(obj["facultyActivities2"]),
-                  academicAdvisor2:
-                    arr1["academicAdvisor2"] + Number(obj["academicAdvisor2"]),
-                  total2: arr1["total2"] + Number(obj["total2"]),
-
-                  Teaching3: arr1["Teaching3"] + Number(obj["Teaching3"]),
-                  guide3: arr1["guide3"] + Number(obj["guide3"]),
-                  gradingPaper3:
-                    arr1["gradingPaper3"] + Number(obj["gradingPaper3"]),
-                  examQuestions3:
-                    arr1["examQuestions3"] + Number(obj["examQuestions3"]),
-                  examSupervisor3:
-                    arr1["examSupervisor3"] + Number(obj["examSupervisor3"]),
-                  academicAdvisor3:
-                    arr1["academicAdvisor3"] + Number(obj["academicAdvisor3"]),
-                  total3: arr1["total3"] + Number(obj["total3"]),
-                  Teaching: arr1["Teaching"] + Number(obj["Teaching"]),
-                  guide: arr1["guide"] + Number(obj["guide"]),
-                  gradingPaper:
-                    arr1["gradingPaper"] + Number(obj["gradingPaper"]),
-                  examQuestions:
-                    arr1["examQuestions"] + Number(obj["examQuestions"]),
-                  examSupervisor:
-                    arr1["examSupervisor"] + Number(obj["examSupervisor"]),
-                  facultyActivities:
-                    arr1["facultyActivities"] +
-                    Number(obj["facultyActivities"]),
-                  academicAdvisor:
-                    arr1["academicAdvisor"] + Number(obj["academicAdvisor"]),
-                  totalvolume: arr1["totalvolume"] + Number(obj["total"]),
-                  TimeScientificVolume: arr1["TimeScientificVolume"]+Number(obj["TimeScientificVolume1"])+Number(obj["TimeScientificVolume2"])+Number(obj["TimeScientificVolume3"]),
-                };
-              },
-              {
-                Teaching1: 0,
-                guide1: 0,
-                gradingPaper1: 0,
-                examQuestions1: 0,
-                examSupervisor1: 0,
-                facultyActivities1: 0,
-                academicAdvisor1: 0,
-                total1: 0,
-                Teaching2: 0,
-                guide2: 0,
-                gradingPaper2: 0,
-                examQuestions2: 0,
-                examSupervisor2: 0,
-                facultyActivities2: 0,
-                academicAdvisor2: 0,
-                total2: 0,
-                Teaching3: 0,
-                guide3: 0,
-                gradingPaper3: 0,
-                examQuestions3: 0,
-                examSupervisor3: 0,
-                total3: 0,
-                academicAdvisor3: 0,
-                Teaching: 0,
-                guide: 0,
-                gradingPaper: 0,
-                examQuestions: 0,
-                examSupervisor: 0,
-                facultyActivities: 0,
-                academicAdvisor: 0,
-                totalvolume: 0,
-                TimeScientificVolume:0
-              }
-            );
-            setWorkload([...arr]);
-             setTotal(totalvolumes);
-          }
-        );
+  function sumTotalVolumn(arr) {
+    const sum = arr.reduce(
+      (arr1, obj) => {
+        return {
+          ...arr1,
+          Teaching: arr1["Teaching"] + Number(obj["TeachingVolume"]),
+          guide: arr1["guide"] + Number(obj["ProjectVolume"]),
+          gradingPaper: arr1["gradingPaper"] + Number(obj["GradingVolume"]),
+          examQuestions:
+            arr1["examQuestions"] + Number(obj["ExamMonitorVolume"]),
+          examSupervisor: arr1["examSupervisor"] + Number(obj["ExamVolume"]),
+          facultyActivities:
+            arr1["facultyActivities"] + Number(obj["ActivitiesVolume"]),
+          academicAdvisor:
+            arr1["academicAdvisor"] + Number(obj["AdvisorVolume"]),
+          total: arr1["total"] + Number(obj["TotalVolume"]),
+          TimeScientificVolume:
+            arr1["TimeScientificVolume"] + Number(obj["TimeScientificVolume"]),
+        };
+      },
+      {
+        Teaching: 0,
+        guide: 0,
+        gradingPaper: 0,
+        examQuestions: 0,
+        examSupervisor: 0,
+        facultyActivities: 0,
+        academicAdvisor: 0,
+        total: 0,
+        TimeScientificVolume: 0,
       }
- },[year])
- 
+    );
+    return sum;
+  }
+  useEffect(() => {
+    if (year) {
+      ApiTeachingVolume.Get(`volume/fulltotalByDean/year/${year}`).then(
+        (res) => {
+          console.log(res.totalVols);
+          const arr = res.totalVols.map((e, index) => {
+            return createRow(
+              index,
+              e[0].IdLecturer,
+              e[0].FirstName,
+              e[0].LastName,
+              e[0].TeachingVolume,
+              e[0].ProjectVolume,
+              e[0].GradingVolume,
+              e[0].ExamMonitorVolume,
+              e[0].ExamVolume,
+              e[0].ActivitiesVolume,
+              e[0].AdvisorVolume,
+              e[0].TotalVolume,
+              e[1].TeachingVolume,
+              e[1].ProjectVolume,
+              e[1].GradingVolume,
+              e[1].ExamMonitorVolume,
+              e[1].ExamVolume,
+              e[1].ActivitiesVolume,
+              e[1].AdvisorVolume,
+              e[1].TotalVolume,
+              e[2].TeachingVolume,
+              e[2].ProjectVolume,
+              e[2].GradingVolume,
+              e[2].ExamMonitorVolume,
+              e[2].ExamVolume,
+              e[2].AdvisorVolume,
+              e[2].TotalVolume,
+              sumTotalVolumn(e),
+              e[0].TimeScientificVolume,
+              e[1].TimeScientificVolume,
+              e[2].TimeScientificVolume
+            );
+          });
+          const totalvolumes = arr.reduce(
+            (arr1, obj) => {
+              return {
+                ...arr1,
+                Teaching1: arr1["Teaching1"] + Number(obj["Teaching1"]),
+                guide1: arr1["guide1"] + Number(obj["guide1"]),
+                gradingPaper1:
+                  arr1["gradingPaper1"] + Number(obj["gradingPaper1"]),
+                examQuestions1:
+                  arr1["examQuestions1"] + Number(obj["examQuestions1"]),
+                examSupervisor1:
+                  arr1["examSupervisor1"] + Number(obj["examSupervisor1"]),
+                facultyActivities1:
+                  arr1["facultyActivities1"] +
+                  Number(obj["facultyActivities1"]),
+                academicAdvisor1:
+                  arr1["academicAdvisor1"] + Number(obj["academicAdvisor1"]),
+                total1: arr1["total1"] + Number(obj["total1"]),
+
+                Teaching2: arr1["Teaching2"] + Number(obj["Teaching2"]),
+                guide2: arr1["guide2"] + Number(obj["guide2"]),
+                gradingPaper2:
+                  arr1["gradingPaper2"] + Number(obj["gradingPaper2"]),
+                examQuestions2:
+                  arr1["examQuestions2"] + Number(obj["examQuestions2"]),
+                examSupervisor2:
+                  arr1["examSupervisor2"] + Number(obj["examSupervisor2"]),
+                facultyActivities2:
+                  arr1["facultyActivities2"] +
+                  Number(obj["facultyActivities2"]),
+                academicAdvisor2:
+                  arr1["academicAdvisor2"] + Number(obj["academicAdvisor2"]),
+                total2: arr1["total2"] + Number(obj["total2"]),
+
+                Teaching3: arr1["Teaching3"] + Number(obj["Teaching3"]),
+                guide3: arr1["guide3"] + Number(obj["guide3"]),
+                gradingPaper3:
+                  arr1["gradingPaper3"] + Number(obj["gradingPaper3"]),
+                examQuestions3:
+                  arr1["examQuestions3"] + Number(obj["examQuestions3"]),
+                examSupervisor3:
+                  arr1["examSupervisor3"] + Number(obj["examSupervisor3"]),
+                academicAdvisor3:
+                  arr1["academicAdvisor3"] + Number(obj["academicAdvisor3"]),
+                total3: arr1["total3"] + Number(obj["total3"]),
+                Teaching: arr1["Teaching"] + Number(obj["Teaching"]),
+                guide: arr1["guide"] + Number(obj["guide"]),
+                gradingPaper:
+                  arr1["gradingPaper"] + Number(obj["gradingPaper"]),
+                examQuestions:
+                  arr1["examQuestions"] + Number(obj["examQuestions"]),
+                examSupervisor:
+                  arr1["examSupervisor"] + Number(obj["examSupervisor"]),
+                facultyActivities:
+                  arr1["facultyActivities"] + Number(obj["facultyActivities"]),
+                academicAdvisor:
+                  arr1["academicAdvisor"] + Number(obj["academicAdvisor"]),
+                totalvolume: arr1["totalvolume"] + Number(obj["total"]),
+                TimeScientificVolume:
+                  arr1["TimeScientificVolume"] +
+                  Number(obj["TimeScientificVolume1"]) +
+                  Number(obj["TimeScientificVolume2"]) +
+                  Number(obj["TimeScientificVolume3"]),
+              };
+            },
+            {
+              Teaching1: 0,
+              guide1: 0,
+              gradingPaper1: 0,
+              examQuestions1: 0,
+              examSupervisor1: 0,
+              facultyActivities1: 0,
+              academicAdvisor1: 0,
+              total1: 0,
+              Teaching2: 0,
+              guide2: 0,
+              gradingPaper2: 0,
+              examQuestions2: 0,
+              examSupervisor2: 0,
+              facultyActivities2: 0,
+              academicAdvisor2: 0,
+              total2: 0,
+              Teaching3: 0,
+              guide3: 0,
+              gradingPaper3: 0,
+              examQuestions3: 0,
+              examSupervisor3: 0,
+              total3: 0,
+              academicAdvisor3: 0,
+              Teaching: 0,
+              guide: 0,
+              gradingPaper: 0,
+              examQuestions: 0,
+              examSupervisor: 0,
+              facultyActivities: 0,
+              academicAdvisor: 0,
+              totalvolume: 0,
+              TimeScientificVolume: 0,
+            }
+          );
+          setWorkload([...arr]);
+          setTotal(totalvolumes);
+        }
+      );
+    }
+  }, [year]);
+
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
@@ -391,7 +393,6 @@ function ViewTable({year,semester}) {
   };
   return (
     <div className="container">
-      {workload.length > 0 ? (
         <div className={`${cx("tableview")}`} id="print" ref={reftableview}>
           <h1
             className="text-center font-bold text-[30px] text-red-800 leading-[80px]"
@@ -411,55 +412,26 @@ function ViewTable({year,semester}) {
             <Table size="small">
               <TableHead style={{ backgroundColor: "#afafaf" }}>
                 <TableRow>
-                  <StyledTableCell
-                    
-                    align="center"
-                    rowSpan={2}
-                  >
+                  <StyledTableCell align="center" rowSpan={2}>
                     STT
                   </StyledTableCell>
-                  <StyledTableCell
-                    
-                    align="center"
-                    rowSpan={2}
-                  >
+                  <StyledTableCell align="center" rowSpan={2}>
                     MA GIANG VIEN
                   </StyledTableCell>
-                  <StyledTableCell
-                    
-                    align="center"
-                    rowSpan={3}
-                    colSpan={2}
-                  >
+                  <StyledTableCell align="center" rowSpan={3} colSpan={2}>
                     HỌ&nbsp;VÀ TÊN
                   </StyledTableCell>
-                  <StyledTableCell
-                    
-                    align="center"
-                    colSpan={8}
-                  >
+                  <StyledTableCell align="center" colSpan={8}>
                     HỌC KÌ I
                   </StyledTableCell>
-                  <StyledTableCell
-                    
-                    align="center"
-                    colSpan={8}
-                  >
+                  <StyledTableCell align="center" colSpan={8}>
                     HỌC KÌ II
                   </StyledTableCell>
-                  <StyledTableCell
-                    
-                    align="center"
-                    colSpan={6}
-                  >
-                    HỌC KÌ HÈ 2020-2021
+                  <StyledTableCell align="center" colSpan={6}>
+                    HỌC KÌ HÈ {year - 1 + "-" + year}
                   </StyledTableCell>
-                  <StyledTableCell
-                    
-                    align="center"
-                    colSpan={8}
-                  >
-                    NĂM HỌC 2021-2022
+                  <StyledTableCell align="center" colSpan={8}>
+                    NĂM HỌC {yearLabel}
                   </StyledTableCell>
                   <StyledTableCell
                     align="center"
@@ -484,27 +456,15 @@ function ViewTable({year,semester}) {
                   </StyledTableCell>
                 </TableRow>
                 <TableRow>
-                  <StyledTableCell  align="center">
-                    GIẢNG DẠY
-                  </StyledTableCell>
-                  <StyledTableCell  align="center">
-                    HƯỚNG DẪN
-                  </StyledTableCell>
-                  <StyledTableCell  align="center">
-                    CHẤM BÀI
-                  </StyledTableCell>
-                  <StyledTableCell  align="center">
-                    ĐỀ THI
-                  </StyledTableCell>
-                  <StyledTableCell  align="center">
-                    COI THI
-                  </StyledTableCell>
-                  <StyledTableCell  align="center">
+                  <StyledTableCell align="center">GIẢNG DẠY</StyledTableCell>
+                  <StyledTableCell align="center">HƯỚNG DẪN</StyledTableCell>
+                  <StyledTableCell align="center">CHẤM BÀI</StyledTableCell>
+                  <StyledTableCell align="center">ĐỀ THI</StyledTableCell>
+                  <StyledTableCell align="center">COI THI</StyledTableCell>
+                  <StyledTableCell align="center">
                     SINH HOẠT KHOA
                   </StyledTableCell>
-                  <StyledTableCell  align="center">
-                    CỐ VẤN HT
-                  </StyledTableCell>
+                  <StyledTableCell align="center">CỐ VẤN HT</StyledTableCell>
                   <StyledTableCell
                     align="center"
                     style={{
@@ -515,27 +475,15 @@ function ViewTable({year,semester}) {
                     TỔNG HỌC KÌ I
                   </StyledTableCell>
 
-                  <StyledTableCell  align="center">
-                    GIẢNG DẠY
-                  </StyledTableCell>
-                  <StyledTableCell  align="center">
-                    HƯỚNG DẪN
-                  </StyledTableCell>
-                  <StyledTableCell  align="center">
-                    CHẤM BÀI
-                  </StyledTableCell>
-                  <StyledTableCell  align="center">
-                    ĐỀ THI
-                  </StyledTableCell>
-                  <StyledTableCell  align="center">
-                    COI THI
-                  </StyledTableCell>
-                  <StyledTableCell  align="center">
+                  <StyledTableCell align="center">GIẢNG DẠY</StyledTableCell>
+                  <StyledTableCell align="center">HƯỚNG DẪN</StyledTableCell>
+                  <StyledTableCell align="center">CHẤM BÀI</StyledTableCell>
+                  <StyledTableCell align="center">ĐỀ THI</StyledTableCell>
+                  <StyledTableCell align="center">COI THI</StyledTableCell>
+                  <StyledTableCell align="center">
                     SINH HOẠT KHOA
                   </StyledTableCell>
-                  <StyledTableCell  align="center">
-                    CỐ VẤN HT
-                  </StyledTableCell>
+                  <StyledTableCell align="center">CỐ VẤN HT</StyledTableCell>
                   <StyledTableCell
                     align="center"
                     style={{
@@ -546,21 +494,11 @@ function ViewTable({year,semester}) {
                     TỔNG HỌC KÌ II
                   </StyledTableCell>
 
-                  <StyledTableCell  align="center">
-                    GIẢNG DẠY
-                  </StyledTableCell>
-                  <StyledTableCell  align="center">
-                    HƯỚNG DẪN
-                  </StyledTableCell>
-                  <StyledTableCell  align="center">
-                    CHẤM BÀI
-                  </StyledTableCell>
-                  <StyledTableCell  align="center">
-                    ĐỀ THI
-                  </StyledTableCell>
-                  <StyledTableCell  align="center">
-                    COI THI
-                  </StyledTableCell>
+                  <StyledTableCell align="center">GIẢNG DẠY</StyledTableCell>
+                  <StyledTableCell align="center">HƯỚNG DẪN</StyledTableCell>
+                  <StyledTableCell align="center">CHẤM BÀI</StyledTableCell>
+                  <StyledTableCell align="center">ĐỀ THI</StyledTableCell>
+                  <StyledTableCell align="center">COI THI</StyledTableCell>
                   <StyledTableCell
                     align="center"
                     style={{
@@ -581,27 +519,15 @@ function ViewTable({year,semester}) {
                     GIỜ ĐỨNG LỚP
                   </StyledTableCell>
 
-                  <StyledTableCell  align="center">
-                    GIẢNG DẠY
-                  </StyledTableCell>
-                  <StyledTableCell  align="center">
-                    HƯỚNG DẪN
-                  </StyledTableCell>
-                  <StyledTableCell  align="center">
-                    CHẤM BÀI
-                  </StyledTableCell>
-                  <StyledTableCell  align="center">
-                    ĐỀ THI
-                  </StyledTableCell>
-                  <StyledTableCell  align="center">
-                    COI THI
-                  </StyledTableCell>
-                  <StyledTableCell  align="center">
+                  <StyledTableCell align="center">GIẢNG DẠY</StyledTableCell>
+                  <StyledTableCell align="center">HƯỚNG DẪN</StyledTableCell>
+                  <StyledTableCell align="center">CHẤM BÀI</StyledTableCell>
+                  <StyledTableCell align="center">ĐỀ THI</StyledTableCell>
+                  <StyledTableCell align="center">COI THI</StyledTableCell>
+                  <StyledTableCell align="center">
                     SINH HOẠT KHOA
                   </StyledTableCell>
-                  <StyledTableCell  align="center">
-                    CỐ VẤN HT
-                  </StyledTableCell>
+                  <StyledTableCell align="center">CỐ VẤN HT</StyledTableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -918,9 +844,6 @@ function ViewTable({year,semester}) {
             </div>
           </div>
         </div>
-      ) : (
-        <Loading />
-      )}
     </div>
   );
 }
