@@ -90,7 +90,7 @@ Route::middleware(['auth:sanctum'])->group(function(){
             Route::get('{id}','show');
             Route::get('letter/{letter}','getAllSubjectByLetter');
             Route::get('getSubjectByYearAndSemester/semester/{sem}/year/{year}','getSubjectBySemesterAndYear');
-            Route::get('Lec/idLec/{idLec}/sem/{sem}/year/{year}', 'getSubjectByLec');
+            Route::get('Lec/sem/{sem}/year/{year}', 'getSubjectByLec');
 
             Route::post('add','store');
 
