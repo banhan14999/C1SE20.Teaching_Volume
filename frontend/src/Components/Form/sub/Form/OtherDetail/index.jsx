@@ -1,17 +1,23 @@
 import classNames from "classnames/bind";
 import styles from "./other.module.scss";
 import Button from "../../../../Button";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 const cx = classNames.bind(styles);
-function OtherDetail({ setRenderAdd, setValueOther }) {
-  const [check,setCheck] = useState(false)
- const [valueForm, setValueForm] = useState({
-   activities: "",
-   examMonitor: "",
-   advisor: "",
-   scientific: "",
- });
+function OtherDetail({ setRenderAdd, setValueOther, valueOther }) {
+
+  const activities = useRef()
+  const examMonitor = useRef();
+  const advisor = useRef();
+  const scientific = useRef();
+
+  const [check, setCheck] = useState(false);
+  const [valueForm, setValueForm] = useState({
+    activities: 0,
+    examMonitor: 0,
+    advisor: 0,
+    scientific: 0,
+  });
   function handleCancle() {
     setRenderAdd(false);
   }
@@ -24,17 +30,24 @@ function OtherDetail({ setRenderAdd, setValueOther }) {
         }
       }
     }
-      setCheck(true);
-    if(checkValInput){
+    setCheck(true);
+    if (checkValInput) {
       if (
-        valueForm.activities > 0 &&
-        valueForm.advisor > 0 &&
-        valueForm.examMonitor > 0 &&
-        valueForm.scientific > 0
-      ){
-        setValueOther([{ ...valueForm }]); setRenderAdd(false);
+        valueForm.activities >= 0 &&
+        valueForm.advisor >= 0 &&
+        valueForm.examMonitor >= 0 &&
+        valueForm.scientific >= 0
+      ) {
+        const obj = {
+          activities: activities.current.value,
+          advisor: advisor.current.value,
+          examMonitor: examMonitor.current.value,
+          scientific: scientific.current.value,
+        };
+        setValueOther([{ ...obj }]);
+        setRenderAdd(false);
       }
-    }else {
+    } else {
       alert("Vui lòng nhập đầy đủ các trường!");
     }
   }
@@ -54,9 +67,10 @@ function OtherDetail({ setRenderAdd, setValueOther }) {
             <div className="flex w-[55%] relative items-center">
               <input
                 placeholder="Activities"
+                ref={activities}
                 type="number"
                 className={`w-full input ${cx("input")} `}
-                value={valueForm.activities || ""}
+                defaultValue={valueOther[0].activities}
                 onChange={(e) => {
                   setValueForm({
                     ...valueForm,
@@ -80,9 +94,10 @@ function OtherDetail({ setRenderAdd, setValueOther }) {
             <div className="flex w-[55%] relative items-center">
               <input
                 type="number"
+                ref={examMonitor}
                 placeholder="Exam monitor"
                 className={`w-full input ${cx("input")} `}
-                value={valueForm.examMonitor || ""}
+                defaultValue={valueOther[0].examMonitor}
                 onChange={(e) => {
                   setCheck(false);
                   setValueForm({
@@ -105,10 +120,11 @@ function OtherDetail({ setRenderAdd, setValueOther }) {
             <span className="text-lg font-bold">:</span>
             <div className="flex w-[55%] relative items-center">
               <input
+              ref={advisor}
                 type="number"
                 placeholder="Advisor"
                 className={`w-full input ${cx("input")} `}
-                value={valueForm.advisor || ""}
+                defaultValue={valueOther[0].advisor}
                 onChange={(e) => {
                   setCheck(false);
                   setValueForm({
@@ -132,9 +148,10 @@ function OtherDetail({ setRenderAdd, setValueOther }) {
             <div className="flex w-[55%] relative items-center">
               <input
                 type="number"
+                ref={scientific}
                 placeholder="Time Scientific"
                 className={`w-full input ${cx("input")} `}
-                value={valueForm.scientific || ""}
+                defaultValue={valueOther[0].scientific || valueForm.scientific}
                 onChange={(e) => {
                   setCheck(false);
                   setValueForm({
@@ -157,7 +174,7 @@ function OtherDetail({ setRenderAdd, setValueOther }) {
               size="large"
               onClick={handleAdd}
             >
-              Add
+              Update
             </Button>
             <Button
               bgcolor="#950b0b"

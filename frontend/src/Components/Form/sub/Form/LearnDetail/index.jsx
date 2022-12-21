@@ -48,18 +48,23 @@ function ExamDetail({ setRenderAdd, setGrading, setExamvo, Semester, length,titl
             }
           }
         }
-        setCheck(true)
+        checkValInput && setCheck(true);
         if (!checkValInput) {
-          alert("Vui lòng nhập đầy đủ các trường!");
+          alert("Vui lòng nhập đầy đủ các trường và lớn hơn 0!");
         } else {
-           if(obj.time>0 && obj.numberGE >0 && obj.coefficientGrade >0){
+           if (
+             obj.time >= 1 &&
+             obj.numberGE > 0 && Number.isInteger(obj.numberGE) &&
+             obj.coefficientGrade > 0
+           ) {
+             setCheck(false);
              setExam({
                time: "",
                number: "",
                coefficient: "",
              });
-              refSelectSubject.current.clearValue();
-              refSelectType.current.clearValue();
+             refSelectSubject.current.clearValue();
+             refSelectType.current.clearValue();
              setGrading((prev) => [
                ...prev,
                {
@@ -67,17 +72,19 @@ function ExamDetail({ setRenderAdd, setGrading, setExamvo, Semester, length,titl
                  stt: length.length + 1,
                  letter: subject.value.slice(0, subject.value.indexOf(" ")),
                  numbercode: subject.value.slice(
-                 subject.value.indexOf(" ") + 1,
-                 subject.value.length
+                   subject.value.indexOf(" ") + 1,
+                   subject.value.length
                  ),
                  semester: Semester,
                  unit: "Bài",
                  coefficient: Number(exam.coefficient),
                },
              ]);
-             setSubjectop([...subjectop.filter((value) => {
-               return subject.label !== value.label;
-             })])
+             setSubjectop([
+               ...subjectop.filter((value) => {
+                 return subject.label !== value.label;
+               }),
+             ]);
            }
         }
       
@@ -99,11 +106,12 @@ function ExamDetail({ setRenderAdd, setGrading, setExamvo, Semester, length,titl
             }
           }
         }
-        setCheck(true)
+        checkValInput && setCheck(true);
         if (!checkValInput) {
-          alert("Vui lòng nhập đầy đủ các trường!");
+          alert("Vui lòng nhập đầy đủ các trường và lớn hơn 0!");
         } else {
-          if(obj.time>0 && obj.numberGE >0 && obj.coefficientExam >0){
+          if(obj.time>=1 && obj.numberGE >0 && obj.coefficientExam >0){
+            setCheck(false)
             setExam({
               time: "",
               number: "",
@@ -197,7 +205,7 @@ function ExamDetail({ setRenderAdd, setGrading, setExamvo, Semester, length,titl
               ></input>
             </div>
           </div>
-          {check && exam.time <= 1 && (
+          {check && exam.time <1 && (
             <div className="text-right text-red-800 leading-[10px] mt-1">
               Time lớn hơn 1
             </div>
@@ -220,9 +228,9 @@ function ExamDetail({ setRenderAdd, setGrading, setExamvo, Semester, length,titl
               ></input>
             </div>
           </div>
-          {check && exam.number < 0 && (
+          {check && (exam.number < 0 || !Number.isInteger(exam.number) )&& (
             <div className="text-right text-red-800 leading-[10px] mt-1">
-              Number lớn hơn 0
+              Number lớn hơn 0 
             </div>
           )}
           <div className="w-full flex justify-between mt-2">

@@ -22,7 +22,7 @@ export const publicRouters = [
     path: "/home",
     component: Home,
     chidren: [
-      { path: "InfoWebpart", component: InfoWebpart},
+      { path: "InfoWebpart", component: InfoWebpart },
       { path: "addnewuser", component: AddUser },
       { path: "manageusers", component: ManagerUser },
       { path: "manageusers/:id", component: ManagerUser },
@@ -36,7 +36,7 @@ export const publicRouters = [
       { path: "manageworkload", component: ManagerWorkload },
       { path: "manageworkload/:id", component: ManagerWorkload },
       { path: "permission", component: Permission },
-      { path: "division", component: Division },
+      { path: "divide", component: Division },
       { path: "manageyear", component: ManagerYear },
       { path: "manageyear/:id", component: ManagerYear },
       { path: "addnewyear", component: AddYear },

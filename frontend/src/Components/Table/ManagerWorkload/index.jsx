@@ -23,6 +23,7 @@ function ManagerWorkload() {
   const [exams, setExams] = useState([]);
   const [others, setOthers] = useState([]);
   const [btnupdate, setBtnupdate] = useState("btn");
+
   function createData(
     teaching,
     grading,
@@ -50,8 +51,9 @@ function ManagerWorkload() {
   }
   const idlecturer = JSON.parse(localStorage.getItem("IdLecturer"));
   const opt = [
-    { value: "2022", label: "2021-2022" },
-    { value: "2023", label: "2022-2023" },
+    { value: "2021", label: "2021-2022" },
+    { value: "2022", label: "2022-2023" },
+    { value: "2023", label: "2023-2024" },
     { value: "2024", label: "2024-2025" },
   ];
   const hocki = [
@@ -124,8 +126,7 @@ function ManagerWorkload() {
     data();
     setBtnupdate("update");
   }
-  useLayoutEffect(() => {
-    if (semester && year) {
+  function callApiTotal(){
       ApiTeachingVolume.Get(
         `volume/checkExist/sem/${semester.value}/year/${year.value}`
       ).then((res) => {
@@ -146,14 +147,22 @@ function ManagerWorkload() {
           });
           setTotal([...arr]);
         } else {
+          setBtnupdate("btn")
           setTotal([]);
           setExams([]);
           setOthers([createOther(0, 0, 0, 0)]);
           setTheoryClass([]);
         }
       });
+  }
+
+
+  useLayoutEffect(() => {
+    if (semester && year) {
+      callApiTotal()
     }
   }, [semester, year]);
+
   return (
     <div className="container">
       <div className={cx("option")}>
@@ -184,6 +193,7 @@ function ManagerWorkload() {
           exams={exams}
           others={others}
           btn={btnupdate}
+          callApiTotal={callApiTotal}
         ></FormSubject>
       ) : (
         total &&

@@ -27,8 +27,9 @@ function Approval() {
   const [approvalForm,setApprovalForm] = useState({theoryClass:[],exams:[],others:[]})
   
   const opt = [
-    { value: "2022", label: "2021-2022" },
-    { value: "2023", label: "2022-2023" },
+    { value: "2021", label: "2021-2022" },
+    { value: "2022", label: "2022-2023" },
+    { value: "2023", label: "2023-2024" },
     { value: "2024", label: "2024-2025" },
   ];
   const hocki = [
@@ -125,7 +126,7 @@ function Approval() {
           } else {
             setContinues(false);
             setFormsmount(false);
-            alert("Hiện tại học kì này không có lớp")
+            // alert("Hiện tại học kì này không có lớp")
           }
         })
         .catch((err) => {

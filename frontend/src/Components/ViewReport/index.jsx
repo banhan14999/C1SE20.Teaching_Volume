@@ -12,8 +12,9 @@ function ViewReport() {
     const [year, setYear] = useState(null);
     const [semester, setSemester] = useState(null);
    const opt = [
-     { value: "2022", label: "2021-2022" },
-     { value: "2023", label: "2022-2023" },
+     { value: "2021", label: "2021-2022" },
+     { value: "2022", label: "2022-2023" },
+     { value: "2023", label: "2023-2024" },
      { value: "2024", label: "2024-2025" },
    ];
    const hocki = [
@@ -84,7 +85,7 @@ function ViewReport() {
               className="cursor-pointer text-[22px] flex items-center"
               onClick={handleprint}
             >
-            <AiFillPrinter />
+              <AiFillPrinter />
               Print
             </span>
           </div>
@@ -101,8 +102,9 @@ function ViewReport() {
             <ViewTable
               year={year.value}
               semester={semester.value}
+              yearLabel = {year.label}
               label={year.label}
-            ></ViewTable> 
+            ></ViewTable>
           )
         )}
       </div>

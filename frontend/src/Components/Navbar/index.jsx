@@ -23,7 +23,7 @@ function Nav() {
     "Add New Subject": <MdSubject />,
     "Info webpart": <SiWebpack />,
     "Add New Year": <BsCalendarDate />,
-    Division: <MdAssignmentInd />,
+    Divide: <MdAssignmentInd />,
     Permission: <RiVoiceRecognitionFill />,
     "Add New Class": <SiGoogleclassroom />,
     "Manage Users": <MdManageAccounts />,
@@ -32,7 +32,7 @@ function Nav() {
     "Manage Year": <GiManacles />,
     "View Table": <AiOutlineFolderView />,
     "Manage Workload": <GiNetworkBars />,
-    "Approval": <FcApproval />,
+    Approval: <FcApproval />,
   };
   const Head = JSON.parse(localStorage.getItem("Head"));
   const Admin = JSON.parse(localStorage.getItem("Admin"));
