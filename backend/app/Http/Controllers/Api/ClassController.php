@@ -22,8 +22,7 @@ class ClassController extends Controller
      */
     public function index()
     {
-        $classes = DB::table('classes')
-                  ->join('subjects', 'classes.IdSubject', '=', 'subjects.IdSubject')
+        $classes = Classes::join('subjects', 'classes.IdSubject', '=', 'subjects.IdSubject')
                   ->orderByDesc('Year')
                   ->orderByDesc('Semester')
                   ->get();
@@ -242,10 +241,9 @@ class ClassController extends Controller
      */
     public function getRealityClassByLecturer($idLecturer, $semester, $year)
     {
-        $classes = DB::table('classes')
-                    ->join('subjects', 'classes.IdSubject', '=', 'subjects.IdSubject')
+        $classes = Classes::join('subjects', 'classes.IdSubject', '=', 'subjects.IdSubject')
                     ->where([
-                        ['IdLecturer','=', $idLecturer],                       
+                        ['IdLecturer','=', $idLecturer],                  
                         ['Semester','=', $semester],
                         ['Year', '=', $year]    
                     ])
@@ -266,8 +264,7 @@ class ClassController extends Controller
      */
     public function getTheoryClassByLecturer($idLecturer, $semester, $year)
     {
-        $classes = DB::table('classes')
-                    ->join('subjects', 'classes.IdSubject', '=', 'subjects.IdSubject')
+        $classes = Classes::join('subjects', 'classes.IdSubject', '=', 'subjects.IdSubject')
                     ->where([
                         ['IdLecturer','=',$idLecturer],
                         ['Semester','=', $semester],
@@ -291,8 +288,7 @@ class ClassController extends Controller
      */
     public function getAllClassByIdLecturer($idLecturer, $semester, $year)
     {
-        $classes = DB::table('classes')
-                   ->join('subjects', 'classes.IdSubject', '=', 'subjects.IdSubject')
+        $classes = Classes::join('subjects', 'classes.IdSubject', '=', 'subjects.IdSubject')
                    ->where([
                         ['IdLecturer', '=', $idLecturer],
                         ['Semester', '=', $semester],
@@ -316,8 +312,7 @@ class ClassController extends Controller
      */
     public function getClassesBySubjectNullLec($idSubject, $semester, $year)
     {
-        $classes = DB::table('classes')
-                   ->join('subjects', 'classes.IdSubject', '=', 'subjects.IdSubject')
+        $classes = Classes::join('subjects', 'classes.IdSubject', '=', 'subjects.IdSubject')
                    ->where([
                         ['classes.IdSubject', '=', $idSubject],
                         ['IdLecturer', '=', null],
@@ -334,8 +329,7 @@ class ClassController extends Controller
     //Do division class
     private static function getTotalIfExists($idLecturer, $semester, $year)
     {
-        $total = DB::table('totalvolume')
-                 ->where([
+        $total = Classes::where([
                     ['IdLecturer', '=', $idLecturer],
                     ['Semester', '=', $semester],
                     ['Year', '=', $year],
@@ -366,8 +360,7 @@ class ClassController extends Controller
         //$idClasses = $request->data['IdClasses'];
         if(! empty($idClassesRemove)) {
             foreach($idClassesRemove as $idClass) {
-                DB::table('classes')
-                    ->where('IdClass', '=', $idClass)
+                Classes::where('IdClass', '=', $idClass)
                     ->update(['IdLecturer' => null]);
              }
         }    
@@ -383,8 +376,7 @@ class ClassController extends Controller
         // $idClasses = $request->data['IdClasses'];
         if(! empty($idClassesAdd)) {
             foreach($idClassesAdd as $idClass) {
-                DB::table('classes')
-                    ->where('IdClass', '=', $idClass)
+                Classes::where('IdClass', '=', $idClass)
                     ->update(['IdLecturer' => $idLecturer]);
             }
         }
@@ -401,8 +393,7 @@ class ClassController extends Controller
         $total = $data['theoryVol'] + $data['realityVol'] + $data['gradingVol']
                + $data['examVol'] + $data['examMonitorVol'] + $data['advisorVol']
                + $data['activitiesVol'] + $data['scientificVol'];
-        DB::table('totalvolume')
-            ->where([
+        Classes::where([
                 ['IdLecturer', '=', $data['idLec']],
                 ['Semester', '=', $data['sem']],
                 ['Year', '=', $data['year']],

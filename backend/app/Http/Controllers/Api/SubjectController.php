@@ -195,8 +195,7 @@ class SubjectController extends Controller
 
     public function getAllSubjectByLetter($letter)
     {
-        $subjects = DB::table('subjects')
-                    ->where('Letter','=',$letter)
+        $subjects = Subject::where('Letter','=',$letter)
                     ->get();
         return response()->json([
             'status' => 200,
@@ -208,8 +207,7 @@ class SubjectController extends Controller
     public function getSubjectByLec($semester, $year)
     {
         $idLec = auth()->user()['IdLecturer'];
-        $subjects = DB::table('subjects')
-                  ->select('subjects.IdSubject', 'Letter', 'Number', 'SubjectName')
+        $subjects = Subject::select('subjects.IdSubject', 'Letter', 'Number', 'SubjectName')
                   ->leftJoin('classes', 'subjects.IdSubject', '=', 'classes.IdSubject')
                   ->where([
                     ['IdLecturer', '=', $idLec],

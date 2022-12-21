@@ -2,15 +2,15 @@
 
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\Api\ClassController;
-use App\Http\Controllers\Api\LecturerController;
+//use App\Http\Controllers\Api\LecturerController;
 use App\Http\Controllers\Api\SubjectController;
 use App\Http\Controllers\Api\RoleController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\VolumeController;
 use App\Http\Controllers\Api\YearController;
-use App\Models\Lecturer;
-use App\Models\User;
-use Illuminate\Http\Request;
+// use App\Models\Lecturer;
+// use App\Models\User;
+// use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -89,7 +89,7 @@ Route::middleware(['auth:sanctum'])->group(function(){
             Route::get('all','index');
             Route::get('{id}','show');
             Route::get('letter/{letter}','getAllSubjectByLetter');
-            Route::get('getSubjectByYearAndSemester/semester/{sem}/year/{year}','getSubjectBySemesterAndYear');
+            //Route::get('getSubjectByYearAndSemester/semester/{sem}/year/{year}','getSubjectBySemesterAndYear');
             Route::get('Lec/sem/{sem}/year/{year}', 'getSubjectByLec');
 
             Route::post('add','store');

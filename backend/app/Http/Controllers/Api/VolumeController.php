@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Classes;
 use App\Models\GradingExam;
 use Illuminate\Http\Request;
 use App\Models\Total;
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
 class VolumeController extends Controller
@@ -14,8 +16,7 @@ class VolumeController extends Controller
     public function getAllTotalByDean($semester, $year)
     {
         $faculty = auth()->user()['IdFaculty'];
-        $totalVols  = DB::table('totalvolume')
-                      ->join('users', 'totalvolume.IdLecturer', '=', 'users.IdLecturer')
+        $totalVols  = Total::join('users', 'totalvolume.IdLecturer', '=', 'users.IdLecturer')
                       ->where([
                           ['IdFaculty', '=', $faculty],
                           ['Semester', '=', $semester],
@@ -71,8 +72,7 @@ class VolumeController extends Controller
         //$idLecturer = auth()->user()['IdLecturer'];
         $department = auth()->user()['IdDepartment'];
         $faculty    = auth()->user()['IdFaculty'];
-        $totalVols  = DB::table('totalvolume')
-                      ->join('users', 'totalvolume.IdLecturer', '=', 'users.IdLecturer')
+        $totalVols  = Total::join('users', 'totalvolume.IdLecturer', '=', 'users.IdLecturer')
                       ->where([
                           ['IdDepartment', '=', $department],
                           ['IdFaculty', '=', $faculty],
@@ -89,8 +89,7 @@ class VolumeController extends Controller
     public function checkExist($semester, $year)
     {
         $idLecturer = auth()->user()['IdLecturer'];
-        $totalVolume = DB::table('totalvolume')
-                       ->where([
+        $totalVolume = Total::where([
                             ['IdLecturer', '=', $idLecturer],
                             ['Year', '=', $year],
                             ['Semester', '=', $semester],
@@ -158,8 +157,7 @@ class VolumeController extends Controller
 
     public function approvalVolume($idLecturer, $semester, $year)
     {
-        DB::table('totalvolume')
-                    ->where([
+        Total::where([
                         ['IdLecturer', '=', $idLecturer],
                         ['Semester', '=', $semester],
                         ['Year', '=', $year],
@@ -173,8 +171,7 @@ class VolumeController extends Controller
 
     public function declineVolume($idLecturer, $semester, $year)
     {
-        DB::table('totalvolume')
-        ->where([
+        Total::where([
             ['IdLecturer', '=', $idLecturer],
             ['Semester', '=', $semester],
             ['Year', '=', $year],
@@ -311,8 +308,7 @@ class VolumeController extends Controller
 
     private static function getTheoryClass($idLecturer, $semester, $year)
     {
-        $theoryClass = DB::table('classes')
-                       ->join('subjects', 'classes.IdSubject', '=', 'subjects.IdSubject')
+        $theoryClass = Classes::join('subjects', 'classes.IdSubject', '=', 'subjects.IdSubject')
                        ->where([
                             ['IdLecturer','=',$idLecturer],
                             ['Semester','=', $semester],
@@ -325,8 +321,7 @@ class VolumeController extends Controller
 
     private static function getRealityClass($idLecturer, $semester, $year)
     {
-        $realityClass = DB::table('classes')
-                        ->join('subjects', 'classes.IdSubject', '=', 'subjects.IdSubject')
+        $realityClass = Classes::join('subjects', 'classes.IdSubject', '=', 'subjects.IdSubject')
                         ->where([
                             ['IdLecturer','=',$idLecturer],
                             ['Semester','=', $semester],
@@ -339,8 +334,7 @@ class VolumeController extends Controller
 
     private static function getGradesVol($idLecturer, $semester, $year)
     {
-        $grades = DB::table('gradingexamvolume')
-                    ->join('subjects', 'gradingexamvolume.IdSubject', '=', 'subjects.IdSubject')
+        $grades = GradingExam::join('subjects', 'gradingexamvolume.IdSubject', '=', 'subjects.IdSubject')
                     ->where([
                         ['IdLecturer','=',$idLecturer],
                         ['Semester','=', $semester],
@@ -353,8 +347,7 @@ class VolumeController extends Controller
 
     private static function getExamsVol($idLecturer, $semester, $year)
     {
-        $exams = DB::table('gradingexamvolume')
-                    ->join('subjects', 'gradingexamvolume.IdSubject', '=', 'subjects.IdSubject')
+        $exams = GradingExam::join('subjects', 'gradingexamvolume.IdSubject', '=', 'subjects.IdSubject')
                     ->where([
                         ['IdLecturer','=',$idLecturer],
                         ['Semester','=', $semester],
@@ -367,8 +360,7 @@ class VolumeController extends Controller
 
     private static function getOthersVol($idLecturer, $semester, $year)
     {
-        $others = DB::table('totalvolume')
-                ->where([
+        $others = Total::where([
                     ['IdLecturer','=',$idLecturer],
                     ['Semester','=', $semester],
                     ['Year', '=', $year],  
@@ -380,8 +372,7 @@ class VolumeController extends Controller
     //Lấy thông tin chi tiết của giảng viên (detail)
     private static function getLecInfor($idLecturer)
     {
-        $lecturer = DB::table('users')
-                    ->where('IdLecturer', '=', $idLecturer)
+        $lecturer = User::where('IdLecturer', '=', $idLecturer)
                     ->first();
         return $lecturer;
     }
@@ -407,8 +398,7 @@ class VolumeController extends Controller
 
     private static function deleteGEForUpdate($idLecturer, $semester, $year)
     {
-        DB::table('gradingexamvolume')
-            ->where([
+        GradingExam::where([
                 ['IdLecturer', '=', $idLecturer],
                 ['Semester', '=', $semester],
                 ['Year', '=', $year],
@@ -423,8 +413,7 @@ class VolumeController extends Controller
         $TotalVolume = $data['teachingVol'] + $data['projectVol']    + $data['gradingVol']
                     + $data['examVol']     + $data['activitiesVol'] + $data['examMonitorVol']
                     + $data['advisorVol']  + $data['timeScientific'];
-        DB::table('totalvolume')
-        ->where([
+        Total::where([
                 ['IdLecturer', '=', $data['idLecturer']],
                 ['Semester', '=', $data['semester']],
                 ['Year', '=', $data['year']],
