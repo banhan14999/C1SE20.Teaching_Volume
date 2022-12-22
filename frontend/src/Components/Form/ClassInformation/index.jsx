@@ -159,7 +159,7 @@ function ClassInformation(props) {
         setCheck(true);
         Number(isNaN(obj.Grade.split("")[0] * 1)) &&
          Number(obj.Credit) > 0 &&
-          Number(obj.Credit) < 5 &&
+          Number(obj.Credit) < 4 &&
           Number(obj.NumberOfStudent) > 0 &&
           Number(valuesForm.numberOfStudent) < 101 &&
           Number(obj.SubjectCoefficient) > 0 &&
@@ -429,7 +429,7 @@ function ClassInformation(props) {
               (String(valuesForm.credit).length !== 1 ||
                 (!isNaN(valuesForm.credit * 1) &&
                   (Number(valuesForm.credit) <= 0 ||
-                    Number(valuesForm.credit) >= 5))) && (
+                    Number(valuesForm.credit) >= 4))) && (
                 <div className={`text-right text-red-800 leading-[10px] mt-1 `}>
                   credit 1-4
                 </div>

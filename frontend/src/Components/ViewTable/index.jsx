@@ -233,7 +233,6 @@ function ViewTable({ year, semester, yearLabel }) {
     if (year) {
       ApiTeachingVolume.Get(`volume/fulltotalByDean/year/${year}`).then(
         (res) => {
-          console.log(res.totalVols);
           const arr = res.totalVols.map((e, index) => {
             return createRow(
               index,
