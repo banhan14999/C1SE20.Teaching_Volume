@@ -47,8 +47,9 @@ function ManagerClass() {
   const ad = JSON.parse(localStorage.getItem("Admin"));
 
   const opt = [
-    { value: "2022", label: "2021-2022" },
-    { value: "2023", label: "2022-2023" },
+    { value: "2021", label: "2021-2022" },
+    { value: "2022", label: "2022-2023" },
+    { value: "2023", label: "2023-2024" },
     { value: "2024", label: "2024-2025" },
   ];
   const hocki = [
