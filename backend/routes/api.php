@@ -2,15 +2,11 @@
 
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\Api\ClassController;
-//use App\Http\Controllers\Api\LecturerController;
 use App\Http\Controllers\Api\SubjectController;
-use App\Http\Controllers\Api\RoleController;
+//use App\Http\Controllers\Api\RoleController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\VolumeController;
 use App\Http\Controllers\Api\YearController;
-// use App\Models\Lecturer;
-// use App\Models\User;
-// use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -40,9 +36,9 @@ use Illuminate\Support\Facades\Route;
 
 //Role
 //Route::get('role',[RoleController::class,'index']);
-Route::group(['prefix' => 'role'], function() {
-    Route::get('all',[RoleController::class,'index']);
-});
+// Route::group(['prefix' => 'role'], function() {
+//     Route::get('all',[RoleController::class,'index']);
+// });
 
 // Route::middleware('auth:api')->get('/user', function (Request $request) {
 //     return $request->user();

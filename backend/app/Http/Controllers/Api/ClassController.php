@@ -459,16 +459,16 @@ class ClassController extends Controller
         ]);
     }
 
-    public function loadBeforeDivisionClasses()
-    {        
-        $subjects = Subject::all();
-        $idFaculty = auth()->user()['IdFaculty'];
-        $idDepartment = auth()->user()['IdDepartment'];
-        $lecturers = UserController::getLecturerByDepartmentAndFaculty($idFaculty, $idDepartment);
-        return response()->json([
-            'status' => 200,
-            'subjects' => $subjects,
-            'lecturers' => $lecturers,
-        ]);
-    }
+    // public function loadBeforeDivisionClasses()
+    // {        
+    //     $subjects = Subject::all();
+    //     $idFaculty = auth()->user()['IdFaculty'];
+    //     $idDepartment = auth()->user()['IdDepartment'];
+    //     $lecturers = UserController::getLecturerByDepartmentAndFaculty($idFaculty, $idDepartment);
+    //     return response()->json([
+    //         'status' => 200,
+    //         'subjects' => $subjects,
+    //         'lecturers' => $lecturers,
+    //     ]);
+    // }
 }
