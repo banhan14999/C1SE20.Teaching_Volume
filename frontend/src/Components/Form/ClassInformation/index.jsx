@@ -50,8 +50,9 @@ function ClassInformation(props) {
     }
   }
   const yearOptions = [
-    { value: "2022", label: "2021-2022" },
-    { value: "2023", label: "2022-2023" },
+    { value: "2021", label: "2021-2022" },
+    { value: "2022", label: "2022-2023" },
+    { value: "2023", label: "2023-2024" },
     { value: "2024", label: "2024-2025" },
   ];
   function semesterValue(semester) {
@@ -157,10 +158,8 @@ function ClassInformation(props) {
         };
         setCheck(true);
         Number(isNaN(obj.Grade.split("")[0] * 1)) &&
-          (String(obj.Credit).length === 1 ||
-            (isNaN(obj.Credit * 1) &&
-              Number(obj.Credit) > 0 &&
-              Number(obj.Credit) < 5)) &&
+         Number(obj.Credit) > 0 &&
+          Number(obj.Credit) < 4 &&
           Number(obj.NumberOfStudent) > 0 &&
           Number(valuesForm.numberOfStudent) < 101 &&
           Number(obj.SubjectCoefficient) > 0 &&
@@ -430,7 +429,7 @@ function ClassInformation(props) {
               (String(valuesForm.credit).length !== 1 ||
                 (!isNaN(valuesForm.credit * 1) &&
                   (Number(valuesForm.credit) <= 0 ||
-                    Number(valuesForm.credit) >= 5))) && (
+                    Number(valuesForm.credit) >= 4))) && (
                 <div className={`text-right text-red-800 leading-[10px] mt-1 `}>
                   credit 1-4
                 </div>

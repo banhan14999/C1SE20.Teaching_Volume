@@ -75,6 +75,8 @@ function AddSubject(props) {
         valuesForm.letter.length < 8 &&
           valuesForm.number.length === 3 &&
           valuesForm.credit.length === 1 &&
+          Number(valuesForm.credit) > 0 &&
+          Number(valuesForm.credit) < 5 &&
           ApiTeachingVolume.Post("/subject/add", obj)
             .then((res) => {
               if (
