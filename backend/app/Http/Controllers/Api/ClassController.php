@@ -7,6 +7,7 @@ use App\Http\Requests\Classes\AddClassRequest;
 use App\Http\Requests\Classes\UpdateClassRequest;
 use App\Models\Classes;
 use App\Models\Subject;
+use App\Models\Total;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -393,7 +394,7 @@ class ClassController extends Controller
         $total = $data['theoryVol'] + $data['realityVol'] + $data['gradingVol']
                + $data['examVol'] + $data['examMonitorVol'] + $data['advisorVol']
                + $data['activitiesVol'] + $data['scientificVol'];
-        Classes::where([
+        Total::where([
                 ['IdLecturer', '=', $data['idLec']],
                 ['Semester', '=', $data['sem']],
                 ['Year', '=', $data['year']],
