@@ -14,6 +14,8 @@ function Authentication() {
   const navigate = useNavigate();
   const [checkLogin, setCheckLogin] = useState(true);
   const [imgcaptcha, setImgcaptcha] = useState();
+  const [check, setCheck] = useState();
+
   const refcaptcha = useRef();
   const inputPassValue = useRef();
   const inputUserValue = useRef();
@@ -25,8 +27,18 @@ function Authentication() {
       password: inputPassValue.current.value,
       captcha: inputCaptchaValue.current.value,
     };
-    if (event.code === "Enter" || event.type === "click") {
-      if (obj.user && obj.password) {
+    
+    if ((event.code === "Enter" || event.type === "click")) {
+       let checkValInput = true;
+       for (let key in obj) {
+         if (obj.hasOwnProperty(key)) {
+           if (obj[key] === "") {
+             checkValInput = false;
+           }
+         }
+       }
+       !checkValInput && setCheck(true);
+      if (obj.user && obj.password && checkValInput) {
         axios
           .get("http://127.0.0.1:8000/sanctum/csrf-cookie")
           .then((response) => {
@@ -39,12 +51,12 @@ function Authentication() {
                   res.data.role,
                   JSON.stringify(res.data.username)
                 );
+                localStorage.setItem("Token", JSON.stringify(res.data.token));
+
                 localStorage.setItem(
-                  "Token",
-                  JSON.stringify(res.data.token)
+                  "IdLecturer",
+                  JSON.stringify(res.data.IdLecturer)
                 );
-                
-                localStorage.setItem("IdLecturer", JSON.stringify(res.data.IdLecturer));
                 sessionStorage.setItem(
                   "Department",
                   JSON.stringify({
@@ -56,6 +68,7 @@ function Authentication() {
                 navigate("/home/infowebpart");
               } else {
                 setCheckLogin(false);
+                setCheck(false);
                 inputPassValue.current.value = "";
                 inputCaptchaValue.current.value = "";
               }
@@ -78,7 +91,11 @@ function Authentication() {
       className={`w-screen h-screen items-center flex justify-center`}
       style={{ background: `url(${bg}) left top` }}
     >
-      <div className={`w-[35%] text-white bg-white/10 p-8 rounded-xl shadow-lg shadow-slate-800 ${cx("form_authen")}`}>
+      <div
+        className={`w-[35%] text-white bg-white/10 p-8 rounded-xl shadow-lg shadow-slate-800 ${cx(
+          "form_authen"
+        )}`}
+      >
         <div>
           <img
             src={logoform}
@@ -140,13 +157,17 @@ function Authentication() {
                 </div>
               </div>
             </div>
-            {checkLogin === true ? (
+            {/* {checkLogin === true ? (
               <div className="text-right h-[32px] mt-2"></div>
-            ) : (
-              <div className="text-right text-sm  h-[32px] mt-2">
-                Tài khoản mật khẩu không hợp lệ
-              </div>
-            )}
+            ) : ( */}
+            <div className="text-right text-sm  h-[32px] mt-2">
+              {!checkLogin && !check
+                ? "Tài khoản mật khẩu không hợp lệ"
+                : check
+                ? "Chưa nhập mật khẩu hoặc mã xác nhận"
+                : ""}
+            </div>
+            {/* )} */}
 
             <div>
               <Button

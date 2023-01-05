@@ -4,15 +4,68 @@ import HeaderTop from "../../Components/Header/HeaderTop";
 import SubHeader from "../../Components/Header/SubHeader";
 import Footer from "../../Components/Footer";
 import NavLeft from "../../Components/Navbar";
-import { Navigate } from "react-router-dom";
-// import FloatBox from "../../Components/FloatBox";
+import { Navigate, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 const cx = classNames.bind(styles);
 
 function Home() {
+  const navigate = useNavigate();
   const token = localStorage.getItem("Token");
-  if (!token) {
-    return <Navigate to="/authentication" replace />;
-  }
+  const Head = localStorage.getItem("Head");
+  const admin = localStorage.getItem("Admin");
+  const lecturer = localStorage.getItem("Lecturer");
+  const dean = localStorage.getItem("Dean");
+
+  const url = window.location.pathname;
+  
+  useEffect(() => {
+    const headurl = [
+      "/home/approval",
+      "/home/manageworkload",
+      "/home/divide",
+      "/home/manageclass",
+      "/home/infowebpart",
+    ];
+    const adminurl = [
+      "/home/addnewyear",
+      "/home/manageyear",
+      "/home/addnewuser",
+      "/home/manageusers",
+      "/home/addnewsubject",
+      "/home/managesubject",
+      "/home/addnewclass",
+      "/home/manageclass",
+      "/home/infowebpart",
+    ];
+    const lecturerurl = [
+      "/home/manageclass",
+      "/home/manageworkload",
+      "/home/infowebpart",
+    ];
+    const deanurl = [
+      "/home/viewtable",
+      "/home/manageclass",
+      "/home/manageworkload",
+      "/home/infowebpart",
+    ];
+
+    const dem = url.split("/").length - 1;
+    const urlhome = (dem === 3 && url.slice(0, url.lastIndexOf("/"))) || false;
+    if (!token) {
+      return <Navigate to="/authentication" replace />;
+    } else {
+      if (Head) {
+        !headurl.includes(urlhome || url) && navigate("/home/infowebpart");
+      } else if (admin) {
+        !adminurl.includes(urlhome || url) && navigate("/home/infowebpart");
+      } else if (lecturer) {
+        !lecturerurl.includes(urlhome || url) && navigate("/home/infowebpart");
+      } else if (dean) {
+        !deanurl.includes(urlhome || url) && navigate("/home/infowebpart");
+      }
+    }
+  }, [token, Head, url,admin,dean,lecturer,navigate]);
+
   return (
     <div>
       <header>
@@ -22,8 +75,6 @@ function Home() {
         </div>
       </header>
       <div className={`max-w-[984px] m-auto ${cx("navleft")}`}>
-        {/* <FloatBox></FloatBox> */}
-
         <NavLeft></NavLeft>
       </div>
       <Footer></Footer>

@@ -11,7 +11,7 @@ function ProjectVolume(props) {
       <div>
         <TableContainer component={Paper}>
           <Table size="medium" aria-label="a dense table">
-            <TableHead>
+            <TableHead style={{ backgroundColor: "#afafaf" }}>
               <TableRow>
                 <StyledTableCell align="center">STT</StyledTableCell>
                 <StyledTableCell align="center" rowSpan={2} colSpan={2}>

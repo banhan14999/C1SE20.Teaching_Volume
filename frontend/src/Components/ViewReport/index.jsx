@@ -12,14 +12,15 @@ function ViewReport() {
     const [year, setYear] = useState(null);
     const [semester, setSemester] = useState(null);
    const opt = [
-     { value: "2022", label: "2021-2022" },
-     { value: "2023", label: "2022-2023" },
+     { value: "2021", label: "2021-2022" },
+     { value: "2022", label: "2022-2023" },
+     { value: "2023", label: "2023-2024" },
      { value: "2024", label: "2024-2025" },
    ];
    const hocki = [
      { value: "1", label: "Học kỳ I" },
      { value: "2", label: "Học kỳ II" },
-     { value: "Hè", label: "Học hè" },
+     { value: "Hè", label: "Học kỳ hè" },
      { value: "4", label: "Cả năm" },
    ];
    function handleprint(e) {
@@ -53,7 +54,7 @@ function ViewReport() {
       maxWidth: 1623,
       scanStyles: true,
       style:
-        "td, th {border: 1px solid; text-align:center; font-size:6px !important; color:black !important;} th{font-weight:500;} table {width:1754px !important;border-collapse: collapse !important; display:block !important;} .MuiTableFooter-root {display:none !important;} #printsig {width:1754px !important; display:flex !important;justify-content:space-around !important;align-items: flex-end;} #workload{display:none !important;}}",
+        "td, th {border: 1px solid; text-align:center; font-size:7px !important; color:black !important;} th{font-weight:500;} table {width:1754px !important;border-collapse: collapse !important; display:block !important;} .MuiTableFooter-root {display:none !important;} #printsig {width:1754px !important; display:flex !important;justify-content:space-around !important;align-items: flex-end;} #workload{display:none !important;}}",
     });
    }}
     return (
@@ -84,7 +85,7 @@ function ViewReport() {
               className="cursor-pointer text-[22px] flex items-center"
               onClick={handleprint}
             >
-            <AiFillPrinter />
+              <AiFillPrinter />
               Print
             </span>
           </div>
@@ -101,6 +102,7 @@ function ViewReport() {
             <ViewTable
               year={year.value}
               semester={semester.value}
+              yearLabel = {year.label}
               label={year.label}
             ></ViewTable>
           )

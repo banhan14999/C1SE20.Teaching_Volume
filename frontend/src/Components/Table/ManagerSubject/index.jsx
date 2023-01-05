@@ -8,12 +8,24 @@ import Paper from "@mui/material/Paper";
 import { MdAutoDelete } from "react-icons/md";
 import { BiEdit } from "react-icons/bi";
 import { useDispatch } from "react-redux";
+import { useNavigate,useParams } from "react-router-dom";
+import PropTypes from "prop-types";
+import { useTheme } from "@mui/material/styles";
+import TableFooter from "@mui/material/TableFooter";
+import IconButton from "@mui/material/IconButton";
+import FirstPageIcon from "@mui/icons-material/FirstPage";
+import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
+import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
+import LastPageIcon from "@mui/icons-material/LastPage";
+import TablePagination from "@mui/material/TablePagination";
+import TableCell from "@mui/material/TableCell";
+import Box from "@mui/material/Box";
+
 import FloatBox from "../../FloatBox"
 import StyledTableCell from "../../StyledTableCell";
 import AddSubject from "../../Form/AddSubject";
-import { SetUpdate, DataUpdate } from "../../../Redux/Actions/index";
+import { DataUpdate } from "../../../Redux/Actions/index";
 import { ApiTeachingVolume } from "../../../apis/axios";
-import { useNavigate,useParams } from "react-router-dom";
 
 function ManagerSubject() {
   const param = useParams()
@@ -25,11 +37,13 @@ function ManagerSubject() {
  const [idDelete, setIdDelete] = useState();
 
   function click(e) {
+    // confirm trước khi xóa
     const Subject_id = e.target.attributes[1].nodeValue 
    setConfirm(true);
    setIdDelete(Subject_id);
   }
   function handleClickConfirm(Subject_id) {
+    // xóa
     ApiTeachingVolume.Delete("/subject/delete/", Subject_id);
     const arr = sub.filter((value) => {
       return value.Subject_id !== parseInt(Subject_id);
@@ -41,7 +55,7 @@ function ManagerSubject() {
   }
 
   const handleUpdate = (e) => {
-    dispath(SetUpdate("Update subject"));
+    // đẩy dữ liệu qua component add subject
     const Subject_id = e.target.parentElement.attributes[1].nodeValue;
     let arr = sub.filter((value) => value.Subject_id === parseInt(Subject_id));
     arr[0]["Subject_id"] = Subject_id;
@@ -50,6 +64,7 @@ function ManagerSubject() {
   };
 
   useEffect(() => {
+    // get all subject
     const subjectData = ApiTeachingVolume.Get("/subject/all");
     subjectData.then((data) => {
       const subjects = data.subjects.map((value) => {
@@ -65,10 +80,96 @@ function ManagerSubject() {
     });
   }, [param.id]);
   
+
+
+  
+  function TablePaginationActions(props) {
+    const theme = useTheme();
+    const { count, page, rowsPerPage, onPageChange } = props;
+
+    const handleFirstPageButtonClick = (event) => {
+      onPageChange(event, 0);
+    };
+
+    const handleBackButtonClick = (event) => {
+      onPageChange(event, page - 1);
+    };
+
+    const handleNextButtonClick = (event) => {
+      onPageChange(event, page + 1);
+    };
+
+    const handleLastPageButtonClick = (event) => {
+      onPageChange(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
+    };
+
+    return (
+      <Box sx={{ flexShrink: 0, ml: 2.5 }}>
+        <IconButton
+          onClick={handleFirstPageButtonClick}
+          disabled={page === 0}
+          aria-label="first page"
+        >
+          {theme.direction === "rtl" ? <LastPageIcon /> : <FirstPageIcon />}
+        </IconButton>
+        <IconButton
+          onClick={handleBackButtonClick}
+          disabled={page === 0}
+          aria-label="previous page"
+        >
+          {theme.direction === "rtl" ? (
+            <KeyboardArrowRight />
+          ) : (
+            <KeyboardArrowLeft />
+          )}
+        </IconButton>
+        <IconButton
+          onClick={handleNextButtonClick}
+          disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+          aria-label="next page"
+        >
+          {theme.direction === "rtl" ? (
+            <KeyboardArrowLeft />
+          ) : (
+            <KeyboardArrowRight />
+          )}
+        </IconButton>
+        <IconButton
+          onClick={handleLastPageButtonClick}
+          disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+          aria-label="last page"
+        >
+          {theme.direction === "rtl" ? <FirstPageIcon /> : <LastPageIcon />}
+        </IconButton>
+      </Box>
+    );
+  }
+
+  TablePaginationActions.propTypes = {
+    count: PropTypes.number.isRequired,
+    onPageChange: PropTypes.func.isRequired,
+    page: PropTypes.number.isRequired,
+    rowsPerPage: PropTypes.number.isRequired,
+  };
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+
+  // Avoid a layout jump when reaching the last page with empty rows.
+  const emptyRows =
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - sub.length) : 0;
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
   return (
     <div>
       {param.id ? (
-        <AddSubject btn="Update" title="Updata Subject"></AddSubject>
+        <AddSubject btn="Update" title="Update Subject"></AddSubject>
       ) : (
         <div className={`container`}>
           <div className="text-center text-[20px] font-[600] line mb-[20px] text-red-700">
@@ -76,9 +177,9 @@ function ManagerSubject() {
           </div>
           <TableContainer component={Paper}>
             <Table size="small" aria-label="Manager Subject Table">
-              <TableHead>
-                <TableRow style={{}}>
-                  <StyledTableCell align="center">Code</StyledTableCell>
+              <TableHead style={{ backgroundColor: "#afafaf" }}>
+                <TableRow>
+                  <StyledTableCell align="center"> Code </StyledTableCell>
                   <StyledTableCell align="center">Subject</StyledTableCell>
                   <StyledTableCell align="center">Credit</StyledTableCell>
                   <StyledTableCell align="center">Type</StyledTableCell>
@@ -86,7 +187,13 @@ function ManagerSubject() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {sub.map((row) => (
+                {(rowsPerPage > 0
+                  ? sub.slice(
+                      page * rowsPerPage,
+                      page * rowsPerPage + rowsPerPage
+                    )
+                  : sub
+                ).map((row) => (
                   <TableRow
                     key={row.Code}
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -131,7 +238,36 @@ function ManagerSubject() {
                     </StyledTableCell>
                   </TableRow>
                 ))}
+                {emptyRows > 0 && (
+                  <TableRow style={{ height: 53 * emptyRows }}>
+                    <TableCell colSpan={6} />
+                  </TableRow>
+                )}
               </TableBody>
+              <TableFooter>
+                <TableRow>
+                  <TablePagination
+                    rowsPerPageOptions={[
+                      5,
+                      10,
+                      25,
+                      { label: "All", value: -1 },
+                    ]}
+                    count={sub.length}
+                    rowsPerPage={rowsPerPage}
+                    page={page}
+                    SelectProps={{
+                      inputProps: {
+                        "aria-label": "rows per page",
+                      },
+                      native: true,
+                    }}
+                    onPageChange={handleChangePage}
+                    onRowsPerPageChange={handleChangeRowsPerPage}
+                    ActionsComponent={TablePaginationActions}
+                  />
+                </TableRow>
+              </TableFooter>
             </Table>
           </TableContainer>
           {confirm && (

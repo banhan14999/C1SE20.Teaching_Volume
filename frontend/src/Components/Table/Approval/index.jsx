@@ -27,14 +27,15 @@ function Approval() {
   const [approvalForm,setApprovalForm] = useState({theoryClass:[],exams:[],others:[]})
   
   const opt = [
-    { value: "2022", label: "2021-2022" },
-    { value: "2023", label: "2022-2023" },
+    { value: "2021", label: "2021-2022" },
+    { value: "2022", label: "2022-2023" },
+    { value: "2023", label: "2023-2024" },
     { value: "2024", label: "2024-2025" },
   ];
   const hocki = [
     { value: "1", label: "Học Kỳ I" },
     { value: "2", label: "Học Kỳ II" },
-    { value: "Hè", label: "Học Hè" },
+    { value: "Hè", label: "Học Kỳ Hè" },
   ];
   function data(id) {
     console.log(id);
@@ -125,7 +126,7 @@ function Approval() {
           } else {
             setContinues(false);
             setFormsmount(false);
-            alert("Hiện tại học kì này không có lớp")
+            // alert("Hiện tại học kì này không có lớp")
           }
         })
         .catch((err) => {
@@ -218,7 +219,7 @@ function Approval() {
       {continues && (
         <TableContainer component={Paper}>
           <Table size="medium" aria-label="a dense table">
-            <TableHead>
+            <TableHead style={{ backgroundColor: "#afafaf" }}>
               <TableRow>
                 <StyledTableCell align="center">Lecturer code</StyledTableCell>
                 <StyledTableCell align="center">Full Name</StyledTableCell>

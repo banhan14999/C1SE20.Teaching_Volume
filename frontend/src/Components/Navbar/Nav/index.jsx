@@ -128,7 +128,7 @@ function NavLeft() {
               </li>
               <li className="flex">
                 <AiFillCaretRight className="mr-1"></AiFillCaretRight>
-                <p>Manage User</p>
+                <p>Manage Users</p>
               </li>
             </ul>
           </li>
@@ -181,7 +181,7 @@ function NavLeft() {
               <ul className={`${cx("nav_left_item")} text-[14px] `}>
                 {Head && <li className="flex">
                   <AiFillCaretRight className="mr-1"></AiFillCaretRight>
-                  <p>Division</p>
+                  <p>Divide</p>
                 </li>}
                {(Head|| Dean || Lecturer) ?<li className="flex">
                   <AiFillCaretRight className="mr-1"></AiFillCaretRight>

@@ -7,34 +7,32 @@ import { MdSubject, MdManageAccounts, MdAssignmentInd } from "react-icons/md";
 import { RiVoiceRecognitionFill } from "react-icons/ri";
 import { GiManacles, GiNetworkBars } from "react-icons/gi";
 import { Outlet, useNavigate } from "react-router-dom";
-
 import Tippy from "@tippyjs/react";
 import classNames from "classnames/bind";
 import styles from "./nav.module.scss";
 import NavLeft from "./Nav";
 import axios from "axios";
-
+import React from "react";
 const cx = classNames.bind(styles);
 
 function Nav() {
   const navigate = useNavigate();
 
   const IconForm = {
-    "Add new User": <AiOutlineUserAdd />,
-    "Add new Subject": <MdSubject />,
+    "Add New User": <AiOutlineUserAdd />,
+    "Add New Subject": <MdSubject />,
     "Info webpart": <SiWebpack />,
     "Add New Year": <BsCalendarDate />,
-    Division: <MdAssignmentInd />,
+    Divide: <MdAssignmentInd />,
     Permission: <RiVoiceRecognitionFill />,
     "Add New Class": <SiGoogleclassroom />,
-    "Manage User": <MdManageAccounts />,
+    "Manage Users": <MdManageAccounts />,
     "Manage Subject": <SiManageiq />,
     "Manage Class": <GiManacles />,
-
     "Manage Year": <GiManacles />,
     "View Table": <AiOutlineFolderView />,
     "Manage Workload": <GiNetworkBars />,
-    "Approval": <FcApproval />,
+    Approval: <FcApproval />,
   };
   const Head = JSON.parse(localStorage.getItem("Head"));
   const Admin = JSON.parse(localStorage.getItem("Admin"));
@@ -89,10 +87,9 @@ function HandleLogout(){
               Exit
             </span>
           }
-          delay={300}
+          delay={100}
           placement="bottom"
         >
-          {/* <Link to="/authentication" className="flex items-center"> */}
           <div
             className={`flex items-center cursor-pointer pr-[15px]  ${cx(
               "out"
@@ -104,12 +101,14 @@ function HandleLogout(){
             ></AiOutlineLogout>
             <p className="font-light">Exit</p>
           </div>
-          {/* </Link> */}
         </Tippy>
       </div>
       <div className="flex border-r-[1px] border-[#D5D5D5] border-solid">
         <NavLeft></NavLeft>
         <div className={`w-[726px] mb-3 ${cx("outlet")}`}>
+          {/* <React.Suspense fallback={<Loading></Loading>}>
+            <Autlet></Autlet>
+          </React.Suspense> */}
           <Outlet></Outlet>
         </div>
       </div>

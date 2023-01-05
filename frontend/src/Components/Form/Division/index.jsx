@@ -46,8 +46,9 @@ useEffect(() => {
 }, [classSubject, lecturer, classroom, classlecturer]);
 
   const opt = [
-    { value: "2022", label: "2021-2022" },
-    { value: "2023", label: "2022-2023" },
+    { value: "2021", label: "2021-2022" },
+    { value: "2022", label: "2022-2023" },
+    { value: "2023", label: "2023-2024" },
     { value: "2024", label: "2024-2025" },
   ];
   const hocki = [
@@ -68,7 +69,6 @@ useEffect(() => {
     ApiTeachingVolume.Get("/subject/all")
       .then((res) => {
         const arr = res.subjects.map((value) => {
-          console.log(value);
           return {
             value: value.IdSubject,
             label: value.SubjectName,
@@ -87,7 +87,7 @@ useEffect(() => {
       const arr = res.lecturers.map((value) => {
         return {
           value: value.IdLecturer,
-          label: value.LastName + " " + value.FirstName,
+          label:  value.FirstName+ " "+value.LastName,
         };
       });
       setLec([...arr]);
@@ -243,7 +243,6 @@ useEffect(() => {
             <div className={`${cx("Container")}`}>
               <div className={`${cx("TaskColumnStyles")}`}>
                 {Object.entries(columns).map(([columnId, column], index) => {
-                  console.log(column);
                   return (
                     <Droppable key={columnId} droppableId={columnId}>
                       {(provided, snapshot) => (

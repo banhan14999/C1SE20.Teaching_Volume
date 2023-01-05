@@ -66,7 +66,7 @@ if (seconds < 10) {
       <div className="w-[40%] h-[180px]">
 
       </div>
-      <div className="w-[60%] h-[180px] mt-[28px]">
+      <div className="w-[60%] h-[180px] ">
         <div className={cx("time")}>{time}</div>
         <div className={cx("date")}>{date()}</div>
       </div>
