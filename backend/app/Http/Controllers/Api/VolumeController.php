@@ -565,4 +565,219 @@ class VolumeController extends Controller
             ]);
         }
     }
+
+
+
+    ////////////////////////////////////////////////////////////////////////////////////
+    /////////////////          Individual Print                 ////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////
+
+    public static function getIndividualInformation($idLecturer)
+    {
+        $info = User::select([
+                    'IdLecturer', 
+                    'FirstName', 
+                    'LastName', 
+                    'IdFaculty', 
+                    'IdDepartment', 
+                    'IdRole'
+                ])
+                ->where('IdLecturer', '=', $idLecturer)
+                ->first();
+
+        switch($info['IdRole']) {
+            case 1 : $info['IdRole'] = 'admin'; break;
+            case 2 : $info['IdRole'] = 'TRƯỞNG KHOA'; break;
+            case 3 : $info['IdRole'] = 'TRƯỞNG BỘ MÔN'; break;
+            case 4 : $info['IdRole'] = 'GIẢNG VIÊN'; break;
+        }
+        return $info;
+    }
+
+    public static function getIndividualTheoryVol($idLecturer, $year)
+    {
+        
+        $theoryVol = Classes::select([
+                        'Letter',
+                        'Number',
+                        'SubjectName',
+                        'Grade',
+                        'TypeClass',
+                        'Semester',
+                        'NumberOfStudent',
+                        'Coefficient',
+                        'SubjectCoefficient',
+                        'TimeTeaching',
+                    ])
+                    ->join('subjects', 'classes.IdSubject', '=', 'subjects.IdSubject')
+                    ->where([
+                        ['Year', '=', $year],
+                        ['IdLecturer', '=', $idLecturer],
+                    ])
+                    ->whereIn('TypeClass', ['LAB', 'DIS', 'LEC'])
+                    ->whereIn('Semester', ['1', '2'])
+                    ->orWhere([
+                        ['Year', '=', $year-1],
+                        ['Semester', '=', 'Hè']
+                    ])
+                    ->orderBy('Year', 'DESC')
+                    ->orderBy('Semester')
+                    ->get();
+        return $theoryVol;
+    }
+
+    public static function getIndividualRealityVol($idLecturer, $year)
+    {
+        $realityVol = Classes::select([
+            'Letter',
+            'Number',
+            'SubjectName',
+            'Grade',
+            'TypeClass',
+            'Semester',
+            'NumberOfStudent',
+            'Coefficient',
+            'SubjectCoefficient',
+            'TimeTeaching',
+        ])
+        ->join('subjects', 'classes.IdSubject', '=', 'subjects.IdSubject')
+        ->where([
+            ['Year', '=', $year],
+            ['IdLecturer', '=', $idLecturer],
+        ])
+        ->whereIn('TypeClass', ['PRJ', 'INT'])
+        ->whereIn('Semester', ['1', '2'])
+        ->orWhere([
+            ['Year', '=', $year-1],
+            ['Semester', '=', 'Hè']
+        ])
+        ->orderBy('Year', 'DESC')
+        ->orderBy('Semester')
+        ->get();
+
+        return $realityVol;
+    }
+
+    public static function getIndividualGradeVol($idLecturer, $year)
+    {
+        $gradeVol = GradingExam::select([
+            'Letter',
+            'Number',
+            'SubjectName',
+            //'TypeClass',
+            'Semester',
+            'Time',
+            'Unit',
+            'NumberGE',
+            'CoefficientGradeExam',
+        ])
+        ->join('subjects', 'gradingexamvolume.IdSubject', '=', 'subjects.IdSubject')
+        ->where([
+            ['Year', '=', $year],
+            ['IdLecturer', '=', $idLecturer],
+            ['CategoryVolume', '=', 'Grading'],
+        ])
+        ->whereIn('Semester', ['1', '2'])
+        ->orWhere([
+            ['Year', '=', $year-1],
+            ['Semester', '=', 'Hè']
+        ])
+        ->orderBy('Year', 'DESC')
+        ->orderBy('Semester')
+        ->get();
+
+        return $gradeVol;
+    }
+
+    public static function getIndividualExamVol($idLecturer, $year)
+    {
+        $examVol = GradingExam::select([
+            'Letter',
+            'Number',
+            'SubjectName',
+            //'TypeClass',
+            'Semester',
+            'Time',
+            'Unit',
+            'NumberGE',
+            'CoefficientGradeExam',
+        ])
+        ->join('subjects', 'gradingexamvolume.IdSubject', '=', 'subjects.IdSubject')
+        ->where([
+            ['Year', '=', $year],
+            ['IdLecturer', '=', $idLecturer],
+            ['CategoryVolume', '=', 'Exam'],
+        ])
+        ->whereIn('Semester', ['1', '2'])
+        ->orWhere([
+            ['Year', '=', $year-1],
+            ['Semester', '=', 'Hè']
+        ])
+        ->orderBy('Year', 'DESC')
+        ->orderBy('Semester')
+        ->get();
+
+        return $examVol;
+    }
+
+    public static function getOtherVol($idLecturer, $year, $type)
+    {
+        $otherVol = Total::select([
+            'Year',
+            $type,
+            'Semester',
+        ])
+        ->where([
+            ['IdLecturer', '=', $idLecturer],
+            ['Year', '=', $year],
+        ])
+        ->whereIn('Semester', ['1', '2'])
+        ->orWhere([
+            ['Year', '=', $year-1],
+            ['Semester', '=', 'Hè']
+        ])
+        ->orderBy('Year', 'DESC')
+        ->orderBy('Semester')
+        ->distinct()
+        ->get();
+
+        return $otherVol;
+    }
+
+    public static function getIndividualOtherVol($idLecturer, $year)
+    {
+       $examMonitorVol = self::getOtherVol($idLecturer, $year, 'ExamMonitorVolume');
+       $activitiesVol  = self::getOtherVol($idLecturer, $year, 'ActivitiesVolume');
+       $advisorVol     = self::getOtherVol($idLecturer, $year, 'AdvisorVolume');
+       $timeScientific = self::getOtherVol($idLecturer, $year, 'TimeScientificVolume');
+       
+       return [
+         'examMonitorVol' => $examMonitorVol,
+         'activitiesVol' => $activitiesVol,
+         'advisorVol' => $advisorVol,
+         'timeScientific' => $timeScientific,
+       ];
+    }
+
+    public function getIndividualAllVol($idLecturer, $year)
+    {
+        $theoryVol = self::getIndividualTheoryVol($idLecturer, $year);
+        $realityVol = self::getIndividualTheoryVol($idLecturer, $year);
+        $examVol = self::getIndividualExamVol($idLecturer, $year);
+        $gradeVol = self::getIndividualGradeVol($idLecturer, $year);
+        $otherVol = self::getIndividualOtherVol($idLecturer, $year);
+        
+        //return $otherVol['examMonitorVol'];
+
+        return response()->json([
+            'theoryVol' => $theoryVol,
+            'relityVol' => $realityVol,
+            'gradeVol'  => $gradeVol,
+            'examVol'   => $examVol,
+            'examMonitorVol' => $otherVol['examMonitorVol'],
+            'activitiesVol' => $otherVol['activitiesVol'],
+            'advisorVol' => $otherVol['advisorVol'],
+            'timeScientific' => $otherVol['timeScientific'],
+        ]);
+    } 
 }
