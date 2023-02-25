@@ -6,7 +6,8 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import StyledTableCell from "../../StyledTableCell";
 
-function AcademicAdvisor() {
+function AcademicAdvisor({ scientificActivities }) {
+  console.log(scientificActivities);
   return (
     <div>
       <div className="text-center text-[20px] font-[600] line mb-[20px] text-red-700">
@@ -21,14 +22,21 @@ function AcademicAdvisor() {
             </TableRow>
           </TableHead>
           <TableBody>
-            <TableRow
-              sx={{
-                "&:last-child td, &:last-child th": { border: 0 },
-              }}
-            >
-              <StyledTableCell align="center">2</StyledTableCell>
-              <StyledTableCell align="center">zzzzzzzzz</StyledTableCell>
-            </TableRow>
+            {scientificActivities.map((row, index) => (
+              <TableRow
+                key={index}
+                sx={{
+                  "&:last-child td, &:last-child th": { border: 0 },
+                }}
+              >
+                <StyledTableCell align="center">
+                  {row.TimeScientificVolume}
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                 ...
+                </StyledTableCell>
+              </TableRow>
+            ))}
           </TableBody>
         </Table>
       </TableContainer>

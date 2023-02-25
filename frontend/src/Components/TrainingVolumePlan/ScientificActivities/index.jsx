@@ -6,7 +6,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import StyledTableCell from "../../StyledTableCell";
 
-function ScientificActivities() {
+function ScientificActivities({ academicAdvisor }) {
   return (
     <div>
       <div className="text-center text-[20px] font-[600] line mb-[20px] text-red-700">
@@ -22,21 +22,25 @@ function ScientificActivities() {
             </TableRow>
           </TableHead>
           <TableBody>
+            {academicAdvisor.map((row, index) => (
+              <TableRow
+                sx={{
+                  "&:last-child td, &:last-child th": { border: 0 },
+                }}
+              >
+                <StyledTableCell align="center">2</StyledTableCell>
+                <StyledTableCell align="center">zzzzzzzzz</StyledTableCell>
+                <StyledTableCell align="center">zzzzzzzzz</StyledTableCell>
+              </TableRow>
+            ))}
             <TableRow
               sx={{
                 "&:last-child td, &:last-child th": { border: 0 },
               }}
             >
-              <StyledTableCell align="center">2</StyledTableCell>
-              <StyledTableCell align="center">zzzzzzzzz</StyledTableCell>
-              <StyledTableCell align="center">zzzzzzzzz</StyledTableCell>
-            </TableRow>
-            <TableRow
-              sx={{
-                "&:last-child td, &:last-child th": { border: 0 },
-              }}
-            >
-              <StyledTableCell align="center" colSpan={2}>TỔNG CỘNG:</StyledTableCell>
+              <StyledTableCell align="center" colSpan={2}>
+                TỔNG CỘNG:
+              </StyledTableCell>
               <StyledTableCell align="center">zzzzzzzzz</StyledTableCell>
             </TableRow>
           </TableBody>

@@ -6,7 +6,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import StyledTableCell from "../../StyledTableCell";
 
-function MonitorTheExam() {
+function MonitorTheExam({ monitorTheExam }) {
   return (
     <div>
       <div className="text-center text-[20px] font-[600] line mb-[20px] text-red-700">
@@ -27,9 +27,11 @@ function MonitorTheExam() {
                 "&:last-child td, &:last-child th": { border: 0 },
               }}
             >
-              <StyledTableCell align="center">2</StyledTableCell>
-              <StyledTableCell align="center">zzzzzzzzz</StyledTableCell>
-              <StyledTableCell align="center">zzzzzzzzz</StyledTableCell>
+              <StyledTableCell align="center">
+                {monitorTheExam[0].examMonitorVol}
+              </StyledTableCell>
+              <StyledTableCell align="center">....</StyledTableCell>
+              <StyledTableCell align="center">....</StyledTableCell>
             </TableRow>
           </TableBody>
         </Table>

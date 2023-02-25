@@ -17,7 +17,7 @@ import TablePagination from "@mui/material/TablePagination";
 import TableCell from "@mui/material/TableCell";
 import Box from "@mui/material/Box";
 import { useState } from "react";
-function VolumeOfExamQuestions() {
+function VolumeOfExamQuestions({ examQuestions }) {
   const [arr, setArr] = useState([1]);
   const opt = [
     { value: "2021", label: "2021-2022" },
@@ -141,31 +141,37 @@ function VolumeOfExamQuestions() {
           </TableHead>
           <TableBody>
             {(rowsPerPage > 0
-              ? arr.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              : arr
-            ).map((row) => (
+              ? examQuestions.slice(
+                  page * rowsPerPage,
+                  page * rowsPerPage + rowsPerPage
+                )
+              : examQuestions
+            ).map((row, index) => (
               <TableRow
                 key={row.ClassID}
                 sx={{
                   "&:last-child td, &:last-child th": { border: 0 },
                 }}
               >
-                <StyledTableCell align="center">2</StyledTableCell>
+                <StyledTableCell align="center">{index + 1}</StyledTableCell>
                 <StyledTableCell width={200} align="center">
-                  zzzzzzzzzz
+                  {row.Letter}
                 </StyledTableCell>
-                <StyledTableCell align="center">zzzzzzzzz</StyledTableCell>
-                <StyledTableCell align="center">zzzzzzzzz</StyledTableCell>
-                <StyledTableCell align="center">zzzzzzzzz</StyledTableCell>
-                <StyledTableCell align="center">zzzzzzzzz</StyledTableCell>
-                <StyledTableCell align="center">zzzzzzzzzz</StyledTableCell>
-                <StyledTableCell align="center">zzzzzzzzz</StyledTableCell>
-                <StyledTableCell align="center">zzzzzzzzz</StyledTableCell>
-                <StyledTableCell align="center">zzzzzzzzz</StyledTableCell>
-                <StyledTableCell align="center">zzzzzzzzz</StyledTableCell>
-                <StyledTableCell align="center">zzzzzzzzz</StyledTableCell>
-                <StyledTableCell align="center">zzzzzzzzz</StyledTableCell>
-                <StyledTableCell align="center">zzzzzzzzz</StyledTableCell>
+                <StyledTableCell align="center">{row.Number}</StyledTableCell>
+                <StyledTableCell align="center">
+                  {row.SubjectName}
+                </StyledTableCell>
+                <StyledTableCell align="center">...</StyledTableCell>
+                <StyledTableCell align="center">...</StyledTableCell>
+                <StyledTableCell align="center">{row.Semester}</StyledTableCell>
+                <StyledTableCell align="center">1</StyledTableCell>
+                <StyledTableCell align="center">Đề</StyledTableCell>
+                <StyledTableCell align="center">{row.NumberGE}</StyledTableCell>
+                <StyledTableCell align="center">{row.CoefficientGradeExam}</StyledTableCell>
+                <StyledTableCell align="center">..
+                </StyledTableCell>
+                <StyledTableCell align="center">...</StyledTableCell>
+                <StyledTableCell align="center">...</StyledTableCell>
               </TableRow>
             ))}
             {emptyRows > 0 && (

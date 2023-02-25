@@ -22,18 +22,18 @@ function DungChung(props, ref) {
 
   useEffect(() => {
     const IdLecturer = JSON.parse(localStorage.getItem("IdLecturer"));
-    ApiTeachingVolume.Get(`/volume/idLec/${IdLecturer}/year/2022`).then(
-      (data) => {
-        setTeaching([...data["theoryVol"]]);
-        setProject([...data["relityVol"]]);
-        setMarking([...data["gradeVol"]]);
-        setExamQuestions([...data["examVol"]]);
-        setMonitorTheExam([...data["examMonitorVol"]]);
-        setFacultyActivities([...data["activitiesVol"]]);
-        setAcademicAdvisor([...data["advisorVol"]]);
-        setScientificActivities([...data["timeScientific"]]);
-
-        });
+    ApiTeachingVolume.Get(
+      `/volume/individualVol/idLec/${IdLecturer}/year/2022`
+    ).then((data) => {
+      setTeaching([...data["theoryVol"]]);
+      setProject([...data["relityVol"]]);
+      setMarking([...data["gradeVol"]]);
+      setExamQuestions([...data["examVol"]]);
+      setMonitorTheExam([...data["examMonitorVol"]]);
+      setFacultyActivities([...data["activitiesVol"]]);
+      setAcademicAdvisor([...data["advisorVol"]]);
+      setScientificActivities([...data["timeScientific"]]);
+    });
       }, []);
   return (
     <div ref={ref}>

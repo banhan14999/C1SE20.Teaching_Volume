@@ -146,9 +146,12 @@ console.log(props);
           </TableHead>
           <TableBody>
             {(rowsPerPage > 0
-              ? props.teaching.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              ? props.teaching.slice(
+                  page * rowsPerPage,
+                  page * rowsPerPage + rowsPerPage
+                )
               : props.teaching
-            ).map((row,index) => (
+            ).map((row, index) => (
               <TableRow
                 key={index}
                 sx={{
@@ -157,20 +160,28 @@ console.log(props);
               >
                 <StyledTableCell align="center">{index}</StyledTableCell>
                 <StyledTableCell width={200} align="center">
-                  {/* {row.} */}
+                  {row.Letter}
                 </StyledTableCell>
-                <StyledTableCell align="center">zzzzzzzzz</StyledTableCell>
-                <StyledTableCell align="center">zzzzzzzzz</StyledTableCell>
-                <StyledTableCell align="center">zzzzzzzzz</StyledTableCell>
-                <StyledTableCell align="center">zzzzzzzzz</StyledTableCell>
-                <StyledTableCell align="center">zzzzzzzzzz</StyledTableCell>
-                <StyledTableCell align="center">zzzzzzzzz</StyledTableCell>
-                <StyledTableCell align="center">zzzzzzzzz</StyledTableCell>
-                <StyledTableCell align="center">zzzzzzzzz</StyledTableCell>
-                <StyledTableCell align="center">zzzzzzzzz</StyledTableCell>
-                <StyledTableCell align="center">zzzzzzzzz</StyledTableCell>
-                <StyledTableCell align="center">zzzzzzzzz</StyledTableCell>
-                <StyledTableCell align="center">zzzzzzzzz</StyledTableCell>
+                <StyledTableCell align="center">{row.Number}</StyledTableCell>
+                <StyledTableCell align="center">
+                  {row.SubjectName}
+                </StyledTableCell>
+                <StyledTableCell align="center">{row.Grade}</StyledTableCell>
+                <StyledTableCell align="center">
+                  {row.TypeClass}
+                </StyledTableCell>
+                <StyledTableCell align="center">{row.Semester}</StyledTableCell>
+                <StyledTableCell align="center">1</StyledTableCell>
+                <StyledTableCell align="center">Bài</StyledTableCell>
+                <StyledTableCell align="center">
+                  {row.NumberOfStudent}
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  {row.SubjectCoefficient}
+                </StyledTableCell>
+                <StyledTableCell align="center">{row.Letter}</StyledTableCell>
+                <StyledTableCell align="center">{row.Letter}</StyledTableCell>
+                <StyledTableCell align="center">{row.Letter}</StyledTableCell>
               </TableRow>
             ))}
             {emptyRows > 0 && (
