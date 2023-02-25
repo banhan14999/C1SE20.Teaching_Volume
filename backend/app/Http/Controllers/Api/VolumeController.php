@@ -591,6 +591,8 @@ class VolumeController extends Controller
             case 3 : $info['IdRole'] = 'TRƯỞNG BỘ MÔN'; break;
             case 4 : $info['IdRole'] = 'GIẢNG VIÊN'; break;
         }
+
+        if($info['IdFaculty'] == "CMU-SE") $info['IdFaculty'] = "KHOA CNPM VIỆT MỸ (CMU)";
         return $info;
     }
 
