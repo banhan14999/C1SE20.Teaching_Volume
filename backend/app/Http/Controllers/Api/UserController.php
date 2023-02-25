@@ -122,8 +122,7 @@ class UserController extends Controller
             ]);
         }
         else {
-            DB::table("users")
-            ->where('id', '=', $id)
+            User::where('id', '=', $id)
             ->update([
                 'IdLecturer'   => $request->input('idlecturer'),
                 'FirstName'    => $request->input('firstname'),

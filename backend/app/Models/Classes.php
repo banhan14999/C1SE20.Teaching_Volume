@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Classes extends Model
 {
     use HasFactory;
+
+    protected $table = "classes";
     protected $primaryKey = "IdClass";
     public $incrementing = false; 
     
