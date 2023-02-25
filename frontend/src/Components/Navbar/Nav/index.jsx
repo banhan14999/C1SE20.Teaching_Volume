@@ -177,18 +177,26 @@ function NavLeft() {
                 </li>
               </ul>
             )}
-            {Head|| Dean || Lecturer ?(
+            {Head || Dean || Lecturer ? (
               <ul className={`${cx("nav_left_item")} text-[14px] `}>
-                {Head && <li className="flex">
-                  <AiFillCaretRight className="mr-1"></AiFillCaretRight>
-                  <p>Divide</p>
-                </li>}
-               {(Head|| Dean || Lecturer) ?<li className="flex">
-                  <AiFillCaretRight className="mr-1"></AiFillCaretRight>
-                  <p>Manage Class</p>
-                </li>:<></>}
+                {Head && (
+                  <li className="flex">
+                    <AiFillCaretRight className="mr-1"></AiFillCaretRight>
+                    <p>Divide</p>
+                  </li>
+                )}
+                {Head || Dean || Lecturer ? (
+                  <li className="flex">
+                    <AiFillCaretRight className="mr-1"></AiFillCaretRight>
+                    <p>Manage Class</p>
+                  </li>
+                ) : (
+                  <></>
+                )}
               </ul>
-            ):<></>}
+            ) : (
+              <></>
+            )}
           </li>
         ) : (
           <></>
@@ -220,10 +228,12 @@ function NavLeft() {
               Workload
             </p>
             <ul className={`${cx("nav_left_item")} text-[14px] `}>
-             { Head &&<li className="flex">
-                <AiFillCaretRight className="mr-1"></AiFillCaretRight>
-                <p>Approval</p>
-              </li>}
+              {Head && (
+                <li className="flex">
+                  <AiFillCaretRight className="mr-1"></AiFillCaretRight>
+                  <p>Approval</p>
+                </li>
+              )}
               <li className="flex">
                 <AiFillCaretRight className="mr-1"></AiFillCaretRight>
                 <p>Manage Workload</p>
@@ -250,6 +260,22 @@ function NavLeft() {
             </ul>
           </li>
         )} */}
+
+        <li>
+          <p
+            className={`${cx(
+              "item"
+            )} flex pl-4 items-center font-medium text-[14px] select-none `}
+          >
+            TrainingVolumePlan
+          </p>
+          <ul className={`${cx("nav_left_item")} text-[14px] `}>
+            <li className="flex">
+              <AiFillCaretRight className="mr-1"></AiFillCaretRight>
+              <p>Training Volume Plan</p>
+            </li>
+          </ul>
+        </li>
       </ul>
     </div>
   );

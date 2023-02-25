@@ -205,7 +205,7 @@ function ExamDetail({ setRenderAdd, setGrading, setExamvo, Semester, length,titl
               ></input>
             </div>
           </div>
-          {check && exam.time <1 && (
+          {check && exam.time < 1 && (
             <div className="text-right text-red-800 leading-[10px] mt-1">
               Time lớn hơn 1
             </div>
@@ -228,9 +228,9 @@ function ExamDetail({ setRenderAdd, setGrading, setExamvo, Semester, length,titl
               ></input>
             </div>
           </div>
-          {check && (exam.number < 0 || !Number.isInteger(exam.number) )&& (
+          {check && (exam.number < 0 || !Number.isInteger(exam.number)) && (
             <div className="text-right text-red-800 leading-[10px] mt-1">
-              Number lớn hơn 0 
+              Number lớn hơn 0
             </div>
           )}
           <div className="w-full flex justify-between mt-2">
@@ -271,7 +271,7 @@ function ExamDetail({ setRenderAdd, setGrading, setExamvo, Semester, length,titl
               size="large"
               onClick={handleCancle}
             >
-              Cancle
+              Cancel
             </Button>
           </div>
         </form>

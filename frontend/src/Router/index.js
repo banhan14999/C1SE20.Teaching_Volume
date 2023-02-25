@@ -16,6 +16,8 @@ import Division from "../Components/Form/Division";
 import ManagerYear from "../Components/Table/ManagerYear";
 import ViewReport from "../Components/ViewReport";
 import FormSubject from "../Components/Form/sub";
+import TrainingVolumePlan from "../Components/TrainingVolumePlan";
+
 export const publicRouters = [
   { path: "/authentication", component: Authentication },
   {
@@ -42,6 +44,8 @@ export const publicRouters = [
       { path: "addnewyear", component: AddYear },
       { path: "viewtable", component: ViewReport },
       { path: "subject", component: FormSubject },
+      { path: "trainingvolumeplan", component: TrainingVolumePlan },
+
     ],
   },
   { path: "*", component: NotFound },

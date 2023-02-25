@@ -25,6 +25,7 @@
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
     "react-select": "^5.4.0",
+    "react-to-print": "^2.14.12",
     "redux": "^4.2.0",
     "sass": "^1.56.2",
     "uuid": "^9.0.0",

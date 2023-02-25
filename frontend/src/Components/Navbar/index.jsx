@@ -106,9 +106,6 @@ function HandleLogout(){
       <div className="flex border-r-[1px] border-[#D5D5D5] border-solid">
         <NavLeft></NavLeft>
         <div className={`w-[726px] mb-3 ${cx("outlet")}`}>
-          {/* <React.Suspense fallback={<Loading></Loading>}>
-            <Autlet></Autlet>
-          </React.Suspense> */}
           <Outlet></Outlet>
         </div>
       </div>

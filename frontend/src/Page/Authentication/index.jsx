@@ -65,7 +65,9 @@ function Authentication() {
                   })
                 );
                 setCheckLogin(true);
-                navigate("/home/infowebpart");
+                
+                // navigate("/home/infowebpart");
+                window.location.href = "/home/infowebpart";
               } else {
                 setCheckLogin(false);
                 setCheck(false);

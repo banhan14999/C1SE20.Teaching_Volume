@@ -120,7 +120,7 @@ function OtherDetail({ setRenderAdd, setValueOther, valueOther }) {
             <span className="text-lg font-bold">:</span>
             <div className="flex w-[55%] relative items-center">
               <input
-              ref={advisor}
+                ref={advisor}
                 type="number"
                 placeholder="Advisor"
                 className={`w-full input ${cx("input")} `}
@@ -182,7 +182,7 @@ function OtherDetail({ setRenderAdd, setValueOther, valueOther }) {
               size="large"
               onClick={handleCancle}
             >
-              Cancle
+              Cancel
             </Button>
           </div>
         </form>

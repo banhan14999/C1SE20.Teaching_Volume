@@ -25,6 +25,7 @@ function Home() {
       "/home/divide",
       "/home/manageclass",
       "/home/infowebpart",
+      "/home/trainingvolumeplan",
     ];
     const adminurl = [
       "/home/addnewyear",
@@ -41,12 +42,14 @@ function Home() {
       "/home/manageclass",
       "/home/manageworkload",
       "/home/infowebpart",
+      "/home/trainingvolumeplan",
     ];
     const deanurl = [
       "/home/viewtable",
       "/home/manageclass",
       "/home/manageworkload",
       "/home/infowebpart",
+      "/home/trainingvolumeplan",
     ];
 
     const dem = url.split("/").length - 1;
