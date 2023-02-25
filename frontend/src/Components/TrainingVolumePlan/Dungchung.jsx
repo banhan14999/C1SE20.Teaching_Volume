@@ -6,34 +6,60 @@ import MonitorTheExam from "./MonitorTheExam";
 import FacultyActivities from "./FacultyActivities";
 import AcademicAdvisor from "./AcademicAdvisor";
 import ScientificActivities from "./ScientificActivities";
-import { forwardRef } from "react";
+import { ApiTeachingVolume } from "../../apis/axios";
+import { forwardRef, useState } from "react";
+import { useEffect } from "react";
 
-function DungChung(props,ref) {
+function DungChung(props, ref) {
+  const [teaching, setTeaching] = useState([]);
+  const [project, setProject] = useState([]);
+  const [marking, setMarking] = useState([]);
+  const [examQuestions, setExamQuestions] = useState([]);
+  const [monitorTheExam, setMonitorTheExam] = useState([]);
+  const [facultyActivities, setFacultyActivities] = useState([]);
+  const [scientificActivities, setScientificActivities] = useState([]);
+  const [academicAdvisor, setAcademicAdvisor] = useState([]);
+
+  useEffect(() => {
+    const IdLecturer = JSON.parse(localStorage.getItem("IdLecturer"));
+    ApiTeachingVolume.Get(`/volume/idLec/${IdLecturer}/year/2022`).then(
+      (data) => {
+        setTeaching([...data["theoryVol"]]);
+        setProject([...data["relityVol"]]);
+        setMarking([...data["gradeVol"]]);
+        setExamQuestions([...data["examVol"]]);
+        setMonitorTheExam([...data["examMonitorVol"]]);
+        setFacultyActivities([...data["activitiesVol"]]);
+        setAcademicAdvisor([...data["advisorVol"]]);
+        setScientificActivities([...data["timeScientific"]]);
+
+        });
+      }, []);
   return (
     <div ref={ref}>
       <div>
-        <TeachingVolumes />
+        <TeachingVolumes teaching={teaching} />
       </div>
       <div className="mt-7">
-        <ProjectGuide />
+        <ProjectGuide project={project} />
       </div>
       <div className="mt-7">
-        <MarkingVolume />
+        <MarkingVolume marking={marking} />
       </div>
       <div className="mt-7">
-        <VolumeOfExamQuestions />
+        <VolumeOfExamQuestions examQuestions={examQuestions} />
       </div>
       <div className="mt-7">
-        <MonitorTheExam />
+        <MonitorTheExam monitorTheExam={monitorTheExam} />
       </div>
       <div className="mt-7">
-        <FacultyActivities />
+        <FacultyActivities facultyActivities={facultyActivities} />
       </div>
       <div className="mt-7">
-        <AcademicAdvisor />
+        <AcademicAdvisor scientificActivities={scientificActivities} />
       </div>
       <div className="mt-7">
-        <ScientificActivities />
+        <ScientificActivities academicAdvisor={academicAdvisor} />
       </div>
     </div>
   );

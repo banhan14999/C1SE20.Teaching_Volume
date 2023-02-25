@@ -144,7 +144,7 @@ Route::middleware(['auth:sanctum'])->group(function(){
             Route::put('decline/idLec/{id}/sem/{sem}/year/{year}', 'declineVolume');
             Route::put('update', 'handleUpdateTotalRequest');
 
-            Route::get('individualVol/idLec/{id}/year/{year}', 'getIndividualAllVol');
+            Route::get('/idLec/{id}/year/{year}', 'getIndividualAllVol');
         });
     });
 });

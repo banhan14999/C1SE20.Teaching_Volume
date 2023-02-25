@@ -17,8 +17,8 @@ import TablePagination from "@mui/material/TablePagination";
 import TableCell from "@mui/material/TableCell";
 import Box from "@mui/material/Box";
 import { useState } from "react";
-function TeachingVolumes() {
-
+function TeachingVolumes(props,ref) {
+console.log(props);
   const [arr,setArr] = useState([1])
   const opt = [
     { value: "2021", label: "2021-2022" },
@@ -146,18 +146,18 @@ function TeachingVolumes() {
           </TableHead>
           <TableBody>
             {(rowsPerPage > 0
-              ? arr.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              : arr
-            ).map((row) => (
+              ? props.teaching.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              : props.teaching
+            ).map((row,index) => (
               <TableRow
-                key={row.ClassID}
+                key={index}
                 sx={{
                   "&:last-child td, &:last-child th": { border: 0 },
                 }}
               >
-                <StyledTableCell align="center">2</StyledTableCell>
+                <StyledTableCell align="center">{index}</StyledTableCell>
                 <StyledTableCell width={200} align="center">
-                  zzzzzzzzzz
+                  {/* {row.} */}
                 </StyledTableCell>
                 <StyledTableCell align="center">zzzzzzzzz</StyledTableCell>
                 <StyledTableCell align="center">zzzzzzzzz</StyledTableCell>
