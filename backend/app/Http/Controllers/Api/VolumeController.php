@@ -761,6 +761,8 @@ class VolumeController extends Controller
 
     public function getIndividualAllVol($idLecturer, $year)
     {
+
+        $info = self::getIndividualInformation($idLecturer);
         $theoryVol = self::getIndividualTheoryVol($idLecturer, $year);
         $realityVol = self::getIndividualTheoryVol($idLecturer, $year);
         $examVol = self::getIndividualExamVol($idLecturer, $year);
@@ -770,6 +772,7 @@ class VolumeController extends Controller
         //return $otherVol['examMonitorVol'];
 
         return response()->json([
+            'info'      => $info,
             'theoryVol' => $theoryVol,
             'relityVol' => $realityVol,
             'gradeVol'  => $gradeVol,
