@@ -28,10 +28,17 @@ function MonitorTheExam({ monitorTheExam }) {
               }}
             >
               <StyledTableCell align="center">
-                {monitorTheExam[0].examMonitorVol}
+                {monitorTheExam.length >= 1 &&
+                  monitorTheExam[0].ExamMonitorVolume}
               </StyledTableCell>
-              <StyledTableCell align="center">....</StyledTableCell>
-              <StyledTableCell align="center">....</StyledTableCell>
+              <StyledTableCell align="center">
+                {monitorTheExam.length >= 2 &&
+                  monitorTheExam[1].ExamMonitorVolume}
+              </StyledTableCell>
+              <StyledTableCell align="center">
+                {monitorTheExam.length >= 3 &&
+                  monitorTheExam[2].ExamMonitorVolume}
+              </StyledTableCell>
             </TableRow>
           </TableBody>
         </Table>

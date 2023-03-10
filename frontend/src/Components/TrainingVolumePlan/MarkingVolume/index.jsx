@@ -18,19 +18,7 @@ import TableCell from "@mui/material/TableCell";
 import Box from "@mui/material/Box";
 import { useState } from "react";
 function MarkingVolume({ marking }) {
-  const [arr, setArr] = useState([1]);
-  const opt = [
-    { value: "2021", label: "2021-2022" },
-    { value: "2022", label: "2022-2023" },
-    { value: "2023", label: "2023-2024" },
-    { value: "2024", label: "2024-2025" },
-  ];
-  const hocki = [
-    { value: "1", label: "Học Kỳ I" },
-    { value: "2", label: "Học Kỳ II" },
-    { value: "3", label: "Học Kỳ Hè" },
-  ];
-
+  console.log(marking);
   function TablePaginationActions(props) {
     const theme = useTheme();
     const { count, page, rowsPerPage, onPageChange } = props;
@@ -150,7 +138,7 @@ function MarkingVolume({ marking }) {
               : marking
             ).map((row, index) => (
               <TableRow
-                key={row.ClassID}
+                key={index}
                 sx={{
                   "&:last-child td, &:last-child th": { border: 0 },
                 }}
@@ -169,14 +157,24 @@ function MarkingVolume({ marking }) {
                 </StyledTableCell>
                 <StyledTableCell align="center">{row.Semester}</StyledTableCell>
                 <StyledTableCell align="center">1</StyledTableCell>
-                <StyledTableCell align="center">Đề</StyledTableCell>
-                <StyledTableCell align="center">1,2</StyledTableCell>
+                <StyledTableCell align="center">Bài</StyledTableCell>
+                <StyledTableCell align="center">{row.NumberGE}</StyledTableCell>
                 <StyledTableCell align="center">
-                  {row.SubjectCoefficient}
+                  {row.CoefficientGradeExam}
                 </StyledTableCell>
-                <StyledTableCell align="center">{row.Letter}</StyledTableCell>
-                <StyledTableCell align="center">{row.Letter}</StyledTableCell>
-                <StyledTableCell align="center">{row.Letter}</StyledTableCell>
+                <StyledTableCell align="center">
+                  {row.Semester == 1
+                    ? row.NumberGE * Number(row.CoefficientGradeExam)
+                    : ""}
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  {row.Semester == 2
+                    ? row.NumberGE * Number(row.CoefficientGradeExam)
+                    : ""}
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  {row.NumberGE * Number(row.CoefficientGradeExam)}
+                </StyledTableCell>
               </TableRow>
             ))}
             {emptyRows > 0 && (

@@ -159,7 +159,7 @@ function ProjectGuide({ project }) {
               : project
             ).map((row, index) => (
               <TableRow
-                key={row.ClassID}
+                key={index}
                 sx={{
                   "&:last-child td, &:last-child th": { border: 0 },
                 }}
@@ -185,9 +185,19 @@ function ProjectGuide({ project }) {
                 <StyledTableCell align="center">
                   {row.SubjectCoefficient}
                 </StyledTableCell>
-                <StyledTableCell align="center">{row.Letter}</StyledTableCell>
-                <StyledTableCell align="center">{row.Letter}</StyledTableCell>
-                <StyledTableCell align="center">{row.Letter}</StyledTableCell>
+                <StyledTableCell align="center">
+                  {row.Semester == 1
+                    ? row.NumberOfStudent * row.SubjectCoefficient
+                    : ""}
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  {row.Semester == 2
+                    ? row.NumberOfStudent * row.SubjectCoefficient
+                    : ""}
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  {row.NumberOfStudent * row.SubjectCoefficient}
+                </StyledTableCell>
               </TableRow>
             ))}
             {emptyRows > 0 && (

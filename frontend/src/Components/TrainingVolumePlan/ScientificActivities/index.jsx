@@ -22,23 +22,43 @@ function ScientificActivities({ academicAdvisor }) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {academicAdvisor.map((row, index) => (
-              <TableRow
-                sx={{
-                  "&:last-child td, &:last-child th": { border: 0 },
-                }}
-              >
-                <StyledTableCell align="center">2</StyledTableCell>
-                <StyledTableCell align="center">zzzzzzzzz</StyledTableCell>
-                <StyledTableCell align="center">zzzzzzzzz</StyledTableCell>
-              </TableRow>
-            ))}
             <TableRow
               sx={{
                 "&:last-child td, &:last-child th": { border: 0 },
               }}
             >
-              <StyledTableCell align="center" colSpan={2}>
+              <StyledTableCell align="center">1</StyledTableCell>
+              <StyledTableCell align="left">Đề tài NCKH</StyledTableCell>
+              <StyledTableCell align="center">zzzzzzzzz</StyledTableCell>
+            </TableRow>
+            <TableRow
+              sx={{
+                "&:last-child td, &:last-child th": { border: 0 },
+              }}
+            >
+              <StyledTableCell align="center">2</StyledTableCell>
+              <StyledTableCell align="left">
+                Hướng dẫn sinh viên NCKH
+              </StyledTableCell>
+              <StyledTableCell align="center">zzzzzzzzz</StyledTableCell>
+            </TableRow>
+            <TableRow
+              sx={{
+                "&:last-child td, &:last-child th": { border: 0 },
+              }}
+            >
+              <StyledTableCell align="center">3</StyledTableCell>
+              <StyledTableCell align="left">
+                Hoạt động khác (ghi rõ nếu được qui chuẩn theo qui định):
+              </StyledTableCell>
+              <StyledTableCell align="center">zzzzzzzzz</StyledTableCell>
+            </TableRow>
+            <TableRow
+              sx={{
+                "&:last-child td, &:last-child th": { border: 0 },
+              }}
+            >
+              <StyledTableCell align="left" colSpan={2}>
                 TỔNG CỘNG:
               </StyledTableCell>
               <StyledTableCell align="center">zzzzzzzzz</StyledTableCell>

@@ -27,9 +27,13 @@ function FacultyActivities({ facultyActivities }) {
               }}
             >
               <StyledTableCell align="center">
-                {facultyActivities[0].ActivitiesVolume}
+                {facultyActivities.length >= 1 &&
+                  facultyActivities[0].ActivitiesVolume}
               </StyledTableCell>
-              <StyledTableCell align="center">...</StyledTableCell>
+              <StyledTableCell align="center">
+                {facultyActivities.length >= 2 &&
+                  facultyActivities[1].ActivitiesVolume}
+              </StyledTableCell>
             </TableRow>
           </TableBody>
         </Table>

@@ -18,7 +18,6 @@ import TableCell from "@mui/material/TableCell";
 import Box from "@mui/material/Box";
 import { useState } from "react";
 function TeachingVolumes(props,ref) {
-console.log(props);
   const [arr,setArr] = useState([1])
   const opt = [
     { value: "2021", label: "2021-2022" },
@@ -179,9 +178,17 @@ console.log(props);
                 <StyledTableCell align="center">
                   {row.SubjectCoefficient}
                 </StyledTableCell>
-                <StyledTableCell align="center">{row.Letter}</StyledTableCell>
-                <StyledTableCell align="center">{row.Letter}</StyledTableCell>
-                <StyledTableCell align="center">{row.Letter}</StyledTableCell>
+                <StyledTableCell align="center">
+                  {row.Semester == 1 ? row.SubjectCoefficient *
+                    row.Coefficient *
+                    row.TimeTeaching : "0.00"}
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  {row.Semester == 2? row.SubjectCoefficient * row.Coefficient * row.TimeTeaching:"0.00"}
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  {row.SubjectCoefficient * row.Coefficient * row.TimeTeaching}
+                </StyledTableCell>
               </TableRow>
             ))}
             {emptyRows > 0 && (
