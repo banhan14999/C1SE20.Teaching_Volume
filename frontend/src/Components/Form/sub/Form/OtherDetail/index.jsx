@@ -55,18 +55,18 @@ function OtherDetail({ setRenderAdd, setValueOther, valueOther }) {
   return (
     <div className={cx("form")}>
       <div className={cx("line")}>
-        <h2 className="text-xl font-semibold">Other Detail</h2>
+        <h2 className="text-xl font-semibold">Chi tiết khác</h2>
       </div>
       <div className="p-5">
         <form action="">
           <div className="w-full flex justify-between">
             <label htmlFor="" className="w-[30%]">
-              Activities
+              Các hoạt động
             </label>
             <span className="text-lg font-bold">:</span>
             <div className="flex w-[55%] relative items-center">
               <input
-                placeholder="Activities"
+                placeholder="Các hoạt động"
                 ref={activities}
                 type="number"
                 className={`w-full input ${cx("input")} `}
@@ -83,19 +83,19 @@ function OtherDetail({ setRenderAdd, setValueOther, valueOther }) {
           </div>
           {check && valueForm.activities < 0 && (
             <div className="text-right text-red-800 leading-[10px] mt-1">
-              Activities lớn hơn 0
+              Các hoạt động lớn hơn 0
             </div>
           )}
           <div className="w-full flex justify-between mt-2">
             <label htmlFor="" className="w-[30%]">
-              Exam monitor
+              giám sát kỳ thi
             </label>
             <span className="text-lg font-bold">:</span>
             <div className="flex w-[55%] relative items-center">
               <input
                 type="number"
                 ref={examMonitor}
-                placeholder="Exam monitor"
+                placeholder="giám sát kỳ thi"
                 className={`w-full input ${cx("input")} `}
                 defaultValue={valueOther[0].examMonitor}
                 onChange={(e) => {
@@ -110,19 +110,19 @@ function OtherDetail({ setRenderAdd, setValueOther, valueOther }) {
           </div>
           {check && valueForm.examMonitor < 0 && (
             <div className="text-right text-red-800 leading-[10px] mt-1">
-              Exam monitor lớn hơn 0
+              giám sát kỳ thi lớn hơn 0
             </div>
           )}
           <div className="w-full flex justify-between mt-2">
             <label htmlFor="" className="w-[30%]">
-              Advisor
+              Cố vấn
             </label>
             <span className="text-lg font-bold">:</span>
             <div className="flex w-[55%] relative items-center">
               <input
                 ref={advisor}
                 type="number"
-                placeholder="Advisor"
+                placeholder="Cố vấn"
                 className={`w-full input ${cx("input")} `}
                 defaultValue={valueOther[0].advisor}
                 onChange={(e) => {
@@ -137,19 +137,19 @@ function OtherDetail({ setRenderAdd, setValueOther, valueOther }) {
           </div>
           {check && valueForm.advisor < 0 && (
             <div className="text-right text-red-800 leading-[10px] mt-1">
-              Advisor lớn hơn 0
+              Cố vấn lớn hơn 0
             </div>
           )}
           <div className="w-full flex justify-between mt-2">
             <label htmlFor="" className="w-[30%]">
-              Time Scientific
+              Thời gian khoa học
             </label>
             <span className="text-lg font-bold">:</span>
             <div className="flex w-[55%] relative items-center">
               <input
                 type="number"
                 ref={scientific}
-                placeholder="Time Scientific"
+                placeholder="Thời gian khoa học"
                 className={`w-full input ${cx("input")} `}
                 defaultValue={valueOther[0].scientific || valueForm.scientific}
                 onChange={(e) => {
@@ -164,7 +164,7 @@ function OtherDetail({ setRenderAdd, setValueOther, valueOther }) {
           </div>
           {check && valueForm.scientific < 0 && (
             <div className="text-right text-red-800 leading-[10px] mt-1">
-              Time Scientific lớn hơn 0
+              Thời gian khoa học lớn hơn 0
             </div>
           )}
           <div className="flex justify-around mt-[20px]">
@@ -174,7 +174,7 @@ function OtherDetail({ setRenderAdd, setValueOther, valueOther }) {
               size="large"
               onClick={handleAdd}
             >
-              Update
+              Cập nhật
             </Button>
             <Button
               bgcolor="#950b0b"
@@ -182,7 +182,7 @@ function OtherDetail({ setRenderAdd, setValueOther, valueOther }) {
               size="large"
               onClick={handleCancle}
             >
-              Cancel
+              Hủy
             </Button>
           </div>
         </form>

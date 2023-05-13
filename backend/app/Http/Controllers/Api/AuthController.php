@@ -53,46 +53,46 @@ class AuthController extends Controller
        //}
     }
 
-    public function login(LoginRequest $request)
-    {
-        $user = User::where('Username',$request->username)->first();
-        if(! $user || ! Hash::check($request->password, $user->Password)) {
-            return response()->json([
-                'status' => 401,
-                'message' => 'Invalid username or password'
-            ]);
-        }
-        else {
-            if($user->IdRole == 1) // 1: Admin
-            {
-                $role = 'Admin';              
-            }
-            elseif($user->IdRole == 2) //2: Dean
-            {
-                $role = 'Dean';
-            }
-            elseif($user->IdRole == 3) //3: Head
-            {
-                $role = 'Head';
-            }
-            else // 4: Lecturer
-            {
-                $role = 'Lecturer';
-            }
-            $token = $user->createToken($user->Username.'Token')->plainTextToken;
-            return response([
-                'status' => 200,
-                'username' => $user->FirstName . ' ' . $user->LastName,
-                'token' => $token,
-                'type_token' => 'Bearer',
-                'role' => $role,
-                'IdLecturer' => $user->IdLecturer,
-                'IdFaculty' => $user->IdFaculty,
-                'IdDepartment' => $user->IdDepartment,
-                'message' => 'Logged In Successfully',
-            ]);
-        }
-    }
+    // public function login(LoginRequest $request)
+    // {
+    //     $user = User::where('Username',$request->username)->first();
+    //     if(! $user || ! Hash::check($request->password, $user->Password)) {
+    //         return response()->json([
+    //             'status' => 401,
+    //             'message' => 'Invalid username or password'
+    //         ]);
+    //     }
+    //     else {
+    //         if($user->IdRole == 1) // 1: Admin
+    //         {
+    //             $role = 'Admin';              
+    //         }
+    //         elseif($user->IdRole == 2) //2: Dean
+    //         {
+    //             $role = 'Dean';
+    //         }
+    //         elseif($user->IdRole == 3) //3: Head
+    //         {
+    //             $role = 'Head';
+    //         }
+    //         else // 4: Lecturer
+    //         {
+    //             $role = 'Lecturer';
+    //         }
+    //         $token = $user->createToken($user->Username.'Token')->plainTextToken;
+    //         return response([
+    //             'status' => 200,
+    //             'username' => $user->FirstName . ' ' . $user->LastName,
+    //             'token' => $token,
+    //             'type_token' => 'Bearer',
+    //             'role' => $role,
+    //             'IdLecturer' => $user->IdLecturer,
+    //             'IdFaculty' => $user->IdFaculty,
+    //             'IdDepartment' => $user->IdDepartment,
+    //             'message' => 'Logged In Successfully',
+    //         ]);
+    //     }
+    // }
 
     public function logout() 
     {

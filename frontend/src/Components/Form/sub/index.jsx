@@ -158,20 +158,20 @@ function FormSubject({ year, semester, theoryClass, exams, others, btn,title,idL
 
   const handleClick = (e) => {
     setForm(e.target.textContent);
-    e.target.textContent === "Teaching Volume" && setCount(1);
-    e.target.textContent === "Project Volume" && setCount(2);
-    e.target.textContent === "Grading Volume" && setCount(3);
-    e.target.textContent === "Exam Volume" && setCount(4);
-    e.target.textContent === "Other" && setCount(5);
+    e.target.textContent === "khối lượng giảng dạy" && setCount(1);
+    e.target.textContent === "khối lượng dự án" && setCount(2);
+    e.target.textContent === "phân loại khối lượng" && setCount(3);
+    e.target.textContent === "khối lượng kiểm tra" && setCount(4);
+    e.target.textContent === "Khác" && setCount(5);
   };
   const obj = {
-    "Teaching Volume": <TeachingVolume rows={teaching} />,
-    "Project Volume": <ProjectVolume rows={projects} />,
-    "Grading Volume": (
+    "khối lượng giảng dạy": <TeachingVolume rows={teaching} />,
+    "khối lượng dự án": <ProjectVolume rows={projects} />,
+    "phân loại khối lượng": (
       <GradingVolume rows={Grading} setGrading={setGrading} btn={btn} />
     ),
-    "Exam Volume": <ExamVolume rows={examvo} setExamvo={setExamvo} btn={btn} />,
-    Other: <Other rows={valueOther} onClick={handleAdd} btn={btn}  valueOther = {valueOther}/>,
+    "khối lượng kiểm tra": <ExamVolume rows={examvo} setExamvo={setExamvo} btn={btn} />,
+    "Khác": <Other rows={valueOther} onClick={handleAdd} btn={btn}  valueOther = {valueOther}/>,
   };
   useEffect(() => {
    if(btn){
@@ -196,11 +196,11 @@ function FormSubject({ year, semester, theoryClass, exams, others, btn,title,idL
     setRenderAdd(true);
   }
   useEffect(() => {
-    count === 1 && setForm("Teaching Volume");
-    count === 2 && setForm("Project Volume");
-    count === 3 && setForm("Grading Volume");
-    count === 4 && setForm("Exam Volume");
-    count === 5 && setForm("Other");
+    count === 1 && setForm("khối lượng giảng dạy");
+    count === 2 && setForm("khối lượng dự án");
+    count === 3 && setForm("phân loại khối lượng");
+    count === 4 && setForm("khối lượng kiểm tra");
+    count === 5 && setForm("Khác");
   }, [count]);
 
  const [confirm, setConfirm] = useState(false);
@@ -254,7 +254,8 @@ function handleClickConfirm(){
 
   
   return (
-    <><div className={cx("form")}>
+    <>
+      <div className={cx("form")}>
         <p className="text-[25px] text-center mb-3">
           {title && "Lecturer Code: " + title.id}
           <br />
@@ -262,31 +263,37 @@ function handleClickConfirm(){
         </p>
         <div className={cx("nav_form")}>
           <ul onClick={handleClick}>
-            <li className={`${form === "Teaching Volume" && "!bg-red-800"}`}>
-              Teaching Volume
+            <li
+              className={`${form === "khối lượng giảng dạy" && "!bg-red-800"}`}
+            >
+              khối lượng giảng dạy
             </li>
-            <li className={`${form === "Project Volume" && "!bg-red-800"}`}>
-              Project Volume
+            <li className={`${form === "khối lượng dự án" && "!bg-red-800"}`}>
+              khối lượng dự án
             </li>
-            <li className={`${form === "Grading Volume" && "!bg-red-800"}`}>
-              Grading Volume
+            <li
+              className={`${form === "phân loại khối lượng" && "!bg-red-800"}`}
+            >
+              phân loại khối lượng
             </li>
-            <li className={`${form === "Exam Volume" && "!bg-red-800"}`}>
-              Exam Volume
+            <li
+              className={`${form === "khối lượng kiểm tra" && "!bg-red-800"}`}
+            >
+              khối lượng kiểm tra
             </li>
-            <li className={`${form === "Other" && "!bg-red-800"}`}>Other</li>
+            <li className={`${form === "Khác" && "!bg-red-800"}`}>Khác</li>
           </ul>
         </div>
         {obj[form]}
         <div className="mt-[20px] flex justify-end">
           <div className="mr-10">
             {btn !== "view" &&
-            form !== "Teaching Volume" &&
-            form !== "Project Volume" &&
-            form !== "Other" ? (
+            form !== "khối lượng giảng dạy" &&
+            form !== "khối lượng dự án" &&
+            form !== "Khác" ? (
               <p className="w-[150px]" onClick={handleAdd} data-add={form}>
                 <Button width="100%" bgcolor="#D82C2C" weight={500}>
-                  Add
+                  Thêm
                 </Button>
               </p>
             ) : (
@@ -294,7 +301,7 @@ function handleClickConfirm(){
             )}
           </div>
           <p className="mr-5">
-            {form !== "Teaching Volume" && (
+            {form !== "khối lượng giảng dạy" && (
               <Button
                 width="150px"
                 bgcolor="#D82C2C"
@@ -302,12 +309,12 @@ function handleClickConfirm(){
                 weight={500}
                 onClick={handlePrev}
               >
-                Prev
+                Lùi
               </Button>
             )}
           </p>
           <p className="ml-5">
-            {form !== "Other" && (
+            {form !== "Khác" && (
               <Button
                 width="150px"
                 bgcolor="#D82C2C"
@@ -315,10 +322,10 @@ function handleClickConfirm(){
                 weight={500}
                 onClick={handleNext}
               >
-                Next
+                Tiếp
               </Button>
             )}
-            {btn !== "view" && form === "Other" && (
+            {btn !== "view" && form === "Khác" && (
               <Button
                 width="150px"
                 bgcolor="#D82C2C"
@@ -326,7 +333,7 @@ function handleClickConfirm(){
                 weight={500}
                 onClick={handleSubmitForm}
               >
-                submit
+                Lưu
               </Button>
             )}
           </p>
@@ -349,7 +356,7 @@ function handleClickConfirm(){
         {renderAdd && count === 3 && semester && (
           <ExamDetail
             setRenderAdd={setRenderAdd}
-            title="Grading Detail"
+            title="chấm điểm chi tiết"
             setGrading={setGrading}
             Semester={semester}
             length={Grading}

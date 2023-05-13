@@ -24,16 +24,16 @@ function ManagerClassLecturer(props) {
   return (
     <div className="container">
       <div className="text-center text-[20px] font-[600] line mb-[20px] text-red-700">
-        Manage Class Lecturer
+        Quản lý lớp giảng viên
       </div>
       <TableContainer component={Paper}>
         <Table size="medium" aria-label="a dense table">
           <TableHead>
             <TableRow style={{}}>
-              <StyledTableCell align="center">Class Name</StyledTableCell>
-              <StyledTableCell align="center">Subject</StyledTableCell>
-              <StyledTableCell align="center">Student</StyledTableCell>
-              <StyledTableCell align="center">Action</StyledTableCell>
+              <StyledTableCell align="center">Tên lớp</StyledTableCell>
+              <StyledTableCell align="center">Môn học</StyledTableCell>
+              <StyledTableCell align="center">Sinh viên</StyledTableCell>
+              <StyledTableCell align="center">Hành động</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>

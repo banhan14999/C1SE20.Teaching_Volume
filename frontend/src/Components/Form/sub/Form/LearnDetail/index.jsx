@@ -153,19 +153,19 @@ function ExamDetail({ setRenderAdd, setGrading, setExamvo, Semester, length,titl
   return (
     <div className={cx("form")}>
       <div className={cx("line")}>
-        <h2 className="text-xl font-semibold">{title || "Exam Detail"}</h2>
+        <h2 className="text-xl font-semibold">{title || "Chi tiết kỳ thi"}</h2>
       </div>
       <div className="p-5">
         <form action="">
           <div className="w-full flex justify-between mt-2">
             <label htmlFor="" className="w-[30%]">
-              Subject
+              Môn học
             </label>
             <span className="text-lg font-bold">:</span>
             <div className="flex w-[55%] relative items-center">
               <SelectForm
                 class="w-full"
-                placeholder="Subject"
+                placeholder="Môn học"
                 options={subjectop}
                 refSelect={refSelectSubject}
                 setSelectedOption={setSubject}
@@ -174,14 +174,14 @@ function ExamDetail({ setRenderAdd, setGrading, setExamvo, Semester, length,titl
           </div>
           <div className="w-full flex justify-between mt-2">
             <label htmlFor="" className="w-[30%]">
-              Type
+              Loại
             </label>
             <span className="text-lg font-bold">:</span>
             <div className="flex w-[55%] relative items-center">
               <SelectForm
                 class="w-full"
                 refSelect={refSelectType}
-                placeholder="Type"
+                placeholder="Loại"
                 options={typeOptions}
                 setSelectedOption={setType}
               />
@@ -189,12 +189,12 @@ function ExamDetail({ setRenderAdd, setGrading, setExamvo, Semester, length,titl
           </div>
           <div className="w-full flex justify-between mt-2">
             <label htmlFor="" className="w-[30%]">
-              Time
+              Thời gian
             </label>
             <span className="text-lg font-bold">:</span>
             <div className="flex w-[55%] relative items-center">
               <input
-                placeholder="Time"
+                placeholder="Thời gian"
                 type="number"
                 className={`w-full input ${cx("input")} `}
                 value={exam.time}
@@ -207,17 +207,17 @@ function ExamDetail({ setRenderAdd, setGrading, setExamvo, Semester, length,titl
           </div>
           {check && exam.time < 1 && (
             <div className="text-right text-red-800 leading-[10px] mt-1">
-              Time lớn hơn 1
+              Thời gian lớn hơn 1
             </div>
           )}
           <div className="w-full flex justify-between mt-2">
             <label htmlFor="" className="w-[30%]">
-              Number
+              Số
             </label>
             <span className="text-lg font-bold">:</span>
             <div className="flex w-[55%] relative items-center">
               <input
-                placeholder="Number"
+                placeholder="SốSố"
                 type="number"
                 className={`w-full input ${cx("input")} `}
                 value={exam.number}
@@ -230,17 +230,17 @@ function ExamDetail({ setRenderAdd, setGrading, setExamvo, Semester, length,titl
           </div>
           {check && (exam.number < 0 || !Number.isInteger(exam.number)) && (
             <div className="text-right text-red-800 leading-[10px] mt-1">
-              Number lớn hơn 0
+              Số lớn hơn 0
             </div>
           )}
           <div className="w-full flex justify-between mt-2">
             <label htmlFor="" className="w-[30%]">
-              Coefficient
+              Hệ số
             </label>
             <span className="text-lg font-bold">:</span>
             <div className="flex w-[55%] relative items-center">
               <input
-                placeholder="Coefficient"
+                placeholder="Hệ số"
                 type="number"
                 className={`w-full input ${cx("input")} `}
                 value={exam.coefficient}
@@ -253,7 +253,7 @@ function ExamDetail({ setRenderAdd, setGrading, setExamvo, Semester, length,titl
           </div>
           {check && exam.coefficient < 0 && (
             <div className="text-right text-red-800 leading-[10px] mt-1">
-              Coefficient lớn hơn 0
+              Hệ số lớn hơn 0
             </div>
           )}
           <div className="flex justify-around mt-[20px]">
@@ -263,7 +263,7 @@ function ExamDetail({ setRenderAdd, setGrading, setExamvo, Semester, length,titl
               size="large"
               onClick={handleAdd}
             >
-              Add
+              Thêm
             </Button>
             <Button
               bgcolor="#950b0b"
@@ -271,7 +271,7 @@ function ExamDetail({ setRenderAdd, setGrading, setExamvo, Semester, length,titl
               size="large"
               onClick={handleCancle}
             >
-              Cancel
+              Hủy
             </Button>
           </div>
         </form>

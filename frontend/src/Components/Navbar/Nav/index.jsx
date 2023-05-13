@@ -53,22 +53,21 @@ function NavLeft() {
             let back = backgroundback.querySelector(`.${styles.item}`);
             back.style.backgroundPosition = "-1px -252px";
             back.style.color = "#000";
-
           });
           back.style.backgroundPosition = "-1px -297px";
-          back.style.color = "#fff"
+          back.style.color = "#fff";
           value.style.color = "#fff";
           item.style.height = `${dem}px`;
           if (item) {
             if (item.style.height === "0px") {
               item.style.height = "unset";
-             back.style.color = "#000";
+              back.style.color = "#000";
             }
           }
         }
       };
     });
-  }, [navigate,dispatch]);
+  }, [navigate, dispatch]);
 
   return (
     // width : 223px
@@ -261,21 +260,23 @@ function NavLeft() {
           </li>
         )} */}
 
-        <li>
-          <p
-            className={`${cx(
-              "item"
-            )} flex pl-4 items-center font-medium text-[14px] select-none `}
-          >
-            TrainingVolumePlan
-          </p>
-          <ul className={`${cx("nav_left_item")} text-[14px] `}>
-            <li className="flex">
-              <AiFillCaretRight className="mr-1"></AiFillCaretRight>
-              <p>Training Volume Plan</p>
-            </li>
-          </ul>
-        </li>
+        {!Admin && (
+          <li>
+            <p
+              className={`${cx(
+                "item"
+              )} flex pl-4 items-center font-medium text-[14px] select-none `}
+            >
+              Training Volume Plan
+            </p>
+            <ul className={`${cx("nav_left_item")} text-[14px] `}>
+              <li className="flex">
+                <AiFillCaretRight className="mr-1"></AiFillCaretRight>
+                <p>Training Volume Plan</p>
+              </li>
+            </ul>
+          </li>
+        )}
       </ul>
     </div>
   );

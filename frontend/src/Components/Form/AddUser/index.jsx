@@ -305,19 +305,19 @@ function AddUser(props) {
       <div className={cx("form")}>
         <div className={cx("line")}>
           <h2 className="text-xl font-semibold">
-            {props.title || "User Information"}
+            {props.title || "Thông tin người dùng"}
           </h2>
         </div>
         <div className="p-5">
           <form action="">
             <div className={`w-full flex justify-between ${props.hide}`}>
               <label htmlFor="" className="w-[30%]">
-                User name
+                Tên tài khoản
               </label>
               <span className="text-lg font-bold">:</span>
               <div className="flex w-[50%] relative items-center">
                 <input
-                  placeholder="User name"
+                  placeholder="Tên"
                   className={`w-full input ${cx("input")}`}
                   value={valuesForm.username}
                   onChange={(e) => {
@@ -336,13 +336,13 @@ function AddUser(props) {
             )}
             <div className={`w-full flex justify-between mt-2 ${props.hide}`}>
               <label htmlFor="" className="w-[30%]">
-                Password
+                Mật khẩu
               </label>
               <span className="text-lg font-bold">:</span>
               <div className="flex w-[50%] relative items-center">
                 <input
                   type="password"
-                  placeholder="Password"
+                  placeholder="Mật khẩu"
                   className={`w-full input ${cx("input")}`}
                   value={valuesForm.password}
                   onChange={(e) => {
@@ -356,7 +356,7 @@ function AddUser(props) {
               <div
                 className={`text-right text-red-800 leading-[10px] mt-1 ${props.hide}`}
               >
-                Password lớn hơn 8 kí tự
+                Mật khẩu lớn hơn 8 kí tự
               </div>
             )}
             <div className={`w-full flex justify-between mt-2`}>
@@ -400,12 +400,12 @@ function AddUser(props) {
               )}
             <div className="w-full flex justify-between mt-2">
               <label htmlFor="" className="w-[30%]">
-                First name
+                Tên
               </label>
               <span className="text-lg font-bold">:</span>
               <div className="flex w-[50%] relative items-center">
                 <input
-                  placeholder="First name "
+                  placeholder="Tên"
                   className={`w-full input ${cx("input")}`}
                   value={valuesForm.firstname}
                   onChange={(e) => {
@@ -417,12 +417,12 @@ function AddUser(props) {
             </div>
             <div className="w-full flex justify-between mt-2">
               <label htmlFor="" className="w-[30%]">
-                Last name
+                Họ
               </label>
               <span className="text-lg font-bold">:</span>
               <div className="flex w-[50%] relative items-center">
                 <input
-                  placeholder="Last name"
+                  placeholder="Họ"
                   className={`w-full input ${cx("input")}`}
                   value={valuesForm.lastname}
                   onChange={(e) => {
@@ -434,12 +434,12 @@ function AddUser(props) {
             </div>
             <div className="w-full flex justify-between mt-2">
               <label htmlFor="" className="w-[30%]">
-                Faculty
+                Khoa
               </label>
               <span className="text-lg font-bold">:</span>
               <div className="flex w-[50%] relative items-center">
                 <SelectForm
-                  placeholder="Faculty"
+                  placeholder="Khoa"
                   refSelect={refSelectIdFaculty}
                   class="w-full"
                   options={Faculty}
@@ -457,12 +457,12 @@ function AddUser(props) {
             </div>
             <div className="w-full flex justify-between mt-2">
               <label htmlFor="" className="w-[30%]">
-                Department
+                Bộ phận
               </label>
               <span className="text-lg font-bold">:</span>
               <div className="flex w-[50%] relative items-center">
                 <SelectForm
-                  placeholder="Department"
+                  placeholder="Bộ phận"
                   class="w-full"
                   refSelect={refSelectIdDepartment}
                   options={Departmentop}
@@ -480,12 +480,12 @@ function AddUser(props) {
             </div>
             <div className="w-full flex justify-between mt-2">
               <label htmlFor="" className="w-[30%]">
-                Role
+                Vai trò
               </label>
               <span className="text-lg font-bold">:</span>
               <div className="flex w-[50%] relative items-center">
                 <SelectForm
-                  placeholder="Role"
+                  placeholder="Vai trò"
                   class="w-full"
                   refSelect={refSelectIdRole}
                   options={Role}
@@ -505,7 +505,7 @@ function AddUser(props) {
                 size="large"
                 onClick={clickAddUser}
               >
-                {props.btn || "Add"}
+                {props.btn || "Thêm"}
               </Button>
               <Button
                 bgcolor="#950b0b"
@@ -513,7 +513,7 @@ function AddUser(props) {
                 size="large"
                 onClick={clickCancel}
               >
-                {param && param.id ? "Cancel" : "Reset"}
+                {param && param.id ? "Hủy" : "Làm mới"}
               </Button>
             </div>
           </form>

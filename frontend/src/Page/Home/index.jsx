@@ -17,7 +17,7 @@ function Home() {
   const dean = localStorage.getItem("Dean");
 
   const url = window.location.pathname;
-  
+  localStorage.removeItem("token");
   useEffect(() => {
     const headurl = [
       "/home/approval",

@@ -53,8 +53,6 @@ function ManagerWorkload() {
   const opt = [
     { value: "2021", label: "2021-2022" },
     { value: "2022", label: "2022-2023" },
-    { value: "2023", label: "2023-2024" },
-    { value: "2024", label: "2024-2025" },
   ];
   const hocki = [
     { value: "1", label: "Học Kỳ I" },
@@ -205,21 +203,29 @@ function ManagerWorkload() {
               <Table size="medium" aria-label="a dense table">
                 <TableHead style={{ backgroundColor: "#afafaf" }}>
                   <TableRow style={{}}>
-                    <StyledTableCell align="center">Teaching</StyledTableCell>
-                    <StyledTableCell align="center">Grading</StyledTableCell>
-                    <StyledTableCell align="center">Project</StyledTableCell>
-                    <StyledTableCell align="center">Exam</StyledTableCell>
-                    <StyledTableCell align="center">Activities</StyledTableCell>
                     <StyledTableCell align="center">
-                      ExamMonitor
+                      Khối lượng Giảng dạy
                     </StyledTableCell>
-                    <StyledTableCell align="center">Advisor</StyledTableCell>
                     <StyledTableCell align="center">
-                      TimeScientific
+                      Khối lượng chấm bài
                     </StyledTableCell>
-                    <StyledTableCell align="center">Total</StyledTableCell>
-                    <StyledTableCell align="center">Status</StyledTableCell>
-                    <StyledTableCell align="center">Action</StyledTableCell>
+                    <StyledTableCell align="center">
+                      Khối lượng hướng dẫn đồ án
+                    </StyledTableCell>
+                    <StyledTableCell align="center">
+                      Khối lượng đề thi
+                    </StyledTableCell>
+                    <StyledTableCell align="center">
+                      Hoạt động khác
+                    </StyledTableCell>
+                    <StyledTableCell align="center">Coi thi</StyledTableCell>
+                    <StyledTableCell align="center">Cố vấn vấn học tập</StyledTableCell>
+                    <StyledTableCell align="center">
+                      Hoạt động khoa học
+                    </StyledTableCell>
+                    <StyledTableCell align="center">Tổng</StyledTableCell>
+                    <StyledTableCell align="center">Trạng thái</StyledTableCell>
+                    <StyledTableCell align="center">Hành động</StyledTableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -293,7 +299,7 @@ function ManagerWorkload() {
                             onClick={handleupdate}
                           >
                             <BiEdit />
-                            Update
+                            Cập nhật
                           </p>
                         ) : (
                           <p
@@ -301,7 +307,7 @@ function ManagerWorkload() {
                             onClick={handleView}
                           >
                             <TbListDetails />
-                            Detail
+                            Chi tiết
                           </p>
                         )}
                       </StyledTableCell>

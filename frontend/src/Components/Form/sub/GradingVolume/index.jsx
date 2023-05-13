@@ -21,22 +21,22 @@ function GradingVolume({ rows, setGrading,btn }) {
             <TableRow>
               <StyledTableCell align="center">STT</StyledTableCell>
               <StyledTableCell align="center" rowSpan={2} colSpan={2}>
-                Subject Code
+                Mã môn học
                 <div className="flex justify-between border-t">
-                  <p className="mr-[6px]">Letter</p>
-                  <p className="ml-[6px]">Number</p>
+                  <p className="mr-[6px]">Chữ</p>
+                  <p className="ml-[6px]">Số</p>
                 </div>
               </StyledTableCell>
-              <StyledTableCell align="center">Subject</StyledTableCell>
-              <StyledTableCell align="center">Grade</StyledTableCell>
-              <StyledTableCell align="center">Type</StyledTableCell>
-              <StyledTableCell align="center">Semester</StyledTableCell>
-              <StyledTableCell align="center">Time</StyledTableCell>
-              <StyledTableCell align="center">Unit</StyledTableCell>
-              <StyledTableCell align="center">Number</StyledTableCell>
-              <StyledTableCell align="center">Coefficient</StyledTableCell>
+              <StyledTableCell align="center">Môn học</StyledTableCell>
+              <StyledTableCell align="center">Cấp</StyledTableCell>
+              <StyledTableCell align="center">Loại</StyledTableCell>
+              <StyledTableCell align="center">Học kì</StyledTableCell>
+              <StyledTableCell align="center">Thời gian</StyledTableCell>
+              <StyledTableCell align="center">Đơn vị</StyledTableCell>
+              <StyledTableCell align="center">Số lượng</StyledTableCell>
+              <StyledTableCell align="center">Hệ số</StyledTableCell>
               {btn !== "view" && (
-                <StyledTableCell align="center">Action</StyledTableCell>
+                <StyledTableCell align="center">Hành động</StyledTableCell>
               )}
             </TableRow>
           </TableHead>

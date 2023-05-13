@@ -29,8 +29,6 @@ function Approval() {
   const opt = [
     { value: "2021", label: "2021-2022" },
     { value: "2022", label: "2022-2023" },
-    { value: "2023", label: "2023-2024" },
-    { value: "2024", label: "2024-2025" },
   ];
   const hocki = [
     { value: "1", label: "Học Kỳ I" },
@@ -193,7 +191,6 @@ function Approval() {
       }
     }
   }
-
   return (
     <div className="container">
       <div className={cx("option")}>
@@ -221,11 +218,11 @@ function Approval() {
           <Table size="medium" aria-label="a dense table">
             <TableHead style={{ backgroundColor: "#afafaf" }}>
               <TableRow>
-                <StyledTableCell align="center">Lecturer code</StyledTableCell>
-                <StyledTableCell align="center">Full Name</StyledTableCell>
-                <StyledTableCell align="center">Title</StyledTableCell>
-                <StyledTableCell align="center">Status</StyledTableCell>
-                <StyledTableCell align="center">Action</StyledTableCell>
+                <StyledTableCell align="center">Mã giảng viên</StyledTableCell>
+                <StyledTableCell align="center">Họ và tên</StyledTableCell>
+                <StyledTableCell align="center">Tiêu đề</StyledTableCell>
+                <StyledTableCell align="center">Trạng thái</StyledTableCell>
+                <StyledTableCell align="center">hành động</StyledTableCell>
               </TableRow>
             </TableHead>
             <TableBody>

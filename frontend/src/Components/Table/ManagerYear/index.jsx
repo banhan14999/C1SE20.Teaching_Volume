@@ -52,16 +52,16 @@ function handleClickConfirm(yearid) {
       ) : (
         <div className="container">
           <div className="text-center text-[20px] font-[600] line mb-[20px] text-red-700">
-            Manage Year
+            Quản lý năm học
           </div>
           <TableContainer component={Paper}>
             <Table size="medium" aria-label="a dense table">
               <TableHead>
                 <TableRow style={{ backgroundColor: "#afafaf" }}>
-                  <StyledTableCell align="center">Start</StyledTableCell>
-                  <StyledTableCell align="center">Finish</StyledTableCell>
+                  <StyledTableCell align="center">Bắt đầu</StyledTableCell>
+                  <StyledTableCell align="center">Kết thúc</StyledTableCell>
                   <StyledTableCell align="center" colSpan={2}>
-                    Action
+                    Hành động
                   </StyledTableCell>
                 </TableRow>
               </TableHead>

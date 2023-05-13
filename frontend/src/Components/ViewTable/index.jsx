@@ -392,457 +392,444 @@ function ViewTable({ year, semester, yearLabel }) {
   };
   return (
     <div className="container">
-        <div className={`${cx("tableview")}`} id="print" ref={reftableview}>
-          <h1
-            className="text-center font-bold text-[30px] text-red-800 leading-[80px]"
-            id="workload"
-          >
-            Manage Workload
-          </h1>
-          <TableContainer
-            component={Paper}
-            // style={{
-            //   overflowX: "auto",
-            //   boxShadow: "none",
-            //   // overflowY: "scroll",
-            //   maxHeight: "450px",
-            // }}
-          >
-            <Table size="small">
-              <TableHead style={{ backgroundColor: "#afafaf" }}>
-                <TableRow>
-                  <StyledTableCell align="center" rowSpan={2}>
-                    STT
-                  </StyledTableCell>
-                  <StyledTableCell align="center" rowSpan={2}>
-                    MA GIANG VIEN
-                  </StyledTableCell>
-                  <StyledTableCell align="center" rowSpan={3} colSpan={2}>
-                    HỌ&nbsp;VÀ TÊN
-                  </StyledTableCell>
-                  <StyledTableCell align="center" colSpan={8}>
-                    HỌC KÌ I
-                  </StyledTableCell>
-                  <StyledTableCell align="center" colSpan={8}>
-                    HỌC KÌ II
-                  </StyledTableCell>
-                  <StyledTableCell align="center" colSpan={6}>
-                    HỌC KÌ HÈ {year - 1 + "-" + year}
-                  </StyledTableCell>
-                  <StyledTableCell align="center" colSpan={8}>
-                    NĂM HỌC {yearLabel}
+      <div className={`${cx("tableview")}`} id="print" ref={reftableview}>
+        <h1
+          className="text-center font-bold text-[30px] text-red-800 leading-[80px]"
+          id="workload"
+        >
+          Quản lý khối lượng công việc
+        </h1>
+        <TableContainer
+          component={Paper}
+          // style={{
+          //   overflowX: "auto",
+          //   boxShadow: "none",
+          //   // overflowY: "scroll",
+          //   maxHeight: "450px",
+          // }}
+        >
+          <Table size="small">
+            <TableHead style={{ backgroundColor: "#afafaf" }}>
+              <TableRow>
+                <StyledTableCell align="center" rowSpan={2}>
+                  STT
+                </StyledTableCell>
+                <StyledTableCell align="center" rowSpan={2}>
+                  MA GIANG VIEN
+                </StyledTableCell>
+                <StyledTableCell align="center" rowSpan={3} colSpan={2}>
+                  HỌ&nbsp;VÀ TÊN
+                </StyledTableCell>
+                <StyledTableCell align="center" colSpan={8}>
+                  HỌC KÌ I
+                </StyledTableCell>
+                <StyledTableCell align="center" colSpan={8}>
+                  HỌC KÌ II
+                </StyledTableCell>
+                <StyledTableCell align="center" colSpan={6}>
+                  HỌC KÌ HÈ {year - 1 + "-" + year}
+                </StyledTableCell>
+                <StyledTableCell align="center" colSpan={8}>
+                  NĂM HỌC {yearLabel}
+                </StyledTableCell>
+                <StyledTableCell
+                  align="center"
+                  rowSpan={2}
+                  style={{
+                    backgroundColor: "rgba(195,232,17,0.7)",
+                    color: "black",
+                  }}
+                >
+                  GIỜ NCKH
+                </StyledTableCell>
+                <StyledTableCell
+                  align="center"
+                  colSpan={2}
+                  rowSpan={2}
+                  style={{
+                    backgroundColor: "rgba(128,121,214,0.5)",
+                    color: "black",
+                  }}
+                >
+                  TỔNG CỘNG
+                </StyledTableCell>
+              </TableRow>
+              <TableRow>
+                <StyledTableCell align="center">GIẢNG DẠY</StyledTableCell>
+                <StyledTableCell align="center">HƯỚNG DẪN</StyledTableCell>
+                <StyledTableCell align="center">CHẤM BÀI</StyledTableCell>
+                <StyledTableCell align="center">ĐỀ THI</StyledTableCell>
+                <StyledTableCell align="center">COI THI</StyledTableCell>
+                <StyledTableCell align="center">SINH HOẠT KHOA</StyledTableCell>
+                <StyledTableCell align="center">CỐ VẤN HT</StyledTableCell>
+                <StyledTableCell
+                  align="center"
+                  style={{
+                    backgroundColor: "rgba(223,208,168,0.5)",
+                    color: "black",
+                  }}
+                >
+                  TỔNG HỌC KÌ I
+                </StyledTableCell>
+
+                <StyledTableCell align="center">GIẢNG DẠY</StyledTableCell>
+                <StyledTableCell align="center">HƯỚNG DẪN</StyledTableCell>
+                <StyledTableCell align="center">CHẤM BÀI</StyledTableCell>
+                <StyledTableCell align="center">ĐỀ THI</StyledTableCell>
+                <StyledTableCell align="center">COI THI</StyledTableCell>
+                <StyledTableCell align="center">SINH HOẠT KHOA</StyledTableCell>
+                <StyledTableCell align="center">CỐ VẤN HT</StyledTableCell>
+                <StyledTableCell
+                  align="center"
+                  style={{
+                    backgroundColor: "rgba(223,208,168,0.5)",
+                    color: "black",
+                  }}
+                >
+                  TỔNG HỌC KÌ II
+                </StyledTableCell>
+
+                <StyledTableCell align="center">GIẢNG DẠY</StyledTableCell>
+                <StyledTableCell align="center">HƯỚNG DẪN</StyledTableCell>
+                <StyledTableCell align="center">CHẤM BÀI</StyledTableCell>
+                <StyledTableCell align="center">ĐỀ THI</StyledTableCell>
+                <StyledTableCell align="center">COI THI</StyledTableCell>
+                <StyledTableCell
+                  align="center"
+                  style={{
+                    backgroundColor: "rgba(223,208,168,0.5)",
+                    color: "black",
+                  }}
+                >
+                  TỔNG HỌC KÌ HÈ
+                </StyledTableCell>
+                <StyledTableCell
+                  align="center"
+                  style={{
+                    backgroundColor: "rgba(128,121,214,0.5)",
+                    color: "black",
+                  }}
+                  // width="20px"
+                >
+                  GIỜ ĐỨNG LỚP
+                </StyledTableCell>
+
+                <StyledTableCell align="center">GIẢNG DẠY</StyledTableCell>
+                <StyledTableCell align="center">HƯỚNG DẪN</StyledTableCell>
+                <StyledTableCell align="center">CHẤM BÀI</StyledTableCell>
+                <StyledTableCell align="center">ĐỀ THI</StyledTableCell>
+                <StyledTableCell align="center">COI THI</StyledTableCell>
+                <StyledTableCell align="center">SINH HOẠT KHOA</StyledTableCell>
+                <StyledTableCell align="center">CỐ VẤN HT</StyledTableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {(rowsPerPage > 0
+                ? workload.slice(
+                    page * rowsPerPage,
+                    page * rowsPerPage + rowsPerPage
+                  )
+                : workload
+              ).map((row, index) => (
+                <TableRow key={row.mAGV1}>
+                  <StyledTableCell align="center">{index + 1}</StyledTableCell>
+                  <StyledTableCell align="left">
+                    {row.mAGV1 || 0}
                   </StyledTableCell>
                   <StyledTableCell
-                    align="center"
-                    rowSpan={2}
-                    style={{
-                      backgroundColor: "rgba(195,232,17,0.7)",
-                      color: "black",
-                    }}
-                  >
-                    GIỜ NCKH
-                  </StyledTableCell>
-                  <StyledTableCell
-                    align="center"
+                    align="left"
+                    style={{ borderRight: "none" }}
+                    className={cx("tablecell")}
                     colSpan={2}
-                    rowSpan={2}
-                    style={{
-                      backgroundColor: "rgba(128,121,214,0.5)",
-                      color: "black",
-                    }}
                   >
-                    TỔNG CỘNG
-                  </StyledTableCell>
-                </TableRow>
-                <TableRow>
-                  <StyledTableCell align="center">GIẢNG DẠY</StyledTableCell>
-                  <StyledTableCell align="center">HƯỚNG DẪN</StyledTableCell>
-                  <StyledTableCell align="center">CHẤM BÀI</StyledTableCell>
-                  <StyledTableCell align="center">ĐỀ THI</StyledTableCell>
-                  <StyledTableCell align="center">COI THI</StyledTableCell>
-                  <StyledTableCell align="center">
-                    SINH HOẠT KHOA
-                  </StyledTableCell>
-                  <StyledTableCell align="center">CỐ VẤN HT</StyledTableCell>
-                  <StyledTableCell
-                    align="center"
-                    style={{
-                      backgroundColor: "rgba(223,208,168,0.5)",
-                      color: "black",
-                    }}
-                  >
-                    TỔNG HỌC KÌ I
-                  </StyledTableCell>
-
-                  <StyledTableCell align="center">GIẢNG DẠY</StyledTableCell>
-                  <StyledTableCell align="center">HƯỚNG DẪN</StyledTableCell>
-                  <StyledTableCell align="center">CHẤM BÀI</StyledTableCell>
-                  <StyledTableCell align="center">ĐỀ THI</StyledTableCell>
-                  <StyledTableCell align="center">COI THI</StyledTableCell>
-                  <StyledTableCell align="center">
-                    SINH HOẠT KHOA
-                  </StyledTableCell>
-                  <StyledTableCell align="center">CỐ VẤN HT</StyledTableCell>
-                  <StyledTableCell
-                    align="center"
-                    style={{
-                      backgroundColor: "rgba(223,208,168,0.5)",
-                      color: "black",
-                    }}
-                  >
-                    TỔNG HỌC KÌ II
-                  </StyledTableCell>
-
-                  <StyledTableCell align="center">GIẢNG DẠY</StyledTableCell>
-                  <StyledTableCell align="center">HƯỚNG DẪN</StyledTableCell>
-                  <StyledTableCell align="center">CHẤM BÀI</StyledTableCell>
-                  <StyledTableCell align="center">ĐỀ THI</StyledTableCell>
-                  <StyledTableCell align="center">COI THI</StyledTableCell>
-                  <StyledTableCell
-                    align="center"
-                    style={{
-                      backgroundColor: "rgba(223,208,168,0.5)",
-                      color: "black",
-                    }}
-                  >
-                    TỔNG HỌC KÌ HÈ
-                  </StyledTableCell>
-                  <StyledTableCell
-                    align="center"
-                    style={{
-                      backgroundColor: "rgba(128,121,214,0.5)",
-                      color: "black",
-                    }}
-                    // width="20px"
-                  >
-                    GIỜ ĐỨNG LỚP
-                  </StyledTableCell>
-
-                  <StyledTableCell align="center">GIẢNG DẠY</StyledTableCell>
-                  <StyledTableCell align="center">HƯỚNG DẪN</StyledTableCell>
-                  <StyledTableCell align="center">CHẤM BÀI</StyledTableCell>
-                  <StyledTableCell align="center">ĐỀ THI</StyledTableCell>
-                  <StyledTableCell align="center">COI THI</StyledTableCell>
-                  <StyledTableCell align="center">
-                    SINH HOẠT KHOA
-                  </StyledTableCell>
-                  <StyledTableCell align="center">CỐ VẤN HT</StyledTableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {(rowsPerPage > 0
-                  ? workload.slice(
-                      page * rowsPerPage,
-                      page * rowsPerPage + rowsPerPage
-                    )
-                  : workload
-                ).map((row, index) => (
-                  <TableRow key={row.mAGV1}>
-                    <StyledTableCell align="center">
-                      {index + 1}
-                    </StyledTableCell>
-                    <StyledTableCell align="left">
-                      {row.mAGV1 || 0}
-                    </StyledTableCell>
-                    <StyledTableCell
-                      align="left"
-                      style={{ borderRight: "none" }}
-                      className={cx("tablecell")}
-                      colSpan={2}
-                    >
-                      {row.firtName1 + " " + row.lastName1 || 0}
-                    </StyledTableCell>
-                    <StyledTableCell align="center">
-                      {row.Teaching1 || 0}
-                    </StyledTableCell>
-                    <StyledTableCell align="center">
-                      {row.guide1 || 0}
-                    </StyledTableCell>
-                    <StyledTableCell align="center">
-                      {row.gradingPaper1 || 0}
-                    </StyledTableCell>
-                    <StyledTableCell align="center">
-                      {row.examQuestions1 || 0}
-                    </StyledTableCell>
-                    <StyledTableCell align="center">
-                      {row.examSupervisor1 || 0}
-                    </StyledTableCell>
-                    <StyledTableCell align="center">
-                      {row.facultyActivities1 || 0}
-                    </StyledTableCell>
-                    <StyledTableCell align="center">
-                      {row.academicAdvisor1 || 0}
-                    </StyledTableCell>
-                    <StyledTableCell
-                      align="center"
-                      style={{ backgroundColor: "rgba(223,208,168,0.5)" }}
-                    >
-                      {row.total1 || 0}
-                    </StyledTableCell>
-
-                    <StyledTableCell align="center">
-                      {row.Teaching2 || 0}
-                    </StyledTableCell>
-                    <StyledTableCell align="center">
-                      {row.guide2 || 0}
-                    </StyledTableCell>
-                    <StyledTableCell align="center">
-                      {row.gradingPaper2 || 0}
-                    </StyledTableCell>
-                    <StyledTableCell align="center">
-                      {row.examQuestions2 || 0}
-                    </StyledTableCell>
-                    <StyledTableCell align="center">
-                      {row.examSupervisor2 || 0}
-                    </StyledTableCell>
-                    <StyledTableCell align="center">
-                      {row.facultyActivities2 || 0}
-                    </StyledTableCell>
-                    <StyledTableCell align="center">
-                      {row.academicAdvisor2 || 0}
-                    </StyledTableCell>
-                    <StyledTableCell
-                      align="center"
-                      style={{ backgroundColor: "rgba(223,208,168,0.5)" }}
-                    >
-                      {row.total2 || 0}
-                    </StyledTableCell>
-
-                    <StyledTableCell align="center">
-                      {row.Teaching3 || 0}
-                    </StyledTableCell>
-                    <StyledTableCell align="center">
-                      {row.guide3 || 0}
-                    </StyledTableCell>
-                    <StyledTableCell align="center">
-                      {row.gradingPaper3 || 0}
-                    </StyledTableCell>
-                    <StyledTableCell align="center">
-                      {row.examQuestions3 || 0}
-                    </StyledTableCell>
-                    <StyledTableCell align="center">
-                      {row.examSupervisor3 || 0}
-                    </StyledTableCell>
-                    <StyledTableCell
-                      align="center"
-                      style={{ backgroundColor: "rgba(223,208,168,0.5)" }}
-                    >
-                      {row.total3 || 0}
-                    </StyledTableCell>
-                    <StyledTableCell
-                      align="center"
-                      style={{ backgroundColor: "rgba(128,121,214,0.5)" }}
-                    >
-                      {row.Teaching.toFixed(2) || 0}
-                    </StyledTableCell>
-                    <StyledTableCell align="center">
-                      {row.Teaching.toFixed(2) || 0}
-                    </StyledTableCell>
-
-                    <StyledTableCell align="center">
-                      {row.guide.toFixed(2) || 0}
-                    </StyledTableCell>
-                    <StyledTableCell align="center">
-                      {row.gradingPaper.toFixed(2) || 0}
-                    </StyledTableCell>
-                    <StyledTableCell align="center">
-                      {row.examQuestions.toFixed(2) || 0}
-                    </StyledTableCell>
-                    <StyledTableCell align="center">
-                      {row.examSupervisor.toFixed(2) || 0}
-                    </StyledTableCell>
-                    <StyledTableCell align="center">
-                      {row.facultyActivities.toFixed(2) || 0}
-                    </StyledTableCell>
-                    <StyledTableCell align="center">
-                      {row.academicAdvisor.toFixed(2) || 0}
-                    </StyledTableCell>
-
-                    <StyledTableCell
-                      align="center"
-                      style={{ backgroundColor: "rgba(195,232,17,0.7)" }}
-                    >
-                      {row.TimeScientificVolume.toFixed(2) || 0}
-                    </StyledTableCell>
-                    <StyledTableCell
-                      align="center"
-                      style={{ backgroundColor: "rgba(128,121,214,0.5)" }}
-                    >
-                      {row.total.toFixed(2) || 0}
-                    </StyledTableCell>
-                  </TableRow>
-                ))}
-                <TableRow>
-                  <StyledTableCell colSpan={4} align="center">
-                    Tổng:
+                    {row.firtName1 + " " + row.lastName1 || 0}
                   </StyledTableCell>
                   <StyledTableCell align="center">
-                    {total.Teaching1.toFixed(2) || 0}
+                    {row.Teaching1 || 0}
                   </StyledTableCell>
                   <StyledTableCell align="center">
-                    {total.guide1.toFixed(2) || 0}
+                    {row.guide1 || 0}
                   </StyledTableCell>
                   <StyledTableCell align="center">
-                    {total.gradingPaper1.toFixed(2) || 0}
+                    {row.gradingPaper1 || 0}
                   </StyledTableCell>
                   <StyledTableCell align="center">
-                    {total.examQuestions1.toFixed(2) || 0}
+                    {row.examQuestions1 || 0}
                   </StyledTableCell>
                   <StyledTableCell align="center">
-                    {total.examSupervisor1.toFixed(2) || 0}
+                    {row.examSupervisor1 || 0}
                   </StyledTableCell>
                   <StyledTableCell align="center">
-                    {total.facultyActivities1.toFixed(2) || 0}
+                    {row.facultyActivities1 || 0}
                   </StyledTableCell>
                   <StyledTableCell align="center">
-                    {total.academicAdvisor1.toFixed(2) || 0}
+                    {row.academicAdvisor1 || 0}
                   </StyledTableCell>
                   <StyledTableCell
                     align="center"
                     style={{ backgroundColor: "rgba(223,208,168,0.5)" }}
                   >
-                    {total.total1.toFixed(2) || 0}
+                    {row.total1 || 0}
+                  </StyledTableCell>
+
+                  <StyledTableCell align="center">
+                    {row.Teaching2 || 0}
                   </StyledTableCell>
                   <StyledTableCell align="center">
-                    {total.Teaching2.toFixed(2) || 0}
+                    {row.guide2 || 0}
                   </StyledTableCell>
                   <StyledTableCell align="center">
-                    {total.guide2.toFixed(2) || 0}
+                    {row.gradingPaper2 || 0}
                   </StyledTableCell>
                   <StyledTableCell align="center">
-                    {total.gradingPaper2.toFixed(2) || 0}
+                    {row.examQuestions2 || 0}
                   </StyledTableCell>
                   <StyledTableCell align="center">
-                    {total.examQuestions2.toFixed(2) || 0}
+                    {row.examSupervisor2 || 0}
                   </StyledTableCell>
                   <StyledTableCell align="center">
-                    {total.examSupervisor2.toFixed(2) || 0}
+                    {row.facultyActivities2 || 0}
                   </StyledTableCell>
                   <StyledTableCell align="center">
-                    {total.facultyActivities2.toFixed(2) || 0}
-                  </StyledTableCell>
-                  <StyledTableCell align="center">
-                    {total.academicAdvisor2.toFixed(2) || 0}
+                    {row.academicAdvisor2 || 0}
                   </StyledTableCell>
                   <StyledTableCell
                     align="center"
                     style={{ backgroundColor: "rgba(223,208,168,0.5)" }}
                   >
-                    {total.total2.toFixed(2) || 0}
+                    {row.total2 || 0}
+                  </StyledTableCell>
+
+                  <StyledTableCell align="center">
+                    {row.Teaching3 || 0}
                   </StyledTableCell>
                   <StyledTableCell align="center">
-                    {total.Teaching3.toFixed(2) || 0}
+                    {row.guide3 || 0}
                   </StyledTableCell>
                   <StyledTableCell align="center">
-                    {total.guide3.toFixed(2) || 0}
+                    {row.gradingPaper3 || 0}
                   </StyledTableCell>
                   <StyledTableCell align="center">
-                    {total.gradingPaper3.toFixed(2) || 0}
+                    {row.examQuestions3 || 0}
                   </StyledTableCell>
                   <StyledTableCell align="center">
-                    {total.examQuestions3.toFixed(2) || 0}
-                  </StyledTableCell>
-                  <StyledTableCell align="center">
-                    {total.examSupervisor3.toFixed(2) || 0}
+                    {row.examSupervisor3 || 0}
                   </StyledTableCell>
                   <StyledTableCell
                     align="center"
                     style={{ backgroundColor: "rgba(223,208,168,0.5)" }}
                   >
-                    {total.total3.toFixed(2) || 0}
+                    {row.total3 || 0}
                   </StyledTableCell>
                   <StyledTableCell
                     align="center"
                     style={{ backgroundColor: "rgba(128,121,214,0.5)" }}
                   >
-                    {total.Teaching.toFixed(2) || 0}
+                    {row.Teaching.toFixed(2) || 0}
                   </StyledTableCell>
                   <StyledTableCell align="center">
-                    {total.Teaching.toFixed(2) || 0}
+                    {row.Teaching.toFixed(2) || 0}
+                  </StyledTableCell>
+
+                  <StyledTableCell align="center">
+                    {row.guide.toFixed(2) || 0}
                   </StyledTableCell>
                   <StyledTableCell align="center">
-                    {total.guide.toFixed(2) || 0}
+                    {row.gradingPaper.toFixed(2) || 0}
                   </StyledTableCell>
                   <StyledTableCell align="center">
-                    {total.gradingPaper.toFixed(2) || 0}
+                    {row.examQuestions.toFixed(2) || 0}
                   </StyledTableCell>
                   <StyledTableCell align="center">
-                    {total.examQuestions.toFixed(2) || 0}
+                    {row.examSupervisor.toFixed(2) || 0}
                   </StyledTableCell>
                   <StyledTableCell align="center">
-                    {total.examSupervisor.toFixed(2) || 0}
+                    {row.facultyActivities.toFixed(2) || 0}
                   </StyledTableCell>
                   <StyledTableCell align="center">
-                    {total.facultyActivities.toFixed(2) || 0}
-                  </StyledTableCell>
-                  <StyledTableCell align="center">
-                    {total.academicAdvisor.toFixed(2) || 0}
+                    {row.academicAdvisor.toFixed(2) || 0}
                   </StyledTableCell>
 
                   <StyledTableCell
                     align="center"
                     style={{ backgroundColor: "rgba(195,232,17,0.7)" }}
                   >
-                    {total.TimeScientificVolume.toFixed(2) || 0}
+                    {row.TimeScientificVolume.toFixed(2) || 0}
                   </StyledTableCell>
                   <StyledTableCell
                     align="center"
                     style={{ backgroundColor: "rgba(128,121,214,0.5)" }}
                   >
-                    {total.totalvolume.toFixed(2) || 0}
+                    {row.total.toFixed(2) || 0}
                   </StyledTableCell>
                 </TableRow>
-                {emptyRows > 0 && (
-                  <TableRow style={{ height: 53 * emptyRows }}>
-                    <TableCell colSpan={6} />
-                  </TableRow>
-                )}
-              </TableBody>
-              <TableFooter>
-                <TableRow>
-                  <TablePagination
-                    rowsPerPageOptions={[
-                      5,
-                      10,
-                      25,
-                      { label: "All", value: -1 },
-                    ]}
-                    count={workload.length}
-                    rowsPerPage={rowsPerPage}
-                    page={page}
-                    SelectProps={{
-                      inputProps: {
-                        "aria-label": "rows per page",
-                      },
-                      native: true,
-                    }}
-                    onPageChange={handleChangePage}
-                    onRowsPerPageChange={handleChangeRowsPerPage}
-                    ActionsComponent={TablePaginationActions}
-                  />
+              ))}
+              <TableRow>
+                <StyledTableCell colSpan={4} align="center">
+                  Tổng:
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  {total.Teaching1.toFixed(2) || 0}
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  {total.guide1.toFixed(2) || 0}
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  {total.gradingPaper1.toFixed(2) || 0}
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  {total.examQuestions1.toFixed(2) || 0}
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  {total.examSupervisor1.toFixed(2) || 0}
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  {total.facultyActivities1.toFixed(2) || 0}
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  {total.academicAdvisor1.toFixed(2) || 0}
+                </StyledTableCell>
+                <StyledTableCell
+                  align="center"
+                  style={{ backgroundColor: "rgba(223,208,168,0.5)" }}
+                >
+                  {total.total1.toFixed(2) || 0}
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  {total.Teaching2.toFixed(2) || 0}
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  {total.guide2.toFixed(2) || 0}
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  {total.gradingPaper2.toFixed(2) || 0}
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  {total.examQuestions2.toFixed(2) || 0}
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  {total.examSupervisor2.toFixed(2) || 0}
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  {total.facultyActivities2.toFixed(2) || 0}
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  {total.academicAdvisor2.toFixed(2) || 0}
+                </StyledTableCell>
+                <StyledTableCell
+                  align="center"
+                  style={{ backgroundColor: "rgba(223,208,168,0.5)" }}
+                >
+                  {total.total2.toFixed(2) || 0}
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  {total.Teaching3.toFixed(2) || 0}
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  {total.guide3.toFixed(2) || 0}
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  {total.gradingPaper3.toFixed(2) || 0}
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  {total.examQuestions3.toFixed(2) || 0}
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  {total.examSupervisor3.toFixed(2) || 0}
+                </StyledTableCell>
+                <StyledTableCell
+                  align="center"
+                  style={{ backgroundColor: "rgba(223,208,168,0.5)" }}
+                >
+                  {total.total3.toFixed(2) || 0}
+                </StyledTableCell>
+                <StyledTableCell
+                  align="center"
+                  style={{ backgroundColor: "rgba(128,121,214,0.5)" }}
+                >
+                  {total.Teaching.toFixed(2) || 0}
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  {total.Teaching.toFixed(2) || 0}
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  {total.guide.toFixed(2) || 0}
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  {total.gradingPaper.toFixed(2) || 0}
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  {total.examQuestions.toFixed(2) || 0}
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  {total.examSupervisor.toFixed(2) || 0}
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  {total.facultyActivities.toFixed(2) || 0}
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  {total.academicAdvisor.toFixed(2) || 0}
+                </StyledTableCell>
+
+                <StyledTableCell
+                  align="center"
+                  style={{ backgroundColor: "rgba(195,232,17,0.7)" }}
+                >
+                  {total.TimeScientificVolume.toFixed(2) || 0}
+                </StyledTableCell>
+                <StyledTableCell
+                  align="center"
+                  style={{ backgroundColor: "rgba(128,121,214,0.5)" }}
+                >
+                  {total.totalvolume.toFixed(2) || 0}
+                </StyledTableCell>
+              </TableRow>
+              {emptyRows > 0 && (
+                <TableRow style={{ height: 53 * emptyRows }}>
+                  <TableCell colSpan={6} />
                 </TableRow>
-              </TableFooter>
-            </Table>
-          </TableContainer>
-          <div
-            id="printsig"
-            className="w-[1123px] justify-around text-center hidden"
-          >
-            <div>
-              <h2>TP. PHÒNG ĐÀO TẠO ĐẠI HỌC & SAU ĐẠI HỌC</h2>
-              <p>&nbsp;</p>
-            </div>
-            <div>
-              <h2>HIỆU TRƯỞNG/ VIỆN TRƯỞNG</h2>
-              <p>(Ký và ghi rõ họ tên)</p>
-            </div>
-            <div>
-              <p>Đà Nẵng,Ngày..... Tháng..... Năm 20... </p>
-              <h2>TRƯỞNG KHOA</h2>
-              <p>(Ký và ghi rõ họ tên)</p>
-            </div>
+              )}
+            </TableBody>
+            <TableFooter>
+              <TableRow>
+                <TablePagination
+                  rowsPerPageOptions={[5, 10, 25, { label: "All", value: -1 }]}
+                  count={workload.length}
+                  rowsPerPage={rowsPerPage}
+                  page={page}
+                  SelectProps={{
+                    inputProps: {
+                      "aria-label": "rows per page",
+                    },
+                    native: true,
+                  }}
+                  onPageChange={handleChangePage}
+                  onRowsPerPageChange={handleChangeRowsPerPage}
+                  ActionsComponent={TablePaginationActions}
+                />
+              </TableRow>
+            </TableFooter>
+          </Table>
+        </TableContainer>
+        <div
+          id="printsig"
+          className="w-[1123px] justify-around text-center hidden"
+        >
+          <div>
+            <h2>TP. PHÒNG ĐÀO TẠO ĐẠI HỌC & SAU ĐẠI HỌC</h2>
+            <p>&nbsp;</p>
+          </div>
+          <div>
+            <h2>HIỆU TRƯỞNG/ VIỆN TRƯỞNG</h2>
+            <p>(Ký và ghi rõ họ tên)</p>
+          </div>
+          <div>
+            <p>Đà Nẵng,Ngày..... Tháng..... Năm 20... </p>
+            <h2>TRƯỞNG KHOA</h2>
+            <p>(Ký và ghi rõ họ tên)</p>
           </div>
         </div>
+      </div>
     </div>
   );
 }

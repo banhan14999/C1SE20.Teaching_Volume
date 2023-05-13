@@ -149,8 +149,8 @@ function VolumeOfExamQuestions({ examQuestions }) {
                 <StyledTableCell align="center">
                   {row.SubjectName}
                 </StyledTableCell>
-                <StyledTableCell align="center">...</StyledTableCell>
-                <StyledTableCell align="center">...</StyledTableCell>
+                <StyledTableCell align="center"></StyledTableCell>
+                <StyledTableCell align="center"></StyledTableCell>
                 <StyledTableCell align="center">{row.Semester}</StyledTableCell>
                 <StyledTableCell align="center">1</StyledTableCell>
                 <StyledTableCell align="center">Đề</StyledTableCell>

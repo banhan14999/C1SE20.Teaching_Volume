@@ -13,12 +13,12 @@ function Other(props) {
         <Table size="medium" aria-label="a dense table">
           <TableHead style={{ backgroundColor: "#afafaf" }}>
             <TableRow>
-              <StyledTableCell align="center">Activities</StyledTableCell>
-              <StyledTableCell align="center">Exam Monitor</StyledTableCell>
-              <StyledTableCell align="center">Advisor</StyledTableCell>
-              <StyledTableCell align="center">Time Scientific</StyledTableCell>
+              <StyledTableCell align="center">Các hoạt động</StyledTableCell>
+              <StyledTableCell align="center">Coi thi</StyledTableCell>
+              <StyledTableCell align="center">Cố vấn</StyledTableCell>
+              <StyledTableCell align="center">Thời gian khoa học</StyledTableCell>
               {props.btn !== "view" && (
-                <StyledTableCell align="center">Action</StyledTableCell>
+                <StyledTableCell align="center">Hành động</StyledTableCell>
               )}
             </TableRow>
           </TableHead>
@@ -48,7 +48,7 @@ function Other(props) {
                         onClick={props.onClick}
                       >
                         <BiEdit className="mr-1 pointer-events-none"></BiEdit>
-                        <div className="pointer-events-none">Update</div>
+                        <div className="pointer-events-none">Cập nhật</div>
                       </div>
                     </StyledTableCell>
                   )}

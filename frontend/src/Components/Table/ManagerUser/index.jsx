@@ -175,22 +175,22 @@ function ManagerUser() {
   return (
     <div>
       {param.id ? (
-        <AddUser hide="hidden" btn="Update" title="Update User"></AddUser>
+        <AddUser hide="hidden" btn="Cập nhật" title="Cập nhật người dùng"></AddUser>
       ) : (
         <div className="container">
           <div className="text-center text-[20px] font-[600] line mb-[20px] text-red-700">
-            Manage Users
+            Quản lý người dùng
           </div>
           <TableContainer component={Paper}>
             <Table size="medium" aria-label="a dense table">
               <TableHead style={{ backgroundColor: "#afafaf" }}>
                 <TableRow>
                   <StyledTableCell align="center">DTU-ID</StyledTableCell>
-                  <StyledTableCell align="center">Full Name</StyledTableCell>
-                  <StyledTableCell align="center">Faculty</StyledTableCell>
-                  <StyledTableCell align="center">Department</StyledTableCell>
-                  <StyledTableCell align="center">Role</StyledTableCell>
-                  <StyledTableCell align="center">Action</StyledTableCell>
+                  <StyledTableCell align="center">Họ và tên</StyledTableCell>
+                  <StyledTableCell align="center">Khoa</StyledTableCell>
+                  <StyledTableCell align="center">Bộ môn</StyledTableCell>
+                  <StyledTableCell align="center">Vai trò</StyledTableCell>
+                  <StyledTableCell align="center">Hành động</StyledTableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -228,7 +228,7 @@ function ManagerUser() {
                             className="pointer-events-none"
                             fontSize={14}
                           ></BiEdit>
-                          Update
+                          Cập nhật
                         </div>
                         <div
                           className="cursor-pointer flex items-center justify-center hover:text-black"
@@ -240,7 +240,7 @@ function ManagerUser() {
                             className="pointer-events-none"
                             fontSize={16}
                           ></AiFillCloseCircle>
-                          Delete
+                          Xóa
                         </div>
                       </div>
                     </StyledTableCell>

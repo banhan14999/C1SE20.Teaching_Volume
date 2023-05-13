@@ -49,8 +49,6 @@ function ManagerClass() {
   const opt = [
     { value: "2021", label: "2021-2022" },
     { value: "2022", label: "2022-2023" },
-    { value: "2023", label: "2023-2024" },
-    { value: "2024", label: "2024-2025" },
   ];
   const hocki = [
     { value: "1", label: "Học Kỳ I" },
@@ -70,7 +68,7 @@ function ManagerClass() {
     // xem chi tiết của từng lớp
     const classid = e.target.dataset.detail;
     if (e.target.textContent === "Detail") {
-      setTitle("Detail class");
+      setTitle("Cập nhật lớp học");
       dispath(DataUpdate(data));
       navigate(classid);
     }
@@ -242,7 +240,7 @@ function ManagerClass() {
   return (
     <div>
       {param.id ? (
-        <ClassInformation btn="Update" disabled={true} title={title} />
+        <ClassInformation btn="Cập nhật" disabled={true} title={title} />
       ) : (
         <div className="container">
           {!ad && (
@@ -280,25 +278,25 @@ function ManagerClass() {
           {classad.length > 0 && (ad || (year && semester)) && (
             <>
               <div className="text-center text-[20px] font-[600] line mb-[20px] text-red-700">
-                Manage Class
+                Quản lý lớp học
               </div>
               <TableContainer component={Paper}>
                 <Table size="medium" aria-label="a dense table">
                   <TableHead style={{ backgroundColor: "#afafaf" }}>
                     <TableRow>
                       <StyledTableCell align="center">
-                        ClassName
+                        Tên lớp
                       </StyledTableCell>
-                      <StyledTableCell align="center">Subject</StyledTableCell>
-                      <StyledTableCell align="center">Year</StyledTableCell>
-                      <StyledTableCell align="center">Semester</StyledTableCell>
-                      <StyledTableCell align="center">Student</StyledTableCell>
-                      <StyledTableCell align="center">Type</StyledTableCell>
-                      <StyledTableCell align="center">Credit</StyledTableCell>
+                      <StyledTableCell align="center">Môn học</StyledTableCell>
+                      <StyledTableCell align="center">Năm</StyledTableCell>
+                      <StyledTableCell align="center">Học kì</StyledTableCell>
+                      <StyledTableCell align="center">Sinh viên</StyledTableCell>
+                      <StyledTableCell align="center">Loại</StyledTableCell>
+                      <StyledTableCell align="center">Tín chỉ</StyledTableCell>
                       <StyledTableCell align="center">
-                        Subject Coefficient
+                        Hệ số môn học
                       </StyledTableCell>
-                      <StyledTableCell align="center">Action</StyledTableCell>
+                      <StyledTableCell align="center">Hành động</StyledTableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -350,7 +348,7 @@ function ManagerClass() {
                             onClick={handleUpdate}
                           >
                             <BiEdit className="mr-2 pointer-events-none"></BiEdit>
-                            <div className="pointer-events-none">Update</div>
+                            <div className="pointer-events-none">Cập nhật</div>
                           </div>
                           <div
                             className="flex items-center cursor-pointer"
@@ -358,7 +356,7 @@ function ManagerClass() {
                             onClick={handleDetail}
                           >
                             <TbListDetails className="mr-2 pointer-events-none"></TbListDetails>
-                            <div className="pointer-events-none">Detail</div>
+                            <div className="pointer-events-none">Chi tiết</div>
                           </div>
                           {ad && (
                             <div
@@ -367,7 +365,7 @@ function ManagerClass() {
                               onClick={handleDelete}
                             >
                               <TiDeleteOutline className="mr-2 pointer-events-none"></TiDeleteOutline>
-                              <div className="pointer-events-none">Delete</div>
+                              <div className="pointer-events-none">Xóa</div>
                             </div>
                           )}
                         </StyledTableCell>

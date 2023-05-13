@@ -238,19 +238,19 @@ function clickCancel() {
       <div className={cx("form")}>
         <div className={cx("line")}>
           <h2 className="text-xl font-semibold">
-            {props.title || "Subject Information"}
+            {props.title || "Thông tin môn học"}
           </h2>
         </div>
         <div className="p-5">
           <form action="">
             <div className="w-full flex justify-between">
               <label htmlFor="" className="w-[30%]">
-                Letter
+                Chữ
               </label>
               <span className="text-lg font-bold">:</span>
               <div className="flex w-[50%] relative items-center">
                 <input
-                  placeholder="Letter"
+                  placeholder="Chữ"
                   className={`w-full input ${cx("input")} `}
                   required
                   value={valuesForm.letter}
@@ -263,17 +263,17 @@ function clickCancel() {
             </div>
             {check && valuesForm.letter.length > 8 && (
               <div className="text-right text-red-800 leading-[10px] mt-1">
-                Letter dưới 8 kí tự
+                Chữ dưới 8 kí tự
               </div>
             )}
             <div className="w-full flex justify-between mt-2">
               <label htmlFor="" className="w-[30%]">
-                Number
+                Số
               </label>
               <span className="text-lg font-bold">:</span>
               <div className="flex w-[50%] relative items-center">
                 <input
-                  placeholder="Number"
+                  placeholder="Số"
                   className={`w-full input ${cx("input")} `}
                   type="number"
                   required
@@ -287,17 +287,17 @@ function clickCancel() {
             </div>
             {check && String(valuesForm.number).length !== 3 && (
               <div className="text-right text-red-800 leading-[10px] mt-1">
-                Number 3 kí tự
+                Số 3 kí tự
               </div>
             )}
             <div className="w-full flex justify-between mt-2">
               <label htmlFor="" className="w-[30%]">
-                Subject
+                Môn học
               </label>
               <span className="text-lg font-bold">:</span>
               <div className="flex w-[50%] relative items-center">
                 <input
-                  placeholder="Subject"
+                  placeholder="Môn học"
                   className={`w-full input ${cx("input")} `}
                   required
                   value={valuesForm.subject_name}
@@ -313,12 +313,12 @@ function clickCancel() {
             </div>
             <div className="w-full flex justify-between mt-2">
               <label htmlFor="" className="w-[30%]">
-                Credit
+                Tín chỉ
               </label>
               <span className="text-lg font-bold">:</span>
               <div className="flex w-[50%] relative items-center">
                 <input
-                  placeholder="Credit"
+                  placeholder="Tín chỉ"
                   type="number"
                   className={`w-full input ${cx("input")} `}
                   required
@@ -336,12 +336,12 @@ function clickCancel() {
                   (Number(valuesForm.credit) <= 0 ||
                     Number(valuesForm.credit) >= 5))) && (
                 <div className="text-right text-red-800 leading-[10px] mt-1">
-                  credit 1-4
+                  Tín chỉ 1-4
                 </div>
               )}
             <div className="w-full flex justify-between mt-2">
               <label htmlFor="" className="w-[30%]">
-                Type
+                Loại
               </label>
               <span className="text-lg font-bold">:</span>
               <div className="flex w-[50%] relative items-center">
@@ -364,7 +364,7 @@ function clickCancel() {
             </div>
             {duplicate && (
               <div className="text-right text-red-800 leading-[10px] mt-1">
-                Number letter đã tồn tại
+                Số chữ đã tồn tại
               </div>
             )}
             <div className="flex justify-around mt-[20px]">
@@ -374,7 +374,7 @@ function clickCancel() {
                 size="large"
                 onClick={handleClickAdd}
               >
-                {props.btn || "Add"}
+                {props.btn || "Thêm"}
               </Button>
               <Button
                 bgcolor="#950b0b"
@@ -382,7 +382,7 @@ function clickCancel() {
                 size="large"
                 onClick={clickCancel}
               >
-                {param && param.id ? "Cancel" : "Reset"}
+                {param && param.id ? "Hủy" : "Làm mới"}
               </Button>
             </div>
           </form>

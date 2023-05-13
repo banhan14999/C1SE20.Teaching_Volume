@@ -106,7 +106,7 @@ const navigate = useNavigate()
                 <div
                   className={`text-right text-red-800 leading-[10px] mt-1 ${props.hide}`}
                 >
-                  Nhap qua nam hien tai
+                  Nhập năm hiện tại
                 </div>
               )}
             <div className="flex justify-around mt-[20px]">
@@ -116,7 +116,7 @@ const navigate = useNavigate()
                 size="large"
                 onClick={handleAdd}
               >
-                {props.btn || "Add"}
+                {props.btn || "Thêm"}
               </Button>
               <Button
                 bgcolor="#950b0b"
@@ -124,7 +124,7 @@ const navigate = useNavigate()
                 size="large"
                 onClick={clickCancel}
               >
-                {param && param.id ? "Cancel" : "Reset"}
+                {param && param.id ? "Hủy" : "Làm mới"}
               </Button>
             </div>
           </form>

@@ -22,8 +22,11 @@ function DungChung(props, ref) {
 
   useEffect(() => {
     const IdLecturer = JSON.parse(localStorage.getItem("IdLecturer"));
+    console.log(
+      `/volume/individualVol/idLec/${IdLecturer}/year/${props.year.value}`
+    );
     ApiTeachingVolume.Get(
-      `/volume/individualVol/idLec/${IdLecturer}/year/2022`
+      `/volume/individualVol/idLec/${IdLecturer}/year/${props.year.value}`
     ).then((data) => {
       setTeaching([...data["theoryVol"]]);
       setProject([...data["relityVol"]]);
@@ -34,7 +37,7 @@ function DungChung(props, ref) {
       setAcademicAdvisor([...data["advisorVol"]]);
       setScientificActivities([...data["timeScientific"]]);
     });
-      }, []);
+  }, [props.year]);
   return (
     <div ref={ref}>
       <div>
@@ -60,6 +63,21 @@ function DungChung(props, ref) {
       </div>
       <div className="mt-7">
         <ScientificActivities academicAdvisor={academicAdvisor} />
+      </div>
+      <div id="printsig" className="flex justify-between mt-24">
+        <div>
+          <h2>TP. PHÒNG ĐÀO TẠO ĐẠI HỌC & SAU ĐẠI HỌC</h2>
+          <p>&nbsp;</p>
+        </div>
+        <div>
+          <h2>HIỆU TRƯỞNG/ VIỆN TRƯỞNG</h2>
+          <p>(Ký và ghi rõ họ tên)</p>
+        </div>
+        <div class="mt-[-23px]">
+          <p>Đà Nẵng,Ngày..... Tháng..... Năm 20... </p>
+          <h2>TRƯỞNG KHOA</h2>
+          <p>(Ký và ghi rõ họ tên)</p>
+        </div>
       </div>
     </div>
   );

@@ -215,7 +215,7 @@ useEffect(() => {
       <div className="text-center mb-3">
         {continues === false && (
           <Button width="200px" bgcolor="#950B0B" onClick={handleContinue}>
-            Continue
+            Tiếp tục
           </Button>
         )}
       </div>
@@ -280,7 +280,7 @@ useEffect(() => {
               width="20%"
               onClick={handleSave}
             >
-              Save
+              Lưu
             </Button>
           </div>
         </div>

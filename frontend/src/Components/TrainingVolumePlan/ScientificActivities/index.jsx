@@ -5,8 +5,17 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import StyledTableCell from "../../StyledTableCell";
+import { useEffect, useState } from "react";
 
 function ScientificActivities({ academicAdvisor }) {
+  const [total, setTotal] = useState(0);
+  useEffect(() => {
+    const to = academicAdvisor.reduce((total, val) => {
+      return total + Number(val.AdvisorVolume);
+    }, 0);
+    setTotal(to);
+  }, []);
+  console.log(academicAdvisor);
   return (
     <div>
       <div className="text-center text-[20px] font-[600] line mb-[20px] text-red-700">
@@ -18,7 +27,7 @@ function ScientificActivities({ academicAdvisor }) {
             <TableRow>
               <StyledTableCell align="center">STT</StyledTableCell>
               <StyledTableCell align="center">Nội dung</StyledTableCell>
-              <StyledTableCell align="center">QUI CHUẨN</StyledTableCell>
+              <StyledTableCell align="center">Qui chuẩn</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -28,40 +37,10 @@ function ScientificActivities({ academicAdvisor }) {
               }}
             >
               <StyledTableCell align="center">1</StyledTableCell>
-              <StyledTableCell align="left">Đề tài NCKH</StyledTableCell>
-              <StyledTableCell align="center">zzzzzzzzz</StyledTableCell>
-            </TableRow>
-            <TableRow
-              sx={{
-                "&:last-child td, &:last-child th": { border: 0 },
-              }}
-            >
-              <StyledTableCell align="center">2</StyledTableCell>
               <StyledTableCell align="left">
-                Hướng dẫn sinh viên NCKH
+                Thời gian nghiên cứu khoa học
               </StyledTableCell>
-              <StyledTableCell align="center">zzzzzzzzz</StyledTableCell>
-            </TableRow>
-            <TableRow
-              sx={{
-                "&:last-child td, &:last-child th": { border: 0 },
-              }}
-            >
-              <StyledTableCell align="center">3</StyledTableCell>
-              <StyledTableCell align="left">
-                Hoạt động khác (ghi rõ nếu được qui chuẩn theo qui định):
-              </StyledTableCell>
-              <StyledTableCell align="center">zzzzzzzzz</StyledTableCell>
-            </TableRow>
-            <TableRow
-              sx={{
-                "&:last-child td, &:last-child th": { border: 0 },
-              }}
-            >
-              <StyledTableCell align="left" colSpan={2}>
-                TỔNG CỘNG:
-              </StyledTableCell>
-              <StyledTableCell align="center">zzzzzzzzz</StyledTableCell>
+              <StyledTableCell align="center">{total}</StyledTableCell>
             </TableRow>
           </TableBody>
         </Table>

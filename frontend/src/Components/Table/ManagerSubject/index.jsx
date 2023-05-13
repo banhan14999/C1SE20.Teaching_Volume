@@ -169,21 +169,21 @@ function ManagerSubject() {
   return (
     <div>
       {param.id ? (
-        <AddSubject btn="Update" title="Update Subject"></AddSubject>
+        <AddSubject btn="Cập nhật" title="Cập nhật môn học"></AddSubject>
       ) : (
         <div className={`container`}>
           <div className="text-center text-[20px] font-[600] line mb-[20px] text-red-700">
-            Manage Subject
+            Quản lý môn học
           </div>
           <TableContainer component={Paper}>
             <Table size="small" aria-label="Manager Subject Table">
               <TableHead style={{ backgroundColor: "#afafaf" }}>
                 <TableRow>
-                  <StyledTableCell align="center"> Code </StyledTableCell>
-                  <StyledTableCell align="center">Subject</StyledTableCell>
-                  <StyledTableCell align="center">Credit</StyledTableCell>
-                  <StyledTableCell align="center">Type</StyledTableCell>
-                  <StyledTableCell align="center">Action</StyledTableCell>
+                  <StyledTableCell align="center"> Mã </StyledTableCell>
+                  <StyledTableCell align="center">Môn học</StyledTableCell>
+                  <StyledTableCell align="center">Tín chỉ</StyledTableCell>
+                  <StyledTableCell align="center">Loại</StyledTableCell>
+                  <StyledTableCell align="center">Hành động</StyledTableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -220,7 +220,7 @@ function ManagerSubject() {
                             className="mr-[2px]"
                             fontSize={12}
                           ></BiEdit>
-                          <span>Update</span>
+                          <span>Cập nhật</span>
                         </div>
                         <div
                           className="flex justify-center items-center cursor-pointer ml-1"
@@ -232,7 +232,7 @@ function ManagerSubject() {
                             className="mr-[2px] pointer-events-none"
                             fontSize={12}
                           ></MdAutoDelete>
-                          <span className="pointer-events-none">Delete</span>
+                          <span className="pointer-events-none">Xóa</span>
                         </div>
                       </div>
                     </StyledTableCell>

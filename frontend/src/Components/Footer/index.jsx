@@ -12,7 +12,7 @@ function Footer() {
           <img src={footer} alt="Footer" />
         </div>
         <div className="text-center">
-          Copyright© 2022 <a href="./">Đại học Duy Tân.</a>
+          Copyright© 2023 <a href="./">Đại học Duy Tân.</a>
         </div>
       </div>
     );

@@ -286,12 +286,12 @@ function ClassInformation(props) {
           <form action="">
             <div className="w-full flex justify-between mt-2 ">
               <label htmlFor="" className="w-[30%]">
-                Year
+                Năm
               </label>
               <span className="text-lg font-bold">:</span>
               <p className={`w-1/2 ${props.btn ? "hidden" : "block"}`}>
                 <SelectForm
-                  placeholder="Year"
+                  placeholder="Năm"
                   class="w-full"
                   refSelect={refSelectYear}
                   options={yearOptions}
@@ -315,12 +315,12 @@ function ClassInformation(props) {
             </div>
             <div className="w-full flex justify-between mt-2">
               <label htmlFor="" className="w-[30%]">
-                Semester
+                Học kì
               </label>
               <span className="text-lg font-bold">:</span>
               <p className={`w-1/2 ${props.btn ? "hidden" : "block"}`}>
                 <SelectForm
-                  placeholder="Semester"
+                  placeholder="Học kì"
                   refSelect={refSelectSemester}
                   class="w-full"
                   options={semesterOptions}
@@ -348,11 +348,11 @@ function ClassInformation(props) {
               }`}
             >
               <label htmlFor="" className="w-[30%]">
-                Subject
+                Môn học
               </label>
               <span className="text-lg font-bold">:</span>
               <SelectForm
-                placeholder="Subject"
+                placeholder="Môn học"
                 refSelect={refSelectSubject}
                 class="w-1/2"
                 options={subjectOptions}
@@ -370,12 +370,12 @@ function ClassInformation(props) {
             </div>
             <div className="w-full flex justify-between mt-2">
               <label htmlFor="" className="w-[30%]">
-                Grade
+                Cấp
               </label>
               <span className="text-lg font-bold">:</span>
               <p className={`w-1/2 ${props.btn ? "hidden" : "block"}`}>
                 <input
-                  placeholder="Grade"
+                  placeholder="Cấp"
                   className="w-full input"
                   value={valuesForm.grade || ""}
                   onChange={(e) => {
@@ -399,12 +399,12 @@ function ClassInformation(props) {
             )}
             <div className="w-full flex justify-between mt-2">
               <label htmlFor="" className="w-[30%]">
-                Credit
+                Tín chỉ
               </label>
               <span className="text-lg font-bold">:</span>
               <p className={`w-1/2 ${props.btn ? "hidden" : "block"}`}>
                 <input
-                  placeholder="Credit"
+                  placeholder="Tín chỉ"
                   className="w-full input"
                   type="number"
                   value={valuesForm.credit || ""}
@@ -436,12 +436,12 @@ function ClassInformation(props) {
               )}
             <div className="w-full flex justify-between mt-2">
               <label htmlFor="" className="w-[30%]">
-                Type
+                Loại
               </label>
               <span className="text-lg font-bold">:</span>
               <p className={`w-1/2 ${props.btn ? "hidden" : "block"}`}>
                 <SelectForm
-                  placeholder="Type"
+                  placeholder="Loại"
                   refSelect={refSelectType}
                   class="w-full"
                   options={typeOptions}
@@ -467,12 +467,12 @@ function ClassInformation(props) {
             </div>
             <div className="w-full flex justify-between mt-2">
               <label htmlFor="" className="w-[30%]">
-                Number Of Student
+                Số lượng sinh viên
               </label>
               <span className="text-lg font-bold">:</span>
               <p className={`w-1/2 ${props.title ? "hidden" : "block"}`}>
                 <input
-                  placeholder="Number Of Student"
+                  placeholder="Số lượng sinh viên"
                   className="w-full input"
                   type="number"
                   disabled={props.title ? true : false}
@@ -497,17 +497,17 @@ function ClassInformation(props) {
                 (valuesForm.numberOfStudent < 1 ||
                   valuesForm.numberOfStudent > 100) && (
                   <div className="text-right text-red-800 leading-[10px] mt-1">
-                    Number lớn hơn không
+                    Số lớn hơn không
                   </div>
                 ))}
             <div className="w-full flex justify-between mt-2">
               <label htmlFor="" className="w-[30%]">
-                Subject Coefficient
+                Hệ số môn học
               </label>
               <span className="text-lg font-bold">:</span>
               <p className={`w-1/2 ${props.title ? "hidden" : "block"}`}>
                 <input
-                  placeholder="Subject Coefficient"
+                  placeholder="Hệ số môn học"
                   className="w-full input"
                   type="number"
                   disabled={props.title ? true : false}
@@ -530,7 +530,7 @@ function ClassInformation(props) {
             </div>
             {check && Number(valuesForm.subjectCoefficient) < 0 && (
                 <div className="text-right text-red-800 leading-[10px] mt-1">
-                  Number lớn hơn không
+                  Số lớn hơn không
                 </div>
               )}
             {/* <div className="w-full  justify-between mt-2 hidden">
@@ -568,7 +568,7 @@ function ClassInformation(props) {
                   size="large"
                   onClick={handleAdd}
                 >
-                  {props.btn || "Add"}
+                  {props.btn || "Thêm"}
                 </Button>
               )}
               <Button
@@ -577,7 +577,7 @@ function ClassInformation(props) {
                 size="large"
                 onClick={clickCancel}
               >
-                {param && param.id ? "Cancel" : "Reset"}
+                {param && param.id ? "Hủy" : "Làm mới"}
               </Button>
             </div>
           </form>

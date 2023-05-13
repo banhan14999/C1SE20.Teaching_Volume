@@ -14,25 +14,25 @@ function TeachingVolume(props) {
             <TableRow>
               <StyledTableCell align="center">STT</StyledTableCell>
               <StyledTableCell align="center" rowSpan={2} colSpan={2}>
-                Subject Code
+               Mã môn học
                 <div className="flex justify-between border-t">
-                  <p className="mr-[6px]">Letter</p>
-                  <p className="ml-[6px]">Number</p>
+                  <p className="mr-[6px]">Chữ</p>
+                  <p className="ml-[6px]">Số</p>
                 </div>
               </StyledTableCell>
-              <StyledTableCell align="center">Subject</StyledTableCell>
-              <StyledTableCell align="center">Grade</StyledTableCell>
-              <StyledTableCell align="center">Semester</StyledTableCell>
+              <StyledTableCell align="center">Môn học</StyledTableCell>
+              <StyledTableCell align="center">Cấp</StyledTableCell>
+              <StyledTableCell align="center">Học kì</StyledTableCell>
               <StyledTableCell align="center">
-                Number of Student
+                Số học sinh
               </StyledTableCell>
               <StyledTableCell align="center">
-                Class Coefficient
+                Hệ số lớp
               </StyledTableCell>
               <StyledTableCell align="center">
-                Subject Coefficient
+                Hệ số môn học
               </StyledTableCell>
-              <StyledTableCell align="center">Time Teaching</StyledTableCell>
+              <StyledTableCell align="center">Thời gian giảng dạy</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>

@@ -84,7 +84,7 @@ function HandleLogout(){
         <Tippy
           content={
             <span className="bg-gray-300 px-[15px] py-[2px] block mt-[-18px] border-1 border-gray-600">
-              Exit
+              Thoát
             </span>
           }
           delay={100}
@@ -99,7 +99,7 @@ function HandleLogout(){
             <AiOutlineLogout
               className={`${cx("logout")} text-slate-600 text-2xl mr-1`}
             ></AiOutlineLogout>
-            <p className="font-light">Exit</p>
+            <p className="font-light">Thoát</p>
           </div>
         </Tippy>
       </div>
